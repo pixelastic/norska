@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable import/no-commonjs */
-const norska = require('../build/lib/index').default;
+const norska = require('../build/lib/build').default;
 const minimist = require('minimist');
 const _ = require('lodash');
 
