@@ -1,6 +1,6 @@
 {
   "name": "norska",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Converts source files to static HTML files.",
   "main": "build/lib/index.js",
   "bin": {
