@@ -1,0 +1,75 @@
+{
+  "name": "norska",
+  "version": "0.0.0",
+  "description": "Converts source files to static HTML files.",
+  "main": "lib/index.js",
+  "bin": {
+    "norska": "./bin/norska"
+  },
+  "files": [],
+  "scripts": {
+    "test": "./scripts/test",
+    "test:watch": "./scripts/test-watch",
+    "lint": "./scripts/lint",
+    "build": "./scripts/build",
+    "build:watch": "./scripts/build-watch",
+    "release": "./scripts/release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixelastic/norska.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pixelastic/norska/issues"
+  },
+  "homepage": "https://github.com/pixelastic/norska#readme",
+  "devDependencies": {
+    "babel-eslint": "8.2.3",
+    "babel-jest": "23.0.1",
+    "dotenv": "6.0.0",
+    "eslint": "4.19.1",
+    "eslint-config-algolia": "13.2.3",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-import": "2.11.0",
+    "eslint-plugin-jest": "21.15.1",
+    "eslint-plugin-prettier": "2.6.0",
+    "jest": "23.0.0",
+    "live-server": "1.2.0",
+    "prettier": "1.9.2"
+  },
+  "dependencies": {
+    "autoprefixer": "9.0.2",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-loader": "7.1.5",
+    "babel-plugin-lodash": "3.3.4",
+    "chalk": "2.4.1",
+    "cheerio": "1.0.0-rc.2",
+    "chokidar": "2.0.4",
+    "cpx": "1.5.0",
+    "dotenv": "6.0.0",
+    "download": "7.1.0",
+    "firost": "0.0.6",
+    "lodash": "4.17.10",
+    "minimist": "1.2.0",
+    "pify": "3.0.0",
+    "postcss": "7.0.2",
+    "postcss-clean": "1.1.0",
+    "postcss-import": "11.1.0",
+    "postcss-nested": "3.0.0",
+    "progress": "2.0.0",
+    "pug": "2.0.3",
+    "p-all": "1.0.0",
+    "p-map": "1.2.0",
+    "tailwindcss": "0.6.4",
+    "@babel/cli": "7.0.0-beta.51",
+    "@babel/core": "7.0.0-beta.51",
+    "@babel/node": "7.0.0-beta.51",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.51",
+    "@babel/preset-env": "7.0.0-beta.51",
+    "@fullhuman/postcss-purgecss": "1.0.1"
+  },
+  "optionalDependencies": {}
+}

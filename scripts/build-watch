@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+mkdir -p ./build
+
+
+
+babel \
+  ./lib \
+  --out-dir ./build/lib \
+  --watch \
+  --verbose \
+  --source-maps inline

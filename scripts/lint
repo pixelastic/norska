@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -e
+
+eslint ./lib/*.js ./bin/*.js ./*.js
