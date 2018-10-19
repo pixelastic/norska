@@ -32,6 +32,9 @@ Other static assets found in `./src` will be copied to `./dist`, keeping the
 same directory structure. You can overwrite the list of extensions copied by
 passing the `--assetsExtensions` argument.
 
+You can pass the `--watch` argument to open a live-server of the `./dist`
+folder on [http://localhost:8083](http://localhost:8083) (use `--port` to change the port).
+
 ## As a module
 
 ### defaultConfig()
