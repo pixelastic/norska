@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -e
+
+mkdir -p ./build
+
+babel \
+  ./lib \
+  --out-dir ./build/lib
