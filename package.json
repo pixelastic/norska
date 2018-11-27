@@ -37,7 +37,7 @@
     "eslint-plugin-jest": "21.15.1",
     "eslint-plugin-prettier": "2.6.0",
     "jest": "23.0.0",
-    "live-server": "1.2.0",
+    "live-server": "1.2.1",
     "prettier": "1.9.2",
     "release-it": "7.6.2"
   },
