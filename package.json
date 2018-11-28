@@ -44,8 +44,7 @@
     "dotenv": "6.0.0",
     "live-server": "1.2.1"
   },
-  "files": [
-  ],
+  "files": [],
   "homepage": "https://github.com/pixelastic/norska#readme",
   "license": "ISC",
   "main": "build/lib/index.js",
@@ -63,5 +62,5 @@
     "test": "aberlaas test",
     "test:watch": "aberlaas test --watch"
   },
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
