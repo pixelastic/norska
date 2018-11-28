@@ -1,45 +1,10 @@
 {
-  "name": "norska",
-  "version": "0.0.2",
-  "description": "Converts source files to static HTML files.",
-  "main": "build/lib/index.js",
+  "author": "Pixelastic <tim@pixelastic.com>",
   "bin": {
     "norska": "./bin/norska"
   },
-  "files": [],
-  "scripts": {
-    "test": "./scripts/test",
-    "test:watch": "./scripts/test-watch",
-    "lint": "./scripts/lint",
-    "build": "./scripts/build",
-    "build:watch": "./scripts/build-watch",
-    "release": "./scripts/release"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pixelastic/norska.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/pixelastic/norska/issues"
-  },
-  "homepage": "https://github.com/pixelastic/norska#readme",
-  "devDependencies": {
-    "babel-eslint": "8.2.3",
-    "babel-jest": "23.0.1",
-    "dotenv": "6.0.0",
-    "eslint": "4.19.1",
-    "eslint-config-algolia": "13.2.3",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-plugin-import": "2.11.0",
-    "eslint-plugin-jest": "21.15.1",
-    "eslint-plugin-prettier": "2.6.0",
-    "jest": "23.0.0",
-    "live-server": "1.2.1",
-    "prettier": "1.9.2",
-    "release-it": "7.6.2"
   },
   "dependencies": {
     "@babel/cli": "7.0.0-beta.51",
@@ -73,5 +38,30 @@
     "tailwindcss": "0.6.4",
     "webpack": "4.21.0"
   },
-  "optionalDependencies": {}
+  "description": "Converts source files to static HTML files.",
+  "devDependencies": {
+    "aberlaas": "0.0.14",
+    "dotenv": "6.0.0",
+    "live-server": "1.2.1"
+  },
+  "files": [
+  ],
+  "homepage": "https://github.com/pixelastic/norska#readme",
+  "license": "ISC",
+  "main": "build/lib/index.js",
+  "name": "norska",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixelastic/norska.git"
+  },
+  "scripts": {
+    "build": "aberlaas build",
+    "build:watch": "aberlaas build --watch",
+    "lint": "aberlaas lint",
+    "lint:fix": "aberlaas lint --fix",
+    "release": "aberlaas release",
+    "test": "aberlaas test",
+    "test:watch": "aberlaas test --watch"
+  },
+  "version": "0.0.2"
 }
