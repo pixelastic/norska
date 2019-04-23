@@ -1,66 +1,28 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
-  "bin": {
-    "norska": "./bin/norska"
-  },
-  "bugs": {
-    "url": "https://github.com/pixelastic/norska/issues"
-  },
-  "dependencies": {
-    "@babel/cli": "7.0.0-beta.51",
-    "@babel/core": "7.0.0-beta.51",
-    "@babel/node": "7.0.0-beta.51",
-    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.51",
-    "@babel/preset-env": "7.0.0-beta.51",
-    "@fullhuman/postcss-purgecss": "1.0.1",
-    "autoprefixer": "9.0.2",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-loader": "8.0.4",
-    "babel-plugin-lodash": "3.3.4",
-    "chalk": "2.4.1",
-    "cheerio": "1.0.0-rc.2",
-    "chokidar": "2.0.4",
-    "cpx": "1.5.0",
-    "dotenv": "6.0.0",
-    "download": "7.1.0",
-    "firost": "0.0.6",
-    "lodash": "4.17.10",
-    "minimist": "1.2.0",
-    "p-all": "1.0.0",
-    "p-map": "1.2.0",
-    "pify": "3.0.0",
-    "postcss": "7.0.2",
-    "postcss-clean": "1.1.0",
-    "postcss-import": "11.1.0",
-    "postcss-nested": "3.0.0",
-    "progress": "2.0.0",
-    "pug": "2.0.3",
-    "tailwindcss": "0.6.4",
-    "webpack": "4.21.0"
-  },
-  "description": "Converts source files to static HTML files.",
+  "description": "Norska master workspace",
+  "private": true,
   "devDependencies": {
-    "aberlaas": "0.0.14",
-    "dotenv": "6.0.0",
-    "live-server": "1.2.1"
+    "aberlaas": "0.0.21",
+    "lerna": "3.13.3"
   },
-  "files": [],
   "homepage": "https://github.com/pixelastic/norska#readme",
-  "license": "ISC",
-  "main": "build/lib/index.js",
+  "license": "MIT",
+  "main": "build/norska.js",
   "name": "norska",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pixelastic/norska.git"
   },
   "scripts": {
-    "build": "aberlaas build",
-    "build:watch": "aberlaas build --watch",
-    "lint": "aberlaas lint",
-    "lint:fix": "aberlaas lint --fix",
-    "release": "aberlaas release",
-    "test": "aberlaas test",
-    "test:watch": "aberlaas test --watch"
+    "build": "./scripts/build",
+    "build:watch": "./scripts/build-watch",
+    "lint": "./scripts/lint",
+    "lint:fix": "./scripts/lint-fix",
+    "release": "./scripts/release",
+    "test": "./scripts/test",
+    "test:watch": "./scripts/test-watch"
   },
-  "version": "0.0.3"
+  "version": "0.0.4",
+  "workspaces": ["modules/*"]
 }

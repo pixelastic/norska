@@ -1,0 +1,12 @@
+{
+  "name": "norska-assets",
+  "version": "0.0.4",
+  "description": "Copy assets from source to destination",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-assets",
+  "license": "MIT",
+  "main": "../../build/assets.js",
+  "dependencies": {
+    "cpx": "1.5.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "norska",
+  "version": "0.0.4",
+  "description": "Opinionated static website generator",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "norska-assets": "0.0.4"
+  }
+}
