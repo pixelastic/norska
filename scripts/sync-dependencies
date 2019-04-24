@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+set -e
+
+lerna bootstrap
+lerna clean --yes
