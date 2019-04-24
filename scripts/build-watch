@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
+set -e
 
-aberlaas build --watch
+lerna exec --parallel -- aberlaas build --watch
+

@@ -1,7 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-# Build all modules
-for module in ./modules/*; do
-  aberlaas build "$module/lib" --out-dir "$module/build"
-done
+lerna exec --concurrency 3 --stream -- aberlaas build
