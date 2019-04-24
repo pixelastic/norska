@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
+set -e
 
-aberlaas build ./modules/*
+# Build all modules
+for module in ./modules/*; do
+  aberlaas build "$module/lib" --out-dir "$module/build"
+done

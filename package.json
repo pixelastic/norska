@@ -1,7 +1,6 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Norska master workspace",
-  "private": true,
   "devDependencies": {
     "aberlaas": "0.0.21",
     "lerna": "3.13.3"
@@ -10,6 +9,7 @@
   "license": "MIT",
   "main": "build/norska.js",
   "name": "norska",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pixelastic/norska.git"
@@ -24,5 +24,7 @@
     "test:watch": "./scripts/test-watch"
   },
   "version": "0.0.4",
-  "workspaces": ["modules/*"]
+  "workspaces": [
+    "modules/*"
+  ]
 }

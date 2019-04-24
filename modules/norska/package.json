@@ -5,7 +5,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./build/index.js",
   "dependencies": {
     "norska-assets": "0.0.4"
   }

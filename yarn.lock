@@ -1485,10 +1485,10 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.0.20.tgz#976312555f47a08d240deaf52c710d5d63d3755c"
-  integrity sha512-d9y86FxvdoY0gnD2eofr/UA2ltsGNmNzE4PG35fbyFYDYzJCHnUj+GdYv+4sDRUpViCejLNa3k81CLDXZB/JwQ==
+aberlaas@0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.0.21.tgz#7b4fdd1fde12cef27aa7e083c1225282204c4863"
+  integrity sha512-nbO9RJ07eNPFHYJ4vw1wnnPew3gOlKaCrvW+jY2qhZGsYrkU5fkan/+QWCwf+tUAQIhSFesjDJI+BJHMogaPhw==
   dependencies:
     "@babel/cli" "7.1.2"
     "@babel/core" "7.0.0"
@@ -1505,7 +1505,7 @@ aberlaas@0.0.20:
     eslint-plugin-jest "21.15.1"
     eslint-plugin-prettier "2.6.0"
     execa "1.0.0"
-    firost "0.0.18"
+    firost "0.0.19"
     golgoth "0.0.11"
     husky "1.1.3"
     inquirer "6.2.0"
@@ -4184,6 +4184,20 @@ firost@0.0.18:
     query-string "6.2.0"
     shelljs "0.8.2"
 
+firost@0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/firost/-/firost-0.0.19.tgz#71ba3f8923d869494f10a31564578b99d03e918b"
+  integrity sha512-9DZkHazpUginRf8YiKDgB1aEMQibalRVsdGDUMQ98k47SoIryR/l+EUYZnSpMZX0PaQ05ovnbzCbErR/6csLBQ==
+  dependencies:
+    fs-extra "7.0.0"
+    globby "8.0.1"
+    golgoth "0.0.11"
+    got "9.2.2"
+    is-glob "4.0.0"
+    json-stable-stringify "1.0.1"
+    query-string "6.2.0"
+    shelljs "0.8.2"
+
 flat-cache@^1.2.1:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-1.3.4.tgz#2c2ef77525cc2929007dfffa1dd314aa9c9dee6f"
@@ -5176,6 +5190,13 @@ is-generator-fn@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-generator-fn/-/is-generator-fn-1.0.0.tgz#969d49e1bb3329f6bb7f09089be26578b2ddd46a"
   integrity sha1-lp1J4bszKfa7fwkIm+JleLLd1Go=
 
+is-glob@4.0.0, is-glob@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.0.tgz#9521c76845cc2610a85203ddf080a958c2ffabc0"
+  integrity sha1-lSHHaEXMJhCoUgPd8ICpWML/q8A=
+  dependencies:
+    is-extglob "^2.1.1"
+
 is-glob@^2.0.0, is-glob@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-2.0.1.tgz#d096f926a3ded5600f3fdfd91198cb0888c2d863"
@@ -5189,13 +5210,6 @@ is-glob@^3.1.0:
   integrity sha1-e6WuJCF4BKxwcHuWkiVnSGzD6Eo=
   dependencies:
     is-extglob "^2.1.0"
-
-is-glob@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.0.tgz#9521c76845cc2610a85203ddf080a958c2ffabc0"
-  integrity sha1-lSHHaEXMJhCoUgPd8ICpWML/q8A=
-  dependencies:
-    is-extglob "^2.1.1"
 
 is-installed-globally@^0.1.0:
   version "0.1.0"
