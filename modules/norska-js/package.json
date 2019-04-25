@@ -1,0 +1,15 @@
+{
+  "name": "norska-js",
+  "version": "0.0.4",
+  "description": "Compile .js files through Webpack",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-js",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "files": ["./build/index.js", "./webpack.config.js"],
+  "dependencies": {
+    "golgoth": "0",
+    "norska-config": "0.0.4",
+    "webpack": "4.21.0"
+  }
+}

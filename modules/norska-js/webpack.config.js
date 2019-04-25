@@ -1,5 +1,5 @@
 import path from 'path';
-import config from '../lib/index.js';
+import config from 'norska-config';
 
 const productionConfig = {
   mode: 'production',

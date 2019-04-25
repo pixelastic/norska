@@ -24,11 +24,7 @@ export default {
         'woff',
       ].join(','),
       // CSS specific options
-      tailwindConfigFile: path.resolve(
-        __dirname,
-        'configs',
-        'tailwind.config.js'
-      ),
+      tailwindConfigFile: './node_modules/norska-css/tailwind.config.js',
     };
   },
   // Init the config singleton, by assigning the specified config, merged with

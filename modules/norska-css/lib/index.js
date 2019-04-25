@@ -1,0 +1,94 @@
+import path from 'path';
+import { pMap, firost } from 'golgoth';
+import helper from 'norska-helper';
+import config from 'norska-config';
+import autoprefixer from 'autoprefixer';
+import postcssClean from 'postcss-clean';
+import postcssImport from 'postcss-import';
+import postcssNested from 'postcss-nested';
+import postcssPurge from '@fullhuman/postcss-purgecss';
+import postcss from 'postcss';
+import tailwind from 'tailwindcss';
+
+export default {
+  postcssPlugins() {
+    const tailwindConfigFile = config.get('tailwindConfigFile');
+    const plugins = [
+      postcssImport(),
+      tailwind(tailwindConfigFile),
+      postcssNested,
+    ];
+
+    // Add more plugins when building
+    if (!this.isProduction()) {
+      return plugins;
+    }
+
+    plugins.push(
+      postcssPurge({
+        content: [path.join(config.to(), '*.html')],
+        whitelistPatterns: [/^ais-/],
+      })
+    );
+
+    plugins.push(autoprefixer);
+
+    const cleanCssOptions = {
+      level: {
+        1: {
+          specialComments: false,
+        },
+      },
+    };
+
+    plugins.push(postcssClean(cleanCssOptions));
+
+    return plugins;
+  },
+
+  // Are we building (as opposed to local serve)
+  isProduction() {
+    return process.env.NODE_ENV === 'production';
+  },
+
+  // Compile the css source file to docs
+  async compile(source) {
+    const rawContent = await firost.read(source);
+    const relativePath = path.relative(config.from(), source);
+    const destination = path.join(config.to(), relativePath);
+
+    const plugins = this.postcssPlugins();
+    const result = await postcss(plugins).process(rawContent, {
+      from: source,
+      to: destination,
+    });
+    await helper.writeFile(destination, result.css);
+  },
+
+  // Compile all css files
+  async run() {
+    const cssFiles = await helper.getFiles('style.css');
+
+    await pMap(cssFiles, async filepath => {
+      await this.compile(filepath);
+    });
+  },
+
+  // Listen to changes in css files and rebuild them
+  watch() {
+    const from = config.from();
+    // Rebuild main file when changed
+    firost.watch(path.join(from, 'style.css'), filepath => {
+      this.compile(filepath);
+    });
+    // Rebuild main file when includes are changed
+    firost.watch(path.join(from, '_styles/*.css'), () => {
+      this.compile('./src/style.css');
+    });
+    // Rebuild all files when main tailwind config is changed
+    const tailwindConfigFile = config.get('tailwindConfigFile');
+    firost.watch(tailwindConfigFile, () => {
+      this.run();
+    });
+  },
+};

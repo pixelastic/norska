@@ -1,0 +1,22 @@
+{
+  "name": "norska-css",
+  "version": "0.0.4",
+  "description": "Compile .css files through postcss and Tailwind",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-css",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "files": ["./build/index.js", "./tailwind.config.js"],
+  "dependencies": {
+    "golgoth": "0",
+    "norska-config": "0.0.4",
+    "norska-helper": "0.0.4",
+    "@fullhuman/postcss-purgecss": "1.0.1",
+    "autoprefixer": "9.0.2",
+    "postcss": "7.0.2",
+    "postcss-clean": "1.1.0",
+    "postcss-import": "11.1.0",
+    "postcss-nested": "3.0.0",
+    "tailwindcss": "0.6.4"
+  }
+}

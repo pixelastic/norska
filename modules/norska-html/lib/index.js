@@ -36,11 +36,11 @@ export default {
   watch() {
     const from = config.from();
     // Update HTML on each markdown change
-    helper.watch(`${from}/*.pug`, filepath => {
+    firost.watch(`${from}/*.pug`, filepath => {
       this.compile(filepath);
     });
     // Rebuild everything when a layout, include or data changes
-    helper.watch(
+    firost.watch(
       [
         `${from}/_layouts/*.pug`,
         `${from}/_includes/*.pug`,
