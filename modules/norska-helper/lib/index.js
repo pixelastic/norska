@@ -1,7 +1,6 @@
-import { _, chalk, firost } from 'golgoth';
+import { chalk, firost } from 'golgoth';
 import path from 'path';
-import chokidar from 'chokidar';
-import config from './config';
+import config from 'norska-config';
 
 export default {
   async getFiles(pattern) {
@@ -15,12 +14,12 @@ export default {
     return await firost.readJson(configFile);
   },
   // Write a file to disk
-  async writeFile(filepath, content) {
-    await firost.write(filepath, content);
+  async writeFile(what, where) {
+    await firost.write(what, where);
 
-    const extname = path.extname(filepath);
+    const extname = path.extname(where);
     const to = config.to();
-    let displayName = path.relative(to, filepath);
+    let displayName = path.relative(to, where);
     const colors = {
       '.html': 'magenta',
       '.css': 'yellow',
@@ -31,10 +30,4 @@ export default {
 
     console.info(`✔ Saving ${displayName}`);
   },
-  // Watch for file changes and react
-  watch(pattern, callback) {
-    const watcher = chokidar.watch(pattern);
-    watcher.on('change', _.debounce(callback, 500, { leading: true }));
-  },
 };
-

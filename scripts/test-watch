@@ -1,3 +1,6 @@
 #!/usr/bin/env sh
+set -e
 
-aberlaas test --watch
+lerna exec --parallel -- aberlaas test --watch --config \$LERNA_ROOT_PATH/jest.config.js
+
+

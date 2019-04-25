@@ -8,6 +8,9 @@
   "main": "./build/index.js",
   "dependencies": {
     "golgoth": "0.0.12",
-    "norska-assets": "0.0.4"
+    "norska-assets": "0.0.4",
+    "norska-config": "0.0.4",
+    "norska-helper": "0.0.4",
+    "norska-html": "0.0.4"
   }
 }

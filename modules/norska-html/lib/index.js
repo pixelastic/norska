@@ -1,4 +1,4 @@
-import helper from './helper';
+import helper from 'norska-helper';
 import config from 'norska-config';
 import path from 'path';
 import { _, pMap, firost } from 'golgoth';
@@ -22,7 +22,7 @@ export default {
     const htmlContent = pugCompile(siteData);
 
     // Save to disk
-    await helper.writeFile(destination, htmlContent);
+    await helper.writeFile(htmlContent, destination);
   },
 
   async run() {

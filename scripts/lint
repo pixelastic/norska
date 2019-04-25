@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
+set -e
 
-aberlaas lint
+lerna exec --concurrency 3 --stream -- aberlaas lint

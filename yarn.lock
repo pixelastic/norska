@@ -4634,14 +4634,14 @@ globby@8.0.1, globby@^8.0.1:
     pify "^3.0.0"
     slash "^1.0.0"
 
-golgoth@0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.0.11.tgz#4a98d8ce05e8f93b775dda8bdfd22eccc42d7441"
-  integrity sha512-ba7wad36W3kEZYtSQFRU2zGVdAC2oNh36IltB9inLNevv1LYMrg8sySfc5B79+q2yT9uALeK+ujvACECUYH/Nw==
+golgoth@0, golgoth@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.0.12.tgz#b69a214ad2c3d1f5827e61c90f1979cac25ba9a1"
+  integrity sha512-VVX5B//Ofmx5bY5ONZsD8uiBxiH7a5D2jqErhKFQ3K1fxkEOv+AXtcMzZlu8FXu6EIkImpfZzGVO4kVqp5pYog==
   dependencies:
     chalk "2.4.1"
     dayjs "1.7.7"
-    firost "0.0.18"
+    firost "0.0.20"
     got "9.3.2"
     lodash "4.17.11"
     ora "3.0.0"
@@ -4652,14 +4652,14 @@ golgoth@0.0.11:
     progress "2.0.1"
     query-string "6.2.0"
 
-golgoth@0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.0.12.tgz#b69a214ad2c3d1f5827e61c90f1979cac25ba9a1"
-  integrity sha512-VVX5B//Ofmx5bY5ONZsD8uiBxiH7a5D2jqErhKFQ3K1fxkEOv+AXtcMzZlu8FXu6EIkImpfZzGVO4kVqp5pYog==
+golgoth@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.0.11.tgz#4a98d8ce05e8f93b775dda8bdfd22eccc42d7441"
+  integrity sha512-ba7wad36W3kEZYtSQFRU2zGVdAC2oNh36IltB9inLNevv1LYMrg8sySfc5B79+q2yT9uALeK+ujvACECUYH/Nw==
   dependencies:
     chalk "2.4.1"
     dayjs "1.7.7"
-    firost "0.0.20"
+    firost "0.0.18"
     got "9.3.2"
     lodash "4.17.11"
     ora "3.0.0"
