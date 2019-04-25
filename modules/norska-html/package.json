@@ -1,0 +1,12 @@
+{
+  "name": "norska-html",
+  "version": "0.0.4",
+  "description": "Convert .pug files to .html files",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-html",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "dependencies": {
+    "pug": "2.0.3"
+  }
+}

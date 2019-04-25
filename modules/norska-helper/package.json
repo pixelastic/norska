@@ -1,0 +1,11 @@
+{
+  "name": "norska-helper",
+  "version": "0.0.4",
+  "description": "Set of common methods used by all helpers",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-helper",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "dependencies": {
+  }
+}

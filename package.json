@@ -15,13 +15,13 @@
     "url": "git+https://github.com/pixelastic/norska.git"
   },
   "scripts": {
-    "learn": "lerna",
-    "sync-dependencies": "./scripts/sync-dependencies",
     "build": "./scripts/build",
     "build:watch": "./scripts/build-watch",
+    "learn": "lerna",
     "lint": "./scripts/lint",
     "lint:fix": "./scripts/lint-fix",
     "release": "./scripts/release",
+    "sync-dependencies": "./scripts/sync-dependencies",
     "test": "./scripts/test",
     "test:watch": "./scripts/test-watch"
   },
