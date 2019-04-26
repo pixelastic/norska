@@ -11,20 +11,6 @@ export default {
       port: 8083,
       from: './src',
       to: './dist',
-      // Asset-specific config
-      assetsExtensions: [
-        'gif',
-        'jpg',
-        'png',
-        'ico',
-        'html',
-        'svg',
-        'ttf',
-        'otf',
-        'woff',
-      ].join(','),
-      // CSS specific options
-      tailwindConfigFile: './node_modules/norska-css/tailwind.config.js',
     };
   },
   // Init the config singleton, by assigning the specified config, merged with

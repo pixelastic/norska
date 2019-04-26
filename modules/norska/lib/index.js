@@ -8,7 +8,11 @@ import { pAll, firost } from 'golgoth';
 
 export default {
   async run(userConfig) {
-    config.init(userConfig);
+    config.init({
+      userConfig,
+      css: css.config(),
+      assets: assets.config(),
+    });
     await firost.mkdirp(config.to());
 
     await pAll([

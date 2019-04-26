@@ -18,7 +18,9 @@ export default {
     const jsEntryPoint = _.get(webpackConfig, 'entry');
     const entryPointExists = await firost.exists(jsEntryPoint);
     if (!entryPointExists) {
-      console.info(chalk.yellow(`⚠ ${jsEntryPoint} does not exist`));
+      console.info(
+        chalk.yellow(`⚠ Cannot find JavaScript file in ${jsEntryPoint}`)
+      );
       return false;
     }
 

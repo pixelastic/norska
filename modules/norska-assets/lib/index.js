@@ -4,9 +4,25 @@ import config from 'norska-config';
 const copy = pify(cpx.copy);
 
 export default {
+  // Custom config added to the main config.assets key
+  config() {
+    return {
+      extensions: [
+        'gif',
+        'jpg',
+        'png',
+        'ico',
+        'html',
+        'svg',
+        'ttf',
+        'otf',
+        'woff',
+      ],
+    };
+  },
   // Get the glob pattern to match all files we need to copy
   glob() {
-    const extensions = config.get('assetsExtensions');
+    const extensions = config.get('assets.extensions').join(',');
     return `${config.from()}/**/*.{${extensions}}`;
   },
   // Copy all assets to destination

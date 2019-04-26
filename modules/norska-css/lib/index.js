@@ -12,7 +12,7 @@ import tailwind from 'tailwindcss';
 
 export default {
   postcssPlugins() {
-    const tailwindConfigFile = config.get('tailwindConfigFile');
+    const tailwindConfigFile = config.get('css.tailwind.configPath');
     const plugins = [
       postcssImport(),
       tailwind(tailwindConfigFile),
@@ -51,6 +51,15 @@ export default {
     return process.env.NODE_ENV === 'production';
   },
 
+  // Custom config added to the main config.css key
+  config() {
+    return {
+      tailwind: {
+        configPath: path.resolve(__dirname, '../build/tailwind.config.js'),
+      },
+    };
+  },
+
   // Compile the css source file to docs
   async compile(source) {
     const rawContent = await firost.read(source);
@@ -62,7 +71,7 @@ export default {
       from: source,
       to: destination,
     });
-    await helper.writeFile(destination, result.css);
+    await helper.writeFile(result.css, destination);
   },
 
   // Compile all css files
@@ -86,7 +95,7 @@ export default {
       this.compile('./src/style.css');
     });
     // Rebuild all files when main tailwind config is changed
-    const tailwindConfigFile = config.get('tailwindConfigFile');
+    const tailwindConfigFile = config.get('css.tailwind.configPath');
     firost.watch(tailwindConfigFile, () => {
       this.run();
     });

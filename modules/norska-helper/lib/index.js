@@ -11,6 +11,14 @@ export default {
   async siteData() {
     const from = config.get('from');
     const configFile = path.join(from, '_data.json');
+
+    // Check that the file actually exists
+    const configFileExists = await firost.exist(configFile);
+    if (!configFileExists) {
+      console.info(chalk.yellow(`⚠ Cannot find config file in ${configFile}`));
+      return {};
+    }
+
     return await firost.readJson(configFile);
   },
   // Write a file to disk
