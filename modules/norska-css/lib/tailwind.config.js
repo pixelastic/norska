@@ -246,7 +246,8 @@ const opacity = {
 /**
  * Custom classes, not part of defaul tailwind, added as plugins
  **/
-const customFlexbox = {
+const customClasses = {};
+_.assign(customClasses, {
   flrnw: {
     flexDirection: 'row',
   },
@@ -303,8 +304,8 @@ const customFlexbox = {
   flspb: {
     justifyContent: 'space-between',
   },
-};
-const customUtilities = {
+});
+_.assign(customClasses, {
   'text-outline': {
     'text-shadow':
       '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
@@ -312,25 +313,22 @@ const customUtilities = {
   'bg-blur': {
     filter: 'blur(10px)',
   },
-};
+});
 
 // Font weight
-const customFontWeight = {};
 _.each(fontWeights, (value, key) => {
   // Use without prefix: .bold, .thin, etc
-  customFontWeight[key] = { fontWeight: value };
+  customClasses[key] = { fontWeight: value };
 });
 // Spacing
-const customPositions = {};
 _.each(spacingScale, (value, key) => {
   // Absolute positioning using same scale as margin/padding
-  customPositions[`top-${key}`] = { top: value };
-  customPositions[`right-${key}`] = { right: value };
-  customPositions[`bottom-${key}`] = { bottom: value };
-  customPositions[`left-${key}`] = { left: value };
+  customClasses[`top-${key}`] = { top: value };
+  customClasses[`right-${key}`] = { right: value };
+  customClasses[`bottom-${key}`] = { bottom: value };
+  customClasses[`left-${key}`] = { left: value };
 });
 // Dimensions
-const customCroppedVhVw = {};
 _.each(dimensionScale, (value, key) => {
   // Allow width/height equal to "full size minus X"
   // Only do it for simple scale and half/scales
@@ -339,44 +337,34 @@ _.each(dimensionScale, (value, key) => {
   if (!(isSimpleScale || isHalfScale)) {
     return;
   }
-  customCroppedVhVw[`h-100vh-${key}`] = { height: `calc(100vh - ${value})` };
-  customCroppedVhVw[`w-100vw-${key}`] = { width: `calc(100vw - ${value})` };
+  customClasses[`h-100vh-${key}`] = { height: `calc(100vh - ${value})` };
+  customClasses[`w-100vw-${key}`] = { width: `calc(100vw - ${value})` };
 });
 // Colors
-const customOutlines = {};
-const customGradients = {};
 _.each(colors, (value1, key1) => {
   // Use color for outlines
-  customOutlines[`outline-${key1}`] = { outline: `1px solid ${value1}` };
+  customClasses[`outline-${key1}`] = { outline: `1px solid ${value1}` };
+  // Use color directly for text
+  customClasses[key1] = { color: value1 };
   // Create gradients
   _.each(colors, (value2, key2) => {
     if (key1 === key2) {
       return;
     }
-    customGradients[`bgh-${key1}-to-${key2}`] = {
+    customClasses[`bgh-${key1}-to-${key2}`] = {
       backgroundImage: `linear-gradient(75deg,${value1}, ${value2})`,
     };
-    customGradients[`bgv-${key1}-to-${key2}`] = {
+    customClasses[`bgv-${key1}-to-${key2}`] = {
       backgroundImage: `linear-gradient(165deg,${value1}, ${value2})`,
     };
   });
 });
 
-function addCustomClasses(customClasses) {
-  return ({ addUtilities }) => {
+const plugins = [
+  ({ addUtilities }) => {
     const prefixedClasses = _.mapKeys(customClasses, (value, key) => `.${key}`);
     addUtilities(prefixedClasses);
-  };
-}
-
-const plugins = [
-  addCustomClasses(customFlexbox),
-  addCustomClasses(customUtilities),
-  addCustomClasses(customFontWeight),
-  addCustomClasses(customPositions),
-  addCustomClasses(customCroppedVhVw),
-  addCustomClasses(customOutlines),
-  addCustomClasses(customGradients),
+  },
 ];
 
 module.exports = userConfigHook({
