@@ -6,8 +6,12 @@
   "homepage": "https://github.com/pixelastic/norska/modules/norska-js",
   "license": "MIT",
   "main": "./build/index.js",
-  "files": ["./build/index.js", "./webpack.config.js"],
+  "files": [
+    "./build/index.js",
+    "./webpack.config.js"
+  ],
   "dependencies": {
+    "babel-loader": "8.0.5",
     "golgoth": "0",
     "norska-config": "0.0.4",
     "webpack": "4.21.0"

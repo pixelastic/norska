@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 set -e
 
-lerna exec --concurrency 3 --stream -- aberlaas test --config \$LERNA_ROOT_PATH/jest.config.js
+lerna exec \
+  --concurrency 3 \
+  --stream \
+  -- \
+    aberlaas test \
+      --config \$LERNA_ROOT_PATH/jest.config.js
 

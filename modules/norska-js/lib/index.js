@@ -2,7 +2,7 @@ import { _, chalk, firost } from 'golgoth';
 import path from 'path';
 import webpack from 'webpack';
 import config from 'norska-config';
-import webpackConfigurator from '../webpack.config.js';
+import webpackConfigurator from './webpack.config.js';
 
 export default {
   // Compile all css files
@@ -13,6 +13,16 @@ export default {
     };
 
     const webpackConfig = webpackConfigurator.getConfig(options.isProduction);
+
+    // Throw a warning if js entrypoint defined but does not exist
+    const jsEntryPoint = _.get(webpackConfig, 'entry');
+    const entryPointExists = await firost.exists(jsEntryPoint);
+    if (!entryPointExists) {
+      console.info(chalk.yellow(`⚠ ${jsEntryPoint} does not exist`));
+      return false;
+    }
+
+    console.info(webpackConfig);
     return await new Promise((resolve, reject) => {
       webpack(webpackConfig, (_err, stats) => {
         if (stats.hasErrors()) {
