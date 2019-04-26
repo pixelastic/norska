@@ -1,26 +1,13 @@
 /* eslint-disable import/no-commonjs */
 const _ = require('golgoth').lodash;
+const norskaConfig = require('norska-config').default;
+const userConfigHook = norskaConfig.get('css.tailwind.configHook');
+
 const colors = {
   transparent: 'transparent',
   inherit: 'inherit',
 
-  'black-pure': '#000',
-  black: '#22292f',
-  'grey-3': '#3d4852',
-  'grey-2': '#606f7b',
-  'grey-1': '#8795a1',
-  grey: '#b8c2cc',
-  'grey--1': '#dae1e7',
-  'grey--2': '#f1f5f8',
-  'grey--3': '#f8fafc',
   white: '#ffffff',
-
-  'black-10': 'rgba(0, 0, 0, .10)',
-  'black-25': 'rgba(0, 0, 0, .25)',
-  'black-50': 'rgba(0, 0, 0, .50)',
-  'black-65': 'rgba(0, 0, 0, .65)',
-  'black-75': 'rgba(0, 0, 0, .75)',
-  'black-90': 'rgba(0, 0, 0, .90)',
   'white-10': 'rgba(255, 255, 255, .10)',
   'white-25': 'rgba(255, 255, 255, .25)',
   'white-50': 'rgba(255, 255, 255, .50)',
@@ -28,77 +15,94 @@ const colors = {
   'white-75': 'rgba(255, 255, 255, .75)',
   'white-90': 'rgba(255, 255, 255, .90)',
 
-  'red-3': '#3b0d0c',
-  'red-2': '#621b18',
-  'red-1': '#cc1f1a',
+  black: '#22292f',
+  'black-pure': '#000',
+  'black-10': 'rgba(0, 0, 0, .10)',
+  'black-25': 'rgba(0, 0, 0, .25)',
+  'black-50': 'rgba(0, 0, 0, .50)',
+  'black-65': 'rgba(0, 0, 0, .65)',
+  'black-75': 'rgba(0, 0, 0, .75)',
+  'black-90': 'rgba(0, 0, 0, .90)',
+
+  'grey-darkest': '#3d4852',
+  'grey-darker': '#606f7b',
+  'grey-dark': '#8795a1',
+  grey: '#b8c2cc',
+  'grey-light': '#dae1e7',
+  'grey-lighter': '#f1f5f8',
+  'grey-lightest': '#f8fafc',
+
+  'red-darkest': '#3b0d0c',
+  'red-darker': '#621b18',
+  'red-dark': '#cc1f1a',
   red: '#e3342f',
-  'red--1': '#ef5753',
-  'red--2': '#f9acaa',
-  'red--3': '#fcebea',
+  'red-light': '#ef5753',
+  'red-lighter': '#f9acaa',
+  'red-lightest': '#fcebea',
 
-  'orange-3': '#462a16',
-  'orange-2': '#613b1f',
-  'orange-1': '#de751f',
+  'orange-darkest': '#462a16',
+  'orange-darker': '#613b1f',
+  'orange-dark': '#de751f',
   orange: '#f6993f',
-  'orange--1': '#faad63',
-  'orange--2': '#fcd9b6',
-  'orange--3': '#fff5eb',
+  'orange-light': '#faad63',
+  'orange-lighter': '#fcd9b6',
+  'orange-lightest': '#fff5eb',
 
-  'yellow-3': '#453411',
-  'yellow-2': '#684f1d',
-  'yellow-1': '#f2d024',
+  'yellow-darkest': '#453411',
+  'yellow-darker': '#684f1d',
+  'yellow-dark': '#f2d024',
   yellow: '#ffed4a',
-  'yellow--1': '#fff382',
-  'yellow--2': '#fff9c2',
-  'yellow--3': '#fcfbeb',
+  'yellow-light': '#fff382',
+  'yellow-lighter': '#fff9c2',
+  'yellow-lightest': '#fcfbeb',
 
-  'green-3': '#0f2f21',
-  'green-2': '#1a4731',
-  'green-1': '#1f9d55',
+  'green-darkest': '#0f2f21',
+  'green-darker': '#1a4731',
+  'green-dark': '#1f9d55',
   green: '#38c172',
-  'green--1': '#51d88a',
-  'green--2': '#a2f5bf',
-  'green--3': '#e3fcec',
+  'green-light': '#51d88a',
+  'green-lighter': '#a2f5bf',
+  'green-lightest': '#e3fcec',
 
-  'teal-3': '#0d3331',
-  'teal-2': '#20504f',
-  'teal-1': '#38a89d',
+  'teal-darkest': '#0d3331',
+  'teal-darker': '#20504f',
+  'teal-dark': '#38a89d',
   teal: '#4dc0b5',
-  'teal--1': '#64d5ca',
-  'teal--2': '#a0f0ed',
-  'teal--3': '#e8fffe',
+  'teal-light': '#64d5ca',
+  'teal-lighter': '#a0f0ed',
+  'teal-lightest': '#e8fffe',
 
-  'blue-3': '#12283a',
-  'blue-2': '#1c3d5a',
-  'blue-1': '#2779bd',
+  'blue-darkest': '#12283a',
+  'blue-darker': '#1c3d5a',
+  'blue-dark': '#2779bd',
   blue: '#3490dc',
-  'blue--1': '#6cb2eb',
-  'blue--2': '#bcdefa',
-  'blue--3': '#eff8ff',
+  'blue-light': '#6cb2eb',
+  'blue-lighter': '#bcdefa',
+  'blue-lightest': '#eff8ff',
 
-  'indigo-3': '#191e38',
-  'indigo-2': '#2f365f',
-  'indigo-1': '#5661b3',
+  'indigo-darkest': '#191e38',
+  'indigo-darker': '#2f365f',
+  'indigo-dark': '#5661b3',
   indigo: '#6574cd',
-  'indigo--1': '#7886d7',
-  'indigo--2': '#b2b7ff',
-  'indigo--3': '#e6e8ff',
+  'indigo-light': '#7886d7',
+  'indigo-lighter': '#b2b7ff',
+  'indigo-lightest': '#e6e8ff',
 
-  'purple-3': '#21183c',
-  'purple-2': '#382b5f',
-  'purple-1': '#794acf',
+  'purple-darkest': '#21183c',
+  'purple-darker': '#382b5f',
+  'purple-dark': '#794acf',
   purple: '#9561e2',
-  'purple--1': '#a779e9',
-  'purple--2': '#d6bbfc',
-  'purple--3': '#f3ebff',
+  'purple-light': '#a779e9',
+  'purple-lighter': '#d6bbfc',
+  'purple-lightest': '#f3ebff',
 
-  'pink-3': '#451225',
-  'pink-2': '#6f213f',
-  'pink-1': '#eb5286',
+  'pink-darkest': '#451225',
+  'pink-darker': '#6f213f',
+  'pink-dark': '#eb5286',
   pink: '#f66d9b',
-  'pink--1': '#fa7ea8',
-  'pink--2': '#ffbbca',
-  'pink--3': '#ffebef',
+  'pink-light': '#fa7ea8',
+  'pink-lighter': '#ffbbca',
+  'pink-lightest': '#ffebef',
 };
 
 const dimensionScale = {
@@ -239,21 +243,9 @@ const opacity = {
   '100': '1',
 };
 
-// Use font-weight without prefixes (.bold, .thin, etc)
-const customFontWeight = _.reduce(fontWeights, (result, value, key) =>
-  _.assign(result, {
-    [`${key}`]: { fontWeight: value },
-  })
-);
-const customUtilities = {
-  'text-outline': {
-    'text-shadow':
-      '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
-  },
-  'bg-blur': {
-    filter: 'blur(10px)',
-  },
-};
+/**
+ * Custom classes, not part of defaul tailwind, added as plugins
+ **/
 const customFlexbox = {
   flrnw: {
     flexDirection: 'row',
@@ -312,35 +304,63 @@ const customFlexbox = {
     justifyContent: 'space-between',
   },
 };
-// Use the spacing scale for top/right/bottom/let positioning
-const customPositions = _.reduce(
-  spacingScale,
-  (result, value, key) =>
-    _.assign(result, {
-      [`top-${key}`]: { top: value },
-      [`right-${key}`]: { top: value },
-      [`bottom-${key}`]: { top: value },
-      [`left-${key}`]: { top: value },
-    }),
-  {}
-);
-// Add calculated height and width with cropped parts, like .h-100vh-3
-const customCroppedVhVw = _.reduce(
-  dimensionScale,
-  (result, value, key) => {
-    // Only do it for simple scale and half/scales
-    const isSimpleScale = key.length === 1;
-    const isHalfScale = key.length === 2 && key[1] === 'x';
-    if (!(isSimpleScale || isHalfScale)) {
-      return result;
-    }
-    return _.assign(result, {
-      [`h-100vh-${key}`]: { height: `calc(100vh - ${value})` },
-      [`w-100vw-${key}`]: { width: `calc(100vw - ${value})` },
-    });
+const customUtilities = {
+  'text-outline': {
+    'text-shadow':
+      '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
   },
-  {}
-);
+  'bg-blur': {
+    filter: 'blur(10px)',
+  },
+};
+
+// Font weight
+const customFontWeight = {};
+_.each(fontWeights, (value, key) => {
+  // Use without prefix: .bold, .thin, etc
+  customFontWeight[key] = { fontWeight: value };
+});
+// Spacing
+const customPositions = {};
+_.each(spacingScale, (value, key) => {
+  // Absolute positioning using same scale as margin/padding
+  customPositions[`top-${key}`] = { top: value };
+  customPositions[`right-${key}`] = { right: value };
+  customPositions[`bottom-${key}`] = { bottom: value };
+  customPositions[`left-${key}`] = { left: value };
+});
+// Dimensions
+const customCroppedVhVw = {};
+_.each(dimensionScale, (value, key) => {
+  // Allow width/height equal to "full size minus X"
+  // Only do it for simple scale and half/scales
+  const isSimpleScale = key.length === 1;
+  const isHalfScale = key.length === 2 && key[1] === 'x';
+  if (!(isSimpleScale || isHalfScale)) {
+    return;
+  }
+  customCroppedVhVw[`h-100vh-${key}`] = { height: `calc(100vh - ${value})` };
+  customCroppedVhVw[`w-100vw-${key}`] = { width: `calc(100vw - ${value})` };
+});
+// Colors
+const customOutlines = {};
+const customGradients = {};
+_.each(colors, (value1, key1) => {
+  // Use color for outlines
+  customOutlines[`outline-${key1}`] = { outline: `1px solid ${value1}` };
+  // Create gradients
+  _.each(colors, (value2, key2) => {
+    if (key1 === key2) {
+      return;
+    }
+    customGradients[`bgh-${key1}-to-${key2}`] = {
+      backgroundImage: `linear-gradient(75deg,${value1}, ${value2})`,
+    };
+    customGradients[`bgv-${key1}-to-${key2}`] = {
+      backgroundImage: `linear-gradient(165deg,${value1}, ${value2})`,
+    };
+  });
+});
 
 function addCustomClasses(customClasses) {
   return ({ addUtilities }) => {
@@ -350,14 +370,16 @@ function addCustomClasses(customClasses) {
 }
 
 const plugins = [
-  addCustomClasses(customFontWeight),
   addCustomClasses(customFlexbox),
   addCustomClasses(customUtilities),
+  addCustomClasses(customFontWeight),
   addCustomClasses(customPositions),
   addCustomClasses(customCroppedVhVw),
+  addCustomClasses(customOutlines),
+  addCustomClasses(customGradients),
 ];
 
-module.exports = {
+module.exports = userConfigHook({
   textSizes: fontScale,
   fontWeights,
   width: widthScale,
@@ -525,4 +547,4 @@ module.exports = {
     important: false,
     separator: '_',
   },
-};
+});

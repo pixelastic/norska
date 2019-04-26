@@ -8,8 +8,6 @@ than hacking my way in existing SSGs.
 
 ## Usage
 
-### As a command-line tool
-
 Running `norska` will convert all source files in `./src` into a static website
 in `./dist`. You can overwrite the default directories with the `--from` and
 `--to` options.
@@ -35,17 +33,62 @@ passing the `--assetsExtensions` argument.
 You can pass the `--watch` argument to open a live-server of the `./dist` folder
 on [http://localhost:8083][1] (use `--port` to change the port).
 
-## As a module
+## Configuration
 
-### `defaultConfig()`
-
-Returns the default configuration. This can be used to access the filepath to
-the config files used internally in case you want to extend them.
+You can configure aspects of norska through the `norska.config.js` file. If the
+file is present, norska will pick it up and merge it with its own default
+configuration.
 
 ```js
-import norska from 'norska';
-const config = norska.defaultConfig();
-console.info(config.css.tailwindConfigFile);
+// norska.config.js
+module.exports = {
+  from: './source',
+  to: './build',
+  port: 8080
+}
+```
+
+### Updating Tailwind configuration
+
+Norska is bundled with a custom Tailwind configuration. You can define your own,
+or extend it.
+
+#### Defining your own Tailwind configuration
+
+Update the `norska.config.js` file to tell norska where your Tailwind config
+file is located:
+
+```js
+// norska.config.js
+module.exports = {
+  css: {
+    tailwind: {
+      configPath: '/path/to/tailwind.config.js'
+    }
+  }
+}
+```
+
+#### Extending norska Tailwind configuration
+
+You can define your own `css.tailwind.configHook` method that will be called
+with the norska Tailwind config, and that expect you to return your modified
+config.
+
+```js
+// norska.config.js
+module.exports = {
+  css: {
+    tailwind: {
+      configHook(tailwindConfig) {
+        tailwindConfig.screens: {
+          // Your own custom screen sizes
+        };
+        return tailwindConfig;
+      }
+    }
+  }
+}
 ```
 
 ## Contributing

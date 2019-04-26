@@ -24,9 +24,9 @@ export default {
       return false;
     }
 
-    console.info(webpackConfig);
     return await new Promise((resolve, reject) => {
-      webpack(webpackConfig, (_err, stats) => {
+      const compiler = webpack(webpackConfig);
+      compiler.run((_err, stats) => {
         if (stats.hasErrors()) {
           const fullStats = stats.toJson();
           _.map(fullStats.errors, error => {

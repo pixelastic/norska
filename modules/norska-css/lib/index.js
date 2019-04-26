@@ -56,6 +56,11 @@ export default {
     return {
       tailwind: {
         configPath: path.resolve(__dirname, '../build/tailwind.config.js'),
+        // This method can be overwritten by the user to modify the config with
+        // its own keys before being loaded
+        configHook(tailwindConfig) {
+          return tailwindConfig;
+        },
       },
     };
   },

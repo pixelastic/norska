@@ -7,11 +7,13 @@ import liveServer from 'live-server';
 import { pAll, firost } from 'golgoth';
 
 export default {
-  async run(userConfig) {
-    config.init({
-      ...userConfig,
-      css: css.config(),
-      assets: assets.config(),
+  async run(argsConfig) {
+    await config.init({
+      args: argsConfig,
+      modules: {
+        css: css.config(),
+        assets: assets.config(),
+      },
     });
     await firost.mkdirp(config.to());
 
