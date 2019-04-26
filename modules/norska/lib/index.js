@@ -9,7 +9,7 @@ import { pAll, firost } from 'golgoth';
 export default {
   async run(userConfig) {
     config.init({
-      userConfig,
+      ...userConfig,
       css: css.config(),
       assets: assets.config(),
     });
