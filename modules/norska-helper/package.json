@@ -8,6 +8,7 @@
   "main": "./build/index.js",
   "dependencies": {
     "golgoth": "0",
-    "norska-config": "0.0.4"
+    "norska-config": "0.0.4",
+    "time-span": "3.1.0"
   }
 }

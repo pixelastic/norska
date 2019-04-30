@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 set -e
 
-lerna exec --parallel -- aberlaas build --watch
-
+lerna exec \
+  --parallel \
+  --stream \
+  -- \
+    aberlaas build \
+      --watch \
+      --config \$LERNA_ROOT_PATH/babel.config.js

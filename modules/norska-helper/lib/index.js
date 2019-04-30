@@ -1,6 +1,7 @@
-import { chalk, firost } from 'golgoth';
+import { _, chalk, firost } from 'golgoth';
 import path from 'path';
 import config from 'norska-config';
+import timeSpan from 'time-span';
 
 export default {
   async getFiles(pattern) {
@@ -22,7 +23,7 @@ export default {
     return await firost.readJson(configFile);
   },
   // Write a file to disk
-  async writeFile(what, where) {
+  async writeFile(what, where, timer) {
     await firost.write(what, where);
 
     const extname = path.extname(where);
@@ -36,6 +37,19 @@ export default {
       displayName = chalk[colors[extname]](displayName);
     }
 
-    console.info(`✔ Saving ${displayName}`);
+    let message = `✔ Saving ${displayName}`;
+    if (timer) {
+      message = `${message} in ${timer.elapsed()}`;
+    }
+
+    console.info(message);
+  },
+  timer() {
+    const running = timeSpan();
+    return {
+      elapsed() {
+        return `${_.round(running.seconds(), 2)}s`;
+      },
+    };
   },
 };

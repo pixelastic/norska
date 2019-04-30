@@ -1,7 +1,5 @@
 /* eslint-disable import/no-commonjs */
 const _ = require('golgoth').lodash;
-const norskaConfig = require('norska-config').default;
-const userConfigHook = norskaConfig.get('css.tailwind.configHook');
 
 const colors = {
   transparent: 'transparent',
@@ -346,18 +344,6 @@ _.each(colors, (value1, key1) => {
   customClasses[`outline-${key1}`] = { outline: `1px solid ${value1}` };
   // Use color directly for text
   customClasses[key1] = { color: value1 };
-  // Create gradients
-  _.each(colors, (value2, key2) => {
-    if (key1 === key2) {
-      return;
-    }
-    customClasses[`bgh-${key1}-to-${key2}`] = {
-      backgroundImage: `linear-gradient(75deg,${value1}, ${value2})`,
-    };
-    customClasses[`bgv-${key1}-to-${key2}`] = {
-      backgroundImage: `linear-gradient(165deg,${value1}, ${value2})`,
-    };
-  });
 });
 
 const plugins = [
@@ -367,7 +353,7 @@ const plugins = [
   },
 ];
 
-module.exports = userConfigHook({
+module.exports = {
   textSizes: fontScale,
   fontWeights,
   width: widthScale,
@@ -535,4 +521,4 @@ module.exports = userConfigHook({
     important: false,
     separator: '_',
   },
-});
+};

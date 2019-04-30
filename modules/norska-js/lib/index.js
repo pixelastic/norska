@@ -2,11 +2,13 @@ import { _, chalk, firost } from 'golgoth';
 import path from 'path';
 import webpack from 'webpack';
 import config from 'norska-config';
+import helper from 'norska-helper';
 import webpackConfigurator from './webpack.config.js';
 
 export default {
   // Compile all css files
   async run(userOptions) {
+    const timer = helper.timer();
     const options = {
       isProduction: true,
       ...userOptions,
@@ -36,7 +38,7 @@ export default {
           return;
         }
         const displayName = chalk.green(webpackConfig.output.filename);
-        console.info(`✔ Saving ${displayName}`);
+        console.info(`✔ Saving ${displayName} in ${timer.elapsed()}`);
         resolve('yep');
       });
     });

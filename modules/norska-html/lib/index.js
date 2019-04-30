@@ -7,6 +7,7 @@ import pug from 'pug';
 export default {
   // Compile a pug file to an html one
   async compile(filepath) {
+    const timer = helper.timer();
     const basename = _.replace(
       path.relative(config.from(), filepath),
       '.pug',
@@ -22,7 +23,7 @@ export default {
     const htmlContent = pugCompile(siteData);
 
     // Save to disk
-    await helper.writeFile(htmlContent, destination);
+    await helper.writeFile(htmlContent, destination, timer);
   },
 
   async run() {

@@ -50,13 +50,8 @@ module.exports = {
 
 ### Updating Tailwind configuration
 
-Norska is bundled with a custom Tailwind configuration. You can define your own,
-or extend it.
-
-#### Defining your own Tailwind configuration
-
-Update the `norska.config.js` file to tell norska where your Tailwind config
-file is located:
+Update the `norska.config.js` file to tell norska where your custom Tailwind
+config file is located:
 
 ```js
 // norska.config.js
@@ -64,28 +59,6 @@ module.exports = {
   css: {
     tailwind: {
       configPath: '/path/to/tailwind.config.js'
-    }
-  }
-}
-```
-
-#### Extending norska Tailwind configuration
-
-You can define your own `css.tailwind.configHook` method that will be called
-with the norska Tailwind config, and that expect you to return your modified
-config.
-
-```js
-// norska.config.js
-module.exports = {
-  css: {
-    tailwind: {
-      configHook(tailwindConfig) {
-        tailwindConfig.screens: {
-          // Your own custom screen sizes
-        };
-        return tailwindConfig;
-      }
     }
   }
 }

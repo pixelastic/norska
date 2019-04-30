@@ -67,6 +67,7 @@ export default {
 
   // Compile the css source file to docs
   async compile(source) {
+    const timer = helper.timer();
     const rawContent = await firost.read(source);
     const relativePath = path.relative(config.from(), source);
     const destination = path.join(config.to(), relativePath);
@@ -76,7 +77,7 @@ export default {
       from: source,
       to: destination,
     });
-    await helper.writeFile(result.css, destination);
+    await helper.writeFile(result.css, destination, timer);
   },
 
   // Compile all css files
