@@ -8,15 +8,19 @@ export default {
   config() {
     return {
       extensions: [
+        // Images
         'gif',
+        'ico',
         'jpg',
         'png',
-        'ico',
-        'html',
         'svg',
-        'ttf',
+        // Fonts
+        'eot',
         'otf',
+        'ttf',
         'woff',
+        // Other
+        'html',
       ],
     };
   },
