@@ -14,6 +14,25 @@ export default {
     const from = config.from();
     return [`${from}/**/*.pug`, `!${from}/_*/*.pug`];
   },
+  /**
+   * Returns an object containing various path information about the output HTML
+   * file. These info can then be used in all manner of absolute and relative
+   * filepaths in the resulting HTML.
+   * @param {String} destination Filepath of the resulting HTML
+   * @returns {Object} Object containing various paths
+   **/
+  getPaths(destination) {
+    const to = config.to();
+    const basename = path.basename(destination, '.html');
+    const dirname = path.dirname(_.replace(destination, `${to}/`, ''));
+    const toRoot = path.relative(path.dirname(destination), to);
+
+    return {
+      toRoot,
+      dirname,
+      basename,
+    };
+  },
   // Compile a pug file to an html one
   async compile(filepath) {
     const timer = helper.timer();
@@ -29,7 +48,7 @@ export default {
 
     // Gathering data to pass to compilation
     const siteData = await helper.siteData();
-    siteData.relativeRootPath = path.relative(path.dirname(destination), to);
+    siteData.path = this.getPaths(destination);
 
     // Compile layout
     const htmlContent = pugCompile(siteData);

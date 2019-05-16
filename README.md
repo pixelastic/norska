@@ -70,9 +70,14 @@ module.exports = {
 The content of the `_data.json` file is injected into every HTML page, allowing
 you to use Pug interpolation to use those variables in your code.
 
-The `relativeRootPath` key is dynamically set on every page, and holds the path
-to the root, relative to the current file. This can prove useful when loading
-CSS/JavaScript/Images from directories that are up in the hierarchy.
+A `path` key is also added and contains the following keys. Examples
+are for a file saved as `./dist/subdir-one/subdir-two/file.html`.
+
+| key             | value                   | description                              |
+| --------------- | ----------------------- | ---------------------------------------- |
+| `path.basename` | `file`                  | Name of the HTML file, without extension |
+| `path.dirname`  | `subdir-one/subdir-two` | Directory path from the root             |
+| `path.toRoot`   | `../..`                 | Relative path to get back to the root    |
 
 ## Contributing
 
