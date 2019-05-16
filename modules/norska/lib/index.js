@@ -7,9 +7,17 @@ import liveServer from 'live-server';
 import { pAll, firost } from 'golgoth';
 
 export default {
-  async run(argsConfig) {
+  /**
+   * Build the website from source to destination
+   * @param {Object} options Options to overwrite default values.
+   *  - {Number} port (default 8083) Port where the liveserver will be opened
+   *  - {Number} from (default ./src) Source directory
+   *  - {Number} to (default ./dist) Destination directory
+   * @returns {Void}
+   **/
+  async build(options) {
     await config.init({
-      args: argsConfig,
+      options,
       modules: {
         css: css.config(),
         assets: assets.config(),
@@ -25,11 +33,9 @@ export default {
       async () => await js.run(),
       async () => await assets.run(),
     ]);
-
-    // Stop if no live-reload
-    if (!config.get('watch')) {
-      return;
-    }
+  },
+  async watch(options) {
+    await this.build(options);
 
     html.watch();
     css.watch();
@@ -42,4 +48,7 @@ export default {
       ignore: 'assets',
     });
   },
+  // async screenshot(options) {
+  //   console.info(options);
+  // },
 };

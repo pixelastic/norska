@@ -7,7 +7,6 @@ export default {
   // Default config value
   defaultConfig() {
     return {
-      watch: false,
       port: 8083,
       from: './src',
       to: './dist',
@@ -30,13 +29,13 @@ export default {
     const defaultConfig = this.defaultConfig();
     const modulesConfig = additionalConfigs.modules;
     const fileConfig = await this.fileConfig();
-    const argsConfig = additionalConfigs.args;
+    const optionsConfig = additionalConfigs.options;
     const config = _.merge(
       {},
       defaultConfig,
       modulesConfig,
       fileConfig,
-      argsConfig
+      optionsConfig
     );
 
     config.from = path.resolve(config.from);

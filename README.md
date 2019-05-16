@@ -8,9 +8,9 @@ than hacking my way in existing SSGs.
 
 ## Usage
 
-Running `norska` will convert all source files in `./src` into a static website
-in `./dist`. You can overwrite the default directories with the `--from` and
-`--to` options.
+Running `norska build` will convert all source files in `./src` into a static
+website in `./dist`. You can overwrite the default directories with the `--from`
+and `--to` options.
 
 All `./src/*.pug` files will be converted to HTML in `./dist`. Pug layouts can
 be defined in `./src/_layouts`.
@@ -30,8 +30,9 @@ Other static assets found in `./src` will be copied to `./dist`, keeping the
 same directory structure. You can overwrite the list of extensions copied by
 passing the `--assetsExtensions` argument.
 
-You can pass the `--watch` argument to open a live-server of the `./dist` folder
-on [http://localhost:8083][1] (use `--port` to change the port).
+Running `norska watch` will build everything the same way but will also open a
+live-server of the `./dist` folder on [http://localhost:8083][1] (use `--port`
+to change the port).
 
 ## Configuration
 
@@ -44,8 +45,8 @@ configuration.
 module.exports = {
   from: './source',
   to: './build',
-  port: 8080
-}
+  port: 8080,
+};
 ```
 
 ### Updating Tailwind configuration
@@ -58,11 +59,20 @@ config file is located:
 module.exports = {
   css: {
     tailwind: {
-      configPath: '/path/to/tailwind.config.js'
-    }
-  }
-}
+      configPath: '/path/to/tailwind.config.js',
+    },
+  },
+};
 ```
+
+### Custom variables
+
+The content of the `_data.json` file is injected into every HTML page, allowing
+you to use Pug interpolation to use those variables in your code.
+
+The `relativeRootPath` key is dynamically set on every page, and holds the path
+to the root, relative to the current file. This can prove useful when loading
+CSS/JavaScript/Images from directories that are up in the hierarchy.
 
 ## Contributing
 

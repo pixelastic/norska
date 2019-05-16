@@ -26,7 +26,7 @@ export default {
 
     plugins.push(
       postcssPurge({
-        content: [path.join(config.to(), '*.html')],
+        content: `${config.to()}/**/*.html`,
         whitelistPatterns: [/^ais-/, /^js-/],
       })
     );
@@ -82,7 +82,7 @@ export default {
 
   // Compile all css files
   async run() {
-    const cssFiles = await helper.getFiles('style.css');
+    const cssFiles = await firost.glob(`${config.from()}/style.css`);
 
     await pMap(cssFiles, async filepath => {
       await this.compile(filepath);

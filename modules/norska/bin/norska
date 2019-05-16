@@ -3,12 +3,19 @@
 const norska = require('../build/index').default;
 const minimist = require('minimist');
 const _ = require('golgoth').lodash;
+const chalk = require('golgoth').chalk;
 
-// Parse options from the commandline
-// --from: the source diretory$
-// --to: the destination directory
-const args = _.omit(minimist(process.argv.slice(2)), ['_']);
+const args = minimist(process.argv.slice(2));
+const options = _.omit(args, ['_']);
+const command = args._[0];
 
 (async () => {
-  await norska.run(args);
+  // Stop early if no such command exists
+  if (!norska[command]) {
+    process.exitCode = 1;
+    console.error(`Unknown command ${chalk.red(command)}`);
+    return;
+  }
+
+  await norska[command](options);
 })();

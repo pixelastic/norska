@@ -1,0 +1,12 @@
+{
+  "name": "norska-screenshot",
+  "version": "0.0.4",
+  "description": "Take screenshots of pages, for use as OpenGraph picture",
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-screenshot",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "dependencies": {
+    "golgoth": "0"
+  }
+}

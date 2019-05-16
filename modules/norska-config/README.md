@@ -18,9 +18,6 @@ console.info(config.get('port'));
 
 | Key                  | Description                                | Default value                                |
 | -------------------- | ------------------------------------------ | -------------------------------------------- |
-| `watch`              | Starts a local live version of the website | `false`                                      |
 | `port`               | Port used for the local live version       | `8083`                                       |
 | `from`               | Source directory                           | `./src`                                      |
 | `to`                 | Destination directory                      | `./dist`                                     |
-| `assetsExtensions`   | Extension of files that should be copied   | `gif,jpg,png,ico,html,svg,ttf,otf,woff`      |
-| `tailwindConfigFile` | Path to the Tailwind config file           | `tailwind.config.js` included in this module |

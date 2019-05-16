@@ -4,10 +4,6 @@ import config from 'norska-config';
 import timeSpan from 'time-span';
 
 export default {
-  async getFiles(pattern) {
-    const from = config.get('from');
-    return await firost.glob(`${from}/${pattern}`);
-  },
   // Return the site global data
   async siteData() {
     const from = config.get('from');
