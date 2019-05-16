@@ -8,6 +8,8 @@ than hacking my way in existing SSGs.
 
 ## Usage
 
+### Build
+
 Running `norska build` will convert all source files in `./src` into a static
 website in `./dist`. You can overwrite the default directories with the `--from`
 and `--to` options.
@@ -20,19 +22,31 @@ from Pug pages.
 
 `./src/style.css` is the CSS entrypoint. You can use `@import` statement to
 further split your code into logical chunks. Tailwind is automatically included,
-with a custom config (you can overwrite it with `--tailwindConfigFile`). All CSS
-classes not actually used in the final HTML will be discarded.
+with a custom config.  All CSS classes not actually used in the final HTML will
+be discarded (except for those starting with `ais-` or `js-`).
 
 `./src/script.js` is the JavaScript entrypoint. It will be compiled through
 Babel and Webpack to produce one file.
 
 Other static assets found in `./src` will be copied to `./dist`, keeping the
-same directory structure. You can overwrite the list of extensions copied by
-passing the `--assetsExtensions` argument.
+same directory structure.
+
+### Watch
 
 Running `norska watch` will build everything the same way but will also open a
 live-server of the `./dist` folder on [http://localhost:8083][1] (use `--port`
 to change the port).
+
+### Screenshot
+
+You can take screenshots of pages (to use in OpenGraph data for example) by
+using the `norska screenshot` command. This will create a `screenshot.png` file
+of the website in your source folder.
+
+Use `--url` to change the page to capture (this is relative to the destination
+root), and `--output` to change where to save the file. You can take screenshots
+of specific DOM elements by passing the `--selector` argument along with a CSS
+selector.
 
 ## Configuration
 

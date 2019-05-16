@@ -3,26 +3,37 @@ import config from 'norska-config';
 import css from 'norska-css';
 import html from 'norska-html';
 import js from 'norska-js';
+import screenshot from 'norska-screenshot';
 import liveServer from 'live-server';
-import { pAll, firost } from 'golgoth';
+import { _, pAll, firost } from 'golgoth';
 
 export default {
   /**
-   * Build the website from source to destination
+   * Init the config singleton. Allow overwriting default values.
+   * Modules are loaded in their own key, so they can more easily be merged with
+   * user values later on
    * @param {Object} options Options to overwrite default values.
    *  - {Number} port (default 8083) Port where the liveserver will be opened
    *  - {Number} from (default ./src) Source directory
    *  - {Number} to (default ./dist) Destination directory
-   * @returns {Void}
+   *  @returns {Void}
    **/
-  async build(options) {
+  async init(options) {
+    const safelist = ['from', 'to', 'port'];
+    const safeOptions = _.pick(options, safelist);
     await config.init({
-      options,
+      safeOptions,
       modules: {
         css: css.config(),
         assets: assets.config(),
       },
     });
+  },
+  /**
+   * Build the website from source to destination
+   * @returns {Void}
+   **/
+  async build() {
     await firost.mkdirp(config.to());
 
     await pAll([
@@ -34,8 +45,8 @@ export default {
       async () => await assets.run(),
     ]);
   },
-  async watch(options) {
-    await this.build(options);
+  async watch() {
+    await this.build();
 
     html.watch();
     css.watch();
@@ -48,7 +59,7 @@ export default {
       ignore: 'assets',
     });
   },
-  // async screenshot(options) {
-  //   console.info(options);
-  // },
+  async screenshot(options) {
+    await screenshot.run(options);
+  },
 };

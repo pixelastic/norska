@@ -17,5 +17,6 @@ const command = args._[0];
     return;
   }
 
+  await norska.init(options);
   await norska[command](options);
 })();

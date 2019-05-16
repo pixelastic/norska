@@ -15,7 +15,7 @@ export default {
   // User config file
   async fileConfig() {
     const userConfigFile = path.resolve(process.cwd(), 'norska.config.js');
-    if (!await firost.exist(userConfigFile)) {
+    if (!await firost.exists(userConfigFile)) {
       return {};
     }
     const fileConfig = require(userConfigFile);

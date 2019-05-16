@@ -10,7 +10,7 @@ export default {
     const configFile = path.join(from, '_data.json');
 
     // Check that the file actually exists
-    const configFileExists = await firost.exist(configFile);
+    const configFileExists = await firost.exists(configFile);
     if (!configFileExists) {
       console.info(chalk.yellow(`⚠ Cannot find config file in ${configFile}`));
       return {};
