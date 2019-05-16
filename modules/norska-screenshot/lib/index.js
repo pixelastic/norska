@@ -1,9 +1,12 @@
 import puppeteer from 'puppeteer';
 import config from 'norska-config';
+import helper from 'norska-helper';
 import isPortReachable from 'is-port-reachable';
+import { chalk } from 'golgoth';
 
 export default {
   async run(options) {
+    const timer = helper.timer();
     const url = options.url;
     const output = options.output || `${config.from()}/screenshot.png`;
     const selector = options.selector;
@@ -38,6 +41,11 @@ export default {
     // Take screenshot of a specific area or full page
     const target = selector ? await page.$(selector) : page;
     await target.screenshot({ path: output });
+
+    const message = `✔ Saving ${chalk.bold.yellow(
+      output
+    )} in ${timer.elapsed()}`;
+    console.info(message);
 
     await browser.close();
   },

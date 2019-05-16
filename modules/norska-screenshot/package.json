@@ -9,6 +9,7 @@
   "dependencies": {
     "golgoth": "0",
     "norska-config": "0.0.4",
+    "norska-helper": "0.0.4",
     "is-port-reachable": "2.0.1",
     "live-server": "1.2.1",
     "puppeteer": "1.16.0"

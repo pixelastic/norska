@@ -24,8 +24,11 @@ export default {
   getPaths(destination) {
     const to = config.to();
     const basename = path.basename(destination, '.html');
-    const dirname = path.dirname(_.replace(destination, `${to}/`, ''));
-    const toRoot = path.relative(path.dirname(destination), to);
+    let dirname = path.dirname(_.replace(destination, `${to}/`, ''));
+    if (dirname === '.') {
+      dirname = '';
+    }
+    const toRoot = path.relative(path.dirname(destination), to) || '.';
 
     return {
       toRoot,
