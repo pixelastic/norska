@@ -26,7 +26,7 @@ export default {
 
     plugins.push(
       postcssPurge({
-        content: `${config.to()}/**/*.html`,
+        content: [`${config.to()}/**/*.html`],
         whitelistPatterns: [/^ais-/, /^js-/],
       })
     );
