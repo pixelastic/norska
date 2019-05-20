@@ -70,20 +70,14 @@ export default {
   // Listen to changes in pug and update
   watch() {
     const from = config.from();
+    console.info(this.topLevelPugFilesGlob());
     firost.watch(this.topLevelPugFilesGlob(), filepath => {
+      console.info(filepath);
       this.compile(filepath);
     });
     // Rebuild everything when a layout, include or data changes
-    firost.watch(
-      [
-        `${from}/_layouts/*.pug`,
-        `${from}/_includes/*.pug`,
-        `${from}/_mixins/*.pug`,
-        `${from}/_data.json`,
-      ],
-      () => {
-        this.run();
-      }
-    );
+    firost.watch([`${from}/_*/**/*.pug`, `${from}/_data.json`], () => {
+      this.run();
+    });
   },
 };
