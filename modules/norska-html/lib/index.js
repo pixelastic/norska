@@ -12,7 +12,7 @@ export default {
    **/
   topLevelPugFilesGlob() {
     const from = config.from();
-    return [`${from}/**/*.pug`, `!${from}/_*/*.pug`];
+    return [`${from}/**/*.pug`, `!${from}/_*/**/*.pug`];
   },
   /**
    * Returns an object containing various path information about the output HTML
