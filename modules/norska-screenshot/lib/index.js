@@ -11,8 +11,8 @@ export default {
     const output = options.output || `${config.from()}/screenshot.png`;
     const selector = options.selector;
     const dimensions = {
-      width: 1024,
-      height: 768,
+      width: 1600,
+      height: 900,
     };
 
     // Check that server is actually running
@@ -24,13 +24,14 @@ export default {
       return;
     }
 
-    const browser = await puppeteer.launch({
+    const browserOptions = {
       headless: true,
       // Setting the window size is needed for media queries based on
       // device-aspect-ratio to work. Otherwise the default size of 800x600 is
       // assumed.
       args: [`--window-size=${dimensions.width},${dimensions.height}`],
-    });
+    };
+    const browser = await puppeteer.launch(browserOptions);
     const page = await browser.newPage();
     await page.goto(`http://localhost:${port}/${url}`);
     await page.setViewport({
