@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -e
+
+MODULE_PATH="$PWD"
+cd ../../
+
+aberlaas test "$MODULE_PATH"

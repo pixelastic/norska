@@ -2,27 +2,27 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "0.0.21",
+    "aberlaas": "~0.0.0",
     "lerna": "3.13.3"
   },
   "homepage": "https://github.com/pixelastic/norska#readme",
   "license": "MIT",
-  "name": "norska",
+  "name": "norska-monorepo",
   "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pixelastic/norska.git"
   },
   "scripts": {
-    "build": "./scripts/build",
-    "build:watch": "./scripts/build-watch",
+    "build": "./scripts/meta/build",
+    "build:watch": "./scripts/meta/build-watch",
     "learn": "lerna",
-    "lint": "./scripts/lint",
-    "lint:fix": "./scripts/lint-fix",
-    "release": "./scripts/release",
-    "sync-dependencies": "./scripts/sync-dependencies",
-    "test": "./scripts/test",
-    "test:watch": "./scripts/test-watch"
+    "lint": "./scripts/meta/lint",
+    "lint:fix": "./scripts/meta/lint-fix",
+    "release": "./scripts/meta/release",
+    "sync-dependencies": "./scripts/meta/sync-dependencies",
+    "test": "./scripts/meta/test",
+    "test:watch": "./scripts/meta/test-watch"
   },
   "version": "0.0.4",
   "workspaces": [
