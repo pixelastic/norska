@@ -7,6 +7,13 @@
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
-    "golgoth": "0"
+    "firost": "~0.1.0",
+    "golgoth": "~0.1.0"
+  },
+  "scripts": {
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
   }
 }

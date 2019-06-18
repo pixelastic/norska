@@ -22,7 +22,7 @@ from Pug pages.
 
 `./src/style.css` is the CSS entrypoint. You can use `@import` statement to
 further split your code into logical chunks. Tailwind is automatically included,
-with a custom config.  All CSS classes not actually used in the final HTML will
+with a custom config. All CSS classes not actually used in the final HTML will
 be discarded (except for those starting with `ais-` or `js-`).
 
 `./src/script.js` is the JavaScript entrypoint. It will be compiled through
@@ -63,6 +63,14 @@ module.exports = {
 };
 ```
 
+### Default values
+
+| Key    | Default Value | Description        |
+| ------ | ------------- | ------------------ |
+| `from` | `./src`       | Source folder      |
+| `to`   | `./dist`      | Destination folder |
+| `port` | `8083`        | Local server port  |
+
 ### Updating Tailwind configuration
 
 Update the `norska.config.js` file to tell norska where your custom Tailwind
@@ -84,8 +92,8 @@ module.exports = {
 The content of the `_data.json` file is injected into every HTML page, allowing
 you to use Pug interpolation to use those variables in your code.
 
-A `path` key is also added and contains the following keys. Examples
-are for a file saved as `./dist/subdir-one/subdir-two/file.html`.
+A `path` key is also added and contains the following keys. Examples are for a
+file saved as `./dist/subdir-one/subdir-two/file.html`.
 
 | key             | value                   | description                              |
 | --------------- | ----------------------- | ---------------------------------------- |

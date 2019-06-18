@@ -4,7 +4,10 @@ import { _, firost } from 'golgoth';
 export default {
   // Currently held config
   config: {},
-  // Default config value
+  /**
+   * Returns the default config values
+   * @returns {Object} Default config object
+   **/
   defaultConfig() {
     return {
       port: 8083,
@@ -15,7 +18,7 @@ export default {
   // User config file
   async fileConfig() {
     const userConfigFile = path.resolve(process.cwd(), 'norska.config.js');
-    if (!await firost.exists(userConfigFile)) {
+    if (!(await firost.exists(userConfigFile))) {
       return {};
     }
     const fileConfig = require(userConfigFile);

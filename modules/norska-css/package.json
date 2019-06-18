@@ -8,7 +8,8 @@
   "main": "./build/index.js",
   "files": ["./build/index.js", "./tailwind.config.js"],
   "dependencies": {
-    "golgoth": "0",
+    "firost": "~0.1.0",
+    "golgoth": "~0.1.0",
     "norska-config": "0.0.4",
     "norska-helper": "0.0.4",
     "@fullhuman/postcss-purgecss": "1.0.1",
