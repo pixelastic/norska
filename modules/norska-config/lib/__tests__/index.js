@@ -186,6 +186,21 @@ describe('norska-config', () => {
       expect(actual).toEqual('foo');
     });
   });
+  describe('fromPath', () => {
+    beforeEach(() => {
+      jest.spyOn(module, 'from').mockReturnValue('/source');
+    });
+    it('should return an absolute path from the source directory', () => {
+      const actual = module.fromPath('foo.txt');
+
+      expect(actual).toEqual(`/source/foo.txt`);
+    });
+    it('should return the path to the source if no arguments passed', () => {
+      const actual = module.fromPath();
+
+      expect(actual).toEqual('/source');
+    });
+  });
   describe('to', () => {
     it('should return the current to key', () => {
       module.__config = { to: 'foo' };
@@ -194,7 +209,22 @@ describe('norska-config', () => {
       expect(actual).toEqual('foo');
     });
   });
-  describe('with fixtures', () => {
+  describe('toPath', () => {
+    beforeEach(() => {
+      jest.spyOn(module, 'to').mockReturnValue('/destination');
+    });
+    it('should return an absolute path from the destination directory', () => {
+      const actual = module.toPath('foo.txt');
+
+      expect(actual).toEqual(`/destination/foo.txt`);
+    });
+    it('should return the path to the destination if no arguments passed', () => {
+      const actual = module.toPath();
+
+      expect(actual).toEqual('/destination');
+    });
+  });
+  describe('with root fixtures', () => {
     let rootDir = path.resolve('./fixtures');
     beforeEach(() => {
       jest.spyOn(module, 'rootDir').mockReturnValue(rootDir);

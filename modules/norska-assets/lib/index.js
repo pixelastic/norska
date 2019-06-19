@@ -4,39 +4,29 @@ import config from 'norska-config';
 const copy = pify(cpx.copy);
 
 export default {
-  // Custom config added to the main config.assets key
-  config() {
+  /**
+   * Default configuration object
+   **/
+  defaultConfig() {
     return {
-      extensions: [
-        // Images
-        'gif',
-        'ico',
-        'jpg',
-        'png',
-        'svg',
-        // Fonts
-        'eot',
-        'otf',
-        'ttf',
-        'woff',
-        // Other
-        'html',
-      ],
+      files: '**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,woff}',
     };
   },
-  // Get the glob pattern to match all files we need to copy
-  glob() {
-    const extensions = config.get('assets.extensions').join(',');
-    return `${config.from()}/**/*.{${extensions}}`;
-  },
-  // Copy all assets to destination
+  /**
+   * Copy static assets from source to destination, keeping same directory
+   * structure but not performing any transformation
+   * @returns {Void}
+   **/
   async run() {
-    const pattern = this.glob();
+    const pattern = config.fromPath(config.get('assets.files'));
     return await copy(pattern, config.to());
   },
-  // Watch for asset change and copy them to destination
+  /**
+   * Listen for any changes in assets and copy them to destination
+   * @returns {Void}
+   **/
   watch() {
-    const pattern = this.glob();
+    const pattern = config.fromPath(config.get('assets.files'));
     cpx.watch(pattern, config.to());
   },
 };

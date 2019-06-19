@@ -19,6 +19,36 @@ export default {
     return path.resolve(this.rootDir(), relativePath);
   },
   /**
+   * Syntactic sugar to get the 'from' config key
+   * @returns {String} Path to the source directory
+   **/
+  from() {
+    return this.get('from');
+  },
+  /**
+   * Return an absolute path to a file in the source directory
+   * @param {String} relativePath Relative path from the source directory
+   * @returns {String} Absolute path to the file
+   **/
+  fromPath(relativePath = '') {
+    return path.resolve(this.from(), relativePath);
+  },
+  /**
+   * Syntactic sugar to get the 'to' config key
+   * @returns {String} Path to the destination directory
+   **/
+  to() {
+    return this.get('to');
+  },
+  /**
+   * Return an absolute path to a file in the destination directory
+   * @param {String} relativePath Relative path from the destination directory
+   * @returns {String} Absolute path to the file
+   **/
+  toPath(relativePath = '') {
+    return path.resolve(this.to(), relativePath);
+  },
+  /**
    * Returns the default config values
    * @returns {Object} Default config object
    **/
@@ -92,20 +122,6 @@ export default {
     finalConfig.to = this.rootPath(finalConfig.to);
 
     this.__config = finalConfig;
-  },
-  /**
-   * Syntactic sugar to get the 'from' config key
-   * @returns {String} Path to the source directory
-   **/
-  from() {
-    return this.get('from');
-  },
-  /**
-   * Syntactic sugar to get the 'to' config key
-   * @returns {String} Path to the destination directory
-   **/
-  to() {
-    return this.get('to');
   },
   /**
    * Wrapper around the raw require() call, to make it easier to mock in tests

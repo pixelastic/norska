@@ -8,8 +8,16 @@
   "main": "./build/index.js",
   "dependencies": {
     "cpx": "~1.5.0",
-    "firost": "~0.1.0",
     "golgoth": "~0.1.0",
     "norska-config": "0.0.4"
+  },
+  "devDependencies": {
+    "firost": "~0.1.0"
+  },
+  "scripts": {
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
   }
 }

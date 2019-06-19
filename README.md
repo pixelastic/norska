@@ -28,8 +28,8 @@ be discarded (except for those starting with `ais-` or `js-`).
 `./src/script.js` is the JavaScript entrypoint. It will be compiled through
 Babel and Webpack to produce one file.
 
-Other static assets found in `./src` will be copied to `./dist`, keeping the
-same directory structure.
+Static assets are copied from source to destination without any transformation,
+and keeping the same directory structure.
 
 ### Watch
 
@@ -65,11 +65,12 @@ module.exports = {
 
 ### Default values
 
-| Key    | Default Value | Description        |
-| ------ | ------------- | ------------------ |
-| `from` | `./src`       | Source folder      |
-| `to`   | `./dist`      | Destination folder |
-| `port` | `8083`        | Local server port  |
+| Key            | Default Value                                      | Description                                                                               |
+| -------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `from`         | `./src`                                            | Source folder                                                                             |
+| `to`           | `./dist`                                           | Destination folder                                                                        |
+| `port`         | `8083`                                             | Local server port                                                                         |
+| `assets.files` | `**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,woff}` | List of files that should be copied from source to destination without any transformation |
 
 ### Updating Tailwind configuration
 

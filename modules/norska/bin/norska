@@ -6,17 +6,19 @@ const _ = require('golgoth').lodash;
 const chalk = require('golgoth').chalk;
 
 const args = minimist(process.argv.slice(2));
-const options = _.omit(args, ['_']);
 const command = args._[0];
+// Remove the initial method from args passed to the command
+args._ = _.drop(args._, 1);
 
 (async () => {
   // Stop early if no such command exists
-  if (!norska[command]) {
+  const commands = ['build', 'watch', 'screenshot'];
+  if (!commands[command]) {
     process.exitCode = 1;
     console.error(`Unknown command ${chalk.red(command)}`);
     return;
   }
 
-  await norska.init(options);
-  await norska[command](options);
+  await norska.init(args);
+  await norska[command]();
 })();

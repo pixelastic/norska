@@ -5,29 +5,16 @@ import html from 'norska-html';
 import js from 'norska-js';
 import screenshot from 'norska-screenshot';
 import liveServer from 'live-server';
-import { _, pAll, firost } from 'golgoth';
+import { pAll } from 'golgoth';
+import firost from 'firost';
 
 export default {
-  /**
-   * Init the config singleton. Allow overwriting default values.
-   * Modules are loaded in their own key, so they can more easily be merged with
-   * user values later on
-   * @param {Object} options Options to overwrite default values.
-   *  - {Number} port (default 8083) Port where the liveserver will be opened
-   *  - {Number} from (default ./src) Source directory
-   *  - {Number} to (default ./dist) Destination directory
-   *  @returns {Void}
-   **/
-  async init(options) {
-    const safelist = ['from', 'to', 'port'];
-    const safeOptions = _.pick(options, safelist);
-    await config.init({
-      safeOptions,
-      modules: {
-        css: css.config(),
-        assets: assets.config(),
-      },
-    });
+  async init(cliArgs) {
+    const modulesConfig = {
+      css: css.config(),
+      assets: assets.defaultConfig(),
+    };
+    await config.init(cliArgs, modulesConfig);
   },
   /**
    * Build the website from source to destination
