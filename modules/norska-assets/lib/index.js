@@ -6,6 +6,7 @@ const copy = pify(cpx.copy);
 export default {
   /**
    * Default configuration object
+   * @returns {object} Default module config
    **/
   defaultConfig() {
     return {
@@ -15,15 +16,13 @@ export default {
   /**
    * Copy static assets from source to destination, keeping same directory
    * structure but not performing any transformation
-   * @returns {Void}
    **/
   async run() {
     const pattern = config.fromPath(config.get('assets.files'));
-    return await copy(pattern, config.to());
+    await copy(pattern, config.to());
   },
   /**
    * Listen for any changes in assets and copy them to destination
-   * @returns {Void}
    **/
   watch() {
     const pattern = config.fromPath(config.get('assets.files'));

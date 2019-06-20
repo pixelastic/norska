@@ -157,6 +157,17 @@ describe('norska-config', () => {
       expect(module).toHaveProperty('__config.from', '/absolute/foo');
       expect(module).toHaveProperty('__config.to', '/absolute/bar');
     });
+    it('Deep CLI args should only change deep keys, not whole object', async () => {
+      jest.spyOn(module, 'defaultConfig').mockReturnValue({});
+      const modulesConfig = { deep: { foo: 'yes', bar: 'yes' } };
+      jest.spyOn(module, 'fileConfig').mockReturnValue({});
+      jest.spyOn(module, 'cliConfig').mockReturnValue({ deep: { foo: 'no' } });
+
+      await module.init({}, modulesConfig);
+
+      expect(module).toHaveProperty('__config.deep.foo', 'no');
+      expect(module).toHaveProperty('__config.deep.bar', 'yes');
+    });
   });
   describe('get', () => {
     it('should return the value of the specific key', () => {
@@ -193,7 +204,7 @@ describe('norska-config', () => {
     it('should return an absolute path from the source directory', () => {
       const actual = module.fromPath('foo.txt');
 
-      expect(actual).toEqual(`/source/foo.txt`);
+      expect(actual).toEqual('/source/foo.txt');
     });
     it('should return the path to the source if no arguments passed', () => {
       const actual = module.fromPath();
@@ -216,7 +227,7 @@ describe('norska-config', () => {
     it('should return an absolute path from the destination directory', () => {
       const actual = module.toPath('foo.txt');
 
-      expect(actual).toEqual(`/destination/foo.txt`);
+      expect(actual).toEqual('/destination/foo.txt');
     });
     it('should return the path to the destination if no arguments passed', () => {
       const actual = module.toPath();

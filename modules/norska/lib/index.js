@@ -11,14 +11,14 @@ import firost from 'firost';
 export default {
   async init(cliArgs) {
     const modulesConfig = {
-      css: css.config(),
       assets: assets.defaultConfig(),
+      css: css.config(),
+      js: js.defaultConfig(),
     };
     await config.init(cliArgs, modulesConfig);
   },
   /**
    * Build the website from source to destination
-   * @returns {Void}
    **/
   async build() {
     await firost.mkdirp(config.to());

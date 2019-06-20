@@ -71,6 +71,8 @@ module.exports = {
 | `to`           | `./dist`                                           | Destination folder                                                                        |
 | `port`         | `8083`                                             | Local server port                                                                         |
 | `assets.files` | `**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,woff}` | List of files that should be copied from source to destination without any transformation |
+| `js.input`     | `script.js`                                        | JavaScript entry point (relative to source) to compile through Webpack                    |
+| `js.output`    | `script.js`                                        | Webpack output file (relative to destination)                                             |
 
 ### Updating Tailwind configuration
 

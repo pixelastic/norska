@@ -20,7 +20,7 @@ export default {
     if (!(await isPortReachable(port))) {
       process.exitCode = 1;
       console.error(`Live server is not reachable on port ${port}.`);
-      console.error(`Please run norska watch and try again`);
+      console.error('Please run norska watch and try again');
       return;
     }
 

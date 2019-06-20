@@ -18,8 +18,8 @@ export default {
    * Returns an object containing various path information about the output HTML
    * file. These info can then be used in all manner of absolute and relative
    * filepaths in the resulting HTML.
-   * @param {String} destination Filepath of the resulting HTML
-   * @returns {Object} Object containing various paths
+   * @param {string} destination Filepath of the resulting HTML
+   * @returns {object} Object containing various paths
    **/
   getPaths(destination) {
     const to = config.to();

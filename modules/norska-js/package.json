@@ -17,5 +17,11 @@
     "norska-config": "0.0.4",
     "norska-helper": "0.0.4",
     "webpack": "4.21.0"
+  },
+  "scripts": {
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
   }
 }

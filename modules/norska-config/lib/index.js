@@ -5,52 +5,52 @@ import firost from 'firost';
 export default {
   /**
    * Return absolute path to the host dir
-   * @returns {String} Absolute path to host dir
+   * @returns {string} Absolute path to host dir
    **/
   rootDir() {
     return process.cwd();
   },
   /**
    * Return an absolute path to a file at the root
-   * @param {String} relativePath Relative path from the root
-   * @returns {String} Absolute path to the file
+   * @param {string} relativePath Relative path from the root
+   * @returns {string} Absolute path to the file
    **/
   rootPath(relativePath = '') {
     return path.resolve(this.rootDir(), relativePath);
   },
   /**
    * Syntactic sugar to get the 'from' config key
-   * @returns {String} Path to the source directory
+   * @returns {string} Path to the source directory
    **/
   from() {
     return this.get('from');
   },
   /**
    * Return an absolute path to a file in the source directory
-   * @param {String} relativePath Relative path from the source directory
-   * @returns {String} Absolute path to the file
+   * @param {string} relativePath Relative path from the source directory
+   * @returns {string} Absolute path to the file
    **/
   fromPath(relativePath = '') {
     return path.resolve(this.from(), relativePath);
   },
   /**
    * Syntactic sugar to get the 'to' config key
-   * @returns {String} Path to the destination directory
+   * @returns {string} Path to the destination directory
    **/
   to() {
     return this.get('to');
   },
   /**
    * Return an absolute path to a file in the destination directory
-   * @param {String} relativePath Relative path from the destination directory
-   * @returns {String} Absolute path to the file
+   * @param {string} relativePath Relative path from the destination directory
+   * @returns {string} Absolute path to the file
    **/
   toPath(relativePath = '') {
     return path.resolve(this.to(), relativePath);
   },
   /**
    * Returns the default config values
-   * @returns {Object} Default config object
+   * @returns {object} Default config object
    **/
   defaultConfig() {
     return {
@@ -62,7 +62,7 @@ export default {
   /**
    * Return the config loaded from the root norska.config.js
    * This will require() the file, allowing the use of dynamic configuration
-   * @returns {Object} Config object
+   * @returns {object} Config object
    **/
   async fileConfig() {
     const configFilePath = this.rootPath('norska.config.js');
@@ -74,8 +74,8 @@ export default {
   /**
    * Returns named CLI arguments as a config object. This will expand
    * dot-notation keys into objects
-   * @param {Object} cliArgs CLI Argument object, as created by minimist
-   * @returns {Object} A config object
+   * @param {object} cliArgs CLI Argument object, as created by minimist
+   * @returns {object} A config object
    **/
   cliConfig(cliArgs) {
     const namedOptions = _.omit(cliArgs, ['_']);
@@ -88,8 +88,8 @@ export default {
   },
   /**
    * Return the current config value at the specified key
-   * @param {String} key Config key, accepting dot-notation
-   * @returns {Any} Current config value for specified key
+   * @param {string} key Config key, accepting dot-notation
+   * @returns {*} Current config value for specified key
    **/
   get(key) {
     return _.get(this.__config, key, null);
@@ -99,9 +99,8 @@ export default {
    * We start with the default config and extend it with module-specific
    * configs. Users can then overwrite config with norska.config.js and CLI
    * arguments
-   * @param {Object} cliArgs CLI Argument object, as created by minimist
-   * @param {Object} modulesConfig Aggregate of module-specific configs
-   * @returns {Void} Set the internal __config property
+   * @param {object} cliArgs CLI Argument object, as created by minimist
+   * @param {object} modulesConfig Aggregate of module-specific configs
    **/
   async init(cliArgs = {}, modulesConfig = {}) {
     const defaultConfig = this.defaultConfig();
@@ -125,8 +124,8 @@ export default {
   },
   /**
    * Wrapper around the raw require() call, to make it easier to mock in tests
-   * @param {String} what Module identifier
-   * @returns {Any} Module content
+   * @param {string} id Module identifier
+   * @returns {*} Module content
    **/
   __require(id) {
     return require(id);
