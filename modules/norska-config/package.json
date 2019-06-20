@@ -11,6 +11,8 @@
     "golgoth": "~0.1.0"
   },
   "scripts": {
+    "build": "../../scripts/local/build",
+    "build:watch": "../../scripts/local/build-watch",
     "lint": "../../scripts/local/lint",
     "lint:fix": "../../scripts/local/lint-fix",
     "test": "../../scripts/local/test",

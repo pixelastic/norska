@@ -9,7 +9,7 @@ describe('norska-js', () => {
     module.__compilers = {};
     await config.init({
       from: './fixtures/src',
-      to: './tmp/dist',
+      to: './tmp/norska-js',
       js: module.defaultConfig(),
     });
   });
@@ -123,7 +123,7 @@ describe('norska-js', () => {
         jest.spyOn(module, 'displayResults').mockReturnValue();
         await config.init({
           from: './fixtures/src',
-          to: './tmp/dist',
+          to: './tmp/norska-js',
           js: module.defaultConfig(),
         });
         await firost.emptyDir(config.to());
@@ -145,7 +145,7 @@ describe('norska-js', () => {
         jest.spyOn(helper, 'consoleWarn').mockReturnValue();
         await config.init({
           from: './nope',
-          to: './tmp/dist',
+          to: './tmp/norska-js',
           js: module.defaultConfig(),
         });
 
@@ -156,13 +156,15 @@ describe('norska-js', () => {
       });
 
       describe('bad input file', () => {
+        // Note: Those test can take a long time to run as they are generating
+        // errors, so we increase the timeout (third argument)
         beforeEach(async () => {
           jest.spyOn(helper, 'exit').mockReturnValue();
           jest.spyOn(helper, 'consoleError').mockReturnValue();
 
           await config.init({
             from: './fixtures/src',
-            to: './tmp/dist',
+            to: './tmp/norska-js',
             js: {
               ...module.defaultConfig(),
               input: 'bad.js',
@@ -173,7 +175,7 @@ describe('norska-js', () => {
           await module.run();
 
           expect(helper.exit).toHaveBeenCalledWith(1);
-        });
+        }, 500);
         it('should display the webpack error', async () => {
           await module.run();
 
@@ -183,7 +185,7 @@ describe('norska-js', () => {
           expect(helper.consoleError).toHaveBeenCalledWith(
             expect.stringMatching(/Module build failed/)
           );
-        });
+        }, 500);
       });
     });
     it('should display timing results', async () => {

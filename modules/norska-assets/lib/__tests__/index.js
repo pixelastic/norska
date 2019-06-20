@@ -8,7 +8,7 @@ describe('norska-assets', () => {
     beforeAll(async () => {
       await config.init({
         from: './fixtures/src',
-        to: './tmp/dist',
+        to: './tmp/norska-assets',
         assets: module.defaultConfig(),
       });
       await firost.emptyDir(config.to());

@@ -1,9 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-lerna exec \
-  --concurrency 3 \
-  --stream \
-  -- \
-    aberlaas build \
-      --config \$LERNA_ROOT_PATH/babel.config.js
+lerna run --concurrency 3 --stream build
