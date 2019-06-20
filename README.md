@@ -149,4 +149,29 @@ workspaces are used to simplify the installation and sharing of dependencies,
 and lerna is used to link sibling modules together as well as publish them all
 with the right version number.
 
+#### Monorepo quirks
+
+Tooling can encounter problems when running in the context of a monorepo. This
+is actually true for Jest and it required a bit of unusual scripting.
+
+Each subrepo contains `scripts` keys in their `package.json` to run `yarn test`
+and `yarn test:watch`. Those commands actually run scripts shared across all
+submodules and located in `./scripts/local`. When run, those scripts move to the
+top level repository root, and call `aberlaas test` from there, but pointing at
+the subrepo we want to test. We do it that way because `aberlaas` is
+defined as a `devDependency` on the root, on not on the submodules themselves.
+
+This has a side-effect of having Jest considering the whole monorepo as
+context when watching files. This means that whenever a file is
+changed in the monorepo, Jest will re-run the tests it's watching;
+even if they are not related to the changed files. In other words, running
+`yarn run test:watch` in `norska-js` and editing a file in `norska-helper` will
+force an undesirable run of the `norska-js` tests again.
+
+To work around this issue, we created a local `jest.config.js` file in each
+module, that extends the main `jest.config.js` file at the monorepo root, but
+forces ignore watching any module folder that is not the one focused.
+This creates some duplication of code,but allows for running a
+monorepo-wide `yarn run test:watch` and having the correct test reload.
+
 [1]: http://localhost:8083
