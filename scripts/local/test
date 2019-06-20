@@ -4,4 +4,4 @@ set -e
 MODULE_PATH="$PWD"
 cd ../../
 
-aberlaas test "$MODULE_PATH"
+aberlaas test "$MODULE_PATH" --config "$MODULE_PATH/jest.config.js"
