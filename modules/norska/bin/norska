@@ -2,23 +2,7 @@
 /* eslint-disable import/no-commonjs */
 const norska = require('../build/index').default;
 const minimist = require('minimist');
-const _ = require('golgoth').lodash;
-const chalk = require('golgoth').chalk;
-
 const args = minimist(process.argv.slice(2));
-const command = args._[0];
-// Remove the initial method from args passed to the command
-args._ = _.drop(args._, 1);
-
 (async () => {
-  // Stop early if no such command exists
-  const commands = ['build', 'watch', 'screenshot'];
-  if (!commands[command]) {
-    process.exitCode = 1;
-    console.error(`Unknown command ${chalk.red(command)}`);
-    return;
-  }
-
-  await norska.init(args);
-  await norska[command]();
+  await norska.run(args);
 })();

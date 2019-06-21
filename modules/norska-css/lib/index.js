@@ -53,7 +53,7 @@ export default {
   },
 
   // Custom config added to the main config.css key
-  config() {
+  defaultConfig() {
     return {
       tailwind: {
         configPath: path.resolve(__dirname, '../build/tailwind.config.js'),

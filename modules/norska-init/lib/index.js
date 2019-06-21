@@ -1,3 +1,6 @@
 // import config from 'norska-config';
 
-export default {};
+export default {
+  async run() {
+  }
+};

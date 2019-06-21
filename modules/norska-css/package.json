@@ -19,5 +19,13 @@
     "postcss-import": "11.1.0",
     "postcss-nested": "3.0.0",
     "tailwindcss": "0.7.4"
+  },
+  "scripts": {
+    "build": "../../scripts/local/build",
+    "build:watch": "../../scripts/local/build-watch",
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
   }
 }
