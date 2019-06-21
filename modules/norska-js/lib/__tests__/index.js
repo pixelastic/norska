@@ -128,7 +128,7 @@ describe('norska-js', () => {
         });
         await firost.emptyDir(config.to());
         await module.run();
-      }, 1000);
+      }, 10000);
       it('should compile script.js in destination', async () => {
         const actual = await firost.isFile(config.toPath('script.js'));
 

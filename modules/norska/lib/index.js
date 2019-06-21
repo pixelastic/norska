@@ -63,21 +63,19 @@ export default {
       async () => await assets.run(),
     ]);
   },
-  // async watch() {
-  //   await this.build();
-
-  //   html.watch();
-  //   css.watch();
-  //   js.watch();
-  //   assets.watch();
-
-  //   liveServer.start({
-  //     root: config.to(),
-  //     port: config.get('port'),
-  //     ignore: 'assets',
-  //   });
-  // },
-  // async screenshot(options) {
-  //   await screenshot.run(options);
-  // },
+  async watch() {
+    // await this.build();
+    // html.watch();
+    // css.watch();
+    // js.watch();
+    // assets.watch();
+    // liveServer.start({
+    //   root: config.to(),
+    //   port: config.get('port'),
+    //   ignore: 'assets',
+    // });
+  },
+  async screenshot(options) {
+    await screenshot.run(options);
+  },
 };
