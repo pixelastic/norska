@@ -128,7 +128,7 @@ describe('norska-js', () => {
         });
         await firost.emptyDir(config.to());
         await module.run();
-      });
+      }, 1000);
       it('should compile script.js in destination', async () => {
         const actual = await firost.isFile(config.toPath('script.js'));
 
@@ -156,9 +156,7 @@ describe('norska-js', () => {
       });
 
       describe('bad input file', () => {
-        // Note: Those test can take a long time to run as they are generating
-        // errors, so we increase the timeout (third argument)
-        beforeEach(async () => {
+        it('should stop and display an error', async () => {
           jest.spyOn(helper, 'exit').mockReturnValue();
           jest.spyOn(helper, 'consoleError').mockReturnValue();
 
@@ -170,22 +168,16 @@ describe('norska-js', () => {
               input: 'bad.js',
             },
           });
-        });
-        it('should exit with error code 1', async () => {
           await module.run();
 
           expect(helper.exit).toHaveBeenCalledWith(1);
-        }, 500);
-        it('should display the webpack error', async () => {
-          await module.run();
-
           expect(helper.consoleError).toHaveBeenCalledWith(
             '[norska-js]: ERROR_WEBPACK_COMPILATION_FAILED'
           );
           expect(helper.consoleError).toHaveBeenCalledWith(
             expect.stringMatching(/Module build failed/)
           );
-        }, 500);
+        });
       });
     });
     it('should display timing results', async () => {
