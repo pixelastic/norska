@@ -168,10 +168,9 @@ even if they are not related to the changed files. In other words, running
 `yarn run test:watch` in `norska-js` and editing a file in `norska-helper` will
 force an undesirable run of the `norska-js` tests again.
 
-To work around this issue, we created a local `jest.config.js` file in each
-module, that extends the main `jest.config.js` file at the monorepo root, but
-forces ignore watching any module folder that is not the one focused.
-This creates some duplication of code,but allows for running a
-monorepo-wide `yarn run test:watch` and having the correct test reload.
+To work around this issue, we created a `jest.config.local.js` at the root that
+should be loaded by each module instead of the default `jest.config.js` file.
+This custom file will dynamically exclude all other modules from the context, to
+have Jest focus on the one module we want to test.
 
 [1]: http://localhost:8083

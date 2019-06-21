@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 set -e
 
-lerna exec --concurrency 3 --stream -- aberlaas lint --fix
+aberlaas lint \
+  --fix \
+  ./*.js \
+  ./.*.js \
+  ./modules/*/lib/**/*.js \
+  ./modules/*/*.js \
+  ./modules/*/.*.js
 

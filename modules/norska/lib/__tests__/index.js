@@ -1,4 +1,4 @@
-import module from '../index';
+// import module from '../index';
 
 describe('norska', () => {
   it('test', () => {

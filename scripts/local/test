@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-MODULE_PATH="$PWD"
+INITIAL_PWD="$PWD"
 cd ../../
 
-aberlaas test "$MODULE_PATH/" --config "$MODULE_PATH/jest.config.js"
+MODULE_FULL_PATH="$INITIAL_PWD" \
+  aberlaas test "$INITIAL_PWD" \
+  --config "jest.config.local.js"
