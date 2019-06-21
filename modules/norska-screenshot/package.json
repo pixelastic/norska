@@ -14,5 +14,13 @@
     "is-port-reachable": "2.0.1",
     "live-server": "1.2.1",
     "puppeteer": "1.16.0"
+  },
+  "scripts": {
+    "build": "../../scripts/local/build",
+    "build:watch": "../../scripts/local/build-watch",
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
   }
 }

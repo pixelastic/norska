@@ -12,5 +12,13 @@
     "norska-config": "0.0.4",
     "norska-helper": "0.0.4",
     "pug": "2.0.3"
+  },
+  "scripts": {
+    "build": "../../scripts/local/build",
+    "build:watch": "../../scripts/local/build-watch",
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
   }
 }
