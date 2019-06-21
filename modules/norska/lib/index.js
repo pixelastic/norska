@@ -51,36 +51,33 @@ export default {
   async init() {
     await init.run();
   },
-  /**
-   * Build the website from source to destination
-   **/
   async build() {
     await firost.mkdirp(config.to());
 
     await pAll([
-      async () => {
-        await html.run();
-        await css.run();
-      },
+      // async () => {
+      //   await html.run();
+      //   await css.run();
+      // },
       async () => await js.run(),
       async () => await assets.run(),
     ]);
   },
-  async watch() {
-    await this.build();
+  // async watch() {
+  //   await this.build();
 
-    html.watch();
-    css.watch();
-    js.watch();
-    assets.watch();
+  //   html.watch();
+  //   css.watch();
+  //   js.watch();
+  //   assets.watch();
 
-    liveServer.start({
-      root: config.to(),
-      port: config.get('port'),
-      ignore: 'assets',
-    });
-  },
-  async screenshot(options) {
-    await screenshot.run(options);
-  },
+  //   liveServer.start({
+  //     root: config.to(),
+  //     port: config.get('port'),
+  //     ignore: 'assets',
+  //   });
+  // },
+  // async screenshot(options) {
+  //   await screenshot.run(options);
+  // },
 };
