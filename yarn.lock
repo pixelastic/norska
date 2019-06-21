@@ -1802,9 +1802,9 @@ abbrev@1:
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
 aberlaas@~0.0.0:
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.0.38.tgz#23284edf729b4c3e9471e9154ae14df6028d8ba1"
-  integrity sha512-PpmORUNoBI0s/qwFuJpXCmNpqCyPDSXOhS5FmFpLLAnZR4YNfCnhvc39YZfzvltgskda0s5Bf7R7zJKorwKa2A==
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.0.39.tgz#de9445c0c9ae15221769ba36618fcab5c2cb66dc"
+  integrity sha512-sDxzY+a9L5WYIHKRu3FfmGPj1/+gJn2wzyKzZHf6uSH3MQKJmGtVqIhrNW9fHiKBYweIbAS3ukN5JbvMAcLWgg==
   dependencies:
     "@babel/cli" "~7.4.0"
     "@babel/core" "~7.4.0"

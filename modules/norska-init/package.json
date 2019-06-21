@@ -8,7 +8,8 @@
   "main": "./build/index.js",
   "dependencies": {
     "norska-config": "0.0.4",
-    "firost": "~0.1.0"
+    "firost": "~0.1.0",
+    "golgoth": "~0.1.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",
