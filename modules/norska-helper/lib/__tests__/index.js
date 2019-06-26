@@ -1,5 +1,7 @@
 import module from '../index';
 import { chalk } from 'golgoth';
+import config from 'norska-config';
+import firost from 'firost';
 
 describe('norska-helper', () => {
   describe('consoleWarn', () => {
@@ -36,6 +38,41 @@ describe('norska-helper', () => {
       module.consoleError('foo');
 
       expect(console.info).toHaveBeenCalledWith('red ✘', 'foo');
+    });
+  });
+  describe('siteData', () => {
+    beforeEach(() => {
+      module.__siteData = {};
+      jest.spyOn(config, 'from').mockReturnValue('./fixtures/src');
+    });
+    it('returns the content of _data.json in source', async () => {
+      const actual = await module.siteData();
+
+      expect(actual).toHaveProperty('foo', 'bar');
+    });
+    it('emits a warning if the file is not found', async () => {
+      jest.spyOn(module, 'consoleWarn').mockReturnValue();
+      jest.spyOn(config, 'fromPath').mockReturnValue('/nope');
+      const actual = await module.siteData();
+
+      expect(module.consoleWarn).toHaveBeenCalled();
+      expect(actual).toEqual({});
+    });
+    it('reads from cache by default', async () => {
+      jest.spyOn(firost, 'readJson');
+
+      await module.siteData();
+      await module.siteData();
+
+      expect(firost.readJson).toHaveBeenCalledTimes(1);
+    });
+    it('force a re-read if cache: false is passed', async () => {
+      jest.spyOn(firost, 'readJson');
+
+      await module.siteData();
+      await module.siteData({ cache: false });
+
+      expect(firost.readJson).toHaveBeenCalledTimes(2);
     });
   });
 });

@@ -6,6 +6,10 @@ import firost from 'firost';
 
 export default {
   /**
+   * Cache of the site data, read from ./src/_data.json
+   **/
+  __siteData: {},
+  /**
    * Write a warning log message
    * @param {string} text Text to display
    **/
@@ -54,21 +58,37 @@ export default {
     newError.message = errorMessage;
     return newError;
   },
+  /**
+   * Read the _data.json file in ./src and returns its content
+   * @param {object} userOptions Option object. Allowed keys are:
+   * - cache {boolean} default to true. If set to false, will force re-reading
+   *   the file
+   * @returns {object} The _data.json config object
+   **/
+  async siteData(userOptions = {}) {
+    const options = {
+      cache: true,
+      ...userOptions,
+    };
 
-  // Return the site global data
-  async siteData() {
-    const from = config.get('from');
-    const configFile = path.join(from, '_data.json');
+    // Return the cache value if we already read it
+    if (options.cache && !_.isEmpty(this.__siteData)) {
+      return this.__siteData;
+    }
 
     // Check that the file actually exists
-    const configFileExists = await firost.exists(configFile);
-    if (!configFileExists) {
-      console.info(chalk.yellow(`⚠ Cannot find config file in ${configFile}`));
+    const filepath = config.fromPath('_data.json');
+    if (!(await firost.exists(filepath))) {
+      this.consoleWarn(`Cannot find config file ${filepath}`);
       return {};
     }
 
-    return await firost.readJson(configFile);
+    // Read and record data to cache
+    const data = await firost.readJson(filepath);
+    this.__siteData = data;
+    return data;
   },
+
   // Write a file to disk
   async writeFile(what, where, timer) {
     await firost.write(what, where);

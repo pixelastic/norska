@@ -190,11 +190,17 @@ describe('norska-config', () => {
     });
   });
   describe('from', () => {
-    it('should return the current from key', () => {
+    it('should return the current from key as an absolute path', () => {
       module.__config = { from: 'foo' };
       const actual = module.from();
 
-      expect(actual).toEqual('foo');
+      expect(actual).toEqual(path.resolve('foo'));
+    });
+    it('should return the from key as an absolute path if already an absolute path', () => {
+      module.__config = { from: '/foo' };
+      const actual = module.from();
+
+      expect(actual).toEqual('/foo');
     });
   });
   describe('fromPath', () => {
@@ -213,11 +219,17 @@ describe('norska-config', () => {
     });
   });
   describe('to', () => {
-    it('should return the current to key', () => {
+    it('should return the current to key as an absolute path', () => {
       module.__config = { to: 'foo' };
       const actual = module.to();
 
-      expect(actual).toEqual('foo');
+      expect(actual).toEqual(path.resolve('foo'));
+    });
+    it('should return the from key as an absolute path if already an absolute path', () => {
+      module.__config = { to: '/foo' };
+      const actual = module.to();
+
+      expect(actual).toEqual('/foo');
     });
   });
   describe('toPath', () => {

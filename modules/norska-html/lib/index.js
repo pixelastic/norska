@@ -1,83 +1,94 @@
-import helper from 'norska-helper';
 import config from 'norska-config';
+import helper from 'norska-helper';
 import path from 'path';
-import { _, pMap, firost } from 'golgoth';
+import { _ } from 'golgoth';
+import firost from 'firost';
 import pug from 'pug';
 
 export default {
   /**
-   * Returns a glob to match all pug files to convert, excluding layouts, mixins
-   * and other meta pug files
-   * @returns {Array} Array of glob patterns
+   * Returns the list of pug files to be processed by the plugin
+   * @returns {Array} List of absolute path to pug files to process
    **/
-  topLevelPugFilesGlob() {
-    const from = config.from();
-    return [`${from}/**/*.pug`, `!${from}/_*/**/*.pug`];
+  async pugFiles() {
+    const source = config.from();
+    const pattern = [`${source}/**/*.pug`, `!${source}/_*`];
+    return await firost.glob(pattern);
   },
   /**
-   * Returns an object containing various path information about the output HTML
-   * file. These info can then be used in all manner of absolute and relative
-   * filepaths in the resulting HTML.
-   * @param {string} destination Filepath of the resulting HTML
-   * @returns {object} Object containing various paths
+   * Returns an object containing path information about the specified file.
+   * Those path will be injected in the data passed to the render to be used in
+   * pug directly.
+   * @param {string} filepath Path to the destination created
+   * @returns {object} Object containing path information, with the following
+   * keys:
+   * - basename: The filename (like index.html)
+   * - dirname: The relative path from the root to the directory (like
+   *   blog/2019)
+   * - toRoot: The relative prefix from the file, to the root (like: ../..)
    **/
-  getPaths(destination) {
-    const to = config.to();
-    const basename = path.basename(destination, '.html');
-    let dirname = path.dirname(_.replace(destination, `${to}/`, ''));
-    if (dirname === '.') {
-      dirname = '';
-    }
-    const toRoot = path.relative(path.dirname(destination), to) || '.';
-
+  getPaths(filepath) {
+    const basename = path.basename(filepath);
+    const absoluteDirname = path.dirname(filepath);
+    const absoluteDestination = config.to();
+    const dirname = _.chain(absoluteDirname)
+      .replace(new RegExp(`^${absoluteDestination}`), '')
+      .trim('/')
+      .value();
+    const toRoot = path.relative(absoluteDirname, absoluteDestination) || '.';
     return {
-      toRoot,
-      dirname,
       basename,
+      dirname,
+      toRoot,
     };
   },
-  // Compile a pug file to an html one
-  async compile(filepath) {
-    const timer = helper.timer();
-    const from = config.from();
-    const to = config.to();
-    const basename = _.replace(path.relative(from, filepath), '.pug', '.html');
-    const destination = path.join(to, basename);
+  async compile(relativeSource) {
+    // Make path relative to source and destination
+    const source = config.fromPath(relativeSource);
+    const destination = _.replace(
+      config.toPath(relativeSource),
+      /.pug$/,
+      '.html'
+    );
 
-    const rawContent = await firost.read(filepath);
-    const pugCompile = pug.compile(rawContent, {
-      filename: filepath,
+    // TODO: Need to contain paths
+
+    const compiler = pug.compileFile(source, {
+      filename: source,
+      basedir: config.from(),
     });
+    const data = await helper.siteData();
 
-    // Gathering data to pass to compilation
-    const siteData = await helper.siteData();
-    siteData.path = this.getPaths(destination);
-
-    // Compile layout
-    const htmlContent = pugCompile(siteData);
-
-    // Save to disk
-    await helper.writeFile(htmlContent, destination, timer);
+    const result = compiler(data);
+    await firost.write(result, destination);
   },
 
+  // // Compile a pug file to an html one
+  // async compile(filepath) {
+  //   const timer = helper.timer();
+  //   siteData.path = this.getPaths(destination);
+
+  //   await helper.writeFile(htmlContent, destination, timer);
+  // },
+
   async run() {
-    const pugFiles = await firost.glob(this.topLevelPugFilesGlob());
+    const pugFiles = await this.pugFiles();
     await pMap(pugFiles, async filepath => {
       await this.compile(filepath);
     });
   },
 
-  // Listen to changes in pug and update
-  watch() {
-    const from = config.from();
-    console.info(this.topLevelPugFilesGlob());
-    firost.watch(this.topLevelPugFilesGlob(), filepath => {
-      console.info(filepath);
-      this.compile(filepath);
-    });
-    // Rebuild everything when a layout, include or data changes
-    firost.watch([`${from}/_*/**/*.pug`, `${from}/_data.json`], () => {
-      this.run();
-    });
-  },
+  // // Listen to changes in pug and update
+  // watch() {
+  //   const from = config.from();
+  //   console.info(this.topLevelPugFilesGlob());
+  //   firost.watch(this.topLevelPugFilesGlob(), filepath => {
+  //     console.info(filepath);
+  //     this.compile(filepath);
+  //   });
+  //   // Rebuild everything when a layout, include or data changes
+  //   firost.watch([`${from}/_*/**/*.pug`, `${from}/_data.json`], () => {
+  //     this.run();
+  //   });
+  // },
 };

@@ -23,7 +23,7 @@ export default {
    * @returns {string} Path to the source directory
    **/
   from() {
-    return this.get('from');
+    return path.resolve(this.get('from'));
   },
   /**
    * Return an absolute path to a file in the source directory
@@ -38,7 +38,7 @@ export default {
    * @returns {string} Path to the destination directory
    **/
   to() {
-    return this.get('to');
+    return path.resolve(this.get('to'));
   },
   /**
    * Return an absolute path to a file in the destination directory
