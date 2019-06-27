@@ -80,7 +80,9 @@ export default {
     await firost.write(result, absoluteDestination);
     return true;
   },
-
+  /**
+   * Compile all source files to html
+   **/
   async run() {
     const pugFiles = await this.pugFiles();
     await pMap(pugFiles, async filepath => {
