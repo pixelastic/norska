@@ -21,3 +21,23 @@ exports[`norska-html compile should compile ./subdir/foo.pug 1`] = `"<p>Subdir F
 exports[`norska-html compile should compile ./with-data.pug 1`] = `"<p>bar</p>"`;
 
 exports[`norska-html compile should compile foo.pug 1`] = `"<p>Foo</p>"`;
+
+exports[`norska-html run simple files foo.html 1`] = `"<p>Foo</p>"`;
+
+exports[`norska-html run simple files subdir/deep/foo.html 1`] = `"<p>Subdir Deep Foo</p>"`;
+
+exports[`norska-html run simple files subdir/foo.html 1`] = `"<p>Subdir Foo</p>"`;
+
+exports[`norska-html run with layout subdir/with-layout-absolute.html 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html run with layout subdir/with-layout-relative.html 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html run with layout with-layout-absolute.html 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html run with layout with-layout-relative.html 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html run with paths subdir/deep/with-paths.html 1`] = `"<p>with-paths.html</p><p>subdir/deep</p><p>../..</p>"`;
+
+exports[`norska-html run with paths subdir/with-paths.html 1`] = `"<p>with-paths.html</p><p>subdir</p><p>..</p>"`;
+
+exports[`norska-html run with paths with-paths.html 1`] = `"<p>with-paths.html</p><p></p><p>.</p>"`;

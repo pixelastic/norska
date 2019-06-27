@@ -1,5 +1,6 @@
 import module from '../index';
 import config from 'norska-config';
+import helper from 'norska-helper';
 import firost from 'firost';
 
 describe('norska-html', () => {
@@ -28,15 +29,24 @@ describe('norska-html', () => {
     it('should not find layout pug file', async () => {
       const actual = await module.pugFiles();
 
-      expect(actual).toContain(config.fromPath('_layouts/default.pug'));
+      expect(actual).not.toContain(config.fromPath('_layouts/default.pug'));
     });
     it('should not find include pug file', async () => {
       const actual = await module.pugFiles();
 
-      expect(actual).toContain(config.fromPath('_includes/mixins.pug'));
+      expect(actual).not.toContain(config.fromPath('_includes/mixins.pug'));
     });
   });
   describe('compile', () => {
+    it('should fail if file is not in the source folder', async () => {
+      jest.spyOn(helper, 'consoleWarn').mockReturnValue();
+      const input = '/nope/foo.pug';
+
+      const actual = await module.compile(input);
+
+      expect(actual).toEqual(false);
+      expect(helper.consoleWarn).toHaveBeenCalled();
+    });
     it('should compile foo.pug', async () => {
       const input = 'foo.pug';
       const output = 'foo.html';
@@ -196,15 +206,92 @@ describe('norska-html', () => {
   });
   describe('run', () => {
     beforeAll(async () => {
-      // await config.init({
-      //   from: './fixtures/src',
-      //   to: './tmp/norska-html',
-      // });
-      // await firost.emptyDir('./tmp/norska-html');
-      // await module.run();
+      await config.init({
+        from: './fixtures/src',
+        to: './tmp/norska-html',
+      });
+      await firost.emptyDir('./tmp/norska-html');
+      await module.run();
     });
-    it('test ok', async () => {
-      expect(true).toEqual(true);
+    describe('excluded files', () => {
+      it('_includes/mixins.html should not exist', async () => {
+        const input = '_includes/mixins.html';
+        const actual = await firost.exist(config.toPath(input));
+
+        expect(actual).toEqual(false);
+      });
+      it('_layouts/default.html should not exist', async () => {
+        const input = '_layouts/default.html';
+        const actual = await firost.exist(config.toPath(input));
+
+        expect(actual).toEqual(false);
+      });
+    });
+    describe('simple files', () => {
+      it('foo.html', async () => {
+        const input = 'foo.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('subdir/foo.html', async () => {
+        const input = 'subdir/foo.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('subdir/deep/foo.html', async () => {
+        const input = 'subdir/deep/foo.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+    });
+    describe('with paths', () => {
+      it('with-paths.html', async () => {
+        const input = 'with-paths.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('subdir/with-paths.html', async () => {
+        const input = 'subdir/with-paths.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('subdir/deep/with-paths.html', async () => {
+        const input = 'subdir/deep/with-paths.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+    });
+    describe('with layout', () => {
+      it('with-layout-absolute.html', async () => {
+        const input = 'with-layout-absolute.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('subdir/with-layout-absolute.html', async () => {
+        const input = 'subdir/with-layout-absolute.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('with-layout-relative.html', async () => {
+        const input = 'with-layout-relative.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('subdir/with-layout-relative.html', async () => {
+        const input = 'subdir/with-layout-relative.html';
+        const actual = await firost.read(config.toPath(input));
+
+        expect(actual).toMatchSnapshot();
+      });
     });
   });
 });

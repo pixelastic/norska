@@ -12,7 +12,7 @@ export default {
    **/
   async pugFiles() {
     const source = config.from();
-    const pattern = [`${source}/**/*.pug`, `!${source}/_*`];
+    const pattern = [`${source}/**/*.pug`, `!${source}/_*/**/*.pug`];
     return await firost.glob(pattern);
   },
   /**
@@ -31,6 +31,7 @@ export default {
     const basename = path.basename(filepath);
     const absoluteDirname = path.dirname(filepath);
     const absoluteDestination = config.to();
+
     const dirname = _.chain(absoluteDirname)
       .replace(new RegExp(`^${absoluteDestination}`), '')
       .trim('/')
@@ -44,31 +45,40 @@ export default {
   },
   /**
    * Compile a file from source into destination
-   * @param {string} relativeSource Path to the file, relative to the source
-   * directory
+   * @param {string} inputFile Absolute path to the source file. It is expected to
+   * be in the config.from() folder
+   * @returns {boolean} True on success, false otherwise
    **/
-  async compile(relativeSource) {
-    // Make path relative to source and destination
-    const source = config.fromPath(relativeSource);
-    const destination = _.replace(
-      config.toPath(relativeSource),
-      /.pug$/,
-      '.html'
-    );
+  async compile(inputFile) {
+    const sourceFolder = config.from();
+    const absoluteSource = config.fromPath(inputFile);
+    const relativeSource = path.relative(sourceFolder, absoluteSource);
 
-    const compiler = pug.compileFile(source, {
-      filename: source,
+    // We only compile files that are in the source directory
+    if (!_.startsWith(absoluteSource, sourceFolder)) {
+      helper.consoleWarn(
+        `${absoluteSource} compilation aborted. It is not in the source directory.`
+      );
+      return false;
+    }
+
+    const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
+    const absoluteDestination = config.toPath(relativeDestination);
+
+    const compiler = pug.compileFile(absoluteSource, {
+      filename: absoluteSource,
       basedir: config.from(),
     });
     const globalSiteData = await helper.siteData();
-    const localPathData = this.getPaths(destination);
+    const localPathData = this.getPaths(absoluteDestination);
     const data = {
       ...globalSiteData,
       paths: localPathData,
     };
 
     const result = compiler(data);
-    await firost.write(result, destination);
+    await firost.write(result, absoluteDestination);
+    return true;
   },
 
   async run() {
