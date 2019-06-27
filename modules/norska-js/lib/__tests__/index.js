@@ -115,7 +115,7 @@ describe('norska-js', () => {
   });
   describe('run', () => {
     describe('no errors', () => {
-      beforeAll(async () => {
+      beforeAll(async done => {
         // Note: We need to manually restore all mocks here because they are
         // only automatically restored when a test starts. And as we're in
         // a beforeAll they are not yet restored.
@@ -128,6 +128,7 @@ describe('norska-js', () => {
         });
         await firost.emptyDir(config.to());
         await module.run();
+        done();
       });
       it('should compile script.js in destination', async () => {
         const actual = await firost.isFile(config.toPath('script.js'));
