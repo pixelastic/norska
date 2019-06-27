@@ -128,7 +128,7 @@ describe('norska-js', () => {
         });
         await firost.emptyDir(config.to());
         await module.run();
-      }, 10000);
+      });
       it('should compile script.js in destination', async () => {
         const actual = await firost.isFile(config.toPath('script.js'));
 
@@ -159,6 +159,9 @@ describe('norska-js', () => {
         it('should stop and display an error', async () => {
           jest.spyOn(helper, 'exit').mockReturnValue();
           jest.spyOn(helper, 'consoleError').mockReturnValue();
+          jest.spyOn(module, 'runCompiler').mockImplementation(async () => {
+            throw helper.error('errorCode', 'errorMessage');
+          });
 
           await config.init({
             from: './fixtures/src',
@@ -172,11 +175,9 @@ describe('norska-js', () => {
 
           expect(helper.exit).toHaveBeenCalledWith(1);
           expect(helper.consoleError).toHaveBeenCalledWith(
-            '[norska-js]: ERROR_WEBPACK_COMPILATION_FAILED'
+            '[norska-js]: errorCode'
           );
-          expect(helper.consoleError).toHaveBeenCalledWith(
-            expect.stringMatching(/Module build failed/)
-          );
+          expect(helper.consoleError).toHaveBeenCalledWith('errorMessage');
         });
       });
     });
