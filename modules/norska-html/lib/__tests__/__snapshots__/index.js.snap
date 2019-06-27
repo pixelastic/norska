@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`norska-html compile layouts absolute in root 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html compile layouts absolute in subdir 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html compile layouts relative in root 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html compile layouts relative in subdir 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
+
+exports[`norska-html compile paths should have paths for ./subdir/deep/with-paths.pug 1`] = `"<p>with-paths.html</p><p>subdir/deep</p><p>../..</p>"`;
+
+exports[`norska-html compile paths should have paths for ./subdir/with-paths.pug 1`] = `"<p>with-paths.html</p><p>subdir</p><p>..</p>"`;
+
+exports[`norska-html compile paths should have paths for ./with-paths.pug 1`] = `"<p>with-paths.html</p><p></p><p>.</p>"`;
+
+exports[`norska-html compile should compile ./subdir/deep/foo.pug 1`] = `"<p>Subdir Deep Foo</p>"`;
+
+exports[`norska-html compile should compile ./subdir/foo.pug 1`] = `"<p>Subdir Foo</p>"`;
+
+exports[`norska-html compile should compile ./with-data.pug 1`] = `"<p>bar</p>"`;
+
+exports[`norska-html compile should compile foo.pug 1`] = `"<p>Foo</p>"`;

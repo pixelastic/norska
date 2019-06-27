@@ -4,9 +4,8 @@ import firost from 'firost';
 
 describe('norska-html', () => {
   beforeEach(async () => {
-    jest.spyOn(config, 'rootDir').mockReturnValue('./fixtures');
     await config.init({
-      from: 'src',
+      from: './fixtures/src',
       to: './tmp/norska-html',
     });
   });
@@ -39,77 +38,106 @@ describe('norska-html', () => {
   });
   describe('compile', () => {
     it('should compile foo.pug', async () => {
-      await module.compile('foo.pug');
+      const input = 'foo.pug';
+      const output = 'foo.html';
 
-      const actual = await firost.read(config.toPath('foo.html'));
+      await module.compile(input);
+      const actual = await firost.read(config.toPath(output));
 
-      expect(actual).toEqual('<p>Foo</p>');
+      expect(actual).toMatchSnapshot();
     });
     it('should compile ./subdir/foo.pug', async () => {
-      await module.compile('subdir/foo.pug');
+      const input = 'subdir/foo.pug';
+      const output = 'subdir/foo.html';
 
-      const actual = await firost.read(config.toPath('subdir/foo.html'));
+      await module.compile(input);
+      const actual = await firost.read(config.toPath(output));
 
-      expect(actual).toEqual('<p>Subdir Foo</p>');
+      expect(actual).toMatchSnapshot();
     });
     it('should compile ./subdir/deep/foo.pug', async () => {
-      await module.compile('subdir/deep/foo.pug');
+      const input = 'subdir/deep/foo.pug';
+      const output = 'subdir/deep/foo.html';
 
-      const actual = await firost.read(config.toPath('subdir/deep/foo.html'));
+      await module.compile(input);
+      const actual = await firost.read(config.toPath(output));
 
-      expect(actual).toEqual('<p>Subdir Deep Foo</p>');
+      expect(actual).toMatchSnapshot();
     });
     it('should compile ./with-data.pug', async () => {
-      await module.compile('with-data.pug');
+      const input = 'with-data.pug';
+      const output = 'with-data.html';
 
-      const actual = await firost.read(config.toPath('with-data.html'));
+      await module.compile(input);
+      const actual = await firost.read(config.toPath(output));
 
-      expect(actual).toEqual('<p>bar</p>');
+      expect(actual).toMatchSnapshot();
     });
     describe('layouts', () => {
       it('absolute in root', async () => {
-        await module.compile('with-layout-absolute.pug');
+        const input = 'with-layout-absolute.pug';
+        const output = 'with-layout-absolute.html';
 
-        const actual = await firost.read(
-          config.toPath('with-layout-absolute.html')
-        );
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
 
-        expect(actual).toEqual(
-          '<html><head><title>Title</title></head><body><p>In a layout</p></body></html>'
-        );
+        expect(actual).toMatchSnapshot();
       });
       it('relative in root', async () => {
-        await module.compile('with-layout-relative.pug');
+        const input = 'with-layout-relative.pug';
+        const output = 'with-layout-relative.html';
 
-        const actual = await firost.read(
-          config.toPath('with-layout-relative.html')
-        );
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
 
-        expect(actual).toEqual(
-          '<html><head><title>Title</title></head><body><p>In a layout</p></body></html>'
-        );
+        expect(actual).toMatchSnapshot();
       });
       it('absolute in subdir', async () => {
-        await module.compile('./subdir/with-layout-absolute.pug');
+        const input = 'subdir/with-layout-absolute.pug';
+        const output = 'subdir/with-layout-absolute.html';
 
-        const actual = await firost.read(
-          config.toPath('./subdir/with-layout-absolute.html')
-        );
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
 
-        expect(actual).toEqual(
-          '<html><head><title>Title</title></head><body><p>In a layout</p></body></html>'
-        );
+        expect(actual).toMatchSnapshot();
       });
       it('relative in subdir', async () => {
-        await module.compile('./subdir/with-layout-relative.pug');
+        const input = 'subdir/with-layout-relative.pug';
+        const output = 'subdir/with-layout-relative.html';
 
-        const actual = await firost.read(
-          config.toPath('./subdir/with-layout-relative.html')
-        );
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
 
-        expect(actual).toEqual(
-          '<html><head><title>Title</title></head><body><p>In a layout</p></body></html>'
-        );
+        expect(actual).toMatchSnapshot();
+      });
+    });
+    describe('paths', () => {
+      it('should have paths for ./with-paths.pug', async () => {
+        const input = 'with-paths.pug';
+        const output = 'with-paths.html';
+
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('should have paths for ./subdir/with-paths.pug', async () => {
+        const input = 'subdir/with-paths.pug';
+        const output = 'subdir/with-paths.html';
+
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
+
+        expect(actual).toMatchSnapshot();
+      });
+      it('should have paths for ./subdir/deep/with-paths.pug', async () => {
+        const input = 'subdir/deep/with-paths.pug';
+        const output = 'subdir/deep/with-paths.html';
+
+        await module.compile(input);
+        const actual = await firost.read(config.toPath(output));
+
+        expect(actual).toMatchSnapshot();
       });
     });
   });
@@ -164,6 +192,19 @@ describe('norska-html', () => {
 
         expect(actual).toHaveProperty('toRoot', '../..');
       });
+    });
+  });
+  describe('run', () => {
+    beforeAll(async () => {
+      // await config.init({
+      //   from: './fixtures/src',
+      //   to: './tmp/norska-html',
+      // });
+      // await firost.emptyDir('./tmp/norska-html');
+      // await module.run();
+    });
+    it('test ok', async () => {
+      expect(true).toEqual(true);
     });
   });
 });

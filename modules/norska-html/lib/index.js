@@ -1,7 +1,7 @@
 import config from 'norska-config';
 import helper from 'norska-helper';
 import path from 'path';
-import { _ } from 'golgoth';
+import { _, pMap } from 'golgoth';
 import firost from 'firost';
 import pug from 'pug';
 
@@ -42,6 +42,11 @@ export default {
       toRoot,
     };
   },
+  /**
+   * Compile a file from source into destination
+   * @param {string} relativeSource Path to the file, relative to the source
+   * directory
+   **/
   async compile(relativeSource) {
     // Make path relative to source and destination
     const source = config.fromPath(relativeSource);
@@ -51,25 +56,20 @@ export default {
       '.html'
     );
 
-    // TODO: Need to contain paths
-
     const compiler = pug.compileFile(source, {
       filename: source,
       basedir: config.from(),
     });
-    const data = await helper.siteData();
+    const globalSiteData = await helper.siteData();
+    const localPathData = this.getPaths(destination);
+    const data = {
+      ...globalSiteData,
+      paths: localPathData,
+    };
 
     const result = compiler(data);
     await firost.write(result, destination);
   },
-
-  // // Compile a pug file to an html one
-  // async compile(filepath) {
-  //   const timer = helper.timer();
-  //   siteData.path = this.getPaths(destination);
-
-  //   await helper.writeFile(htmlContent, destination, timer);
-  // },
 
   async run() {
     const pugFiles = await this.pugFiles();
