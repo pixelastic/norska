@@ -11,7 +11,13 @@ exports[`norska-css run in development should compile the input file 1`] = `
   }
 /* This class is not available in the html, so should be removed in the
  * production build */
-.not-present { color: red; }"
+.not-present { color: red; }
+/* Those dynamic classes should always be kept, even if not in the html, in
+ * production */
+.ais-foo { color: red; }
+.ais-foo strong { color: blue; }
+.js-bar { color: red; }
+.js-bar string { color: blue; }"
 `;
 
-exports[`norska-css run in production should compile the input file 1`] = `".context{background:#00f}.context b{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}"`;
+exports[`norska-css run in production should compile the input file 1`] = `".context{background:#00f}.context b{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.ais-foo{color:red}.ais-foo strong{color:#00f}.js-bar{color:red}.js-bar string{color:#00f}"`;

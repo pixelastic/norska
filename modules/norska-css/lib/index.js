@@ -24,17 +24,6 @@ export default {
   //     tailwind(tailwindConfigFile),
   //   ];
 
-  //   plugins.push(
-  //     postcssPurge({
-  //       content: [`${config.to()}/**/*.html`],
-  //       whitelistPatterns: [/^ais-/, /^js-/],
-  //       whitelistPatternsChildren: [/^ais-/, /^js-/],
-  //     })
-  //   );
-
-
-  //   plugins.push(postcssClean(cleanCssOptions));
-
   //   return plugins;
   // },
 
@@ -127,6 +116,7 @@ export default {
   // },
   /**
    * Wrapper around the postcss method, to make it easier to mock in tests
+   * @param {Array} plugins Array of plugins to load
    * @returns {object} A postcss instance
    **/
   __postcss(plugins) {
@@ -177,8 +167,11 @@ export default {
    * @returns {object} A postcss-clean plugin instance
    **/
   __pluginPurge() {
+    const dynamicClassesPatterns = [/^ais-/, /^js-/];
     const options = {
       content: [`${config.to()}/**/*.html`],
+      whitelistPatterns: dynamicClassesPatterns,
+      whitelistPatternsChildren: dynamicClassesPatterns,
     };
     return postcssPurge(options);
   },

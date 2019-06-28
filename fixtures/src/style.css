@@ -14,6 +14,13 @@
  * production build */
 .not-present { color: red; }
 
+/* Those dynamic classes should always be kept, even if not in the html, in
+ * production */
+.ais-foo { color: red; }
+.ais-foo strong { color: blue; }
+.js-bar { color: red; }
+.js-bar string { color: blue; }
+
 
 
 
