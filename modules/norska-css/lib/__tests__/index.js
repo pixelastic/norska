@@ -14,33 +14,31 @@ describe('norska-css', () => {
     beforeEach(() => {
       jest.spyOn(module, '__pluginImport').mockReturnValue('pluginImport');
       jest.spyOn(module, '__pluginNested').mockReturnValue('pluginNested');
+      jest.spyOn(module, '__pluginPurge').mockReturnValue('pluginPurge');
+      jest.spyOn(module, '__pluginClean').mockReturnValue('pluginClean');
+      jest
+        .spyOn(module, '__pluginAutoprefixer')
+        .mockReturnValue('pluginAutoprefixer');
     });
     it('should contain 2 plugins', () => {
       const actual = module.getPlugins();
 
-      expect(actual).toHaveLength(2);
-    });
-    it('should contain the import plugin', () => {
-      const actual = module.getPlugins();
-
-      expect(actual).toContain('pluginImport');
-    });
-    it('should contain the nested plugin', () => {
-      const actual = module.getPlugins();
-
-      expect(actual).toContain('pluginNested');
+      expect(actual).toEqual(['pluginImport', 'pluginNested']);
     });
     describe('in production', () => {
       beforeEach(() => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-        jest
-          .spyOn(module, '__pluginAutoprefixer')
-          .mockReturnValue('pluginAutoprefixer');
       });
-      it('should contain the autoprefixer plugin', () => {
+      it('should contain 5 plugins', () => {
         const actual = module.getPlugins();
 
-        expect(actual).toContain('pluginAutoprefixer');
+        expect(actual).toEqual([
+          'pluginImport',
+          'pluginNested',
+          'pluginPurge',
+          'pluginAutoprefixer',
+          'pluginClean',
+        ]);
       });
     });
   });
@@ -155,6 +153,10 @@ describe('norska-css', () => {
           css: module.defaultConfig(),
         });
         await firost.emptyDir('./tmp/norska-css');
+        await firost.write(
+          '<p class="context"><b>foo</b></p>',
+          config.toPath('index.html')
+        );
         await module.run();
 
         const actual = await firost.read(config.toPath('style.css'));

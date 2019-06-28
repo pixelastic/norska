@@ -7,8 +7,8 @@ import postcss from 'postcss';
 import postcssAutoprefixer from 'autoprefixer';
 import postcssImport from 'postcss-import';
 import postcssNested from 'postcss-nested';
-// import postcssClean from 'postcss-clean';
-// import postcssPurge from '@fullhuman/postcss-purgecss';
+import postcssClean from 'postcss-clean';
+import postcssPurge from '@fullhuman/postcss-purgecss';
 // import tailwind from 'tailwindcss';
 
 export default {
@@ -21,15 +21,8 @@ export default {
   // postcssPlugins() {
   //   const tailwindConfigFile = config.get('css.tailwind.configPath');
   //   const plugins = [
-  //     postcssImport(),
   //     tailwind(tailwindConfigFile),
-  //     postcssNested,
   //   ];
-
-  //   // Add more plugins when building
-  //   if (!this.isProduction()) {
-  //     return plugins;
-  //   }
 
   //   plugins.push(
   //     postcssPurge({
@@ -39,15 +32,6 @@ export default {
   //     })
   //   );
 
-  //   plugins.push(autoprefixer);
-
-  //   const cleanCssOptions = {
-  //     level: {
-  //       1: {
-  //         specialComments: false,
-  //       },
-  //     },
-  //   };
 
   //   plugins.push(postcssClean(cleanCssOptions));
 
@@ -75,7 +59,11 @@ export default {
       return basePlugins;
     }
 
-    const productionPlugins = [this.__pluginAutoprefixer()];
+    const productionPlugins = [
+      this.__pluginPurge(),
+      this.__pluginAutoprefixer(),
+      this.__pluginClean(),
+    ];
 
     return _.concat(basePlugins, productionPlugins);
   },
@@ -167,5 +155,31 @@ export default {
    **/
   __pluginAutoprefixer() {
     return postcssAutoprefixer;
+  },
+  /**
+   * Wrapper around the postcss clean plugin, to make it easier to mock in
+   * tests
+   * @returns {object} A postcss-clean plugin instance
+   **/
+  __pluginClean() {
+    const options = {
+      level: {
+        1: {
+          specialComments: false,
+        },
+      },
+    };
+    return postcssClean(options);
+  },
+  /**
+   * Wrapper around the postcss purge plugin, to make it easier to mock in
+   * tests
+   * @returns {object} A postcss-clean plugin instance
+   **/
+  __pluginPurge() {
+    const options = {
+      content: [`${config.to()}/**/*.html`],
+    };
+    return postcssPurge(options);
   },
 };
