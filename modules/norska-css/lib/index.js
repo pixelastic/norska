@@ -1,110 +1,171 @@
 import path from 'path';
-import { pMap, firost } from 'golgoth';
-import helper from 'norska-helper';
 import config from 'norska-config';
-import autoprefixer from 'autoprefixer';
-import postcssClean from 'postcss-clean';
+import firost from 'firost';
+import { _ } from 'golgoth';
+import helper from 'norska-helper';
+import postcss from 'postcss';
+import postcssAutoprefixer from 'autoprefixer';
 import postcssImport from 'postcss-import';
 import postcssNested from 'postcss-nested';
-import postcssPurge from '@fullhuman/postcss-purgecss';
-import postcss from 'postcss';
-import tailwind from 'tailwindcss';
+// import postcssClean from 'postcss-clean';
+// import postcssPurge from '@fullhuman/postcss-purgecss';
+// import tailwind from 'tailwindcss';
 
 export default {
-  postcssPlugins() {
-    const tailwindConfigFile = config.get('css.tailwind.configPath');
-    const plugins = [
-      postcssImport(),
-      tailwind(tailwindConfigFile),
-      postcssNested,
-    ];
-
-    // Add more plugins when building
-    if (!this.isProduction()) {
-      return plugins;
-    }
-
-    plugins.push(
-      postcssPurge({
-        content: [`${config.to()}/**/*.html`],
-        whitelistPatterns: [/^ais-/, /^js-/],
-        whitelistPatternsChildren: [/^ais-/, /^js-/],
-      })
-    );
-
-    plugins.push(autoprefixer);
-
-    const cleanCssOptions = {
-      level: {
-        1: {
-          specialComments: false,
-        },
-      },
-    };
-
-    plugins.push(postcssClean(cleanCssOptions));
-
-    return plugins;
-  },
-
-  // Are we building (as opposed to local serve)
-  isProduction() {
-    return process.env.NODE_ENV === 'production';
-  },
-
-  // Custom config added to the main config.css key
   defaultConfig() {
     return {
-      tailwind: {
-        configPath: path.resolve(__dirname, '../build/tailwind.config.js'),
-        // This method can be overwritten by the user to modify the config with
-        // its own keys before being loaded
-        configHook(tailwindConfig) {
-          return tailwindConfig;
-        },
-      },
+      input: 'style.css',
     };
+  },
+
+  // postcssPlugins() {
+  //   const tailwindConfigFile = config.get('css.tailwind.configPath');
+  //   const plugins = [
+  //     postcssImport(),
+  //     tailwind(tailwindConfigFile),
+  //     postcssNested,
+  //   ];
+
+  //   // Add more plugins when building
+  //   if (!this.isProduction()) {
+  //     return plugins;
+  //   }
+
+  //   plugins.push(
+  //     postcssPurge({
+  //       content: [`${config.to()}/**/*.html`],
+  //       whitelistPatterns: [/^ais-/, /^js-/],
+  //       whitelistPatternsChildren: [/^ais-/, /^js-/],
+  //     })
+  //   );
+
+  //   plugins.push(autoprefixer);
+
+  //   const cleanCssOptions = {
+  //     level: {
+  //       1: {
+  //         specialComments: false,
+  //       },
+  //     },
+  //   };
+
+  //   plugins.push(postcssClean(cleanCssOptions));
+
+  //   return plugins;
+  // },
+
+  // // Custom config added to the main config.css key
+  // defaultConfig() {
+  //   return {
+  //     tailwind: {
+  //       configPath: path.resolve(__dirname, '../build/tailwind.config.js'),
+  //       // This method can be overwritten by the user to modify the config with
+  //       // its own keys before being loaded
+  //       configHook(tailwindConfig) {
+  //         return tailwindConfig;
+  //       },
+  //     },
+  //   };
+  // },
+  getPlugins() {
+    const basePlugins = [this.__pluginImport(), this.__pluginNested()];
+
+    // That's all the plugins we need in dev
+    if (!helper.isProduction()) {
+      return basePlugins;
+    }
+
+    const productionPlugins = [this.__pluginAutoprefixer()];
+
+    return _.concat(basePlugins, productionPlugins);
+  },
+  getCompiler() {
+    const plugins = this.getPlugins();
+
+    const postcssInstance = this.__postcss(plugins);
+    return _.bind(postcssInstance.process, postcssInstance);
   },
 
   // Compile the css source file to docs
-  async compile(source) {
-    const timer = helper.timer();
-    const rawContent = await firost.read(source);
-    const relativePath = path.relative(config.from(), source);
-    const destination = path.join(config.to(), relativePath);
+  async compile(inputFile) {
+    const sourceFolder = config.from();
+    const absoluteSource = config.fromPath(inputFile);
+    const relativeSource = path.relative(sourceFolder, absoluteSource);
+    const absoluteDestination = config.toPath(relativeSource);
 
-    const plugins = this.postcssPlugins();
-    const result = await postcss(plugins).process(rawContent, {
-      from: source,
-      to: destination,
+    // We only compile files that are in the source directory
+    if (!_.startsWith(absoluteSource, sourceFolder)) {
+      helper.consoleWarn(
+        `${absoluteSource} compilation aborted. It is not in the source directory.`
+      );
+      return false;
+    }
+
+    const rawContent = await firost.read(inputFile);
+    const compiler = this.getCompiler();
+
+    const compilationResult = await compiler(rawContent, {
+      from: absoluteSource,
+      // to: absoluteDestination,
     });
-    await helper.writeFile(result.css, destination, timer);
+    const compiledCss = _.get(compilationResult, 'css');
+
+    await firost.write(compiledCss, absoluteDestination);
+    return true;
   },
 
   // Compile all css files
   async run() {
-    const cssFiles = await firost.glob(`${config.from()}/style.css`);
-
-    await pMap(cssFiles, async filepath => {
-      await this.compile(filepath);
-    });
+    const inputFile = config.fromPath(config.get('css.input'));
+    await this.compile(inputFile);
   },
 
   // Listen to changes in css files and rebuild them
-  watch() {
-    const from = config.from();
-    // Rebuild main file when changed
-    firost.watch(path.join(from, 'style.css'), filepath => {
-      this.compile(filepath);
-    });
-    // Rebuild main file when includes are changed
-    firost.watch(path.join(from, '_styles/*.css'), () => {
-      this.compile('./src/style.css');
-    });
-    // Rebuild all files when main tailwind config is changed
-    const tailwindConfigFile = config.get('css.tailwind.configPath');
-    firost.watch(tailwindConfigFile, () => {
-      this.run();
-    });
+  // watch() {
+  //   const from = config.from();
+  //   // Rebuild main file when changed
+  //   firost.watch(path.join(from, 'style.css'), filepath => {
+  //     this.compile(filepath);
+  //   });
+  //   // Rebuild main file when includes are changed
+  //   firost.watch(path.join(from, '_styles/*.css'), () => {
+  //     this.compile('./src/style.css');
+  //   });
+  //   // Rebuild all files when main tailwind config is changed
+  //   const tailwindConfigFile = config.get('css.tailwind.configPath');
+  //   firost.watch(tailwindConfigFile, () => {
+  //     this.run();
+  //   });
+  // },
+  /**
+   * Wrapper around the postcss method, to make it easier to mock in tests
+   * @returns {object} A postcss instance
+   **/
+  __postcss(plugins) {
+    return postcss(plugins);
+  },
+  /**
+   * Wrapper around the postcss import plugin, to make it easier to mock in
+   * tests
+   * @returns {object} A postcss-import plugin instance
+   **/
+  __pluginImport() {
+    return postcssImport();
+  },
+  /**
+   * Wrapper around the postcss nested plugin, to make it easier to mock in
+   * tests
+   * @returns {object} A postcss-nested plugin object
+   **/
+  __pluginNested() {
+    return postcssNested;
+  },
+  /**
+   * Wrapper around the postcss autoprefixer plugin, to make it easier to mock in
+   * tests
+   * @returns {object} A postcss-autoprefixer plugin object
+   **/
+  __pluginAutoprefixer() {
+    return postcssAutoprefixer;
   },
 };

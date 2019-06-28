@@ -1,0 +1,13 @@
+/* @import statements should be included inline */
+@import "./_styles/imported.css";
+.red { color: red; }
+/* nested syntax should be flatten inline */
+.top {
+  .sub {
+    color: green;
+  }
+}
+/* Autoprefixer should add vendor-prefixes in production */
+.autoprefixing {
+  user-select: none;
+}

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`norska-css run in development should compile the input file 1`] = `
+"/* @import statements should be included inline */
+.blue { color: blue; }
+.red { color: red; }
+/* nested syntax should be flatten inline */
+.top .sub {
+    color: green;
+  }
+/* Autoprefixer should add vendor-prefixes in production */
+.autoprefixing {
+  user-select: none;
+}"
+`;
+
+exports[`norska-css run in production should compile the input file 1`] = `
+"/* @import statements should be included inline */
+.blue { color: blue; }
+.red { color: red; }
+/* nested syntax should be flatten inline */
+.top .sub {
+    color: green;
+  }
+/* Autoprefixer should add vendor-prefixes in production */
+.autoprefixing {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}"
+`;
