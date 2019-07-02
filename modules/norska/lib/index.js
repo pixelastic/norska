@@ -6,7 +6,7 @@ import html from 'norska-html';
 import init from 'norska-init';
 import js from 'norska-js';
 import screenshot from 'norska-screenshot';
-import liveServer from 'live-server';
+// import liveServer from 'live-server';
 import { pAll, chalk, _ } from 'golgoth';
 import firost from 'firost';
 

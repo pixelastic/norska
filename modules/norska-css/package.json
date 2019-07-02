@@ -6,7 +6,10 @@
   "homepage": "https://github.com/pixelastic/norska/modules/norska-css",
   "license": "MIT",
   "main": "./build/index.js",
-  "files": ["./build/index.js", "./tailwind.config.js"],
+  "files": [
+    "./build/index.js",
+    "./tailwind.config.js"
+  ],
   "dependencies": {
     "firost": "~0.1.0",
     "golgoth": "~0.1.0",

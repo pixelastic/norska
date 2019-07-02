@@ -1,9 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-aberlaas lint \
-  ./*.js \
-  ./.*.js \
-  ./modules/*/lib/**/*.js \
-  ./modules/*/*.js \
-  ./modules/*/.*.js
+aberlaas lint "$@"
