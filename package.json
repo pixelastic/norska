@@ -3,7 +3,7 @@
   "description": "Norska master workspace",
   "devDependencies": {
     "aberlaas": "~0.0.0",
-    "lerna": "3.13.3"
+    "lerna": "~3.15.0"
   },
   "homepage": "https://github.com/pixelastic/norska#readme",
   "license": "MIT",
@@ -18,6 +18,8 @@
     "build:watch": "./scripts/meta/build-watch",
     "learn": "lerna",
     "lint": "./scripts/meta/lint",
+    "lint:css": "./scripts/meta/lint-css",
+    "lint:css:fix": "./scripts/meta/lint-css-fix",
     "lint:fix": "./scripts/meta/lint-fix",
     "lint:js": "./scripts/meta/lint-js",
     "lint:js:fix": "./scripts/meta/lint-js-fix",
