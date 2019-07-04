@@ -25,6 +25,7 @@
     "lint:js:fix": "./scripts/meta/lint-js-fix",
     "lint:json": "./scripts/meta/lint-json",
     "lint:json:fix": "./scripts/meta/lint-json-fix",
+    "publish": "./scripts/meta/publish",
     "release": "./scripts/meta/release",
     "sync-dependencies": "./scripts/meta/sync-dependencies",
     "test": "./scripts/meta/test",
