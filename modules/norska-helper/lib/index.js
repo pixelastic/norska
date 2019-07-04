@@ -1,7 +1,5 @@
 import { _, chalk } from 'golgoth';
-import path from 'path';
 import config from 'norska-config';
-import timeSpan from 'time-span';
 import firost from 'firost';
 
 export default {
@@ -105,35 +103,12 @@ export default {
     this.__siteData = data;
     return data;
   },
-
-  // Write a file to disk
-  async writeFile(what, where, timer) {
-    await firost.write(what, where);
-
-    const extname = path.extname(where);
-    const to = config.to();
-    let displayName = path.relative(to, where);
-    const colors = {
-      '.html': 'magenta',
-      '.css': 'yellow',
-    };
-    if (colors[extname]) {
-      displayName = chalk[colors[extname]](displayName);
-    }
-
-    let message = `✔ Saving ${displayName}`;
-    if (timer) {
-      message = `${message} in ${timer.elapsed()}`;
-    }
-
-    console.info(message);
-  },
-  timer() {
-    const running = timeSpan();
-    return {
-      elapsed() {
-        return `${_.round(running.seconds(), 2)}s`;
-      },
-    };
+  /**
+   * Clears the current site data read from _data.json. During a regular build,
+   * it is advised to keep a cached copy instead of re-reading the file, but in
+   * watch mode, we need to clear the cache
+   **/
+  clearSiteData() {
+    this.__siteData = {};
   },
 };

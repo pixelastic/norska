@@ -9,8 +9,7 @@
   "dependencies": {
     "firost": "~0.1.0",
     "golgoth": "~0.1.0",
-    "norska-config": "^0.1.0",
-    "time-span": "3.1.0"
+    "norska-config": "^0.1.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",

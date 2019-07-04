@@ -65,7 +65,7 @@ describe('norska-helper', () => {
   });
   describe('siteData', () => {
     beforeEach(() => {
-      module.__siteData = {};
+      module.clearSiteData();
       jest.spyOn(config, 'from').mockReturnValue('./fixtures/src');
     });
     it('returns the content of _data.json in source', async () => {
@@ -96,6 +96,16 @@ describe('norska-helper', () => {
       await module.siteData({ cache: false });
 
       expect(firost.readJson).toHaveBeenCalledTimes(2);
+    });
+  });
+  describe('clearSiteData', () => {
+    beforeEach(() => {
+      jest.spyOn(config, 'from').mockReturnValue('./fixtures/src');
+    });
+    it('should set the internal __siteData empty', async () => {
+      await module.siteData();
+      await module.clearSiteData();
+      expect(module.__siteData).toEqual({});
     });
   });
 });
