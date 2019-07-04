@@ -69,6 +69,11 @@ describe('norska-assets', () => {
 
         expect(actual).toEqual(true);
       });
+      it('should copy txt files', async () => {
+        const actual = await firost.isFile(config.toPath('robots.txt'));
+
+        expect(actual).toEqual(true);
+      });
     });
   });
   describe('watch', () => {

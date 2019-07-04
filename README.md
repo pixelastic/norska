@@ -31,9 +31,9 @@ Babel and Webpack to produce one file.
 Static assets are copied from source to destination without any transformation,
 and keeping the same directory structure.
 
-### Watch
+### Serve
 
-Running `norska watch` will build everything the same way but will also open a
+Running `norska serve` will build everything the same way but will also open a
 live-server of the `./dist` folder on [http://localhost:8083][1] (use `--port`
 to change the port).
 

@@ -6,7 +6,7 @@ import html from 'norska-html';
 import init from 'norska-init';
 import js from 'norska-js';
 import screenshot from 'norska-screenshot';
-// import liveServer from 'live-server';
+import liveServer from 'live-server';
 import { pAll, chalk, _ } from 'golgoth';
 import firost from 'firost';
 
@@ -19,7 +19,7 @@ export default {
     const command = _.get(cliArgs, '_[0]', 'build');
 
     // Stop early if no such command exists
-    const safelist = ['build', 'init', 'screenshot', 'watch'];
+    const safelist = ['build', 'init', 'screenshot', 'serve'];
     if (!_.includes(safelist, command)) {
       helper.consoleError(`Unknown command ${chalk.red(command)}`);
       helper.exit(1);
@@ -63,17 +63,17 @@ export default {
       async () => await assets.run(),
     ]);
   },
-  async watch() {
-    // await this.build();
+  async serve() {
+    await this.build();
     // html.watch();
     // css.watch();
     // js.watch();
     // assets.watch();
-    // liveServer.start({
-    //   root: config.to(),
-    //   port: config.get('port'),
-    //   ignore: 'assets',
-    // });
+    liveServer.start({
+      root: config.to(),
+      port: config.get('port'),
+      ignore: 'assets',
+    });
   },
   async screenshot(options) {
     await screenshot.run(options);
