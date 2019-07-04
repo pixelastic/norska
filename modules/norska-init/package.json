@@ -1,15 +1,15 @@
 {
   "name": "norska-init",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Initialize a new Norska project",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-init",
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
-    "norska-config": "0.0.4",
     "firost": "~0.1.0",
-    "golgoth": "~0.1.0"
+    "golgoth": "~0.1.0",
+    "norska-config": "^0.1.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",
