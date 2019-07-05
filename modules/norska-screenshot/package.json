@@ -7,8 +7,8 @@
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
-    "firost": "~0.1.0",
-    "golgoth": "~0.1.0",
+    "firost": "^0.x",
+    "golgoth": "^0.x",
     "is-port-reachable": "2.0.1",
     "live-server": "1.2.1",
     "norska-config": "^0.1.0",

@@ -94,26 +94,32 @@ export default {
   async watch() {
     // Reload a given pug file whenever it is changed
     const pugFiles = await this.pugFiles();
-    firost.watch(pugFiles, async filepath => {
-      await this.compile(filepath);
-    });
+    await firost.watch(
+      pugFiles,
+      async filepath => {
+        await this.compile(filepath);
+      },
+      'norska.html.pug.individualFiles'
+    );
 
     // Reload all pug files whenever the _data.json is changed
     const dataPath = config.fromPath('_data.json');
-    firost.watch(dataPath, async () => {
-      helper.clearSiteData();
-      await this.run();
-    });
+    await firost.watch(
+      dataPath,
+      async () => {
+        // Clear the cache so we don't read a stale data
+        helper.clearSiteData();
+        await this.run();
+      },
+      'norska.html.pug.dataJson'
+    );
 
-    // const from = config.from();
-    // console.info(this.topLevelPugFilesGlob());
-    // firost.watch(this.topLevelPugFilesGlob(), filepath => {
-    //   console.info(filepath);
-    //   this.compile(filepath);
-    // });
     // // Rebuild everything when a layout, include or data changes
     // firost.watch([`${from}/_*/**/*.pug`, `${from}/_data.json`], () => {
     //   this.run();
     // });
+  },
+  async unwatch() {
+    await firost.unwatch('norska.html');
   },
 };

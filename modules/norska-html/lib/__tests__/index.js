@@ -7,7 +7,7 @@ describe('norska-html', () => {
   beforeEach(async () => {
     await config.init({
       from: './fixtures/src',
-      to: './tmp/norska-html',
+      to: './tmp/norska-html/dist',
     });
   });
   describe('pugFiles', () => {
@@ -37,7 +37,63 @@ describe('norska-html', () => {
       expect(actual).not.toContain(config.fromPath('_includes/mixins.pug'));
     });
   });
+  describe('getPaths', () => {
+    describe('basename', () => {
+      it('foo.html => foo.html', () => {
+        const actual = module.getPaths(config.toPath('foo.html'));
+
+        expect(actual).toHaveProperty('basename', 'foo.html');
+      });
+      it('subdir/foo.html => foo.html', () => {
+        const actual = module.getPaths(config.toPath('subdir/foo.html'));
+
+        expect(actual).toHaveProperty('basename', 'foo.html');
+      });
+      it('subdir/deep/foo.html => foo.html', () => {
+        const actual = module.getPaths(config.toPath('subdir/deep/foo.html'));
+
+        expect(actual).toHaveProperty('basename', 'foo.html');
+      });
+    });
+    describe('dirname', () => {
+      it('foo.html => ', () => {
+        const actual = module.getPaths(config.toPath('foo.html'));
+
+        expect(actual).toHaveProperty('dirname', '');
+      });
+      it('subdir/foo.html => subdir', () => {
+        const actual = module.getPaths(config.toPath('subdir/foo.html'));
+
+        expect(actual).toHaveProperty('dirname', 'subdir');
+      });
+      it('subdir/deep/foo.html => subdir', () => {
+        const actual = module.getPaths(config.toPath('subdir/deep/foo.html'));
+
+        expect(actual).toHaveProperty('dirname', 'subdir/deep');
+      });
+    });
+    describe('toRoot', () => {
+      it('foo.html => .', () => {
+        const actual = module.getPaths(config.toPath('foo.html'));
+
+        expect(actual).toHaveProperty('toRoot', '.');
+      });
+      it('subdir/foo.html => ..', () => {
+        const actual = module.getPaths(config.toPath('subdir/foo.html'));
+
+        expect(actual).toHaveProperty('toRoot', '..');
+      });
+      it('subdir/deep/foo.html => ..', () => {
+        const actual = module.getPaths(config.toPath('subdir/deep/foo.html'));
+
+        expect(actual).toHaveProperty('toRoot', '../..');
+      });
+    });
+  });
   describe('compile', () => {
+    beforeEach(async () => {
+      await firost.emptyDir('./tmp/norska-html');
+    });
     it('should fail if file is not in the source folder', async () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
       const input = '/nope/foo.pug';
@@ -151,59 +207,6 @@ describe('norska-html', () => {
       });
     });
   });
-  describe('getPaths', () => {
-    describe('basename', () => {
-      it('foo.html => foo.html', () => {
-        const actual = module.getPaths(config.toPath('foo.html'));
-
-        expect(actual).toHaveProperty('basename', 'foo.html');
-      });
-      it('subdir/foo.html => foo.html', () => {
-        const actual = module.getPaths(config.toPath('subdir/foo.html'));
-
-        expect(actual).toHaveProperty('basename', 'foo.html');
-      });
-      it('subdir/deep/foo.html => foo.html', () => {
-        const actual = module.getPaths(config.toPath('subdir/deep/foo.html'));
-
-        expect(actual).toHaveProperty('basename', 'foo.html');
-      });
-    });
-    describe('dirname', () => {
-      it('foo.html => ', () => {
-        const actual = module.getPaths(config.toPath('foo.html'));
-
-        expect(actual).toHaveProperty('dirname', '');
-      });
-      it('subdir/foo.html => subdir', () => {
-        const actual = module.getPaths(config.toPath('subdir/foo.html'));
-
-        expect(actual).toHaveProperty('dirname', 'subdir');
-      });
-      it('subdir/deep/foo.html => subdir', () => {
-        const actual = module.getPaths(config.toPath('subdir/deep/foo.html'));
-
-        expect(actual).toHaveProperty('dirname', 'subdir/deep');
-      });
-    });
-    describe('toRoot', () => {
-      it('foo.html => .', () => {
-        const actual = module.getPaths(config.toPath('foo.html'));
-
-        expect(actual).toHaveProperty('toRoot', '.');
-      });
-      it('subdir/foo.html => ..', () => {
-        const actual = module.getPaths(config.toPath('subdir/foo.html'));
-
-        expect(actual).toHaveProperty('toRoot', '..');
-      });
-      it('subdir/deep/foo.html => ..', () => {
-        const actual = module.getPaths(config.toPath('subdir/deep/foo.html'));
-
-        expect(actual).toHaveProperty('toRoot', '../..');
-      });
-    });
-  });
   describe('run', () => {
     beforeAll(async () => {
       await config.init({
@@ -293,5 +296,23 @@ describe('norska-html', () => {
         expect(actual).toMatchSnapshot();
       });
     });
+  });
+  describe('watch', () => {
+    beforeAll(async () => {
+      await firost.emptyDir('./tmp/norska-html');
+      await firost.copy('./fixtures/src', './tmp/norska-html/src');
+      await config.init({
+        from: './tmp/norska-html/src',
+        to: './tmp/norska-html/dist',
+      });
+      await module.watch();
+    });
+    afterAll(async () => {
+      await module.unwatch();
+    });
+    it('should recompile individual pug files', async () => {
+      console.info("ok");
+    });
+
   });
 });
