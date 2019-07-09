@@ -21,3 +21,5 @@ exports[`norska-css run in development should compile the input file 1`] = `
 `;
 
 exports[`norska-css run in production should compile the input file 1`] = `".context{background:#00f}.context b{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.ais-foo{color:red}.ais-foo strong{color:#00f}.js-bar{color:red}.js-bar string{color:#00f}"`;
+
+exports[`norska-css watch should recompile the input file whenever it is changed 1`] = `"body { background-color: red; }"`;

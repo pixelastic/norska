@@ -55,9 +55,9 @@ export default {
     await firost.mkdirp(config.to());
 
     await pAll([
-      // async () => {
-      //   await css.run();
-      // },
+      async () => {
+        await css.run();
+      },
       async () => await html.run(),
       async () => await js.run(),
       async () => await assets.run(),
@@ -65,8 +65,8 @@ export default {
   },
   async serve() {
     await this.build();
-    html.watch();
-    // // css.watch();
+    await pAll([async () => await html.watch(), async () => await css.watch()]);
+
     // // js.watch();
     // // assets.watch();
     liveServer.start({

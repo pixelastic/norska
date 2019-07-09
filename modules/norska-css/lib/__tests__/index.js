@@ -4,12 +4,6 @@ import helper from 'norska-helper';
 import firost from 'firost';
 
 describe('norska-css', () => {
-  beforeEach(async () => {
-    await config.init({
-      from: './fixtures/src',
-      to: './tmp/norska-css',
-    });
-  });
   describe('getPlugins', () => {
     beforeEach(() => {
       jest.spyOn(module, '__pluginImport').mockReturnValue('pluginImport');
@@ -58,14 +52,13 @@ describe('norska-css', () => {
 
       expect(actual()).toEqual('my plugins');
     });
-
-    // const plugins = this.getPlugins();
-
-    // const postcssInstance = this.__postcss(plugins);
-    // return _.bind(postcssInstance.process, postcssInstance);
   });
   describe('compile', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
+      await config.init({
+        from: './fixtures/src',
+        to: './tmp/norska-css',
+      });
       jest.spyOn(firost, 'read').mockReturnValue();
       jest.spyOn(firost, 'write').mockReturnValue();
     });
@@ -128,14 +121,16 @@ describe('norska-css', () => {
     });
   });
   describe('run', () => {
+    beforeEach(() => {
+      config.init({
+        from: './fixtures/src',
+        to: './tmp/norska-css',
+        css: module.defaultConfig(),
+      });
+    });
     describe('in development', () => {
       it('should compile the input file', async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-        config.init({
-          from: './fixtures/src',
-          to: './tmp/norska-css',
-          css: module.defaultConfig(),
-        });
         await firost.emptyDir('./tmp/norska-css');
         await module.run();
 
@@ -147,11 +142,6 @@ describe('norska-css', () => {
     describe('in production', () => {
       it('should compile the input file', async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-        config.init({
-          from: './fixtures/src',
-          to: './tmp/norska-css',
-          css: module.defaultConfig(),
-        });
         await firost.emptyDir('./tmp/norska-css');
         await firost.write(
           '<p class="context"><b>foo</b></p>',
@@ -163,6 +153,56 @@ describe('norska-css', () => {
 
         expect(actual).toMatchSnapshot();
       });
+    });
+  });
+  describe('watch', () => {
+    beforeEach(async () => {
+      await config.init({
+        from: './tmp/norska-css/src',
+        to: './tmp/norska-css/dist',
+        css: {
+          input: 'style.css',
+        },
+      });
+    });
+    beforeAll(async () => {
+      await config.init({
+        from: './tmp/norska-css/src',
+        to: './tmp/norska-css/dist',
+        css: {
+          input: 'style.css',
+        },
+      });
+      await firost.emptyDir('./tmp/norska-css');
+      await firost.copy('./fixtures/src', './tmp/norska-css/src');
+      await module.watch();
+    });
+    afterAll(async () => {
+      await firost.unwatchAll();
+    });
+    it('should recompile the input file whenever it is changed', async () => {
+      await firost.write(
+        'body { background-color: red; }',
+        config.fromPath('./style.css')
+      );
+
+      await firost.nextWatchTick();
+
+      const actual = await firost.read(config.toPath('./style.css'));
+      expect(actual).toMatchSnapshot();
+    });
+    it('should recompile the input file whenever an included file is changed', async () => {
+      jest.spyOn(module, 'compile').mockReturnValue();
+      await firost.write(
+        'b { color: blue; }',
+        config.fromPath('_styles/imported.css')
+      );
+
+      await firost.nextWatchTick();
+
+      expect(module.compile).toHaveBeenCalledWith(
+        config.fromPath('./style.css')
+      );
     });
   });
 });

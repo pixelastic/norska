@@ -90,7 +90,9 @@ export default {
     });
   },
 
-  // Listen to changes in pug and update
+  /**
+   * Listen to any changes on pug files and rebuild them
+   **/
   async watch() {
     // Reload a given pug file whenever it is changed
     const pugFilesPattern = await this.pugFilesPattern();

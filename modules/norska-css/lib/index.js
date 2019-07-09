@@ -12,6 +12,10 @@ import postcssPurge from '@fullhuman/postcss-purgecss';
 // import tailwind from 'tailwindcss';
 
 export default {
+  /**
+   * Default configuration object
+   * @returns {object} Default module config
+   **/
   defaultConfig() {
     return {
       input: 'style.css',
@@ -40,6 +44,11 @@ export default {
   //     },
   //   };
   // },
+  /**
+   * Returns the list of postCSS plugins to load, based on the current env (prod
+   * or dev)
+   * @returns {Array} Array of configured plugins
+   **/
   getPlugins() {
     const basePlugins = [this.__pluginImport(), this.__pluginNested()];
 
@@ -56,6 +65,10 @@ export default {
 
     return _.concat(basePlugins, productionPlugins);
   },
+  /**
+   * Returns a postCSS compiler instance, initialized with all the plugins
+   * @returns {object} postCSS Compiler
+   **/
   getCompiler() {
     const plugins = this.getPlugins();
 
@@ -63,7 +76,12 @@ export default {
     return _.bind(postcssInstance.process, postcssInstance);
   },
 
-  // Compile the css source file to docs
+  /**
+   * Compile the specified input file to the destination folder
+   * @param {string} inputFile Path to the input file, relative to the source
+   * directory
+   * @returns {boolean} True on success, false otherwise
+   **/
   async compile(inputFile) {
     const sourceFolder = config.from();
     const absoluteSource = config.fromPath(inputFile);
@@ -91,29 +109,39 @@ export default {
     return true;
   },
 
-  // Compile all css files
+  /**
+   * Compile all source CSS to destination
+   **/
   async run() {
     const inputFile = config.fromPath(config.get('css.input'));
     await this.compile(inputFile);
   },
 
-  // Listen to changes in css files and rebuild them
-  // watch() {
-  //   const from = config.from();
-  //   // Rebuild main file when changed
-  //   firost.watch(path.join(from, 'style.css'), filepath => {
-  //     this.compile(filepath);
-  //   });
-  //   // Rebuild main file when includes are changed
-  //   firost.watch(path.join(from, '_styles/*.css'), () => {
-  //     this.compile('./src/style.css');
-  //   });
-  //   // Rebuild all files when main tailwind config is changed
-  //   const tailwindConfigFile = config.get('css.tailwind.configPath');
-  //   firost.watch(tailwindConfigFile, () => {
-  //     this.run();
-  //   });
-  // },
+  /**
+   * Listen to any changes on css files and rebuild them
+   **/
+  async watch() {
+    const watchPatterns = [];
+
+    // Listen to the entrypoint
+    const inputFile = config.fromPath(config.get('css.input'));
+    watchPatterns.push(inputFile);
+
+    // Listen to the includes files
+    const includedFiles = `${config.from()}/_styles/**/*.css`;
+    watchPatterns.push(includedFiles);
+
+    // Rebuild the entrypoint whenever something changed
+    await firost.watch(watchPatterns, async () => {
+      await this.compile(inputFile);
+    });
+
+    // // Rebuild all files when main tailwind config is changed
+    // const tailwindConfigFile = config.get('css.tailwind.configPath');
+    // firost.watch(tailwindConfigFile, () => {
+    //   this.run();
+    // });
+  },
   /**
    * Wrapper around the postcss method, to make it easier to mock in tests
    * @param {Array} plugins Array of plugins to load

@@ -135,6 +135,7 @@ describe('norska', () => {
     beforeEach(async () => {
       jest.spyOn(module, 'build').mockReturnValue();
       jest.spyOn(html, 'watch').mockReturnValue();
+      jest.spyOn(css, 'watch').mockReturnValue();
       jest.spyOn(liveServer, 'start').mockReturnValue();
       await config.init({
         to: './dist',
