@@ -14,19 +14,19 @@ exports[`norska-html compile paths should have paths for ./subdir/with-paths.pug
 
 exports[`norska-html compile paths should have paths for ./with-paths.pug 1`] = `"<p>with-paths.html</p><p></p><p>.</p>"`;
 
-exports[`norska-html compile should compile ./subdir/deep/foo.pug 1`] = `"<p>Subdir Deep Foo</p>"`;
+exports[`norska-html compile should compile ./subdir/deep/index.pug 1`] = `"<p>Subdir Deep Foo</p>"`;
 
-exports[`norska-html compile should compile ./subdir/foo.pug 1`] = `"<p>Subdir Foo</p>"`;
+exports[`norska-html compile should compile ./subdir/index.pug 1`] = `"<p>Subdir Foo</p>"`;
 
 exports[`norska-html compile should compile ./with-data.pug 1`] = `"<p>bar</p>"`;
 
-exports[`norska-html compile should compile foo.pug 1`] = `"<p>Foo</p>"`;
+exports[`norska-html compile should compile index.pug 1`] = `"<p>Index file</p>"`;
 
-exports[`norska-html run simple files foo.html 1`] = `"<p>Foo</p>"`;
+exports[`norska-html run simple files index.html 1`] = `"<p>Index file</p>"`;
 
-exports[`norska-html run simple files subdir/deep/foo.html 1`] = `"<p>Subdir Deep Foo</p>"`;
+exports[`norska-html run simple files subdir/deep/index.html 1`] = `"<p>Subdir Deep Foo</p>"`;
 
-exports[`norska-html run simple files subdir/foo.html 1`] = `"<p>Subdir Foo</p>"`;
+exports[`norska-html run simple files subdir/index.html 1`] = `"<p>Subdir Foo</p>"`;
 
 exports[`norska-html run with layout subdir/with-layout-absolute.html 1`] = `"<html><head><title>Title</title></head><body><p>In a layout</p></body></html>"`;
 
@@ -41,3 +41,7 @@ exports[`norska-html run with paths subdir/deep/with-paths.html 1`] = `"<p>with-
 exports[`norska-html run with paths subdir/with-paths.html 1`] = `"<p>with-paths.html</p><p>subdir</p><p>..</p>"`;
 
 exports[`norska-html run with paths with-paths.html 1`] = `"<p>with-paths.html</p><p></p><p>.</p>"`;
+
+exports[`norska-html watch individual files should compile individual pug files when created 1`] = `"<p>new file</p>"`;
+
+exports[`norska-html watch individual files should recompile individual pug files when changed 1`] = `"<p>Updated index</p>"`;

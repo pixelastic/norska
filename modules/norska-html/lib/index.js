@@ -10,10 +10,9 @@ export default {
    * Returns the list of pug files to be processed by the plugin
    * @returns {Array} List of absolute path to pug files to process
    **/
-  async pugFiles() {
+  async pugFilesPattern() {
     const source = config.from();
-    const pattern = [`${source}/**/*.pug`, `!${source}/_*/**/*.pug`];
-    return await firost.glob(pattern);
+    return [`${source}/**/*.pug`, `!${source}/_*/**/*.pug`];
   },
   /**
    * Returns an object containing path information about the specified file.
@@ -84,7 +83,8 @@ export default {
    * Compile all source files to html
    **/
   async run() {
-    const pugFiles = await this.pugFiles();
+    const pugFilesPattern = await this.pugFilesPattern();
+    const pugFiles = await firost.glob(pugFilesPattern);
     await pMap(pugFiles, async filepath => {
       await this.compile(filepath);
     });
@@ -93,33 +93,23 @@ export default {
   // Listen to changes in pug and update
   async watch() {
     // Reload a given pug file whenever it is changed
-    const pugFiles = await this.pugFiles();
-    await firost.watch(
-      pugFiles,
-      async filepath => {
-        await this.compile(filepath);
-      },
-      'norska.html.pug.individualFiles'
-    );
+    const pugFilesPattern = await this.pugFilesPattern();
+    await firost.watch(pugFilesPattern, async filepath => {
+      await this.compile(filepath);
+    });
 
     // Reload all pug files whenever the _data.json is changed
     const dataPath = config.fromPath('_data.json');
-    await firost.watch(
-      dataPath,
-      async () => {
-        // Clear the cache so we don't read a stale data
-        helper.clearSiteData();
-        await this.run();
-      },
-      'norska.html.pug.dataJson'
-    );
+    await firost.watch(dataPath, async () => {
+      // Clear the cache so we don't read a stale data
+      helper.clearSiteData();
+      await this.run();
+    });
 
-    // // Rebuild everything when a layout, include or data changes
-    // firost.watch([`${from}/_*/**/*.pug`, `${from}/_data.json`], () => {
-    //   this.run();
-    // });
-  },
-  async unwatch() {
-    await firost.unwatch('norska.html');
+    // Rebuild everything whenever an included file changes
+    const pugIncludePatterns = [`${config.from()}/_includes/**/*.pug`];
+    await firost.watch(pugIncludePatterns, async () => {
+      await this.run();
+    });
   },
 };
