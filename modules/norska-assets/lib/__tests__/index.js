@@ -65,7 +65,7 @@ describe('norska-assets', () => {
     });
     describe('misc', () => {
       it('should copy html files', async () => {
-        const actual = await firost.isFile(config.toPath('foo.html'));
+        const actual = await firost.isFile(config.toPath('static.html'));
 
         expect(actual).toEqual(true);
       });
