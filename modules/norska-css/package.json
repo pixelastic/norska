@@ -21,7 +21,7 @@
     "postcss-clean": "1.1.0",
     "postcss-import": "~12.0.0",
     "postcss-nested": "~4.1.0",
-    "tailwindcss": "0.7.4"
+    "tailwindcss": "1.0.4"
   },
   "scripts": {
     "build": "../../scripts/local/build",
@@ -30,5 +30,8 @@
     "lint:fix": "../../scripts/local/lint-fix",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
+  },
+  "devDependencies": {
+    "css": "2.2.4"
   }
 }

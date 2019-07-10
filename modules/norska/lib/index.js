@@ -56,9 +56,9 @@ export default {
 
     await pAll([
       async () => {
+        await html.run();
         await css.run();
       },
-      async () => await html.run(),
       async () => await js.run(),
       async () => await assets.run(),
     ]);

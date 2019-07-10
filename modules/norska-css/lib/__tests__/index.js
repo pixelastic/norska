@@ -8,27 +8,33 @@ describe('norska-css', () => {
     beforeEach(() => {
       jest.spyOn(module, '__pluginImport').mockReturnValue('pluginImport');
       jest.spyOn(module, '__pluginNested').mockReturnValue('pluginNested');
+      jest.spyOn(module, '__pluginTailwind').mockReturnValue('pluginTailwind');
       jest.spyOn(module, '__pluginPurge').mockReturnValue('pluginPurge');
       jest.spyOn(module, '__pluginClean').mockReturnValue('pluginClean');
       jest
         .spyOn(module, '__pluginAutoprefixer')
         .mockReturnValue('pluginAutoprefixer');
     });
-    it('should contain 2 plugins', () => {
+    it('should contain 3 plugins', () => {
       const actual = module.getPlugins();
 
-      expect(actual).toEqual(['pluginImport', 'pluginNested']);
+      expect(actual).toEqual([
+        'pluginImport',
+        'pluginNested',
+        'pluginTailwind',
+      ]);
     });
     describe('in production', () => {
       beforeEach(() => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
-      it('should contain 5 plugins', () => {
+      it('should contain 6 plugins', () => {
         const actual = module.getPlugins();
 
         expect(actual).toEqual([
           'pluginImport',
           'pluginNested',
+          'pluginTailwind',
           'pluginPurge',
           'pluginAutoprefixer',
           'pluginClean',

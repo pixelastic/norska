@@ -9,7 +9,7 @@ import postcssImport from 'postcss-import';
 import postcssNested from 'postcss-nested';
 import postcssClean from 'postcss-clean';
 import postcssPurge from '@fullhuman/postcss-purgecss';
-// import tailwind from 'tailwindcss';
+import tailwind from 'tailwindcss';
 
 export default {
   /**
@@ -22,35 +22,17 @@ export default {
     };
   },
 
-  // postcssPlugins() {
-  //   const tailwindConfigFile = config.get('css.tailwind.configPath');
-  //   const plugins = [
-  //     tailwind(tailwindConfigFile),
-  //   ];
-
-  //   return plugins;
-  // },
-
-  // // Custom config added to the main config.css key
-  // defaultConfig() {
-  //   return {
-  //     tailwind: {
-  //       configPath: path.resolve(__dirname, '../build/tailwind.config.js'),
-  //       // This method can be overwritten by the user to modify the config with
-  //       // its own keys before being loaded
-  //       configHook(tailwindConfig) {
-  //         return tailwindConfig;
-  //       },
-  //     },
-  //   };
-  // },
   /**
    * Returns the list of postCSS plugins to load, based on the current env (prod
    * or dev)
    * @returns {Array} Array of configured plugins
    **/
   getPlugins() {
-    const basePlugins = [this.__pluginImport(), this.__pluginNested()];
+    const basePlugins = [
+      this.__pluginImport(),
+      this.__pluginNested(),
+      this.__pluginTailwind(),
+    ];
 
     // That's all the plugins we need in dev
     if (!helper.isProduction()) {
@@ -202,5 +184,13 @@ export default {
       whitelistPatternsChildren: dynamicClassesPatterns,
     };
     return postcssPurge(options);
+  },
+  /**
+   * Wrapper around Tailwindcss
+   * @returns {object} A tailwind plugin instance
+   **/
+  __pluginTailwind() {
+    const moduleConfig = path.resolve(__dirname, 'tailwind.config.js');
+    return tailwind(moduleConfig);
   },
 };

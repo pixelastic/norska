@@ -2,24 +2,44 @@
 
 exports[`norska-css run in development should compile the input file 1`] = `
 "/*! This is a special comment that should be removed in production */
+
 /* @import statements should be included inline */
-.context { background: blue; }
+
+.context { background: blue;
+}
+
 /* nested syntax should be flatten inline */
+
 .context b {
-    /* Autoprefixer should add vendor-prefixes in production */
-    user-select: none;
-  }
+  /* Autoprefixer should add vendor-prefixes in production */
+  user-select: none;
+}
+
 /* This class is not available in the html, so should be removed in the
  * production build */
-.not-present { color: red; }
+
+.not-present { color: red;
+}
+
 /* Those dynamic classes should always be kept, even if not in the html, in
  * production */
-.ais-foo { color: red; }
-.ais-foo strong { color: blue; }
-.js-bar { color: red; }
-.js-bar string { color: blue; }"
+
+.ais-foo { color: red;
+}
+
+.ais-foo strong { color: blue;
+}
+
+.js-bar { color: red;
+}
+
+.js-bar string { color: blue;
+}"
 `;
 
 exports[`norska-css run in production should compile the input file 1`] = `".context{background:#00f}.context b{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.ais-foo{color:red}.ais-foo strong{color:#00f}.js-bar{color:red}.js-bar string{color:#00f}"`;
 
-exports[`norska-css watch should recompile the input file whenever it is changed 1`] = `"body { background-color: red; }"`;
+exports[`norska-css watch should recompile the input file whenever it is changed 1`] = `
+"body { background-color: red;
+}"
+`;
