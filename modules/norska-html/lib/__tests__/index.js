@@ -2,6 +2,8 @@ import module from '../index';
 import config from 'norska-config';
 import helper from 'norska-helper';
 import firost from 'firost';
+import pug from 'pug';
+import { chalk } from 'golgoth';
 
 describe('norska-html', () => {
   describe('pugFilesPattern', () => {
@@ -140,6 +142,31 @@ describe('norska-html', () => {
 
       expect(actual).toMatchSnapshot();
     });
+    describe('compilation error', () => {
+      beforeEach(() => {
+        jest.spyOn(pug, 'compile').mockImplementation(() => {
+          throw { toString: jest.fn().mockReturnValue('pug error') };
+        });
+        jest.spyOn(chalk, 'red').mockImplementation(input => {
+          return `${input} in red`;
+        });
+        jest.spyOn(helper, 'consoleError').mockReturnValue();
+      });
+      it('should display an error if compilation fails', async () => {
+        const input = 'index.pug';
+
+        await module.compile(input);
+
+        expect(helper.consoleError).toHaveBeenCalledWith('pug error in red');
+      });
+      it('should return false if compilation fails', async () => {
+        const input = 'index.pug';
+
+        const actual = await module.compile(input);
+
+        expect(actual).toEqual(false);
+      });
+    });
     describe('layouts', () => {
       it('absolute in root', async () => {
         const input = 'with-layout-absolute.pug';
@@ -216,6 +243,7 @@ describe('norska-html', () => {
       });
     });
     beforeAll(async () => {
+      jest.restoreAllMocks();
       await config.init({
         from: './fixtures/src',
         to: './tmp/norska-html',

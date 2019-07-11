@@ -1,7 +1,7 @@
 import config from 'norska-config';
 import helper from 'norska-helper';
 import path from 'path';
-import { _, pMap } from 'golgoth';
+import { _, pMap, chalk } from 'golgoth';
 import firost from 'firost';
 import pug from 'pug';
 
@@ -64,10 +64,16 @@ export default {
     const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
     const absoluteDestination = config.toPath(relativeDestination);
 
-    const compiler = pug.compileFile(absoluteSource, {
-      filename: absoluteSource,
-      basedir: config.from(),
-    });
+    let compiler;
+    try {
+      compiler = pug.compileFile(absoluteSource, {
+        filename: absoluteSource,
+        basedir: config.from(),
+      });
+    } catch (err) {
+      helper.consoleError(chalk.red(err.toString()));
+      return false;
+    }
     const globalSiteData = await helper.siteData();
     const localPathData = this.getPaths(absoluteDestination);
     const data = {
