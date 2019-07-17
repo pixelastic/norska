@@ -4864,36 +4864,10 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
-firost@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/firost/-/firost-0.4.0.tgz#10d0b92bb46c1448886e7abd315d29395f664ef1"
-  integrity sha512-33A9q2sob6SpikJDoDCub3sidxFMo1MK4pzDDAizcpGbJ16BLJaWOYScl9seOGuiU+5hKfQ93eo5o/dvjZK7xQ==
-  dependencies:
-    chokidar "2.1.5"
-    fs-extra "7.0.0"
-    globby "8.0.2"
-    golgoth "~0.1.0"
-    is-glob "4.0.0"
-    json-stable-stringify "1.0.1"
-    shelljs "0.8.2"
-
-firost@0.5.0:
+firost@0.5.0, "firost@latest <1.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/firost/-/firost-0.5.0.tgz#5b7081ea637db47d17203c9caa05feaf52bec469"
   integrity sha512-l2F3clMwT34lyU7krHgu722/irXlhb0XtRBBkHBnvwNMqGI5x0CPh4NJDFw0PLLQLXj363xQAY+fH6hCKrRXgA==
-  dependencies:
-    chokidar "2.1.5"
-    fs-extra "7.0.0"
-    globby "8.0.2"
-    golgoth "~0.1.0"
-    is-glob "4.0.0"
-    json-stable-stringify "1.0.1"
-    shelljs "0.8.2"
-
-"firost@latest <1.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/firost/-/firost-0.3.0.tgz#9e379941d1214d0c7072c526ea344018dd1155d8"
-  integrity sha512-ipSPDSQ01kydcD22lAHnif3LCHHK4OmdsFKZponhpVZAvXAbYyXLsKKoO1HbiPIGWISKbVvQpyO0YfyoP9dNkg==
   dependencies:
     chokidar "2.1.5"
     fs-extra "7.0.0"
