@@ -1,7 +1,7 @@
-import { pify } from 'golgoth';
-import cpx from 'cpx';
+import { pMap } from 'golgoth';
+import firost from 'firost';
+import path from 'path';
 import config from 'norska-config';
-const copy = pify(cpx.copy);
 
 export default {
   /**
@@ -14,18 +14,34 @@ export default {
     };
   },
   /**
+   * Copy a static file from source to destination, keeping the same directory
+   * structure
+   * @param {string} inputFile Relative path to the source file
+   * */
+  async compile(inputFile) {
+    const sourceFolder = config.from();
+    const absoluteSource = config.fromPath(inputFile);
+    const relativeSource = path.relative(sourceFolder, absoluteSource);
+    const absoluteDestination = config.toPath(relativeSource);
+
+    await firost.copy(absoluteSource, absoluteDestination);
+  },
+  /**
    * Copy static assets from source to destination, keeping same directory
    * structure but not performing any transformation
    **/
   async run() {
-    const pattern = config.fromPath(config.get('assets.files'));
-    await copy(pattern, config.to());
+    const inputFiles = await firost.glob(
+      config.fromPath(config.get('assets.files'))
+    );
+
+    await pMap(inputFiles, this.compile);
   },
   /**
    * Listen for any changes in assets and copy them to destination
    **/
-  watch() {
+  async watch() {
     const pattern = config.fromPath(config.get('assets.files'));
-    cpx.watch(pattern, config.to());
+    await firost.watch(pattern, this.compile);
   },
 };

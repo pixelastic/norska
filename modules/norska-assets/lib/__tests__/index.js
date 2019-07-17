@@ -1,77 +1,159 @@
 import module from '../index';
 import config from 'norska-config';
 import firost from 'firost';
-import cpx from 'cpx';
 
 describe('norska-assets', () => {
-  describe('run', () => {
-    beforeAll(async () => {
+  describe('compile', () => {
+    beforeEach(async () => {
       await config.init({
         from: './fixtures/src',
         to: './tmp/norska-assets',
         assets: module.defaultConfig(),
       });
-      await firost.emptyDir(config.to());
-      await module.run();
+      await firost.emptyDir('./tmp/norska-assets');
+    });
+    it('should copy file to root of destination', async () => {
+      const filepath = 'favicon.ico';
+      await module.compile(config.fromPath(filepath));
+
+      const actual = await firost.isFile(config.toPath(filepath));
+      expect(actual).toEqual(true);
+    });
+    it('should copy files relative to from()', async () => {
+      const filepath = 'favicon.ico';
+      await module.compile(filepath);
+
+      const actual = await firost.isFile(config.toPath(filepath));
+      expect(actual).toEqual(true);
+    });
+    it('should copy file to subfolder', async () => {
+      const filepath = 'images/foo.gif';
+      await module.compile(filepath);
+
+      const actual = await firost.isFile(config.toPath(filepath));
+      expect(actual).toEqual(true);
+    });
+  });
+  describe('run', () => {
+    beforeEach(async () => {
+      await config.init({
+        from: './tmp/norska-assets/src',
+        to: './tmp/norska-assets/dist',
+        assets: module.defaultConfig(),
+      });
+      await firost.emptyDir('./tmp/norska-assets');
     });
     describe('images', () => {
       it('should copy gif files', async () => {
-        const actual = await firost.isFile(config.toPath('images/foo.gif'));
+        const filepath = 'images/foo.gif';
 
-        expect(actual).toEqual(true);
-      });
-      it('should copy png files', async () => {
-        const actual = await firost.isFile(config.toPath('images/foo.png'));
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
 
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy jpg files', async () => {
-        const actual = await firost.isFile(config.toPath('images/foo.jpg'));
+        const filepath = 'images/foo.jpg';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(true);
+      });
+      it('should copy png files', async () => {
+        const filepath = 'images/foo.png';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy svg files', async () => {
-        const actual = await firost.isFile(config.toPath('images/foo.svg'));
+        const filepath = 'images/foo.svg';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy ico files', async () => {
-        const actual = await firost.isFile(config.toPath('favicon.ico'));
+        const filepath = 'images/foo.ico';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
     });
     describe('fonts', () => {
       it('should copy eot files', async () => {
-        const actual = await firost.isFile(config.toPath('fonts/foo.eot'));
+        const filepath = 'fonts/foo.eot';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy otf files', async () => {
-        const actual = await firost.isFile(config.toPath('fonts/foo.otf'));
+        const filepath = 'fonts/foo.otf';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy ttf files', async () => {
-        const actual = await firost.isFile(config.toPath('fonts/foo.ttf'));
+        const filepath = 'fonts/foo.ttf';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy woff files', async () => {
-        const actual = await firost.isFile(config.toPath('fonts/foo.woff'));
+        const filepath = 'fonts/foo.woff';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
     });
     describe('misc', () => {
-      it('should copy html files', async () => {
-        const actual = await firost.isFile(config.toPath('static.html'));
+      it('should not copy unknown files', async () => {
+        const filepath = 'foo.weird';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(false);
+      });
+      it('should copy html files', async () => {
+        const filepath = 'index.html';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should copy txt files', async () => {
-        const actual = await firost.isFile(config.toPath('robots.txt'));
+        const filepath = 'robots.txt';
 
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
     });
@@ -79,42 +161,52 @@ describe('norska-assets', () => {
   describe('watch', () => {
     beforeEach(async () => {
       await config.init({
-        from: './tmp/norska-assets-watch/src',
-        to: './tmp/norska-assets-watch/dist',
+        from: './tmp/norska-assets/src',
+        to: './tmp/norska-assets/dist',
         assets: module.defaultConfig(),
       });
-      await firost.emptyDir(config.from());
-      await firost.emptyDir(config.to());
+      await firost.emptyDir('./tmp/norska-assets');
+      await firost.mkdirp(config.from());
     });
     afterEach(async () => {
       await firost.unwatchAll();
     });
-    // it('should copy files added', async () => {
-    //   const output = 'image.jpg';
-    //   await firost.write('content', config.fromPath(output));
-    //   await firost.waitForWatchers();
-
-    //   const actual = await firost.isFile(config.toPath(output));
-
-    //   expect(actual).toEqual(true);
-    // });
-    it('should update files modified', async () => {
-      // Create a file
-      const output = 'image.jpg';
-      await firost.write('content', config.fromPath(output));
-
-      // Update the file
+    it('should not copy files initially', async () => {
+      await firost.write('foo', config.fromPath('foo.jpg'));
       await module.watch();
-      // await firost.write('new content', config.fromPath(output));
-      await firost.waitForWatchers();
-      await firost.sleep(400);
 
-      const actual = await firost.isFile(config.toPath(output));
-      console.info(config.toPath(output));
-
-      expect(actual).toEqual(true);
+      const actual = await firost.exists(config.toPath('foo.jpg'));
+      expect(actual).toEqual(false);
     });
-    // it('should delete files deleted', async () => {
-    // });
+    it('should update files modified', async () => {
+      await firost.write('foo', config.fromPath('foo.jpg'));
+      await module.watch();
+
+      await firost.write('bar', config.fromPath('foo.jpg'));
+      await firost.waitForWatchers();
+
+      const actual = await firost.read(config.toPath('foo.jpg'));
+
+      expect(actual).toEqual('bar');
+    });
+    it('should copy files added', async () => {
+      await module.watch();
+
+      await firost.write('foo', config.fromPath('foo.jpg'));
+      await firost.waitForWatchers();
+
+      const actual = await firost.read(config.toPath('foo.jpg'));
+      expect(actual).toEqual('foo');
+    });
+    it('should delete files deleted', async () => {
+      await module.watch();
+
+      await firost.write('foo', config.fromPath('foo.jpg'));
+      await firost.remove(config.fromPath('foo.jpg'));
+      await firost.waitForWatchers();
+
+      const actual = await firost.exists(config.toPath('foo.jpg'));
+      expect(actual).toEqual(false);
+    });
   });
 });
