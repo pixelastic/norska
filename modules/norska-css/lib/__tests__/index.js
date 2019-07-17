@@ -171,7 +171,7 @@ describe('norska-css', () => {
       await firost.emptyDir('./tmp/norska-css');
       await firost.mkdirp(config.from());
     });
-    afterAll(async () => {
+    afterEach(async () => {
       await firost.unwatchAll();
     });
     it('should compile the input file when it is created', async () => {
