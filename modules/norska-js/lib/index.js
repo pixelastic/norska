@@ -30,12 +30,11 @@ export default {
    * @returns {object} Webpack compiler object
    **/
   getCompiler(config, name) {
-    // Read from cache
-    if (this.__compilers[name]) {
-      return this.__compilers[name];
+    const cacheKey = `norska.js.compilers.${name}`;
+    if (firost.cache.has(cacheKey)) {
+      return firost.cache.read(cacheKey);
     }
-    // Write to cache
-    return (this.__compilers[name] = this.__webpack(config));
+    return firost.cache.write(cacheKey, this.__webpack(config));
   },
   /**
    * Runs a webpack compiler. Returns the stats object on success
@@ -103,11 +102,6 @@ export default {
   __webpack(config) {
     return webpack(config);
   },
-  /**
-   * Internal cache of webpack compilers. There should mostly be two keys here,
-   * one for prod and one for dev
-   **/
-  __compilers: {},
 
   // watch() {
   //   // Rebuild main file when changed

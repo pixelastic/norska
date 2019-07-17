@@ -2049,10 +2049,10 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.1.3.tgz#45fc8e0764251ec0d4d79bb7c90cb0bf76ef1a41"
-  integrity sha512-0DttRPrO7Xawn64KNpJv4y7K5ECoeXxIJewFXhfCT8pFH/p6XASwJlzThvyO8OEPX0rKtqpZMc6UZA6MkamOYQ==
+aberlaas@0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.1.5.tgz#81e0114099fd8bcaf2fc7bf623eb02da92848e88"
+  integrity sha512-G3wQnFANZz4usbJlYH5fQkvPzy+MdWh2rq/bbrZ+EZ3Aaq8ZPo+A/r5PmlVcFElO00hqQsV/fqtivdENPSMbuA==
   dependencies:
     "@babel/cli" "~7.4.0"
     "@babel/core" "~7.4.0"
@@ -2069,8 +2069,8 @@ aberlaas@0.1.3:
     eslint-plugin-jsdoc "~8.3.0"
     eslint-plugin-prettier "~3.1.0"
     execa "1.0.0"
-    firost "latest <1.0"
-    golgoth "latest <1.0"
+    firost "0.5.0"
+    golgoth "0.1.4"
     husky "1.1.3"
     inquirer "6.2.0"
     jest "~24.8.0"
@@ -4864,10 +4864,23 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
-firost@0.5.0, "firost@latest <1.0":
+firost@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/firost/-/firost-0.5.0.tgz#5b7081ea637db47d17203c9caa05feaf52bec469"
   integrity sha512-l2F3clMwT34lyU7krHgu722/irXlhb0XtRBBkHBnvwNMqGI5x0CPh4NJDFw0PLLQLXj363xQAY+fH6hCKrRXgA==
+  dependencies:
+    chokidar "2.1.5"
+    fs-extra "7.0.0"
+    globby "8.0.2"
+    golgoth "~0.1.0"
+    is-glob "4.0.0"
+    json-stable-stringify "1.0.1"
+    shelljs "0.8.2"
+
+firost@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/firost/-/firost-0.5.1.tgz#3ad9f37dee1b6d9835e8568e3e628feac40fd60d"
+  integrity sha512-WY/X4i+hkjnRYkC+hMOajx6d7Y/I59pClQFVaeSVWTdEImabVe19s+7z14y5eVteQkPDsPatSGYW1XHMZtQdcQ==
   dependencies:
     chokidar "2.1.5"
     fs-extra "7.0.0"
@@ -5311,7 +5324,7 @@ globjoin@^0.1.4:
   resolved "https://registry.yarnpkg.com/globjoin/-/globjoin-0.1.4.tgz#2f4494ac8919e3767c5cbb691e9f463324285d43"
   integrity sha1-L0SUrIkZ43Z8XLtpHp9GMyQoXUM=
 
-golgoth@0.1.4, "golgoth@latest <1.0", golgoth@~0.1.0:
+golgoth@0.1.4, golgoth@~0.1.0:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.1.4.tgz#c38c13f8cc004c7e22f23474412daa5f8b40b16e"
   integrity sha512-EADI93hDrmo5xxmGPCRT41K6Em9UAATJmN8eJecwFudB8CMKspDIA+JqJNwIiwalnN0+xZ4uxe8FQUmsvSQskA==

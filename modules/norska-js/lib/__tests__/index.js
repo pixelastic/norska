@@ -5,13 +5,8 @@ import helper from 'norska-helper';
 import { _ } from 'golgoth';
 
 describe('norska-js', () => {
-  beforeEach(async () => {
-    module.__compilers = {};
-    await config.init({
-      from: './fixtures/src',
-      to: './tmp/norska-js',
-      js: module.defaultConfig(),
-    });
+  beforeEach(() => {
+    firost.cache.clear('norska.js.compilers');
   });
   describe('loadConfig', () => {
     beforeEach(async () => {
@@ -114,41 +109,34 @@ describe('norska-js', () => {
     });
   });
   describe('run', () => {
+    beforeEach(async () => {
+      await config.init({
+        from: './tmp/norska-js/src',
+        to: './tmp/norska-js/dist',
+        js: module.defaultConfig(),
+      });
+      jest.spyOn(module, 'displayResults').mockReturnValue();
+      await firost.emptyDir('./tmp/norska-js');
+    });
     describe('no errors', () => {
-      beforeAll(async () => {
-        // Note: We need to manually restore all mocks here because they are
-        // only automatically restored when a test starts. And as we're in
-        // a beforeAll they are not yet restored.
-        jest.restoreAllMocks();
-        jest.spyOn(module, 'displayResults').mockReturnValue();
-        await config.init({
-          from: './fixtures/src',
-          to: './tmp/norska-js',
-          js: module.defaultConfig(),
-        });
-        await firost.emptyDir(config.to());
-        await module.run();
-      }, 20000);
       it('should compile script.js in destination', async () => {
-        const actual = await firost.isFile(config.toPath('script.js'));
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
 
+        const actual = await firost.isFile(config.toPath('script.js'));
         expect(actual).toEqual(true);
       });
       it('should create a source map file', async () => {
-        const actual = await firost.isFile(config.toPath('script.js.map'));
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
 
+        const actual = await firost.isFile(config.toPath('script.js.map'));
         expect(actual).toEqual(true);
       });
     });
     describe('with errors', () => {
       it('should warn about missing entryfile', async () => {
         jest.spyOn(helper, 'consoleWarn').mockReturnValue();
-        await config.init({
-          from: './nope',
-          to: './tmp/norska-js',
-          js: module.defaultConfig(),
-        });
-
         const actual = await module.run();
 
         expect(helper.consoleWarn).toHaveBeenCalledWith(expect.anything());
@@ -157,20 +145,13 @@ describe('norska-js', () => {
 
       describe('bad input file', () => {
         it('should stop and display an error', async () => {
-          jest.spyOn(helper, 'exit').mockReturnValue();
-          jest.spyOn(helper, 'consoleError').mockReturnValue();
           jest.spyOn(module, 'runCompiler').mockImplementation(async () => {
             throw helper.error('errorCode', 'errorMessage');
           });
 
-          await config.init({
-            from: './fixtures/src',
-            to: './tmp/norska-js',
-            js: {
-              ...module.defaultConfig(),
-              input: 'bad.js',
-            },
-          });
+          jest.spyOn(helper, 'exit').mockReturnValue();
+          jest.spyOn(helper, 'consoleError').mockReturnValue();
+          await firost.write('b@d j$ code', config.fromPath('script.js'));
           await module.run();
 
           expect(helper.exit).toHaveBeenCalledWith(1);
@@ -182,14 +163,16 @@ describe('norska-js', () => {
       });
     });
     it('should display timing results', async () => {
-      jest.spyOn(module, 'getCompiler').mockReturnValue();
-      jest.spyOn(firost, 'exist').mockReturnValue(true);
-      jest.spyOn(module, 'runCompiler').mockReturnValue('run results');
-      jest.spyOn(module, 'displayResults').mockReturnValue();
+      await firost.write('console.log("ok");', config.fromPath('script.js'));
 
       await module.run();
 
-      expect(module.displayResults).toHaveBeenCalledWith('run results');
+      expect(module.displayResults).toHaveBeenCalledWith(
+        expect.objectContaining({
+          startTime: expect.any(Number),
+          endTime: expect.any(Number),
+        })
+      );
     });
   });
 });
