@@ -42,6 +42,14 @@ exports[`norska-html run with paths subdir/with-paths.html 1`] = `"<p>with-paths
 
 exports[`norska-html run with paths with-paths.html 1`] = `"<p>with-paths.html</p><p></p><p>.</p>"`;
 
-exports[`norska-html watch individual files should compile individual pug files when created 1`] = `"<p>new file</p>"`;
+exports[`norska-html watch _data.json should run everything when _data.json is created 1`] = `"<p>bar</p>"`;
 
-exports[`norska-html watch individual files should recompile individual pug files when changed 1`] = `"<p>Updated index</p>"`;
+exports[`norska-html watch _data.json should run everything when _data.json is modified 1`] = `"<p>bar</p>"`;
+
+exports[`norska-html watch includes should run everything when an included file is added 1`] = `"<p>foo</p>"`;
+
+exports[`norska-html watch includes should run everything when an included file is modified 1`] = `"<p>bar</p>"`;
+
+exports[`norska-html watch individual files should compile individual pug files when created 1`] = `"<p>foo</p>"`;
+
+exports[`norska-html watch individual files should recompile individual pug files when changed 1`] = `"<p>bar</p>"`;
