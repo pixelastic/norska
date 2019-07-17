@@ -13,8 +13,8 @@
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.0.1",
     "autoprefixer": "~9.0.0",
-    "firost": "^0.x",
-    "golgoth": "^0.x",
+    "firost": "0.4.0",
+    "golgoth": "latest <1.0",
     "norska-config": "^0.1.0",
     "norska-helper": "^0.1.0",
     "postcss": "~7.0.0",

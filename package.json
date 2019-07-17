@@ -2,7 +2,9 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "^0.x",
+    "aberlaas": "0.1.3",
+    "firost": "0.4.0",
+    "golgoth": "0.1.4",
     "lerna": "~3.15.0"
   },
   "homepage": "https://github.com/pixelastic/norska#readme",
@@ -27,11 +29,13 @@
     "lint:json:fix": "./scripts/meta/lint-json-fix",
     "release": "./scripts/meta/release",
     "sync-dependencies": "./scripts/meta/sync-dependencies",
+    "update-dependencies": "babel-node ./scripts/meta/update-dependencies",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch"
   },
   "version": "0.0.4",
   "workspaces": [
     "modules/*"
-  ]
+  ],
+  "dependencies": {}
 }

@@ -77,21 +77,44 @@ describe('norska-assets', () => {
     });
   });
   describe('watch', () => {
-    beforeAll(async () => {
+    beforeEach(async () => {
       await config.init({
-        from: '/from',
-        to: '/to',
-        assets: {
-          files: '**/*.foo',
-        },
+        from: './tmp/norska-assets-watch/src',
+        to: './tmp/norska-assets-watch/dist',
+        assets: module.defaultConfig(),
       });
+      await firost.emptyDir(config.from());
+      await firost.emptyDir(config.to());
     });
-    it('should call cpx.watch with the glob pattern and the destination', () => {
-      jest.spyOn(cpx, 'watch').mockReturnValue();
-
-      module.watch();
-
-      expect(cpx.watch).toHaveBeenCalledWith('/from/**/*.foo', '/to');
+    afterEach(async () => {
+      await firost.unwatchAll();
     });
+    // it('should copy files added', async () => {
+    //   const output = 'image.jpg';
+    //   await firost.write('content', config.fromPath(output));
+    //   await firost.waitForWatchers();
+
+    //   const actual = await firost.isFile(config.toPath(output));
+
+    //   expect(actual).toEqual(true);
+    // });
+    it('should update files modified', async () => {
+      // Create a file
+      const output = 'image.jpg';
+      await firost.write('content', config.fromPath(output));
+
+      // Update the file
+      await module.watch();
+      // await firost.write('new content', config.fromPath(output));
+      await firost.waitForWatchers();
+      await firost.sleep(400);
+
+      const actual = await firost.isFile(config.toPath(output));
+      console.info(config.toPath(output));
+
+      expect(actual).toEqual(true);
+    });
+    // it('should delete files deleted', async () => {
+    // });
   });
 });

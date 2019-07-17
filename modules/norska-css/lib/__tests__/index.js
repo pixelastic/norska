@@ -172,6 +172,7 @@ describe('norska-css', () => {
       });
     });
     beforeAll(async () => {
+      jest.restoreAllMocks();
       await config.init({
         from: './tmp/norska-css/src',
         to: './tmp/norska-css/dist',
@@ -192,7 +193,7 @@ describe('norska-css', () => {
         config.fromPath('./style.css')
       );
 
-      await firost.nextWatchTick();
+      await firost.waitForWatchers();
 
       const actual = await firost.read(config.toPath('./style.css'));
       expect(actual).toMatchSnapshot();
@@ -204,7 +205,7 @@ describe('norska-css', () => {
         config.fromPath('_styles/imported.css')
       );
 
-      await firost.nextWatchTick();
+      await firost.waitForWatchers();
 
       expect(module.compile).toHaveBeenCalledWith(
         config.fromPath('./style.css')
