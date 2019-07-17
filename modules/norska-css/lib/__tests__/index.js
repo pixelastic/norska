@@ -166,28 +166,29 @@ describe('norska-css', () => {
       await config.init({
         from: './tmp/norska-css/src',
         to: './tmp/norska-css/dist',
-        css: {
-          input: 'style.css',
-        },
-      });
-    });
-    beforeAll(async () => {
-      jest.restoreAllMocks();
-      await config.init({
-        from: './tmp/norska-css/src',
-        to: './tmp/norska-css/dist',
-        css: {
-          input: 'style.css',
-        },
+        css: module.defaultConfig(),
       });
       await firost.emptyDir('./tmp/norska-css');
-      await firost.copy('./fixtures/src', './tmp/norska-css/src');
-      await module.watch();
+      await firost.mkdirp(config.from());
     });
     afterAll(async () => {
       await firost.unwatchAll();
     });
+    it('should compile the input file when it is created', async () => {
+      await module.watch();
+
+      await firost.write(
+        'body { background-color: red; }',
+        config.fromPath('style.css')
+      );
+
+      await firost.waitForWatchers();
+      const actual = await firost.read(config.toPath('style.css'));
+      expect(actual).toMatchSnapshot();
+    });
     it('should recompile the input file whenever it is changed', async () => {
+      await firost.write('body {}', config.fromPath('style.css'));
+      await module.watch();
       await firost.write(
         'body { background-color: red; }',
         config.fromPath('./style.css')
@@ -199,17 +200,24 @@ describe('norska-css', () => {
       expect(actual).toMatchSnapshot();
     });
     it('should recompile the input file whenever an included file is changed', async () => {
-      jest.spyOn(module, 'compile').mockReturnValue();
+      await firost.write(
+        '@import "_styles/imported.css"',
+        config.fromPath('style.css')
+      );
       await firost.write(
         'b { color: blue; }',
         config.fromPath('_styles/imported.css')
       );
+      await module.watch();
+
+      await firost.write(
+        'b { color: red; }',
+        config.fromPath('_styles/imported.css')
+      );
 
       await firost.waitForWatchers();
-
-      expect(module.compile).toHaveBeenCalledWith(
-        config.fromPath('./style.css')
-      );
+      const actual = await firost.read(config.toPath('./style.css'));
+      expect(actual).toMatchSnapshot();
     });
   });
 });

@@ -114,8 +114,7 @@ export default {
     watchPatterns.push(includedFiles);
 
     // Rebuild the entrypoint whenever something changed
-    await firost.watch(watchPatterns, async (a) => {
-      console.info(a);
+    await firost.watch(watchPatterns, async () => {
       await this.compile(inputFile);
     });
 
