@@ -65,10 +65,12 @@ export default {
   },
   async serve() {
     await this.build();
-    await pAll([async () => await html.watch(), async () => await css.watch()]);
+    await pAll([
+      async () => await html.watch(),
+      async () => await css.watch(),
+      async () => await assets.watch(),
+    ]);
 
-    // // js.watch();
-    // // assets.watch();
     liveServer.start({
       root: config.to(),
       port: config.get('port'),
