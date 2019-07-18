@@ -1,9 +1,11 @@
 import helper from 'norska-helper';
 // import config from 'norska-config';
 import { _ } from 'golgoth';
+import flexboxClasses from './flexbox';
 
 export default {
   // Flatten all the color palette into a one-level-deep object
+  // Allow accessing default .red or .red-5 colors more easily
   flattenColors(colors) {
     return _.transform(
       colors,
@@ -68,17 +70,95 @@ export default {
   getFontSizes() {
     return {
       0: '0rem',
-      1: '0.75rem',
-      2: '0.875rem',
-      3: '1rem',
-      base: '1rem',
-      4: '1.125rem',
-      5: '1.25rem',
-      6: '1.5rem',
-      7: '1.875rem',
-      8: '2.25rem',
-      9: '3rem',
-      10: '4rem',
+      '06': '0.25rem',
+      '07': '0.5rem',
+      '08': '0.75rem',
+      '09': '0.875rem',
+      1: '1rem',
+      2: '1.125rem',
+      3: '1.25rem',
+      4: '1.5rem',
+      5: '1.875rem',
+      6: '2.25rem',
+      7: '3rem',
+      8: '4rem',
+    };
+  },
+  getSpacingScale() {
+    return {
+      // No space at all
+      0: '0',
+      // Smaller than the base unit
+      '01': '0.25rem',
+      '02': '0.5rem',
+      '03': '0.75rem',
+      '04': '0.875rem',
+      // Default scale
+      1: '1rem',
+      2: '1.25rem',
+      3: '1.5rem',
+      4: '2rem',
+      5: '2.5rem',
+      6: '3rem',
+      7: '4rem',
+      8: '5rem',
+      9: '6rem',
+      10: '8rem',
+      11: '10rem',
+      12: '12rem',
+      13: '14rem',
+      14: '16rem',
+      // Percentage scale
+      '15p': '15%',
+      '20p': '20%',
+      '25p': '25%',
+      '30p': '30%',
+      '33p': 'calc(100% / 3)',
+      '40p': '40%',
+      '50p': '50%',
+      '60p': '60%',
+      '66p': 'calc(100% / 1.5)',
+      '70p': '70%',
+      '75p': '75%',
+      '80p': '80%',
+      '90p': '90%',
+      '100p': '100%',
+      // vh scale
+      '10vh': '10vh',
+      '20vh': '20vh',
+      '30vh': '30vh',
+      '40vh': '40vh',
+      '50vh': '50vh',
+      '60vh': '60vh',
+      '70vh': '70vh',
+      '80vh': '80vh',
+      '90vh': '90vh',
+      '100vh': '100vh',
+      // vw scale
+      '10vw': '10vw',
+      '20vw': '20vw',
+      '30vw': '30vw',
+      '40vw': '40vw',
+      '50vw': '50vw',
+      '60vw': '60vw',
+      '70vw': '70vw',
+      '80vw': '80vw',
+      '90vw': '90vw',
+      '100vw': '100vw',
+    };
+  },
+  getZIndex() {
+    return {
+      0: 0,
+      1: 1,
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      6: 6,
+      7: 7,
+      8: 8,
+      9: 9,
     };
   },
   // Allow using colors directly with .white instead of .text-color
@@ -95,7 +175,7 @@ export default {
   },
   // Allow using .bold instead of .font-bold
   pluginSimplerBold({ addUtilities, theme }) {
-    const fontWeight = this.flattenColors(theme('fontWeight'));
+    const fontWeight = theme('fontWeight');
     addUtilities({
       '.bold': {
         fontWeight: fontWeight.bold,
@@ -110,23 +190,69 @@ export default {
       },
     });
   },
-  // userConfig() {
-  //   return helper.require(config.rootPath('tailwind.config.js'));
-  // },
+  // Use a scale of line-height with .ln-X
+  // 0 will remove it
+  // 1 is 1 rem
+  // base is 1.5
+  pluginSimplerLineHeight({ addUtilities }) {
+    const values = {
+      0: 0,
+      1: 1,
+      2: 1.25,
+      tight: 1.25,
+      3: 1.375,
+      4: 1.5,
+      normal: 1.5,
+      5: 1.625,
+      6: 2,
+      loose: 2,
+    };
+    const newClasses = _.transform(
+      values,
+      (result, value, key) => {
+        result[`.lh-${key}`] = {
+          lineHeight: value,
+        };
+      },
+      {}
+    );
+    addUtilities(newClasses);
+  },
+  // Add .debug class to outline all elements
+  pluginDebug({ addUtilities, theme }) {
+    const debugColors = ['purple', 'pink', 'green', 'yellow', 'orange', 'red'];
+    const colors = this.flattenColors(theme('colors'));
+    const newClasses = {};
+    _.times(debugColors.length, depth => {
+      const selector = ['.debug', _.repeat('> * ', depth)].join(' ');
+      const colorValue = colors[`${debugColors[depth]}-4`];
+      newClasses[selector] = {
+        outline: `1px solid ${colorValue}`,
+      };
+    });
+    addUtilities(newClasses);
+  },
+  // Add all the flrnw and flc classes
+  pluginFlexbox({ addUtilities }) {
+    addUtilities(flexboxClasses);
+  },
   init() {
     return {
       theme: {
         colors: this.getColors(),
         fontSize: this.getFontSizes(),
+        spacing: this.getSpacingScale(),
+        zIndex: this.getZIndex(),
       },
       plugins: [
         _.bind(this.pluginSimplerTextColors, this),
         _.bind(this.pluginSimplerBold, this),
         _.bind(this.pluginSimplerStrike, this),
+        _.bind(this.pluginSimplerLineHeight, this),
+        _.bind(this.pluginDebug, this),
+        _.bind(this.pluginFlexbox, this),
       ],
     };
-    // console.info(this.userConfig());
-    // return this.userConfig()(defaultTheme);
   },
   __defaultTheme() {
     return helper.require('tailwindcss/defaultTheme');

@@ -4,14 +4,6 @@ import config from 'norska-config';
 import firost from 'firost';
 import css from 'css';
 import { _ } from 'golgoth';
-// Note: beforeAll calls are ALWAYS called, even when tests are
-// focused/skipped, which will slow down things a lot. To work around
-// this, we created a __hackDisableBeforeAll variable to skip the
-// beforeAll when set to true. This is easier than commenting the whole
-// block...
-// See https://github.com/facebook/jest/issues/8614 for the bug
-const __hackDisableBeforeAll = false;
-
 /**
  * Read a CSS file and return an object of rules with associated props, to ease
  * testing
@@ -135,13 +127,6 @@ describe('tailwindConfigurator', () => {
       expect(actual['5']).toBeLessThan(actual['6']);
       expect(actual['6']).toBeLessThan(actual['7']);
       expect(actual['7']).toBeLessThan(actual['8']);
-      expect(actual['8']).toBeLessThan(actual['9']);
-      expect(actual['9']).toBeLessThan(actual['10']);
-    });
-    it('should have a base equal to step 3', () => {
-      const actual = module.getFontSizes();
-
-      expect(actual.base).toEqual(actual['3']);
     });
     it('should have a step 0 to hide it', () => {
       const actual = module.getFontSizes();
@@ -240,20 +225,17 @@ describe('tailwindConfigurator', () => {
     });
   });
   describe('full run', () => {
+    let hasAlreadyRun = false;
     let output;
-    beforeAll(async () => {
-      // Note: Mocks are only restored when a test starts, so they are still
-      // active here. That's why we restore them manually, otherwise we'll end
-      // up with test data
-      jest.restoreAllMocks();
-      if (__hackDisableBeforeAll) return;
+    beforeEach(async () => {
       await configInit();
+      if (hasAlreadyRun) {
+        return;
+      }
       await firost.emptyDir('./tmp/norska-css-tailwind');
       await norskaCss.run();
       output = await cssToObject(config.toPath('tailwind.css'));
-    });
-    beforeEach(async () => {
-      await configInit();
+      hasAlreadyRun = true;
     });
     it('should contain a tailwind default class', async () => {
       expect(output).toHaveProperty('classes.inline.display', 'inline');
