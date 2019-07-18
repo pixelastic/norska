@@ -42,6 +42,17 @@ export default {
    **/
   async watch() {
     const pattern = config.fromPath(config.get('assets.files'));
-    await firost.watch(pattern, this.compile);
+    await firost.watch(pattern, async (filepath, type) => {
+      // When removing a file in source, we remove it in destination as well
+      if (type === 'removed') {
+        const sourceFolder = config.from();
+        const relativeSource = path.relative(sourceFolder, filepath);
+        const absoluteDestination = config.toPath(relativeSource);
+        await firost.remove(absoluteDestination);
+        return;
+      }
+      // Otherwise, we simly copy it
+      await this.compile(filepath);
+    });
   },
 };

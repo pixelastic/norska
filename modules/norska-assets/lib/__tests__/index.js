@@ -198,10 +198,20 @@ describe('norska-assets', () => {
       const actual = await firost.read(config.toPath('foo.jpg'));
       expect(actual).toEqual('foo');
     });
+    it('should copy files added in subfolder', async () => {
+      await module.watch();
+
+      await firost.write('foo', config.fromPath('./images/foo.jpg'));
+      await firost.waitForWatchers();
+
+      const actual = await firost.read(config.toPath('./images/foo.jpg'));
+      expect(actual).toEqual('foo');
+    });
     it('should delete files deleted', async () => {
       await module.watch();
 
       await firost.write('foo', config.fromPath('foo.jpg'));
+      await firost.waitForWatchers();
       await firost.remove(config.fromPath('foo.jpg'));
       await firost.waitForWatchers();
 
