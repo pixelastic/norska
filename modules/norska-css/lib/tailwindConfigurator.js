@@ -109,6 +109,7 @@ export default {
       13: '14rem',
       14: '16rem',
       // Percentage scale
+      '10p': '10%',
       '15p': '15%',
       '20p': '20%',
       '25p': '25%',
@@ -126,22 +127,30 @@ export default {
       // vh scale
       '10vh': '10vh',
       '20vh': '20vh',
+      '25vh': '25vh',
       '30vh': '30vh',
+      '33vh': 'calc(100vh / 3)',
       '40vh': '40vh',
       '50vh': '50vh',
       '60vh': '60vh',
+      '66vh': 'calc(100vh / 1.5)',
       '70vh': '70vh',
+      '75vh': '75vh',
       '80vh': '80vh',
       '90vh': '90vh',
       '100vh': '100vh',
       // vw scale
       '10vw': '10vw',
       '20vw': '20vw',
+      '25vw': '25vw',
       '30vw': '30vw',
+      '33vw': 'calc(100vw / 3)',
       '40vw': '40vw',
       '50vw': '50vw',
       '60vw': '60vw',
+      '66vw': 'calc(100vw / 1.5)',
       '70vw': '70vw',
+      '75vw': '75vw',
       '80vw': '80vw',
       '90vw': '90vw',
       '100vw': '100vw',
@@ -159,6 +168,17 @@ export default {
       7: 7,
       8: 8,
       9: 9,
+    };
+  },
+  getBorderRadius() {
+    return {
+      0: '0',
+      1: '.125rem',
+      2: '.25rem',
+      default: '.25rem',
+      3: '.5rem',
+      4: '1rem',
+      full: '9999px',
     };
   },
   // Allow using colors directly with .white instead of .text-color
@@ -236,21 +256,51 @@ export default {
   pluginFlexbox({ addUtilities }) {
     addUtilities(flexboxClasses);
   },
+  pluginBullets({ addUtilities, theme }) {
+    const colors = this.flattenColors(theme('colors'));
+    const newClasses = {
+      '.bullet:before': { content: '"• "' },
+      '.bullet-arrow:before': { content: '"> "' },
+      '.bullet-cross:before': { content: '"✗ "' },
+      '.bullet-tick:before': { content: '"✓ "' },
+    };
+    // Add numbered bullets
+    _.times(10, index => {
+      newClasses[`.bullet-${index}:before`] = {
+        content: `"${index}. "`,
+      };
+    });
+    // Colored bullets
+    _.each(colors, (value, colorName) => {
+      newClasses[`.bullet-${colorName}:before`] = {
+        color: value,
+      };
+    });
+    addUtilities(newClasses);
+  },
   init() {
+    const spacingScale = this.getSpacingScale();
     return {
+      separator: '_',
       theme: {
+        borderRadius: this.getBorderRadius(),
         colors: this.getColors(),
         fontSize: this.getFontSizes(),
-        spacing: this.getSpacingScale(),
+        spacing: spacingScale,
+        minHeight: spacingScale,
+        maxHeight: spacingScale,
+        minWidth: spacingScale,
+        maxWidth: spacingScale,
         zIndex: this.getZIndex(),
       },
       plugins: [
-        _.bind(this.pluginSimplerTextColors, this),
-        _.bind(this.pluginSimplerBold, this),
-        _.bind(this.pluginSimplerStrike, this),
-        _.bind(this.pluginSimplerLineHeight, this),
+        _.bind(this.pluginBullets, this),
         _.bind(this.pluginDebug, this),
         _.bind(this.pluginFlexbox, this),
+        _.bind(this.pluginSimplerBold, this),
+        _.bind(this.pluginSimplerLineHeight, this),
+        _.bind(this.pluginSimplerStrike, this),
+        _.bind(this.pluginSimplerTextColors, this),
       ],
     };
   },
