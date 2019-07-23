@@ -78,7 +78,7 @@ export default {
       return false;
     }
 
-    const rawContent = await firost.read(inputFile);
+    const rawContent = await firost.read(absoluteSource);
     const compiler = this.getCompiler();
 
     const compilationResult = await compiler(rawContent, {

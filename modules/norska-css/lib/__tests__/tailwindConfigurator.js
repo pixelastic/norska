@@ -42,8 +42,8 @@ async function cssToObject(filepath) {
  **/
 async function configInit() {
   await config.init({
-    from: './fixtures/src',
-    to: './tmp/norska-css-tailwind',
+    from: './tmp/norska-css/src',
+    to: './tmp/norska-css/dist',
     css: {
       input: 'tailwind.css',
     },
@@ -232,7 +232,11 @@ describe('tailwindConfigurator', () => {
       if (hasAlreadyRun) {
         return;
       }
-      await firost.emptyDir('./tmp/norska-css-tailwind');
+      await firost.emptyDir('./tmp/norska-css');
+      await firost.write(
+        '@tailwind base; @tailwind components; @tailwind utilities;',
+        config.fromPath('tailwind.css')
+      );
       await norskaCss.run();
       output = await cssToObject(config.toPath('tailwind.css'));
       hasAlreadyRun = true;

@@ -1,5 +1,6 @@
 import module from '../index';
 import path from 'path';
+import firost from 'firost';
 
 describe('norska-config', () => {
   describe('rootDir', () => {
@@ -8,6 +9,26 @@ describe('norska-config', () => {
       const actual = module.rootDir();
 
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('rootPath', () => {
+    beforeEach(() => {
+      jest.spyOn(module, 'rootDir').mockReturnValue('/__root');
+    });
+    it('should return an absolute path from the host', () => {
+      const actual = module.rootPath('foo.txt');
+
+      expect(actual).toEqual('/__root/foo.txt');
+    });
+    it('should return the path to the host if no arguments passed', () => {
+      const actual = module.rootPath();
+
+      expect(actual).toEqual('/__root');
+    });
+    it('should keep the path is given as absolute', () => {
+      const actual = module.rootPath('/absolute/path');
+
+      expect(actual).toEqual('/absolute/path');
     });
   });
   describe('defaultConfig', () => {
@@ -247,41 +268,25 @@ describe('norska-config', () => {
       expect(actual).toEqual('/destination');
     });
   });
-  describe('with root fixtures', () => {
-    let rootDir = path.resolve('./fixtures');
-    beforeEach(() => {
-      jest.spyOn(module, 'rootDir').mockReturnValue(rootDir);
+  describe('fileConfig', () => {
+    beforeEach(async () => {
+      jest.spyOn(module, 'rootDir').mockReturnValue('./tmp/norska-config');
+      await firost.emptyDir(module.rootPath());
     });
-    describe('rootPath', () => {
-      it('should return an absolute path from the host', () => {
-        const actual = module.rootPath('foo.txt');
+    it('should return {} if no config file', async () => {
+      const actual = await module.fileConfig();
 
-        expect(actual).toEqual(`${rootDir}/foo.txt`);
-      });
-      it('should return the path to the host if no arguments passed', () => {
-        const actual = module.rootPath();
-
-        expect(actual).toEqual(rootDir);
-      });
-      it('should keep the path is given as absolute', () => {
-        const actual = module.rootPath('/absolute/path');
-
-        expect(actual).toEqual('/absolute/path');
-      });
+      expect(actual).toEqual({});
     });
-    describe('fileConfig', () => {
-      it('should return {} if no config file', async () => {
-        jest.spyOn(module, 'rootPath').mockReturnValue('./nope.js');
-        const actual = await module.fileConfig();
+    it('should require the file and return it if found', async () => {
+      jest.spyOn(module, '__require').mockReturnValue({ foo: 'bar' });
+      const configPath = module.rootPath('norska.config.js');
+      await firost.write('// anything', configPath);
 
-        expect(actual).toEqual({});
-      });
-      it('should require load the file and return it if found', async () => {
-        jest.spyOn(module, '__require').mockReturnValue({ foo: 'bar' });
-        const actual = await module.fileConfig();
+      const actual = await module.fileConfig();
 
-        expect(actual).toHaveProperty('foo', 'bar');
-      });
+      expect(actual).toHaveProperty('foo', 'bar');
+      expect(module.__require).toHaveBeenCalledWith(configPath);
     });
   });
 });

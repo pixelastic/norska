@@ -62,11 +62,11 @@ describe('norska-css', () => {
   describe('compile', () => {
     beforeEach(async () => {
       await config.init({
-        from: './fixtures/src',
-        to: './tmp/norska-css',
+        from: './tmp/norska-css/src',
+        to: './tmp/norska-css/dist',
+        css: module.defaultConfig(),
       });
-      jest.spyOn(firost, 'read').mockReturnValue();
-      jest.spyOn(firost, 'write').mockReturnValue();
+      await firost.emptyDir('./tmp/norska-css');
     });
     it('should fail if file is not in the source folder', async () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
@@ -78,19 +78,19 @@ describe('norska-css', () => {
       expect(helper.consoleWarn).toHaveBeenCalled();
     });
     it('should call the compiler with the raw content', async () => {
-      jest.spyOn(firost, 'read').mockReturnValue('css content');
+      await firost.write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
       jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
 
       await module.compile('style.css');
 
       expect(mockCompiler).toHaveBeenCalledWith(
-        'css content',
+        '/* css content */',
         expect.anything()
       );
     });
     it('should call the compiler with from as the source', async () => {
-      jest.spyOn(firost, 'read').mockReturnValue('css content');
+      await firost.write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
       jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
 
@@ -102,61 +102,153 @@ describe('norska-css', () => {
       );
     });
     it('should write the .css key result to file', async () => {
+      jest.spyOn(firost, 'write');
+      await firost.write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn().mockImplementation(async () => {
-        return { css: 'compiled content' };
+        return { css: '/* compiled content */' };
       });
       jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
 
       await module.compile('style.css');
 
       expect(firost.write).toHaveBeenCalledWith(
-        'compiled content',
-        expect.anything()
-      );
-    });
-    it('should write the compiled css to destination file', async () => {
-      const mockCompiler = jest.fn();
-      jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
-
-      await module.compile('style.css');
-
-      expect(firost.write).toHaveBeenCalledWith(
-        undefined,
+        '/* compiled content */',
         config.toPath('style.css')
       );
     });
   });
   describe('run', () => {
-    beforeEach(() => {
-      config.init({
-        from: './fixtures/src',
-        to: './tmp/norska-css',
+    beforeEach(async () => {
+      await config.init({
+        from: './tmp/norska-css/src',
+        to: './tmp/norska-css/dist',
         css: module.defaultConfig(),
       });
+      await firost.emptyDir('./tmp/norska-css');
+      // TODO:
+      // Add one test per feature we need to test: comment, purgin, etc
+      // It might require more calls to post css, but it will make tests easier
+      // to understand
+      // Another method would be to put everything in one big file and only
+      // check this snapshot, but it will make adding new tests slower as we
+      // might break everything and not just one thing
+      // So, a bunch of simple test that assume dev mode
+      // and maybe one big prod test that purges everything?
     });
-    describe('in development', () => {
-      it('should compile the input file', async () => {
-        jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-        await firost.emptyDir('./tmp/norska-css');
-        await module.run();
 
-        const actual = await firost.read(config.toPath('style.css'));
+    it('should compile basic CSS', async () => {
+      await firost.write(
+        '.class { color: red; }',
+        config.fromPath('style.css')
+      );
+      await module.run();
 
-        expect(actual).toMatchSnapshot();
-      });
+      const actual = await firost.read(config.toPath('style.css'));
+      expect(actual).toMatchSnapshot();
     });
+    it('should import statements inline', async () => {
+      await firost.write(
+        '@import "_styles/imported.css"',
+        config.fromPath('style.css')
+      );
+      await firost.write(
+        'b { color: blue; }',
+        config.fromPath('_styles/imported.css')
+      );
+      await module.run();
+
+      const actual = await firost.read(config.toPath('style.css'));
+      expect(actual).toMatchSnapshot();
+    });
+    it('should flatten nested syntax', async () => {
+      await firost.write(
+        '.class { a { color: red; } }',
+        config.fromPath('style.css')
+      );
+      await module.run();
+
+      const actual = await firost.read(config.toPath('style.css'));
+      expect(actual).toMatchSnapshot();
+    });
+
     describe('in production', () => {
-      it('should compile the input file', async () => {
+      beforeEach(async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-        await firost.emptyDir('./tmp/norska-css');
         await firost.write(
-          '<p class="context"><b>foo</b></p>',
+          '<p class="context"><span>foo</span></p>',
           config.toPath('index.html')
+        );
+      });
+      it('should remove simple comments', async () => {
+        await firost.write(
+          '/* This should be removed */',
+          config.fromPath('style.css')
         );
         await module.run();
 
         const actual = await firost.read(config.toPath('style.css'));
+        expect(actual).toMatchSnapshot();
+      });
+      it('should remove special comments', async () => {
+        await firost.write(
+          '/*! This should be removed */',
+          config.fromPath('style.css')
+        );
+        await module.run();
 
+        const actual = await firost.read(config.toPath('style.css'));
+        expect(actual).toMatchSnapshot();
+      });
+      it('should keep classes available in the markup', async () => {
+        await firost.write(
+          '.context { color: red; }',
+          config.fromPath('style.css')
+        );
+        await module.run();
+
+        const actual = await firost.read(config.toPath('style.css'));
+        expect(actual).toMatchSnapshot();
+      });
+      it('should remove classes not available in the markup', async () => {
+        await firost.write(
+          '.nope { color: red; }',
+          config.fromPath('style.css')
+        );
+        await module.run();
+
+        const actual = await firost.read(config.toPath('style.css'));
+        expect(actual).toMatchSnapshot();
+      });
+      it('should add vendor prefixes', async () => {
+        await firost.write(
+          '.context { user-select: none; }',
+          config.fromPath('style.css')
+        );
+        await module.run();
+
+        const actual = await firost.read(config.toPath('style.css'));
+        expect(actual).toMatchSnapshot();
+      });
+      it('should always keep ais-* classes', async () => {
+        await firost.write(
+          `.ais-foo { color: red; }
+           .ais-foo span { color: red; }`,
+          config.fromPath('style.css')
+        );
+        await module.run();
+
+        const actual = await firost.read(config.toPath('style.css'));
+        expect(actual).toMatchSnapshot();
+      });
+      it('should always keep js-* classes', async () => {
+        await firost.write(
+          `.js-foo { color: red; }
+           .js-foo span { color: red; }`,
+          config.fromPath('style.css')
+        );
+        await module.run();
+
+        const actual = await firost.read(config.toPath('style.css'));
         expect(actual).toMatchSnapshot();
       });
     });

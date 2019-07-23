@@ -14,33 +14,35 @@ export default {
     const source = config.from();
     return [`${source}/**/*.pug`, `!${source}/_*/**/*.pug`];
   },
-  /**
-   * Returns an object containing path information about the specified file.
-   * Those path will be injected in the data passed to the render to be used in
-   * pug directly.
-   * @param {string} filepath Path to the destination created
-   * @returns {object} Object containing path information, with the following
-   * keys:
-   * - basename: The filename (like index.html)
-   * - dirname: The relative path from the root to the directory (like
-   *   blog/2019)
-   * - toRoot: The relative prefix from the file, to the root (like: ../..)
-   **/
-  getPaths(filepath) {
-    const basename = path.basename(filepath);
-    const absoluteDirname = path.dirname(filepath);
-    const absoluteDestination = config.to();
-
-    const dirname = _.chain(absoluteDirname)
-      .replace(new RegExp(`^${absoluteDestination}`), '')
-      .trim('/')
-      .value();
-    const toRoot = path.relative(absoluteDirname, absoluteDestination) || '.';
+  async getData(destination) {
+    const siteData = await helper.siteData();
+    const siteUrl = _.get(siteData, 'site.url', '/');
+    const liveServerUrl = `http://127.0.0.1:${config.get('port')}`;
+    const baseUrl = helper.isProduction() ? siteUrl : liveServerUrl;
     return {
-      basename,
-      dirname,
-      toRoot,
+      ...siteData,
+      url: {
+        base: baseUrl,
+        here: `/${destination}`,
+      },
     };
+
+    // console.info(filepath);
+    // const basename = path.basename(filepath);
+    // const absoluteDirname = path.dirname(filepath);
+    // const absoluteDestination = config.to();
+
+    // const dirname = _.chain(absoluteDirname)
+    //   .replace(new RegExp(`^${absoluteDestination}`), '')
+    //   .trim('/')
+    //   .value();
+    // const toRoot = path.relative(absoluteDirname, absoluteDestination) || '.';
+    // return {
+    //   here: filepath,
+    //   basename,
+    //   dirname,
+    //   toRoot,
+    // };
   },
   /**
    * Compile a file from source into destination
@@ -74,12 +76,8 @@ export default {
       helper.consoleError(chalk.red(err.toString()));
       return false;
     }
-    const globalSiteData = await helper.siteData();
-    const localPathData = this.getPaths(absoluteDestination);
-    const data = {
-      ...globalSiteData,
-      paths: localPathData,
-    };
+
+    const data = await this.getData(relativeDestination);
 
     const result = compiler(data);
     await firost.write(result, absoluteDestination);

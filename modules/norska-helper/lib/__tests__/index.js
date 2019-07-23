@@ -4,6 +4,13 @@ import config from 'norska-config';
 import firost from 'firost';
 
 describe('norska-helper', () => {
+  beforeEach(async () => {
+    await config.init({
+      from: './tmp/norska-helper/src',
+      to: './tmp/norska-helper/dist',
+    });
+    await firost.emptyDir('./tmp/norska-helper');
+  });
   describe('consoleWarn', () => {
     beforeEach(() => {
       jest.spyOn(console, 'info').mockReturnValue();
@@ -66,22 +73,22 @@ describe('norska-helper', () => {
   describe('siteData', () => {
     beforeEach(() => {
       module.clearSiteData();
-      jest.spyOn(config, 'from').mockReturnValue('./fixtures/src');
     });
     it('returns the content of _data.json in source', async () => {
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data.json'));
       const actual = await module.siteData();
 
       expect(actual).toHaveProperty('foo', 'bar');
     });
     it('emits a warning if the file is not found', async () => {
       jest.spyOn(module, 'consoleWarn').mockReturnValue();
-      jest.spyOn(config, 'fromPath').mockReturnValue('/nope');
       const actual = await module.siteData();
 
       expect(module.consoleWarn).toHaveBeenCalled();
       expect(actual).toEqual({});
     });
     it('reads from cache by default', async () => {
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data.json'));
       jest.spyOn(firost, 'readJson');
 
       await module.siteData();
@@ -90,6 +97,7 @@ describe('norska-helper', () => {
       expect(firost.readJson).toHaveBeenCalledTimes(1);
     });
     it('force a re-read if cache: false is passed', async () => {
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data.json'));
       jest.spyOn(firost, 'readJson');
 
       await module.siteData();
@@ -99,9 +107,6 @@ describe('norska-helper', () => {
     });
   });
   describe('clearSiteData', () => {
-    beforeEach(() => {
-      jest.spyOn(config, 'from').mockReturnValue('./fixtures/src');
-    });
     it('should set the internal __siteData empty', async () => {
       await module.siteData();
       await module.clearSiteData();

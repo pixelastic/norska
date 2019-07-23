@@ -138,8 +138,10 @@ describe('norska', () => {
       jest.spyOn(css, 'watch').mockReturnValue();
       jest.spyOn(liveServer, 'start').mockReturnValue();
       await config.init({
-        to: './dist',
+        from: './tmp/norska/src',
+        to: './tmp/norska/dist',
         port: 1234,
+        assets: assets.defaultConfig(),
       });
     });
     it('should build the website', async () => {

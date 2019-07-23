@@ -6,31 +6,32 @@ describe('norska-assets', () => {
   describe('compile', () => {
     beforeEach(async () => {
       await config.init({
-        from: './fixtures/src',
-        to: './tmp/norska-assets',
+        from: './tmp/norska-assets/src',
+        to: './tmp/norska-assets/dist',
         assets: module.defaultConfig(),
       });
       await firost.emptyDir('./tmp/norska-assets');
     });
     it('should copy file to root of destination', async () => {
-      const filepath = 'favicon.ico';
-      await module.compile(config.fromPath(filepath));
+      const filename = 'favicon.ico';
 
-      const actual = await firost.isFile(config.toPath(filepath));
-      expect(actual).toEqual(true);
-    });
-    it('should copy files relative to from()', async () => {
-      const filepath = 'favicon.ico';
-      await module.compile(filepath);
+      const input = config.fromPath(filename);
+      const output = config.toPath(filename);
+      await firost.write('dummy', input);
+      await module.compile(input);
 
-      const actual = await firost.isFile(config.toPath(filepath));
+      const actual = await firost.isFile(output);
       expect(actual).toEqual(true);
     });
     it('should copy file to subfolder', async () => {
-      const filepath = 'images/foo.gif';
-      await module.compile(filepath);
+      const filename = 'deep/folder/favicon.ico';
 
-      const actual = await firost.isFile(config.toPath(filepath));
+      const input = config.fromPath(filename);
+      const output = config.toPath(filename);
+      await firost.write('dummy', input);
+      await module.compile(input);
+
+      const actual = await firost.isFile(output);
       expect(actual).toEqual(true);
     });
   });
