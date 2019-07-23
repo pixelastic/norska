@@ -14,6 +14,11 @@ export default {
     const source = config.from();
     return [`${source}/**/*.pug`, `!${source}/_*/**/*.pug`];
   },
+  /**
+   * Return the data to be passed to each compiled file
+   * @param {string} destination Path to the destination file created
+   * @returns {object} Data object
+   **/
   async getData(destination) {
     const siteData = await helper.siteData();
     const siteUrl = _.get(siteData, 'site.url', '/');
@@ -26,23 +31,6 @@ export default {
         here: `/${destination}`,
       },
     };
-
-    // console.info(filepath);
-    // const basename = path.basename(filepath);
-    // const absoluteDirname = path.dirname(filepath);
-    // const absoluteDestination = config.to();
-
-    // const dirname = _.chain(absoluteDirname)
-    //   .replace(new RegExp(`^${absoluteDestination}`), '')
-    //   .trim('/')
-    //   .value();
-    // const toRoot = path.relative(absoluteDirname, absoluteDestination) || '.';
-    // return {
-    //   here: filepath,
-    //   basename,
-    //   dirname,
-    //   toRoot,
-    // };
   },
   /**
    * Compile a file from source into destination
