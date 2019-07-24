@@ -84,6 +84,9 @@ export default {
       8: '4rem',
     };
   },
+  // Use a numeric scale for spacing as well. Will be used by margin, padding,
+  // width, height. We might generate too much values that are not interesting
+  // for some given properties, but we'll purge them
   getSpacingScale() {
     return {
       // No space at all
@@ -156,6 +159,7 @@ export default {
       '100vw': '100vw',
     };
   },
+  // Default scale used 10, 20, etc
   getZIndex() {
     return {
       0: 0,
@@ -170,6 +174,7 @@ export default {
       9: 9,
     };
   },
+  // Default scale uses tshirt size
   getBorderRadius() {
     return {
       0: '0',
@@ -256,6 +261,7 @@ export default {
   pluginFlexbox({ addUtilities }) {
     addUtilities(flexboxClasses);
   },
+  // Add >, ✗ and ✔ bullets, and colors too
   pluginBullets({ addUtilities, theme }) {
     const colors = this.flattenColors(theme('colors'));
     const newClasses = {
@@ -278,6 +284,29 @@ export default {
     });
     addUtilities(newClasses);
   },
+  // Add grayscale, useful for images
+  pluginGrayscale({ addUtilities }) {
+    const scale = {
+      0: 0,
+      1: '.5',
+      2: '.75',
+      default: 1,
+    };
+    const newClasses = _.transform(
+      scale,
+      (result, value, key) => {
+        let className = '.grayscale';
+        if (key !== 'default') {
+          className += `-${key}`;
+        }
+        result[className] = {
+          filter: `grayscale(${value})`,
+        };
+      },
+      {}
+    );
+    addUtilities(newClasses, { variants: ['hover'] });
+  },
   init() {
     const spacingScale = this.getSpacingScale();
     return {
@@ -295,6 +324,7 @@ export default {
       },
       plugins: [
         _.bind(this.pluginBullets, this),
+        _.bind(this.pluginGrayscale, this),
         _.bind(this.pluginDebug, this),
         _.bind(this.pluginFlexbox, this),
         _.bind(this.pluginSimplerBold, this),
