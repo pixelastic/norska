@@ -12,7 +12,7 @@
     "norska-config": "^0.1.0"
   },
   "devDependencies": {
-    "firost": "0.6.0"
+    "firost": "0.6.1"
   },
   "scripts": {
     "build": "../../scripts/local/build",

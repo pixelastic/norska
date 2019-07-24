@@ -5,9 +5,15 @@ import { _, pMap } from 'golgoth';
 const safelist = ['firost', 'aberlaas', 'golgoth'];
 
 (async function() {
+  // Allow specifying which dep to update
+  const inputDependencies = _.slice(process.argv, 2);
+  const dependenciesToUpdate = _.isEmpty(inputDependencies)
+    ? safelist
+    : _.intersection(safelist, inputDependencies);
+
   // Remove and re-add those packages from devDependencies in the root
-  const commandRemove = `yarn remove -W ${safelist.join(' ')}`;
-  const commandAdd = `yarn add -W --dev ${safelist.join(' ')}`;
+  const commandRemove = `yarn remove -W ${dependenciesToUpdate.join(' ')}`;
+  const commandAdd = `yarn add -W --dev ${dependenciesToUpdate.join(' ')}`;
   console.info('Removing dependencies from root');
   await firost.shell(commandRemove);
   console.info('Re-adding dependencies to root');
@@ -52,9 +58,9 @@ const safelist = ['firost', 'aberlaas', 'golgoth'];
     }
 
     await firost.writeJson(packageJson, filepath, { sort: false });
-
-    // Finally sync all dependencies to make sure it's correctly hoisted
-    console.info('Syncing dependencies');
-    await firost.shell('yarn run sync-dependencies');
   });
+
+  // Finally sync all dependencies to make sure it's correctly hoisted
+  console.info('Syncing dependencies');
+  await firost.shell('yarn run sync-dependencies');
 })();

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`norska-css run in production should add vendor prefixes 1`] = `".context{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}"`;
+
+exports[`norska-css run in production should always keep ais-* classes 1`] = `".ais-foo{color:red}.ais-foo span{color:red}"`;
+
+exports[`norska-css run in production should always keep js-* classes 1`] = `".js-foo{color:red}.js-foo span{color:red}"`;
+
+exports[`norska-css run in production should keep classes available in the markup 1`] = `".context{color:red}"`;
+
+exports[`norska-css run in production should remove classes not available in the markup 1`] = `""`;
+
+exports[`norska-css run in production should remove simple comments 1`] = `""`;
+
+exports[`norska-css run in production should remove special comments 1`] = `""`;
+
+exports[`norska-css run should compile basic CSS 1`] = `
+".class { color: red;
+}"
+`;
+
+exports[`norska-css run should flatten nested syntax 1`] = `
+".class a { color: red;
+}"
+`;
+
+exports[`norska-css run should import statements inline 1`] = `
+"b { color: blue;
+}"
+`;
+
+exports[`norska-css watch should compile the input file when it is created 1`] = `
+"body { background-color: red;
+}"
+`;
+
+exports[`norska-css watch should recompile the input file whenever an included file is changed 1`] = `
+"b { color: red;
+}"
+`;
+
+exports[`norska-css watch should recompile the input file whenever it is changed 1`] = `
+"body { background-color: red;
+}"
+`;

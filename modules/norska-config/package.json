@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
-    "firost": "0.6.0",
+    "firost": "0.6.1",
     "golgoth": "0.2.0"
   },
   "scripts": {

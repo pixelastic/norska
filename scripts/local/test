@@ -1,9 +1,26 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e
 
 INITIAL_PWD="$PWD"
+MODULE_NAME="$(basename $INITIAL_PWD)"
 cd ../../
 
+aberlaas_arguments=()
+for arg in "$@"; do
+  # Keep --named-args as-is
+  if [[ $arg == --* ]]; then
+    aberlaas_arguments+=($arg)
+    continue;
+  fi
+  # Prefix other paths with the module directory
+  aberlaas_arguments+=("modules/${MODULE_NAME}/${arg}")
+done
+
+# If no argument passed, we simply use the module directory
+if [[ $# == '0' ]]; then
+  aberlaas_arguments=($INITIAL_PWD)
+fi
+
 MODULE_FULL_PATH="$INITIAL_PWD" \
-  aberlaas test "$INITIAL_PWD" \
+  aberlaas test "${aberlaas_arguments[@]}" \
   --config "jest.config.local.js"
