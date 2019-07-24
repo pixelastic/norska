@@ -1,7 +1,7 @@
 import path from 'path';
 import config from 'norska-config';
 import firost from 'firost';
-import { _ } from 'golgoth';
+import { _, timeSpan } from 'golgoth';
 import helper from 'norska-helper';
 import postcss from 'postcss';
 import postcssAutoprefixer from 'autoprefixer';
@@ -65,6 +65,7 @@ export default {
    * @returns {boolean} True on success, false otherwise
    **/
   async compile(inputFile) {
+    const timer = timeSpan();
     const sourceFolder = config.from();
     const absoluteSource = config.fromPath(inputFile);
     const relativeSource = path.relative(sourceFolder, absoluteSource);
@@ -81,13 +82,23 @@ export default {
     const rawContent = await firost.read(absoluteSource);
     const compiler = this.getCompiler();
 
-    const compilationResult = await compiler(rawContent, {
-      from: absoluteSource,
-      // to: absoluteDestination,
-    });
-    const compiledCss = _.get(compilationResult, 'css');
+    let compiledCss;
+    try {
+      const compilationResult = await compiler(rawContent, {
+        from: absoluteSource,
+      });
+      compiledCss = _.get(compilationResult, 'css');
+    } catch (err) {
+      helper.consoleError(
+        `[norska-js]: ${err.name} in ${relativeSource} on line ${err.line}`
+      );
+      helper.consoleError(`[norska-js]: ${err.reason}`);
+      helper.exit(1);
+      return;
+    }
 
     await firost.write(compiledCss, absoluteDestination);
+    helper.consoleSuccess(`${relativeSource} compiled in ${timer.rounded()}ms`);
     return true;
   },
 

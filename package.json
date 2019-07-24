@@ -2,9 +2,9 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "0.1.5",
-    "firost": "0.5.1",
-    "golgoth": "0.1.4",
+    "aberlaas": "0.1.6",
+    "firost": "0.6.0",
+    "golgoth": "0.2.0",
     "lerna": "~3.15.0"
   },
   "homepage": "https://github.com/pixelastic/norska#readme",

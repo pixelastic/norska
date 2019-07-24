@@ -13,8 +13,8 @@
     "norska": "./bin/norska"
   },
   "dependencies": {
-    "firost": "0.5.1",
-    "golgoth": "0.1.4",
+    "firost": "0.6.0",
+    "golgoth": "0.2.0",
     "live-server": "1.2.1",
     "minimist": "1.2.0",
     "norska-assets": "^0.1.0",

@@ -8,11 +8,11 @@
   "main": "./build/index.js",
   "dependencies": {
     "cpx": "~1.5.0",
-    "golgoth": "0.1.4",
+    "golgoth": "0.2.0",
     "norska-config": "^0.1.0"
   },
   "devDependencies": {
-    "firost": "0.5.1"
+    "firost": "0.6.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",
