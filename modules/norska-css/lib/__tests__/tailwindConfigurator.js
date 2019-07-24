@@ -1,6 +1,7 @@
 import norskaCss from '../index';
 import module from '../tailwindConfigurator';
 import config from 'norska-config';
+import helper from 'norska-helper';
 import firost from 'firost';
 import css from 'css';
 import { _ } from 'golgoth';
@@ -42,14 +43,15 @@ async function cssToObject(filepath) {
  **/
 async function configInit() {
   await config.init({
-    from: './tmp/norska-css/src',
-    to: './tmp/norska-css/dist',
+    from: `${tmpDirectory}/src`,
+    to: `${tmpDirectory}/dist`,
     css: {
       input: 'tailwind.css',
     },
   });
 }
 
+const tmpDirectory = './tmp/norska-css/tailwind';
 describe('tailwindConfigurator', () => {
   describe('flattenColors', () => {
     it('should return root level string keys as-is', () => {
@@ -229,10 +231,11 @@ describe('tailwindConfigurator', () => {
     let output;
     beforeEach(async () => {
       await configInit();
+      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
       if (hasAlreadyRun) {
         return;
       }
-      await firost.emptyDir('./tmp/norska-css');
+      await firost.emptyDir(tmpDirectory);
       await firost.write(
         '@tailwind base; @tailwind components; @tailwind utilities;',
         config.fromPath('tailwind.css')

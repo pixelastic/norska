@@ -6,15 +6,16 @@ import firost from 'firost';
 // This tests are slow as they actually really compile CSS through postCSS. We
 // put them in their own file to easily ignore them when watching tests
 describe('norska-css', () => {
+  const tmpDirectory = './tmp/norska-css/slow';
   describe('compile', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
       await config.init({
-        from: './tmp/norska-css/src',
-        to: './tmp/norska-css/dist',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
         css: module.defaultConfig(),
       });
-      await firost.emptyDir('./tmp/norska-css');
+      await firost.emptyDir(tmpDirectory);
     });
     it('should fail if file is not in the source folder', async () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
@@ -69,11 +70,11 @@ describe('norska-css', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
       await config.init({
-        from: './tmp/norska-css/src',
-        to: './tmp/norska-css/dist',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
         css: module.defaultConfig(),
       });
-      await firost.emptyDir('./tmp/norska-css');
+      await firost.emptyDir(tmpDirectory);
     });
 
     it('should compile basic CSS', async () => {
@@ -172,7 +173,7 @@ describe('norska-css', () => {
       it('should always keep ais-* classes', async () => {
         await firost.write(
           `.ais-foo { color: red; }
-           .ais-foo span { color: red; }`,
+            .ais-foo span { color: red; }`,
           config.fromPath('style.css')
         );
         await module.run();
@@ -183,7 +184,7 @@ describe('norska-css', () => {
       it('should always keep js-* classes', async () => {
         await firost.write(
           `.js-foo { color: red; }
-           .js-foo span { color: red; }`,
+            .js-foo span { color: red; }`,
           config.fromPath('style.css')
         );
         await module.run();
@@ -193,21 +194,21 @@ describe('norska-css', () => {
       });
     });
   });
-  fdescribe('watch', () => {
+  describe('watch', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
       await config.init({
-        from: './tmp/norska-css/src',
-        to: './tmp/norska-css/dist',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
         css: module.defaultConfig(),
       });
-      await firost.emptyDir('./tmp/norska-css');
+      await firost.emptyDir(tmpDirectory);
       await firost.mkdirp(config.from());
     });
     afterEach(async () => {
       await firost.unwatchAll();
     });
-    fit('should compile the input file when it is created', async () => {
+    it('should compile the input file when it is created', async () => {
       await module.watch();
 
       await firost.write(

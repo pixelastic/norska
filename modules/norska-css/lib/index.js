@@ -118,7 +118,7 @@ export default {
 
     // Listen to the entrypoint
     const inputFile = config.fromPath(config.get('css.input'));
-    // watchPatterns.push(inputFile);
+    watchPatterns.push(inputFile);
 
     // Listen to the includes files
     const includedFiles = `${config.from()}/_styles/**/*.css`;
