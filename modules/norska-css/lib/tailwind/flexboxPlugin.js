@@ -1,8 +1,9 @@
 /**
  * Adding vim-inspired classed for flexbox alignement
+ * @param {Array} variants Tailwind potential variants
  * @returns {Function} Plugin function
  **/
-export default function() {
+export default function(variants) {
   const flexboxClasses = {
     // FLEX CONTAINERS
     // FLex Row No Wrap
@@ -103,6 +104,6 @@ export default function() {
     },
   };
   return function({ addUtilities }) {
-    addUtilities(flexboxClasses);
+    addUtilities(flexboxClasses, variants);
   };
 }

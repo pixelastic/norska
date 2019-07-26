@@ -2,7 +2,7 @@ import { _ } from 'golgoth';
 
 /**
  * Change an element to black and white only, or several degrees of grayscale
- * @param {object} variants Tailwind potential variants
+ * @param {Array} variants Tailwind potential variants
  * @returns {Function} Plugin function
  **/
 export default function(variants) {

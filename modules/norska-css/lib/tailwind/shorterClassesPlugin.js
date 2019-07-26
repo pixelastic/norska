@@ -13,6 +13,9 @@ export default function() {
       '.bold': {
         fontWeight: fontWeight.bold,
       },
+      '.pointer': {
+        cursor: 'pointer',
+      },
     };
     addUtilities(newClasses);
   };
