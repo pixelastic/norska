@@ -4,12 +4,13 @@ import config from 'norska-config';
 import firost from 'firost';
 
 describe('norska-helper', () => {
+  const tmpDirectory = './tmp/norska-helper/';
   beforeEach(async () => {
     await config.init({
-      from: './tmp/norska-helper/src',
-      to: './tmp/norska-helper/dist',
+      from: `${tmpDirectory}/src`,
+      to: `${tmpDirectory}/dist`,
     });
-    await firost.emptyDir('./tmp/norska-helper');
+    await firost.emptyDir(tmpDirectory);
   });
   describe('consoleWarn', () => {
     beforeEach(() => {
@@ -74,21 +75,22 @@ describe('norska-helper', () => {
     beforeEach(() => {
       module.clearSiteData();
     });
-    it('returns the content of _data.json in source', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data.json'));
+    it('returns keys for one .json file in _data', async () => {
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
       const actual = await module.siteData();
 
-      expect(actual).toHaveProperty('foo', 'bar');
+      expect(actual).toHaveProperty('foo.foo', 'bar');
     });
-    it('emits a warning if the file is not found', async () => {
-      jest.spyOn(module, 'consoleWarn').mockReturnValue();
+    it('returns keys for all .json file in _data', async () => {
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
+      await firost.writeJson({ bar: 'baz' }, config.fromPath('_data/bar.json'));
       const actual = await module.siteData();
 
-      expect(module.consoleWarn).toHaveBeenCalled();
-      expect(actual).toEqual({});
+      expect(actual).toHaveProperty('foo.foo', 'bar');
+      expect(actual).toHaveProperty('bar.bar', 'baz');
     });
     it('reads from cache by default', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data.json'));
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
       jest.spyOn(firost, 'readJson');
 
       await module.siteData();
@@ -97,7 +99,7 @@ describe('norska-helper', () => {
       expect(firost.readJson).toHaveBeenCalledTimes(1);
     });
     it('force a re-read if cache: false is passed', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data.json'));
+      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
       jest.spyOn(firost, 'readJson');
 
       await module.siteData();

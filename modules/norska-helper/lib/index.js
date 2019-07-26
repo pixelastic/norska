@@ -1,6 +1,7 @@
-import { _, chalk } from 'golgoth';
+import { _, chalk, pMap } from 'golgoth';
 import config from 'norska-config';
 import firost from 'firost';
+import path from 'path';
 
 export default {
   /**
@@ -81,27 +82,33 @@ export default {
    * @returns {object} The _data.json config object
    **/
   async siteData(userOptions = {}) {
+    const cacheKey = 'norska.helper.siteData';
+    const cache = firost.cache;
     const options = {
       cache: true,
       ...userOptions,
     };
 
     // Return the cache value if we already read it
-    if (options.cache && !_.isEmpty(this.__siteData)) {
-      return this.__siteData;
+    if (options.cache && cache.has(cacheKey)) {
+      return cache.read(cacheKey);
     }
 
-    // Check that the file actually exists
-    const filepath = config.fromPath('_data.json');
-    if (!(await firost.exists(filepath))) {
-      this.consoleWarn(`Cannot find config file ${filepath}`);
-      return {};
-    }
+    // Find all .json files in _data
+    const dataFolder = config.fromPath('_data');
+    const dataFiles = await firost.glob(config.fromPath('_data/**/*.json'));
+    const data = {};
+    await pMap(dataFiles, async filepath => {
+      const content = await firost.readJson(filepath);
+      const keyPath = _.chain(path.relative(dataFolder, filepath))
+        .replace('.json', '')
+        .replace('/', '.')
+        .value();
+      _.set(data, keyPath, content);
+    });
 
     // Read and record data to cache
-    const data = await firost.readJson(filepath);
-    this.__siteData = data;
-    return data;
+    return cache.write(cacheKey, data);
   },
   /**
    * Clears the current site data read from _data.json. During a regular build,
@@ -109,6 +116,6 @@ export default {
    * watch mode, we need to clear the cache
    **/
   clearSiteData() {
-    this.__siteData = {};
+    firost.cache.clear('norska.helper.siteData');
   },
 };

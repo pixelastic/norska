@@ -34,7 +34,6 @@ export default function(variants) {
       newClasses
     );
 
-    console.info(newClasses);
     addUtilities(newClasses, variants);
   };
 }
