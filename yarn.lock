@@ -4778,6 +4778,20 @@ firost@0.6.1:
     json-stable-stringify "1.0.1"
     shelljs "0.8.2"
 
+firost@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/firost/-/firost-0.7.1.tgz#3f32dbc1e0919e2e5645e6f3503c06ab6c9711a1"
+  integrity sha512-y24Tk78I3Dl5P4K9fPgaTNqx1/MfAI1X7vQUh9JGY3hw6wdtHHxlK/s59PipxQBtapbl08Gd8jvStjgdMdQsbA==
+  dependencies:
+    chokidar "3.0.2"
+    fs-extra "7.0.0"
+    globby "8.0.2"
+    golgoth "~0.1.0"
+    inquirer "6.5.0"
+    is-glob "4.0.0"
+    json-stable-stringify "1.0.1"
+    shelljs "0.8.2"
+
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"

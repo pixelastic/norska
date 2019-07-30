@@ -92,8 +92,8 @@ export default {
       await this.compile(filepath);
     });
 
-    // Reload all pug files whenever the _data.json is changed
-    const dataPath = config.fromPath('_data.json');
+    // Reload all pug files whenever files in _data/ are changed
+    const dataPath = config.fromPath('_data/**/*.json');
     await firost.watch(dataPath, async () => {
       // Clear the cache so we don't read a stale data
       helper.clearSiteData();
