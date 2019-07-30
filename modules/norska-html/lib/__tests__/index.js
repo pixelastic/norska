@@ -281,9 +281,6 @@ describe('norska-html', () => {
       });
     });
     describe('includes', () => {
-      beforeEach(async () => {
-        await firost.mkdirp(config.fromPath('_includes'));
-      });
       it('should run everything when an included file is added', async () => {
         await firost.write(
           'extends /_includes/layout',
