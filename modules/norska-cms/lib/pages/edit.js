@@ -1,5 +1,7 @@
 import config from 'norska-config';
+import helper from 'norska-helper';
 import firost from 'firost';
+import path from 'path';
 import { _ } from 'golgoth';
 
 /**
@@ -12,13 +14,13 @@ export default async function index(req, res) {
   const fullDataPath = config.fromPath(`_data/${fileName}`);
   const data = await firost.readJson(fullDataPath);
 
-  const fields = _.map(data, (value, key) => {
-    return {
-      name: key,
-      value,
-      type: 'text',
-    };
-  });
+  // We re-require the form helper everytime this page is loaded instead of
+  // using import. This allow us to always load the most up-to-date version
+  // during livereloads
+  const formHelper = helper.require(
+    path.resolve(__dirname, '../formHelper.js'),
+    { forceReload: true }
+  );
 
-  res.render('edit', { fileName, fields });
+  res.render('edit', { fileName, data, formHelper, _ });
 }

@@ -115,4 +115,26 @@ describe('norska-helper', () => {
       expect(module.__siteData).toEqual({});
     });
   });
+  describe('require', () => {
+    beforeEach(() => {
+      jest.spyOn(module, '__require').mockReturnValue();
+    });
+    it('should require the specified id', () => {
+      module.require('foo');
+
+      expect(module.__require).toHaveBeenCalledWith('foo');
+    });
+    it('should return the required module', () => {
+      jest.spyOn(module, '__require').mockReturnValue('foo');
+      const actual = module.require('foo');
+
+      expect(actual).toEqual('foo');
+    });
+    it('should return the default key if there is one', () => {
+      jest.spyOn(module, '__require').mockReturnValue({ default: 'foo' });
+      const actual = module.require('foo');
+
+      expect(actual).toEqual('foo');
+    });
+  });
 });

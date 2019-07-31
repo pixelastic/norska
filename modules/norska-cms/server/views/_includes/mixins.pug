@@ -1,0 +1,41 @@
+mixin formField(fieldName, fieldValue)
+  - const type = formHelper.inferType(fieldValue)
+  //- Unfortunately, pug does not have a way to include dynamic files, so we
+  //- need to create a big switch case like this
+  case type
+    when "textarea"
+      +textarea(fieldName, fieldValue)
+    when "list"
+      +list(fieldName, fieldValue)
+    default
+      +input(fieldName, fieldValue)
+
+mixin label(fieldName) 
+  - const name = _.chain(fieldName).split('.').last().replace(/\[\]/g,'').value();
+  .fln.w-25p.bold.text-5.pr-2.flrnw.flc=name
+
+mixin input(fieldName, fieldValue)
+  .flrnw.p-1
+    +label(fieldName)
+    .fla
+      input.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=fieldName value=fieldValue type="text")
+
+mixin textarea(fieldName, fieldValue)
+  .flrnw.p-1
+    +label(fieldName)
+    .fla
+      textarea.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=fieldName)=fieldValue
+
+
+mixin list(fieldName, fieldValue)
+  .flcnw.p-1
+    each item in fieldValue
+      .p-1.border.border-gray-4.rounded-2.mb-1
+        each itemValue, itemName in item
+          - const finalItemName = `${fieldName}.${itemName}[]`
+          +formField(finalItemName, itemValue)
+
+      // p=itemValue
+      //   p=itemName
+        // each field in item
+        // p=item.name

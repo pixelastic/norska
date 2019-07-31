@@ -1,10 +1,8 @@
 import module from '../index';
 import helper from 'norska-helper';
 import firost from 'firost';
-import path from 'path';
 
 describe('norska-cms', () => {
-  const tmpPath = path.resolve('./tmp/norska-cms');
   describe('startLivereload', () => {
     let mockCreateServer = jest.fn();
     let mockWatch = jest.fn();
@@ -64,50 +62,27 @@ describe('norska-cms', () => {
         expect(mockWatch).toHaveBeenCalledWith(expected);
       });
     });
-    describe('page reload', () => {
-      beforeEach(async () => {
-        await firost.emptyDir(tmpPath);
-      });
-      afterEach(async () => {
-        await firost.unwatchAll();
-      });
-      it('should clear the require cache whenever a page file is updated', async () => {
-        // Note that jest overwrite the builtin require() calls with its own
-        // version, making accessing the require.cache impossible. In order to
-        // test this method, we instead check the __removeFromRequireCache is
-        // correctly called and trust this method to do the right thing™
-        jest.spyOn(module, 'pagesPath').mockReturnValue(tmpPath);
-        jest.spyOn(module, '__removeFromRequireCache');
-
-        await module.startLivereload();
-
-        // We create a dummy page, this should clear
-        const dummyPath = `${tmpPath}/dummy.js`;
-        await firost.write('dummut', dummyPath);
-        await firost.waitForWatchers();
-
-        expect(module.__removeFromRequireCache).toHaveBeenCalledWith(dummyPath);
-      });
-    });
   });
   describe('page', () => {
     beforeEach(() => {
       jest.spyOn(module, 'pagesPath').mockReturnValue('/tmp/pages');
-      jest.spyOn(helper, 'require').mockReturnValue({ default: jest.fn() });
+      jest.spyOn(helper, 'require').mockReturnValue(jest.fn);
     });
     it('should return a function', async () => {
       const actual = module.page('foo');
 
       expect(typeof actual).toBe('function');
     });
-    it('that requires the specified page when called', async () => {
+    it('that force requires the specified page when called', async () => {
       module.page('foo')();
 
-      expect(helper.require).toHaveBeenCalledWith('/tmp/pages/foo.js');
+      expect(helper.require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
+        forceReload: true,
+      });
     });
     it('that applies passed arguments to required function', async () => {
       const mockMethod = jest.fn();
-      jest.spyOn(helper, 'require').mockReturnValue({ default: mockMethod });
+      jest.spyOn(helper, 'require').mockReturnValue(mockMethod);
 
       module.page('foo')('bar', 'baz');
 

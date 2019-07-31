@@ -54,6 +54,7 @@ export default {
       // Where are the views, and what engine to use
       app.set('views', this.viewsPath());
       app.set('view engine', 'pug');
+      app.locals.basedir = this.viewsPath();
 
       // Where are the static assets
       app.use(express.static(this.staticPath()));
@@ -93,13 +94,6 @@ export default {
     this.__livereload()
       .createServer(livereloadOptions)
       .watch(watchedDirectories);
-
-    // Whenever a page is updated, we clear the node require cache, so the new
-    // version is correctly reloaded
-    const pagesGlob = `${pagesPath}/*.js`;
-    await firost.watch(pagesGlob, filepath => {
-      this.__removeFromRequireCache(filepath);
-    });
   },
   /**
    * Run the Norska CMS admin panel, with livereload enabled
@@ -119,7 +113,7 @@ export default {
   page(pageName) {
     const pagePath = path.resolve(this.pagesPath(), `${pageName}.js`);
     return function(req, res) {
-      return helper.require(pagePath).default(req, res);
+      return helper.require(pagePath, { forceReload: true })(req, res);
     };
   },
   /**
@@ -138,15 +132,6 @@ export default {
     const compiledCss = _.get(compilationResult, 'css');
 
     await firost.write(compiledCss, destinationCssPath);
-  },
-  /**
-   * Delete an entry from the node require cache.
-   * We need to wrap this into its own method to be able to mock it in tests, as
-   * the builtin require is not available through Jest
-   * @param {string} id Module identifier
-   **/
-  __removeFromRequireCache(id) {
-    delete require.cache[id];
   },
   /**
    * Wrapping the livereload dependency so we can mock it in tests

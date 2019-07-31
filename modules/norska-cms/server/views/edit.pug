@@ -6,12 +6,11 @@ block content
 
   .border.border-gray-4.rounded-2.bg-gray-1
     form(action=`/update/${fileName}` method="post")
-      each field in fields
-        .flrnw.p-1
-          .fln.w-25p.bold.text-5.pr-2.flrnw.flc=field.name
-          .fla
-            input.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=field.name value=field.value type="text")
-
+      if _.isArray(data)
+        +formField("__list__", data)
+      else
+        each fieldValue, fieldName in data
+          +formField(fieldName, fieldValue)
       .flrnw.p-1.flrar
         .fln
           button.bold.text-5.bg-blue.px-1.py-02.white.rounded-2(type="submit") Submit
