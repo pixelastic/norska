@@ -7,6 +7,7 @@ import helper from 'norska-helper';
 import { _ } from 'golgoth';
 import livereload from 'livereload';
 import connectLivereload from 'connect-livereload';
+import open from 'open';
 
 export default {
   /**
@@ -67,8 +68,10 @@ export default {
 
       // Start the server
       const cmsPort = config.get('cms.port');
-      app.listen(cmsPort, () => {
-        console.info(`CMS available at http://127.0.0.1:${cmsPort}/`);
+      app.listen(cmsPort, async () => {
+        const cmsUrl = `http://127.0.0.1:${cmsPort}/`;
+        console.info(`CMS available at ${cmsUrl}`);
+        await open(cmsUrl);
         resolve();
       });
     });

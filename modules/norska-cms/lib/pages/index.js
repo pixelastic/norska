@@ -15,6 +15,5 @@ export default async function index(req, res) {
   dataFiles = _.map(dataFiles, dataFile => {
     return path.relative(dataFolder, dataFile);
   });
-  // dataFiles.push("kkkjkj");
   res.render('index', { files: dataFiles });
 }

@@ -15,7 +15,8 @@
     "nodemon": "1.19.1",
     "norska-config": "^0.1.0",
     "norska-css": "^0.1.0",
-    "norska-helper": "^0.1.0"
+    "norska-helper": "^0.1.0",
+    "open": "6.4.0"
   },
   "files": [
     "build/",
