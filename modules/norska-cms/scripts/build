@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -e
+
+# Build CSS file for Admin panel
+yarn run build:css
+# Build app
+../../scripts/local/build

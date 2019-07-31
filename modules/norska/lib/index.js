@@ -1,12 +1,13 @@
 import assets from 'norska-assets';
+import cms from 'norska-cms';
 import config from 'norska-config';
 import css from 'norska-css';
 import helper from 'norska-helper';
 import html from 'norska-html';
 import init from 'norska-init';
 import js from 'norska-js';
-import screenshot from 'norska-screenshot';
 import liveServer from 'live-server';
+import screenshot from 'norska-screenshot';
 import { pAll, chalk, _ } from 'golgoth';
 import firost from 'firost';
 
@@ -19,7 +20,7 @@ export default {
     const command = _.get(cliArgs, '_[0]', 'build');
 
     // Stop early if no such command exists
-    const safelist = ['build', 'init', 'screenshot', 'serve'];
+    const safelist = ['build', 'cms', 'init', 'screenshot', 'serve'];
     if (!_.includes(safelist, command)) {
       helper.consoleError(`Unknown command ${chalk.red(command)}`);
       helper.exit(1);
@@ -40,6 +41,7 @@ export default {
   async initConfig(cliArgs) {
     const modulesConfig = {
       assets: assets.defaultConfig(),
+      cms: cms.defaultConfig(),
       css: css.defaultConfig(),
       js: js.defaultConfig(),
     };
@@ -51,6 +53,9 @@ export default {
   async init() {
     await init.run();
   },
+  /**
+   * Build the website, compiling all files in .from()
+   **/
   async build() {
     await firost.mkdirp(config.to());
 
@@ -63,8 +68,13 @@ export default {
       async () => await assets.run(),
     ]);
   },
+  /**
+   * Dynamically build and serve the website, listening to changes and
+   * rebuilding if needed
+   **/
   async serve() {
     await this.build();
+
     await pAll([
       async () => await html.watch(),
       async () => await css.watch(),
@@ -76,6 +86,12 @@ export default {
       port: config.get('port'),
       ignore: 'assets',
     });
+  },
+  /**
+   * Start the local CMS, to edit _data files
+   **/
+  async cms() {
+    await cms.run();
   },
   async screenshot(options) {
     await screenshot.run(options);

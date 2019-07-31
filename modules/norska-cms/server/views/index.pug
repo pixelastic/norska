@@ -1,0 +1,6 @@
+extends _includes/layout
+
+block content
+  each file in files
+    .mb-2.text-4
+      a.blue.bold(href=`/edit/${file}`)=file

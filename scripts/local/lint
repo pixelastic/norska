@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-aberlaas lint --config ../../.eslintrc.js "$@"
+INITIAL_PWD="$PWD"
+cd ../../
+
+aberlaas lint "$INITIAL_PWD" "$@"

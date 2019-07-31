@@ -18,6 +18,7 @@
     "live-server": "1.2.1",
     "minimist": "1.2.0",
     "norska-assets": "^0.1.0",
+    "norska-cms": "^0.1.0",
     "norska-config": "^0.1.0",
     "norska-css": "^0.1.0",
     "norska-helper": "^0.1.0",
