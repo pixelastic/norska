@@ -3,6 +3,7 @@ import config from 'norska-config';
 import express from 'express';
 import firost from 'firost';
 import norskaCss from 'norska-css';
+import helper from 'norska-helper';
 import { _ } from 'golgoth';
 import livereload from 'livereload';
 import connectLivereload from 'connect-livereload';
@@ -86,13 +87,15 @@ export default {
     const viewsPath = this.viewsPath();
     const staticPath = this.staticPath();
     const watchedDirectories = [pagesPath, viewsPath, staticPath];
-    livereload.createServer(livereloadOptions).watch(watchedDirectories);
+    this.__livereload()
+      .createServer(livereloadOptions)
+      .watch(watchedDirectories);
 
     // Whenever a page is updated, we clear the node require cache, so the new
     // version is correctly reloaded
     const pagesGlob = `${pagesPath}/*.js`;
     await firost.watch(pagesGlob, filepath => {
-      delete require.cache[filepath];
+      this.__removeFromRequireCache(filepath);
     });
   },
   /**
@@ -113,7 +116,7 @@ export default {
   page(pageName) {
     const pagePath = path.resolve(this.pagesPath(), `${pageName}.js`);
     return function(req, res) {
-      return require(pagePath).default(req, res);
+      return helper.require(pagePath).default(req, res);
     };
   },
   /**
@@ -132,5 +135,21 @@ export default {
     const compiledCss = _.get(compilationResult, 'css');
 
     await firost.write(compiledCss, destinationCssPath);
+  },
+  /**
+   * Delete an entry from the node require cache.
+   * We need to wrap this into its own method to be able to mock it in tests, as
+   * the builtin require is not available through Jest
+   * @param {string} id Module identifier
+   **/
+  __removeFromRequireCache(id) {
+    delete require.cache[id];
+  },
+  /**
+   * Wrapping the livereload dependency so we can mock it in tests
+   * @returns {object} Livereload object
+   **/
+  __livereload() {
+    return livereload;
   },
 };

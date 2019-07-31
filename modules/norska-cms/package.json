@@ -14,9 +14,7 @@
     "livereload": "0.8.0",
     "nodemon": "1.19.1",
     "norska-config": "^0.1.0",
-    "norska-css": "^0.1.0"
-  },
-  "devDependencies": {
+    "norska-css": "^0.1.0",
     "norska-helper": "^0.1.0"
   },
   "files": [
