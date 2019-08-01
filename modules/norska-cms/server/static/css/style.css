@@ -12108,9 +12108,6 @@ video {
   color: #702459;
 }
 
-html {
-}
-
 @media (min-width: 640px) {
   .sm_appearance-none {
     appearance: none;

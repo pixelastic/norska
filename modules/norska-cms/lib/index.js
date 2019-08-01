@@ -34,6 +34,13 @@ export default {
     return path.resolve(__dirname, '../server/static');
   },
   /**
+   * Path to the helper folder used by the app
+   * @returns {string} Path to the helper folder
+   **/
+  helpersPath() {
+    return path.resolve(__dirname, 'helpers');
+  },
+  /**
    * Path to the app pages definitions
    * @returns {string} Path to the pages folder
    **/
@@ -92,13 +99,23 @@ export default {
   async startLivereload() {
     const livereloadOptions = {
       exts: ['gif', 'html', 'ico', 'jpg', 'js', 'json', 'png', 'pug', 'svg'],
+      // We need to add a slight delay so the browser does not reload as soon as
+      // we write on disk in _data
+      delay: 200,
     };
-    // Reload the browser whenever a page, view or asset is updated
-    const dataPath = this.dataPath();
-    const pagesPath = this.pagesPath();
-    const staticPath = this.staticPath();
-    const viewsPath = this.viewsPath();
-    const watchedDirectories = [dataPath, pagesPath, staticPath, viewsPath];
+    // Reload the browser whenever a file in those folders is updated
+    const dataPath = this.dataPath(); // The _data folder in source
+    const helperPath = this.helpersPath(); // CMS helpers
+    const pagesPath = this.pagesPath(); // Each CMS page
+    const staticPath = this.staticPath(); // Static CMS assets
+    const viewsPath = this.viewsPath(); // CMS views
+    const watchedDirectories = [
+      dataPath,
+      helperPath,
+      pagesPath,
+      staticPath,
+      viewsPath,
+    ];
     this.__livereload()
       .createServer(livereloadOptions)
       .watch(watchedDirectories);

@@ -8,21 +8,24 @@ import { _ } from 'golgoth';
  * @param {object} res The Express Response object
  **/
 export default async function index(req, res) {
-  const newFields = req.body;
+  const formBody = req.body;
   const { fileName } = req.params;
   const filepath = config.fromPath(`_data/${fileName}`);
 
-  if (_.has(newFields, '__list__')) {
-    console.info('TODO');
-    return;
+  let newFields = req.body;
+  // If it's a list, we need to remerge all values into objects
+  if (_.get(formBody, '__isList') === '1') {
+    delete formBody.__isList;
+    newFields = _.transform(
+      formBody,
+      (result, values, key) => {
+        _.each(values, (value, index) => {
+          _.set(result, `${index}.${key}`, value);
+        });
+      },
+      []
+    );
   }
-
-  // TODO: If contains a field named __list__, then we need to reconcile all the
-  // elements into an array of objects and save that instead
-  // If not, we just save the thing back to file
-  //
-  // No fancy drag'n'drop for ordering, I'll do that in the json file directly
-  // if the order is really important.
 
   await firost.writeJson(newFields, filepath);
   res.redirect('/');

@@ -9,6 +9,7 @@ export default function() {
   const debugColors = ['purple', 'pink', 'green', 'yellow', 'orange', 'red'];
   return function({ addUtilities }) {
     const newClasses = {};
+    // Adding colored outlines
     _.times(debugColors.length, depth => {
       const selector = ['.debug', _.repeat('> * ', depth)].join(' ');
       const colorValue = colors[`${debugColors[depth]}-4`];

@@ -1,41 +1,37 @@
-mixin formField(fieldName, fieldValue)
-  - const type = formHelper.inferType(fieldValue)
+mixin formField(field)
   //- Unfortunately, pug does not have a way to include dynamic files, so we
   //- need to create a big switch case like this
-  case type
+  case field.type
     when "textarea"
-      +textarea(fieldName, fieldValue)
+      +textarea(field)
     when "list"
-      +list(fieldName, fieldValue)
+      +list(field)
     default
-      +input(fieldName, fieldValue)
+      +input(field)
 
-mixin label(fieldName) 
-  - const name = _.chain(fieldName).split('.').last().replace(/\[\]/g,'').value();
-  .fln.w-25p.bold.text-5.pr-2.flrnw.flc=name
+mixin label(field) 
+  - const displayName = field.displayName || field.name;
+  .fln.w-25p.flrnw.flrar.pr-2
+    .h-7.bold.text-5.gray-7.flrnw.flrcv=`${displayName}:`
 
-mixin input(fieldName, fieldValue)
+mixin input(field)
   .flrnw.p-1
-    +label(fieldName)
+    +label(field)
     .fla
-      input.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=fieldName value=fieldValue type="text")
+      input.p-2.h-7.w-100p.text-3.border.border-gray-3.rounded-2(name=field.name value=field.value type="text")
 
-mixin textarea(fieldName, fieldValue)
+mixin textarea(field)
   .flrnw.p-1
-    +label(fieldName)
+    +label(field)
     .fla
-      textarea.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=fieldName)=fieldValue
+      textarea.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=field.name)=field.value
 
-
-mixin list(fieldName, fieldValue)
-  .flcnw.p-1
-    each item in fieldValue
+mixin list(field)
+  .flcnw.p-1d
+    input(type="hidden" name="__isList" value="1")
+    each item in field.items
       .p-1.border.border-gray-4.rounded-2.mb-1
-        each itemValue, itemName in item
-          - const finalItemName = `${fieldName}.${itemName}[]`
-          +formField(finalItemName, itemValue)
+        .blue.bold.text-4=_.find(item, { name: `${field.displayName}[]` }).value
+        each field in item
+          +formField(field)
 
-      // p=itemValue
-      //   p=itemName
-        // each field in item
-        // p=item.name

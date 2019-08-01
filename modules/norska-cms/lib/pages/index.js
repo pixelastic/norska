@@ -11,7 +11,10 @@ import { _ } from 'golgoth';
 export default async function index(req, res) {
   // Get all _data.json files
   const dataFolder = config.fromPath('_data');
-  let dataFiles = await firost.glob(`${dataFolder}/**/*.json`);
+  let dataFiles = await firost.glob([
+    `${dataFolder}/**/*.json`,
+    `!${dataFolder}/**/*.schema.json`,
+  ]);
   dataFiles = _.map(dataFiles, dataFile => {
     return path.relative(dataFolder, dataFile);
   });
