@@ -55,10 +55,8 @@ describe('helpers/form', () => {
       const item = actual.items[0];
       const fields = item.fields;
 
-      expect(fields[0]).toEqual(objectWith({ name: 'title', value: 'alpha' }));
-      expect(fields[1]).toEqual(
-        objectWith({ name: 'isAwesome', value: false })
-      );
+      expect(fields[0]).toEqual(objectWith({ value: 'alpha' }));
+      expect(fields[1]).toEqual(objectWith({ value: false }));
     });
     it('should set a displayName to each field based on the top-level displayKey', () => {
       const data = [{ title: 'alpha', isAwesome: false }];
@@ -72,6 +70,20 @@ describe('helpers/form', () => {
       const item = actual.items[0];
 
       expect(item).toHaveProperty('displayName', 'Alpha');
+    });
+    it('should set each value as an array', () => {
+      const data = [{ title: 'alpha', isAwesome: false }];
+      const schema = {
+        type: 'list',
+        displayKey: 'title',
+        items: [{ fields: [{ name: 'title' }, { name: 'isAwesome' }] }],
+      };
+
+      const actual = module.getListFields(data, schema)[0];
+      const item = actual.items[0];
+
+      expect(item.fields[0]).toHaveProperty('name', 'title[]');
+      expect(item.fields[1]).toHaveProperty('name', 'isAwesome[]');
     });
   });
   describe('getFileSchema', () => {

@@ -39,6 +39,7 @@ export default {
         const fieldValue = itemData[fieldName];
         return {
           ...field,
+          name: `${fieldName}[]`, // Making it as an array
           value: fieldValue,
         };
       });

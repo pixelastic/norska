@@ -27,11 +27,11 @@ mixin textarea(field)
       textarea.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=field.name)=field.value
 
 mixin list(field)
-  .flcnw.p-1d
+  .flcnw.p-1
     input(type="hidden" name="__isList" value="1")
     each item in field.items
       .p-1.border.border-gray-4.rounded-2.mb-1
-        .blue.bold.text-4=_.find(item, { name: `${field.displayName}[]` }).value
-        each field in item
+        .blue.bold.text-4=item.displayName
+        each field in item.fields
           +formField(field)
 
