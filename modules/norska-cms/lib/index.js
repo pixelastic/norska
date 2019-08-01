@@ -41,6 +41,13 @@ export default {
     return path.resolve(__dirname, 'pages');
   },
   /**
+   * Path to the data files in source
+   * @returns {string} Path to the _data folder
+   **/
+  dataPath() {
+    return config.fromPath('_data');
+  },
+  /**
    * Start the CMS server
    * @returns {Promise} Resolves when server is ready
    **/
@@ -84,13 +91,14 @@ export default {
    **/
   async startLivereload() {
     const livereloadOptions = {
-      exts: ['gif', 'html', 'ico', 'jpg', 'js', 'png', 'pug', 'svg'],
+      exts: ['gif', 'html', 'ico', 'jpg', 'js', 'json', 'png', 'pug', 'svg'],
     };
     // Reload the browser whenever a page, view or asset is updated
+    const dataPath = this.dataPath();
     const pagesPath = this.pagesPath();
-    const viewsPath = this.viewsPath();
     const staticPath = this.staticPath();
-    const watchedDirectories = [pagesPath, viewsPath, staticPath];
+    const viewsPath = this.viewsPath();
+    const watchedDirectories = [dataPath, pagesPath, staticPath, viewsPath];
     this.__livereload()
       .createServer(livereloadOptions)
       .watch(watchedDirectories);
