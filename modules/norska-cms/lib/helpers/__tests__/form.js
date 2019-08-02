@@ -57,15 +57,28 @@ describe('helpers/form', () => {
         expect(item).toHaveProperty('displayName', 'Alpha');
       });
       it('should set each value as an array', () => {
-        const data = [{ title: 'alpha', isAwesome: false }];
+        const data = [
+          { title: 'alpha', isAwesome: false },
+          { title: 'beta', isAwesome: true },
+        ];
 
         const schema = module.guessSchema(data);
         const actual = module.getFields(data, schema);
-        const item = actual[0].items[0];
-        const fields = item.fields;
+        const firstItem = actual[0].items[0];
+        const secondItem = actual[0].items[1];
 
-        expect(fields).toContainEqual(objectWith({ name: 'title[]' }));
-        expect(fields).toContainEqual(objectWith({ name: 'isAwesome[]' }));
+        expect(firstItem.fields).toContainEqual(
+          objectWith({ name: 'title[0]' })
+        );
+        expect(firstItem.fields).toContainEqual(
+          objectWith({ name: 'isAwesome[0]' })
+        );
+        expect(secondItem.fields).toContainEqual(
+          objectWith({ name: 'title[1]' })
+        );
+        expect(secondItem.fields).toContainEqual(
+          objectWith({ name: 'isAwesome[1]' })
+        );
       });
     });
   });

@@ -1,5 +1,4 @@
 import module from '../index';
-import helper from 'norska-helper';
 import config from 'norska-config';
 import firost from 'firost';
 const objectWith = expect.objectContaining;
@@ -102,7 +101,7 @@ describe('norska-cms', () => {
   describe('page', () => {
     beforeEach(() => {
       jest.spyOn(module, 'pagesPath').mockReturnValue('/tmp/pages');
-      jest.spyOn(helper, 'require').mockReturnValue(jest.fn);
+      jest.spyOn(firost, 'require').mockReturnValue(jest.fn);
     });
     it('should return a function', async () => {
       const actual = module.page('foo');
@@ -112,13 +111,13 @@ describe('norska-cms', () => {
     it('that force requires the specified page when called', async () => {
       module.page('foo')();
 
-      expect(helper.require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
+      expect(firost.require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
         forceReload: true,
       });
     });
     it('that applies passed arguments to required function', async () => {
       const mockMethod = jest.fn();
-      jest.spyOn(helper, 'require').mockReturnValue(mockMethod);
+      jest.spyOn(firost, 'require').mockReturnValue(mockMethod);
 
       module.page('foo')('bar', 'baz');
 

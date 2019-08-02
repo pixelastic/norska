@@ -3,7 +3,6 @@ import config from 'norska-config';
 import express from 'express';
 import firost from 'firost';
 import norskaCss from 'norska-css';
-import helper from 'norska-helper';
 import { _ } from 'golgoth';
 import livereload from 'livereload';
 import connectLivereload from 'connect-livereload';
@@ -141,7 +140,7 @@ export default {
   page(pageName) {
     const pagePath = path.resolve(this.pagesPath(), `${pageName}.js`);
     return function(req, res) {
-      return helper.require(pagePath, { forceReload: true })(req, res);
+      return firost.require(pagePath, { forceReload: true })(req, res);
     };
   },
   /**

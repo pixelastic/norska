@@ -1,8 +1,8 @@
 import config from 'norska-config';
-import helper from 'norska-helper';
 import path from 'path';
 import { _ } from 'golgoth';
 import cms from '../index.js';
+import firost from 'firost';
 
 /**
  * Displays a form allowing editing a file
@@ -13,7 +13,7 @@ export default async function index(req, res) {
   // We re-require the form helper everytime this page is loaded instead of
   // using import. This allow us to always load the most up-to-date version
   // during livereloads
-  const formHelper = helper.require(
+  const formHelper = firost.require(
     path.resolve(cms.helpersPath(), 'form.js'),
     {
       forceReload: true,

@@ -70,7 +70,7 @@ describe('norska', () => {
       jest.spyOn(module, 'build').mockReturnValue();
       jest.spyOn(module, 'init').mockReturnValue();
       jest.spyOn(module, 'serve').mockReturnValue();
-      jest.spyOn(module, 'screenshot').mockReturnValue();
+      // jest.spyOn(module, 'screenshot').mockReturnValue();
       jest.spyOn(module, 'initConfig').mockReturnValue();
     });
     it('should allow running the build command', async () => {
@@ -95,13 +95,13 @@ describe('norska', () => {
 
       expect(module.serve).toHaveBeenCalled();
     });
-    it('should allow running the screenshot command', async () => {
-      const input = { _: ['screenshot'] };
+    // it('should allow running the screenshot command', async () => {
+    //   const input = { _: ['screenshot'] };
 
-      await module.run(input);
+    //   await module.run(input);
 
-      expect(module.screenshot).toHaveBeenCalled();
-    });
+    //   expect(module.screenshot).toHaveBeenCalled();
+    // });
     it('should run the build command by default', async () => {
       const input = { _: [] };
 

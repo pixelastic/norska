@@ -69,7 +69,7 @@ export default {
     if (!(await firost.exists(configFilePath))) {
       return {};
     }
-    return this.__require(configFilePath);
+    return firost.require(configFilePath);
   },
   /**
    * Returns named CLI arguments as a config object. This will expand
@@ -121,14 +121,6 @@ export default {
     finalConfig.to = this.rootPath(finalConfig.to);
 
     this.__config = finalConfig;
-  },
-  /**
-   * Wrapper around the raw require() call, to make it easier to mock in tests
-   * @param {string} id Module identifier
-   * @returns {*} Module content
-   **/
-  __require(id) {
-    return require(id);
   },
   /**
    * Internal singleton representation of the config

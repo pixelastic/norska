@@ -279,14 +279,14 @@ describe('norska-config', () => {
       expect(actual).toEqual({});
     });
     it('should require the file and return it if found', async () => {
-      jest.spyOn(module, '__require').mockReturnValue({ foo: 'bar' });
+      jest.spyOn(firost, 'require').mockReturnValue({ foo: 'bar' });
       const configPath = module.rootPath('norska.config.js');
       await firost.write('// anything', configPath);
 
       const actual = await module.fileConfig();
 
       expect(actual).toHaveProperty('foo', 'bar');
-      expect(module.__require).toHaveBeenCalledWith(configPath);
+      expect(firost.require).toHaveBeenCalledWith(configPath);
     });
   });
 });

@@ -47,33 +47,6 @@ export default {
   },
 
   /**
-   * Wrapper around the raw require() call, to make it easier to mock in tests
-   * @param {string} id Module identifier
-   * @param {object} userOptions Options to change behavior:
-   * - forceReload {boolean} If set to true, will force reloading the module and
-   *   not used the cached singleton. Default: false
-   * @returns {*} Module content
-   **/
-  require(id, userOptions = {}) {
-    const options = {
-      forceReload: false,
-      ...userOptions,
-    };
-
-    // Bust cache if forceReload is set to true
-    if (options.forceReload) {
-      delete require.cache[id];
-    }
-
-    const result = this.__require(id);
-
-    // Works both with export defaults and module.exports
-    return _.get(result, 'default', result);
-  },
-  __require(id) {
-    return require(id);
-  },
-  /**
    * Wrapper around the raw process.exit() call, to make it easier to mock in tests
    * @param {string} errorCode Error code to return
    **/
