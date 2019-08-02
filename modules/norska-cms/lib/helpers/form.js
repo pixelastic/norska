@@ -29,7 +29,7 @@ export default {
         fields = _.map(fields, field => {
           return {
             ...field,
-            name: `${field.name}[]`,
+            name: `${field.name}[${itemIndex}]`,
           };
         });
 

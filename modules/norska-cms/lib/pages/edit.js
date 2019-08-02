@@ -23,7 +23,6 @@ export default async function index(req, res) {
   const { fileName } = req.params;
   const fullDataPath = config.fromPath(`_data/${fileName}`);
   const fields = await formHelper.getFieldsFromFilepath(fullDataPath);
-  console.info(fields[0].items[0].fields);
 
   res.render('edit', { fileName, fields, _ });
 }

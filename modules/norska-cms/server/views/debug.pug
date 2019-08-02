@@ -1,0 +1,8 @@
+extends _includes/layout
+
+block content
+  .mb-2.text-5
+    .blue.bold DEBUG
+
+  .border.border-gray-4.rounded-2.bg-gray-1.p-2.whitespace-pre
+    p=JSON.stringify(data, null, 2)

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "firost": "0.7.1",
-    "golgoth": "0.2.0",
+    "golgoth": "0.3.0",
     "live-server": "1.2.1",
     "minimist": "1.2.0",
     "norska-assets": "^0.1.0",
@@ -24,8 +24,7 @@
     "norska-helper": "^0.1.0",
     "norska-html": "^0.1.0",
     "norska-init": "^0.1.0",
-    "norska-js": "^0.1.0",
-    "norska-screenshot": "^0.1.0"
+    "norska-js": "^0.1.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",

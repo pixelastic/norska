@@ -32,8 +32,8 @@ mixin upload(field)
   .flrnw.p-1
     +label(field)
     .fla
-      input(type="hidden" name=`${field.name}.isUpload` value="1")
-      input(type="hidden" name=`${field.name}.previousValue` value=field.value)
+      input(type="text" name=`${field.name}.isUpload` value="1")
+      input(type="text" name=`${field.name}.previousValue` value=field.value)
       input(type="file" name=`${field.name}.data`)
 
 mixin list(field)

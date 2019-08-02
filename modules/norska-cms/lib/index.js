@@ -8,6 +8,7 @@ import { _ } from 'golgoth';
 import livereload from 'livereload';
 import connectLivereload from 'connect-livereload';
 import open from 'open';
+import multer from 'multer';
 
 export default {
   /**
@@ -73,10 +74,12 @@ export default {
       // Where are the static assets
       app.use(express.static(this.staticPath()));
 
+      const upload = multer({ dest: 'uploads/' });
+
       // Custom pages
       app.get('/', this.page('index'));
       app.get('/edit/:fileName', this.page('edit'));
-      app.post('/update/:fileName', this.page('update'));
+      app.post('/update/:fileName', upload.any(), this.page('update'));
 
       // Add the livereload.js script to the pages
       app.use(connectLivereload());

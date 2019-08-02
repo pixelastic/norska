@@ -5,7 +5,7 @@ block content
     .blue.bold=fileName
 
   .border.border-gray-4.rounded-2.bg-gray-1
-    form(action=`/update/${fileName}` method="post")
+    form(action=`/update/${fileName}` enctype="multipart/form-data" method="post")
       each field in fields
         +formField(field)
       .flrnw.p-1.flrar

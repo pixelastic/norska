@@ -8,7 +8,7 @@
   "main": "./build/index.js",
   "dependencies": {
     "firost": "0.7.1",
-    "golgoth": "0.2.0"
+    "golgoth": "0.3.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",
