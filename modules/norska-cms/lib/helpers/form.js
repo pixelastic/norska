@@ -33,7 +33,7 @@ export default {
           };
         });
 
-        // Add a potential .displayName based on the top-level .displayKey
+        // Add a potential .displayName to the item based on the top-level .displayKey
         let displayName = `Item ${itemIndex}`;
         if (schema.displayKey) {
           const rawDisplayName = itemData[schema.displayKey];
@@ -62,43 +62,6 @@ export default {
         value: data[field.name],
       };
     });
-  },
-  /**
-   * Merges a list of items with a list schema to create a list of fields
-   * @param {Array} listData Array of items
-   * @param {object} listSchema List schema of the items
-   * @returns {object} Field list of all the items
-   **/
-  getListFields(listData, listSchema) {
-    const schema = listSchema;
-    schema.items = _.map(schema.items, (item, itemIndex) => {
-      const itemData = listData[itemIndex];
-      // Update each field by adding the value equal to the matching value in
-      // data
-      const fields = _.map(item.fields, field => {
-        const fieldName = field.name;
-        const fieldValue = itemData[fieldName];
-        return {
-          ...field,
-          name: `${fieldName}[]`,
-          value: fieldValue,
-        };
-      });
-
-      // Add a potential .displayName based on the top-level .displayKey
-      let displayName = `Item ${itemIndex}`;
-      if (schema.displayKey) {
-        const rawDisplayName = itemData[schema.displayKey];
-        displayName = this.guessDisplayName(rawDisplayName);
-      }
-
-      return {
-        ...item,
-        displayName,
-        fields,
-      };
-    });
-    return [schema];
   },
   /**
    * Return the final file schema based on the one defined on disk and the one
@@ -163,6 +126,14 @@ export default {
       fileSchema.push(guessedFieldSchema);
     });
 
+    // We add displayName to all fields
+    fileSchema = _.map(fileSchema, item => {
+      return {
+        displayName: this.guessDisplayName(item.name),
+        ...item,
+      };
+    });
+
     return fileSchema;
   },
   /**
@@ -209,10 +180,8 @@ export default {
    **/
   guessFieldSchema(name, value) {
     const type = this.guessFieldType(name, value);
-    const displayName = this.guessDisplayName(name);
     return {
       name,
-      displayName,
       type,
     };
   },

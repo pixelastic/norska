@@ -74,7 +74,7 @@ describe('helpers/form', () => {
       const readFileSchema = false;
       const guessedFileSchema = 'guessed schema';
 
-      const actual = await module.reconcileFileSchema(
+      const actual = module.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -86,7 +86,7 @@ describe('helpers/form', () => {
       const data = { name: 'foo' };
 
       const guessedFileSchema = module.guessSchema(data);
-      const actual = await module.reconcileFileSchema(
+      const actual = module.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -98,7 +98,7 @@ describe('helpers/form', () => {
       const data = { name: 'foo' };
 
       const guessedFileSchema = module.guessSchema(data);
-      const actual = await module.reconcileFileSchema(
+      const actual = module.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -114,7 +114,7 @@ describe('helpers/form', () => {
       const data = { baz: true, foo: true, bar: false };
       const guessedFileSchema = module.guessSchema(data);
 
-      const actual = await module.reconcileFileSchema(
+      const actual = module.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -128,7 +128,7 @@ describe('helpers/form', () => {
       const readFileSchema = [{ name: 'foo' }];
 
       const guessedFileSchema = module.guessSchema(data);
-      const actual = await module.reconcileFileSchema(
+      const actual = module.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -137,13 +137,71 @@ describe('helpers/form', () => {
       expect(actual).toContainEqual(objectWith({ name: 'bar' }));
       expect(actual).toContainEqual(objectWith({ name: 'baz' }));
     });
+    describe('displayName', () => {
+      it('should be set on fields in schema', () => {
+        const data = { title: 'foo' };
+        const readFileSchema = [{ name: 'title' }];
+
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+
+        expect(actual).toContainEqual(
+          objectWith({ name: 'title', displayName: 'Title' })
+        );
+      });
+      it('should not be set if one is defined in schema', () => {
+        const data = { title: 'foo' };
+        const readFileSchema = [{ name: 'title', displayName: 'Custom' }];
+
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+
+        expect(actual).toContainEqual(
+          objectWith({ name: 'title', displayName: 'Custom' })
+        );
+      });
+      it('should be set on additional fields not in schema', () => {
+        const data = { description: 'foo' };
+        const readFileSchema = [{ name: 'title' }];
+
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+
+        expect(actual).toContainEqual(
+          objectWith({ name: 'description', displayName: 'Description' })
+        );
+      });
+      it('should be set on fields defined in schema but not in data', () => {
+        const data = { description: 'foo' };
+        const readFileSchema = [{ name: 'title' }];
+
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+
+        expect(actual).toContainEqual(
+          objectWith({ name: 'title', displayName: 'Title' })
+        );
+      });
+    });
     describe('with a list', () => {
       it('should use the guessed items if none defined in the file schema', async () => {
         const readFileSchema = { type: 'list' };
         const data = [{ title: 'foo' }];
 
         const guessedFileSchema = module.guessSchema(data);
-        const actual = await module.reconcileFileSchema(
+        const actual = module.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -156,7 +214,7 @@ describe('helpers/form', () => {
         const data = [{ title: 'foo' }];
 
         const guessedFileSchema = module.guessSchema(data);
-        const actual = await module.reconcileFileSchema(
+        const actual = module.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -171,7 +229,7 @@ describe('helpers/form', () => {
         const data = [{ title: 'foo' }];
 
         const guessedFileSchema = module.guessSchema(data);
-        const actual = await module.reconcileFileSchema(
+        const actual = module.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -193,7 +251,7 @@ describe('helpers/form', () => {
         const data = [{ description: 'foo', url: 'foo', title: 'foo' }];
 
         const guessedFileSchema = module.guessSchema(data);
-        const actual = await module.reconcileFileSchema(
+        const actual = module.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -271,12 +329,6 @@ describe('helpers/form', () => {
     it('should include the specified name', () => {
       const actual = module.guessFieldSchema('name', 'foo');
       const expected = objectWith({ name: 'name' });
-      expect(actual).toEqual(expected);
-    });
-    it('should guess the displayName', () => {
-      jest.spyOn(module, 'guessDisplayName').mockReturnValue('bar');
-      const actual = module.guessFieldSchema('name', 'foo');
-      const expected = objectWith({ displayName: 'bar' });
       expect(actual).toEqual(expected);
     });
     it('should guess the type', () => {
