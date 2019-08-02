@@ -101,10 +101,10 @@ export default {
     return [schema];
   },
   /**
-   * Return the file schema.
-   * Will read a potential schema on disk and guess one from the data and return
-   * a merged version of both
-   * @param {string} filepath Path to the _data file
+   * Return the final file schema based on the one defined on disk and the one
+   * guessed from the dat
+   * @param {object|Array} readFileSchema Schema defined on disk
+   * @param {object|Array} guessedFileSchema Schema guessed from data
    * @returns {object} Full file schema
    **/
   reconcileFileSchema(readFileSchema, guessedFileSchema) {
