@@ -6,133 +6,118 @@ const objectWith = expect.objectContaining;
 describe('helpers/form', () => {
   const tmpDirectory = './tmp/norska-cms/helper/form';
   describe('getFields', () => {
-    beforeEach(async () => {
-      await firost.emptyDir(tmpDirectory);
-    });
     it('should set value from data to each field schema', async () => {
       const data = { title: 'foo' };
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.getFields(filepath);
+      const schema = module.guessSchema(data);
+      const actual = module.getFields(data, schema);
 
-      expect(actual[0]).toHaveProperty('name', 'title');
-      expect(actual[0]).toHaveProperty('value', 'foo');
+      expect(actual).toContainEqual(
+        objectWith({ name: 'title', value: 'foo' })
+      );
     });
-    it('should delegate to getListField if schema is a list', async () => {
-      jest.spyOn(module, 'getFileSchema').mockReturnValue({ type: 'list' });
-      jest.spyOn(module, 'getListFields').mockReturnValue('list field');
-      const data = [{ name: 'foo' }];
+    describe('with list', () => {
+      it('should return an array', () => {
+        const data = [{ title: 'alpha', isAwesome: false }];
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.getFields(filepath);
+        const schema = module.guessSchema(data);
+        const actual = module.getFields(data, schema);
 
-      expect(module.getListFields).toHaveBeenCalledWith(data, { type: 'list' });
-      expect(actual).toEqual('list field');
-    });
-  });
-  describe('getListFields', () => {
-    it('should return an array', () => {
-      const data = [{ title: 'alpha', isAwesome: false }];
-      const schema = {
-        type: 'list',
-        items: [{ fields: [{ name: 'foo' }, { name: 'isAwesome' }] }],
-      };
+        expect(_.isArray(actual)).toEqual(true);
+      });
+      it('first element should be a list', () => {
+        const data = [{ title: 'alpha', isAwesome: false }];
 
-      const actual = module.getListFields(data, schema);
+        const schema = module.guessSchema(data);
+        const actual = module.getFields(data, schema);
 
-      expect(_.isArray(actual)).toEqual(true);
-    });
-    it('should set value to each item field', () => {
-      const data = [{ title: 'alpha', isAwesome: false }];
-      const schema = {
-        type: 'list',
-        items: [{ fields: [{ name: 'title' }, { name: 'isAwesome' }] }],
-      };
+        expect(actual[0]).toHaveProperty('type', 'list');
+      });
+      it('should set value to each item field', () => {
+        const data = [{ title: 'alpha', isAwesome: false }];
 
-      const actual = module.getListFields(data, schema)[0];
-      const item = actual.items[0];
-      const fields = item.fields;
+        const schema = module.guessSchema(data);
+        const actual = module.getFields(data, schema);
+        const item = actual[0].items[0];
+        const fields = item.fields;
 
-      expect(fields[0]).toEqual(objectWith({ value: 'alpha' }));
-      expect(fields[1]).toEqual(objectWith({ value: false }));
-    });
-    it('should set a displayName to each field based on the top-level displayKey', () => {
-      const data = [{ title: 'alpha', isAwesome: false }];
-      const schema = {
-        type: 'list',
-        displayKey: 'title',
-        items: [{ fields: [{ name: 'title' }, { name: 'isAwesome' }] }],
-      };
+        expect(fields).toContainEqual(objectWith({ value: 'alpha' }));
+        expect(fields).toContainEqual(objectWith({ value: false }));
+      });
+      it('should set a displayName to each field based on the top-level displayKey', () => {
+        const data = [{ title: 'alpha', isAwesome: false }];
+        const schema = {
+          ...module.guessSchema(data),
+          displayKey: 'title',
+        };
 
-      const actual = module.getListFields(data, schema)[0];
-      const item = actual.items[0];
+        const actual = module.getFields(data, schema);
+        const item = actual[0].items[0];
 
-      expect(item).toHaveProperty('displayName', 'Alpha');
-    });
-    it('should set each value as an array', () => {
-      const data = [{ title: 'alpha', isAwesome: false }];
-      const schema = {
-        type: 'list',
-        displayKey: 'title',
-        items: [{ fields: [{ name: 'title' }, { name: 'isAwesome' }] }],
-      };
+        expect(item).toHaveProperty('displayName', 'Alpha');
+      });
+      it('should set each value as an array', () => {
+        const data = [{ title: 'alpha', isAwesome: false }];
 
-      const actual = module.getListFields(data, schema)[0];
-      const item = actual.items[0];
+        const schema = module.guessSchema(data);
+        const actual = module.getFields(data, schema);
+        const item = actual[0].items[0];
+        const fields = item.fields;
 
-      expect(item.fields[0]).toHaveProperty('name', 'title[]');
-      expect(item.fields[1]).toHaveProperty('name', 'isAwesome[]');
+        expect(fields).toContainEqual(objectWith({ name: 'title[]' }));
+        expect(fields).toContainEqual(objectWith({ name: 'isAwesome[]' }));
+      });
     });
   });
-  describe('getFileSchema', () => {
-    beforeEach(async () => {
-      await firost.emptyDir(tmpDirectory);
-    });
+  describe('reconcileFileSchema', () => {
     it('should return the guessed version if no schema on disk', async () => {
-      jest.spyOn(module, 'guessFileSchema').mockReturnValue('guessed schema');
-      const data = { name: 'foo' };
+      const readFileSchema = false;
+      const guessedFileSchema = 'guessed schema';
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.getFileSchema(filepath);
+      const actual = await module.reconcileFileSchema(
+        readFileSchema,
+        guessedFileSchema
+      );
 
       expect(actual).toEqual('guessed schema');
     });
     it('keys from schema on disk should have precedence over keys guessed', async () => {
+      const readFileSchema = [{ name: 'name', type: 'textarea' }];
       const data = { name: 'foo' };
-      const schema = [{ name: 'name', type: 'textarea' }];
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      const schemaFilepath = `${tmpDirectory}/foo.schema.json`;
-      await firost.writeJson(data, filepath);
-      await firost.writeJson(schema, schemaFilepath);
-      const actual = await module.getFileSchema(filepath);
+      const guessedFileSchema = module.guessSchema(data);
+      const actual = await module.reconcileFileSchema(
+        readFileSchema,
+        guessedFileSchema
+      );
 
       expect(actual[0]).toHaveProperty('type', 'textarea');
     });
     it('guessed keys should be set if no such key in disk schema', async () => {
+      const readFileSchema = [{ name: 'name', type: 'textarea' }];
       const data = { name: 'foo' };
-      const schema = [{ name: 'name', type: 'textarea' }];
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      const schemaFilepath = `${tmpDirectory}/foo.schema.json`;
-      await firost.writeJson(data, filepath);
-      await firost.writeJson(schema, schemaFilepath);
-      const actual = await module.getFileSchema(filepath);
+      const guessedFileSchema = module.guessSchema(data);
+      const actual = await module.reconcileFileSchema(
+        readFileSchema,
+        guessedFileSchema
+      );
 
       expect(actual[0]).toHaveProperty('displayName', 'Name');
     });
     it('fields should be ordered as in disk schema', async () => {
+      const readFileSchema = [
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz' },
+      ];
       const data = { baz: true, foo: true, bar: false };
-      const schema = [{ name: 'foo' }, { name: 'bar' }, { name: 'baz' }];
+      const guessedFileSchema = module.guessSchema(data);
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      const schemaFilepath = `${tmpDirectory}/foo.schema.json`;
-      await firost.writeJson(data, filepath);
-      await firost.writeJson(schema, schemaFilepath);
-      const actual = await module.getFileSchema(filepath);
+      const actual = await module.reconcileFileSchema(
+        readFileSchema,
+        guessedFileSchema
+      );
 
       expect(actual[0].name).toEqual('foo');
       expect(actual[1].name).toEqual('bar');
@@ -140,182 +125,133 @@ describe('helpers/form', () => {
     });
     it('extraneous guessed fields should be added after disk fields', async () => {
       const data = { baz: true, foo: true, bar: false };
-      const schema = [{ name: 'foo' }];
+      const readFileSchema = [{ name: 'foo' }];
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      const schemaFilepath = `${tmpDirectory}/foo.schema.json`;
-      await firost.writeJson(data, filepath);
-      await firost.writeJson(schema, schemaFilepath);
-      const actual = await module.getFileSchema(filepath);
+      const guessedFileSchema = module.guessSchema(data);
+      const actual = await module.reconcileFileSchema(
+        readFileSchema,
+        guessedFileSchema
+      );
 
       expect(actual[0].name).toEqual('foo');
-      expect(actual[1].name).toEqual('bar');
-      expect(actual[2].name).toEqual('baz');
+      expect(actual).toContainEqual(objectWith({ name: 'bar' }));
+      expect(actual).toContainEqual(objectWith({ name: 'baz' }));
     });
-    it('should delegate to getListFileSchema if schema is a list', async () => {
-      jest.spyOn(module, 'getListFileSchema').mockReturnValue('list schema');
-      jest.spyOn(module, 'guessFileSchema').mockReturnValue('guessed schema');
-      const data = [{ name: 'foo' }];
-      const schema = { type: 'list' };
+    describe('with a list', () => {
+      it('should use the guessed items if none defined in the file schema', async () => {
+        const readFileSchema = { type: 'list' };
+        const data = [{ title: 'foo' }];
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      const schemaFilepath = `${tmpDirectory}/foo.schema.json`;
-      await firost.writeJson(data, filepath);
-      await firost.writeJson(schema, schemaFilepath);
-      const actual = await module.getFileSchema(filepath);
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = await module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+        const items = actual.items;
 
-      expect(module.getListFileSchema).toHaveBeenCalledWith(
-        schema,
-        'guessed schema'
-      );
-      expect(actual).toEqual('list schema');
-    });
-  });
-  describe('getListFileSchema', () => {
-    it('should use the guessed items if none defined in the file schema', async () => {
-      const readSchema = { type: 'list' };
-      const guessedSchema = { items: [{ fields: [] }] };
+        expect(items[0].fields).toContainEqual(objectWith({ name: 'title' }));
+      });
+      it('should include top-level keys from the read schema', async () => {
+        const readFileSchema = { type: 'list', customProperty: 'foo' };
+        const data = [{ title: 'foo' }];
 
-      const actual = module.getListFileSchema(readSchema, guessedSchema);
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = await module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
 
-      expect(actual).toHaveProperty('type', 'list');
-      expect(actual).toHaveProperty('items', guessedSchema.items);
-    });
-    it('should include top-level keys from the read schema', async () => {
-      const readSchema = { type: 'list', customProperty: 'foo' };
-      const guessedSchema = { items: [{ fields: [] }] };
+        expect(actual).toHaveProperty('customProperty', 'foo');
+      });
+      it('should merge each item field schema with those defined in the top-level itemSchema', async () => {
+        const readFileSchema = {
+          type: 'list',
+          itemSchema: [{ name: 'title', type: 'boolean' }],
+        };
+        const data = [{ title: 'foo' }];
 
-      const actual = module.getListFileSchema(readSchema, guessedSchema);
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = await module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+        const items = actual.items;
 
-      expect(actual).toHaveProperty('customProperty', 'foo');
-    });
-    it('should merge each item field schema with those defined in the top-level itemSchema', async () => {
-      const readSchema = {
-        type: 'list',
-        itemSchema: [{ name: 'foo', type: 'boolean' }],
-      };
-      const guessedSchema = {
-        items: [{ fields: [{ name: 'foo', type: 'text' }] }],
-      };
+        expect(items[0].fields).toContainEqual(
+          objectWith({ name: 'title', type: 'boolean' })
+        );
+      });
+      it('should set the item fields in the order defined in the top-level itemSchema', async () => {
+        const readFileSchema = {
+          type: 'list',
+          itemSchema: [
+            { name: 'title' },
+            { name: 'url' },
+            { name: 'description' },
+          ],
+        };
+        const data = [{ description: 'foo', url: 'foo', title: 'foo' }];
 
-      const actual = module.getListFileSchema(readSchema, guessedSchema);
-      const item = actual.items[0];
-      const field = item.fields[0];
+        const guessedFileSchema = module.guessSchema(data);
+        const actual = await module.reconcileFileSchema(
+          readFileSchema,
+          guessedFileSchema
+        );
+        const item = actual.items[0];
 
-      expect(field).toHaveProperty('type', 'boolean');
-    });
-    it('should set the item fields in the order defined in the top-level itemSchema', async () => {
-      const readSchema = {
-        type: 'list',
-        itemSchema: [{ name: 'bar' }, { name: 'foo' }, { name: 'baz' }],
-      };
-      const guessedSchema = {
-        items: [
-          { fields: [{ name: 'foo' }, { name: 'baz' }, { name: 'bar' }] },
-        ],
-      };
-
-      const actual = module.getListFileSchema(readSchema, guessedSchema);
-      const item = actual.items[0];
-
-      expect(item.fields[0]).toHaveProperty('name', 'bar');
-      expect(item.fields[1]).toHaveProperty('name', 'foo');
-      expect(item.fields[2]).toHaveProperty('name', 'baz');
-    });
-    it('should add guessed fields not part of the top-level itemSchema at the end', async () => {
-      const readSchema = {
-        type: 'list',
-        itemSchema: [{ name: 'bar' }, { name: 'foo' }],
-      };
-      const guessedSchema = {
-        items: [
-          { fields: [{ name: 'foo' }, { name: 'baz' }, { name: 'bar' }] },
-        ],
-      };
-
-      const actual = module.getListFileSchema(readSchema, guessedSchema);
-      const item = actual.items[0];
-
-      expect(item.fields[0]).toHaveProperty('name', 'bar');
-      expect(item.fields[1]).toHaveProperty('name', 'foo');
-      expect(item.fields[2]).toHaveProperty('name', 'baz');
+        expect(item.fields[0]).toHaveProperty('name', 'title');
+        expect(item.fields[1]).toHaveProperty('name', 'url');
+        expect(item.fields[2]).toHaveProperty('name', 'description');
+      });
     });
   });
-  describe('guessFileSchema', () => {
-    beforeEach(async () => {
-      await firost.emptyDir(tmpDirectory);
-    });
+  describe('guessSchema', () => {
     it('should aggregate guessFieldSchema on each field', async () => {
       const data = { foo: 'bar', isAwesome: true };
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.guessFileSchema(filepath);
+      const actual = module.guessSchema(data);
 
       expect(actual[0]).toEqual(objectWith({ name: 'foo', type: 'text' }));
       expect(actual[1]).toEqual(
         objectWith({ name: 'isAwesome', type: 'boolean' })
       );
     });
-    it('should delegate to guessListFileSchema if data is an array', async () => {
-      const data = ['foo'];
-      jest.spyOn(module, 'guessListFileSchema').mockReturnValue('bar');
+    describe('with a list', () => {
+      it('should return a list type', async () => {
+        const data = [];
 
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.guessFileSchema(filepath);
+        const actual = module.guessSchema(data);
 
-      expect(actual).toEqual('bar');
-      expect(module.guessListFileSchema).toHaveBeenCalledWith(['foo']);
+        expect(actual).toHaveProperty('type', 'list');
+      });
+      it('should set an array of objects for items', async () => {
+        const data = [{ name: 'foo', isAwesome: true }];
+
+        const actual = module.guessSchema(data);
+
+        expect(_.isArray(actual.items)).toEqual(true);
+        expect(_.isPlainObject(actual.items[0])).toEqual(true);
+      });
+      it('each item should have a .field key as an array of objects', async () => {
+        const data = [{ name: 'foo', isAwesome: true }];
+
+        const actual = module.guessSchema(data);
+        const items = actual.items;
+
+        expect(_.isArray(items)).toEqual(true);
+        expect(_.isPlainObject(items[0])).toEqual(true);
+      });
+      it('should aggregate guessFieldSchema on each field of each item', async () => {
+        const data = [{ name: 'foo', isAwesome: true }];
+
+        const actual = module.guessSchema(data);
+        const fields = actual.items[0].fields;
+
+        expect(fields).toContainEqual(objectWith({ name: 'name' }));
+        expect(fields).toContainEqual(objectWith({ name: 'isAwesome' }));
+      });
     });
   });
-  describe('guessListFileSchema', () => {
-    beforeEach(async () => {
-      await firost.emptyDir(tmpDirectory);
-    });
-    it('should return a list type', async () => {
-      const data = [];
-
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.guessFileSchema(filepath);
-
-      expect(actual).toHaveProperty('type', 'list');
-    });
-    it('should set an array of objects for items', async () => {
-      const data = [{ name: 'foo', isAwesome: true }];
-
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.guessFileSchema(filepath);
-
-      expect(_.isArray(actual.items)).toEqual(true);
-      expect(_.isPlainObject(actual.items[0])).toEqual(true);
-    });
-    it('each item should have a .field key as an array of objects', async () => {
-      const data = [{ name: 'foo', isAwesome: true }];
-
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.guessFileSchema(filepath);
-      const items = actual.items;
-
-      expect(_.isArray(items)).toEqual(true);
-      expect(_.isPlainObject(items[0])).toEqual(true);
-    });
-    it('should aggregate guessFieldSchema on each field of each item', async () => {
-      const data = [{ name: 'foo', isAwesome: true }];
-
-      const filepath = `${tmpDirectory}/foo.json`;
-      await firost.writeJson(data, filepath);
-      const actual = await module.guessFileSchema(filepath);
-      const fields = actual.items[0].fields;
-
-      expect(fields).toContainEqual(objectWith({ name: 'name' }));
-      expect(fields).toContainEqual(objectWith({ name: 'isAwesome' }));
-    });
-  });
-
   describe('readFileSchema', () => {
     beforeEach(async () => {
       await firost.emptyDir(tmpDirectory);

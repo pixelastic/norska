@@ -1,24 +1,65 @@
 import { _ } from 'golgoth';
 import firost from 'firost';
 export default {
+  async getFieldsFromFilepath(filepath) {
+    const data = await firost.readJson(filepath);
+    const readFileSchema = await this.readFileSchema(filepath);
+    const guessedFileSchema = await this.guessSchema(data);
+    const fileSchema = this.reconcileFileSchema(
+      readFileSchema,
+      guessedFileSchema
+    );
+
+    return this.getFields(data, fileSchema);
+  },
   /**
-   * Returns a list of fields for a given data file
-   * @param {string} filepath Path to the data file
+   * Returns a list of fields for any data, following the specified schema
+   * @param {object|Array} data Data used to compute fields
+   * @param {object} schema Schema the data should follow
    * @returns {object} Field list of the data file
    **/
-  async getFields(filepath) {
-    const data = await firost.readJson(filepath);
-    const fileSchema = await this.getFileSchema(filepath);
+  getFields(data, schema) {
+    // Special handling of list
+    if (schema.type === 'list') {
+      const items = _.map(schema.items, (itemSchema, itemIndex) => {
+        const itemData = data[itemIndex];
+        let fields = this.getFields(itemData, itemSchema.fields);
 
-    if (fileSchema.type === 'list') {
-      return this.getListFields(data, fileSchema);
+        // Update each fields to add [] to the value
+        fields = _.map(fields, field => {
+          return {
+            ...field,
+            name: `${field.name}[]`,
+          };
+        });
+
+        // Add a potential .displayName based on the top-level .displayKey
+        let displayName = `Item ${itemIndex}`;
+        if (schema.displayKey) {
+          const rawDisplayName = itemData[schema.displayKey];
+          displayName = this.guessDisplayName(rawDisplayName);
+        }
+
+        return {
+          ...itemSchema,
+          fields,
+          displayName,
+        };
+      });
+
+      return [
+        {
+          ...schema,
+          items,
+        },
+      ];
     }
 
     // Merge object schema with data
-    return _.map(fileSchema, fieldSchema => {
+    return _.map(schema, field => {
       return {
-        ...fieldSchema,
-        value: data[fieldSchema.name],
+        ...field,
+        value: data[field.name],
       };
     });
   },
@@ -39,7 +80,7 @@ export default {
         const fieldValue = itemData[fieldName];
         return {
           ...field,
-          name: `${fieldName}[]`, // Making it as an array
+          name: `${fieldName}[]`,
           value: fieldValue,
         };
       });
@@ -66,15 +107,28 @@ export default {
    * @param {string} filepath Path to the _data file
    * @returns {object} Full file schema
    **/
-  async getFileSchema(filepath) {
-    const readFileSchema = await this.readFileSchema(filepath);
-    const guessedFileSchema = await this.guessFileSchema(filepath);
+  reconcileFileSchema(readFileSchema, guessedFileSchema) {
     if (!readFileSchema) {
       return guessedFileSchema;
     }
     // If schema is a list, merging with the guessed schema is different process
     if (readFileSchema.type === 'list') {
-      return this.getListFileSchema(readFileSchema, guessedFileSchema);
+      const defaultItemSchema = readFileSchema.itemSchema;
+      const items = _.map(guessedFileSchema.items, guessedItem => {
+        const fields = this.reconcileFileSchema(
+          defaultItemSchema,
+          guessedItem.fields
+        );
+        return {
+          ...guessedItem,
+          fields,
+        };
+      });
+      return {
+        ...readFileSchema,
+        ...guessedFileSchema,
+        items,
+      };
     }
 
     // Merging the read file schema with the guessed one
@@ -112,98 +166,28 @@ export default {
     return fileSchema;
   },
   /**
-   * Merges a list file schema read from disk with the list file schema guessed
-   * from the data. This will use the top-levek .itemSchema key on the disk
-   * schema to order item fields and set default schema to each of them
-   * @param {object} readFileSchema List file schema read from disk
-   * @param {object} guessedFileSchema List file schema guessed from data
-   * @returns {object} Final merged list file schema
-   **/
-  getListFileSchema(readFileSchema, guessedFileSchema) {
-    const fileSchema = {
-      itemSchema: [],
-      ...guessedFileSchema,
-      ...readFileSchema,
-    };
-
-    // We recreate the list of items by using the guessed list as a base, but
-    // enhancing the fields with what is defined in .itemSchema
-    fileSchema.items = _.map(guessedFileSchema.items, guessedItem => {
-      // We create a first field list based on the default .itemSchema
-      let fields = _.transform(
-        fileSchema.itemSchema,
-        (result, baseFieldSchema) => {
-          const fieldName = baseFieldSchema.name;
-          const guessedFieldSchema = _.find(guessedItem.fields, {
-            name: fieldName,
-          });
-          // We add a new field by merging the default schema with the guessed
-          // one
-          result.push({
-            ...guessedFieldSchema,
-            ...baseFieldSchema,
-          });
-        },
-        []
-      );
-
-      // We might have guessed fields that are not in the base itemSchema, so we
-      // need to add them at the end of the lits
-      _.each(guessedItem.fields, guessedFieldSchema => {
-        const fieldName = guessedFieldSchema.name;
-        // If we already have it, we skip
-        if (_.find(fields, { name: fieldName })) {
-          return;
-        }
-        // Not in the list, we add it
-        fields.push(guessedFieldSchema);
-      });
-
-      return {
-        ...guessedItem,
-        fields,
-      };
-    });
-
-    return fileSchema;
-  },
-  /**
-   * Guess a whole file schema by guessing all field schema of each field
-   * @param {string} filepath Path to the _data file
+   * Guess a whole schema by guessing all field schema of each field
+   * @param {string} data Data to guess
    * @returns {object} Full file schema guessed from the data
    **/
-  async guessFileSchema(filepath) {
-    const data = await firost.readJson(filepath);
-    // If data is an array, guessing its schema is a different process
+  guessSchema(data) {
+    // If data is an array, we need to guess its inner item fields
     if (_.isArray(data)) {
-      return this.guessListFileSchema(data);
+      const items = _.map(data, item => {
+        return {
+          fields: this.guessSchema(item),
+        };
+      });
+      return {
+        type: 'list',
+        items,
+      };
     }
     // For object, we guess a field schema for each field
     return _.map(data, (value, key) => {
       return this.guessFieldSchema(key, value);
     });
   },
-  /**
-   * Guess a list file schema, by guessing all the field schema of all fields of
-   * all items of the list
-   * @param {Array} list The data list
-   * @returns {object} Full file schema guessed from the list
-   **/
-  guessListFileSchema(list) {
-    const items = _.map(list, item => {
-      const fields = _.map(item, (value, key) => {
-        return this.guessFieldSchema(key, value);
-      });
-      return {
-        fields,
-      };
-    });
-    return {
-      type: 'list',
-      items,
-    };
-  },
-
   /**
    * Read and return the schema of a specific file
    * If no schema file is found, returns false

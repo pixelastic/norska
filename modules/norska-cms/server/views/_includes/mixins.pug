@@ -2,10 +2,12 @@ mixin formField(field)
   //- Unfortunately, pug does not have a way to include dynamic files, so we
   //- need to create a big switch case like this
   case field.type
-    when "textarea"
-      +textarea(field)
     when "list"
       +list(field)
+    when "textarea"
+      +textarea(field)
+    when "upload"
+      +upload(field)
     default
       +input(field)
 
@@ -25,6 +27,14 @@ mixin textarea(field)
     +label(field)
     .fla
       textarea.p-2.w-100p.text-3.border.border-gray-3.rounded-2(name=field.name)=field.value
+
+mixin upload(field)
+  .flrnw.p-1
+    +label(field)
+    .fla
+      input(type="hidden" name=`${field.name}.isUpload` value="1")
+      input(type="hidden" name=`${field.name}.previousValue` value=field.value)
+      input(type="file" name=`${field.name}.data`)
 
 mixin list(field)
   .flcnw.p-1
