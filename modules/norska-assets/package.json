@@ -7,11 +7,11 @@
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
-    "golgoth": "0.3.0",
+    "golgoth": "0.3.1",
     "norska-config": "^0.1.0"
   },
   "devDependencies": {
-    "firost": "0.7.1"
+    "firost": "0.8.2"
   },
   "scripts": {
     "build": "../../scripts/local/build",

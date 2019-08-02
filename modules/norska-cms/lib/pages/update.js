@@ -1,8 +1,6 @@
-import config from 'norska-config';
-import firost from 'firost';
-import { _, lodash } from 'golgoth';
-import golgoth from 'golgoth';
-import util from 'util';
+// import config from 'norska-config';
+// import firost from 'firost';
+import { _ } from 'golgoth';
 
 /**
  * Updates a data JSON file on disk with new data
@@ -11,56 +9,54 @@ import util from 'util';
  **/
 export default async function index(req, res) {
   const formBody = req.body;
-  const { fileName } = req.params;
-  const filepath = config.fromPath(`_data/${fileName}`);
+  // const { fileName } = req.params;
+  // const filepath = config.fromPath(`_data/${fileName}`);
 
+  // File upload are sent in another field, so we convert it in the same syntax
+  const formFiles = _.transform(
+    req.files,
+    (result, file) => {
+      result[file.fieldname] = file.path;
+      result[file.fieldname] = {
+        path: file.path,
+        originalName: file.originalname,
+      };
+    },
+    {}
+  );
 
-  const g_ = golgoth._;
-  const glodash = golgoth.lodash;
-  console.info(g_ === glodash);
-  console.info(glodash === _);
-  console.info(_ === lodash);
-  console.info(_.flatten.toString());
-
-  
-
-  let data = _.keys(golgoth._).sort().reverse();
-  // .unflatten(formBody);
-  // data = newData;
+  // Merging form fields with form files
+  let data = _.unflatten({
+    ...formBody,
+    ...formFiles,
+  });
 
   // When submitting a list, all data is sent as array for each key, so we need
   // to re-zip them together
-  // if (data.__isList === '1') {
-  //   delete formBody.__isList;
-  //   data = _.transform(
-  //     data,
-  //     (result, values, key) => {
-  //       _.each(values, (value, index) => {
-  //         _.set(result, `${index}.${key}`, value);
-  //       });
-  //     },
-  //     []
-  //   );
-  // }
+  if (data.__isList === '1') {
+    delete data.__isList;
+    data = _.transform(
+      data,
+      (result, values, key) => {
+        _.each(values, (value, index) => {
+          _.set(result, `${index}.${key}`, value);
+        });
+      },
+      []
+    );
+  }
+
+  // TODO:
+  // 1. We take the upload path and set it as the value for the JSON
+  // 2. If a value was already existing, we delete the file before adding the
+  //    new one
+  // 3. We set the same file extension as the one supplied in the original file
+  // 4. We allow passing a .uploadPath to choose where to upload (relative to
+  //    source)
+  // 5. We allow passing a .uploadName to choose the file basename.
+  // 6. ^ This should accept {pattern} to replace with actual values of the form
+
   res.render('debug', { data });
-
-  // const upload = new formidable.IncomingForm();
-  // upload.parse(req, function(err, fields, files) {
-  //   res.writeHead(200, { 'content-type': 'text/plain' });
-  //   res.write('received upload:\n\n');
-  //   res.end(util.inspect({ reqBody: req.body, fields: fields, files: files }));
-  // });
-  // res.writeHead(200, { 'content-type': 'text/plain' });
-  // res.end(util.inspect({files: req.files, body: req.body, raw: req}));
-
-  // console.info(formBody);
-
-  // let newFields = req.body;
-  // // If it's a list, we need to remerge all values into objects
-  // if (_.get(formBody, '__isList') === '1') {
-  // }
-
-  // console.info(newFields);
 
   // await firost.writeJson(newFields, filepath);
   // res.redirect('/');

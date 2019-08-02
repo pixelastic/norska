@@ -2049,10 +2049,10 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.1.8.tgz#55fe689bcf81948672c1d8f360eba2902c5bf0dd"
-  integrity sha512-oBe2NCZjGIHjZPBtZ/woL8GB2knzMkLzEOFtgcNCBNCSBXZXh56kdmOOja8/pjLFrcbNYNnEJKqcI1CpJRxpVw==
+aberlaas@0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/aberlaas/-/aberlaas-0.1.10.tgz#1173ebbaedf8b814d1b60436b4e2463fa2f371ee"
+  integrity sha512-mVZlTHIy6jV+o91vjEPuOjKLhLsHkicqjTXwUzYCvZKYX1FdDH7XvAvDHFo7RD+vqtu9HOPjtpmIORegDvf/Zg==
   dependencies:
     "@babel/cli" "~7.4.0"
     "@babel/core" "~7.4.0"
@@ -2069,8 +2069,8 @@ aberlaas@0.1.8:
     eslint-plugin-jsdoc "~8.3.0"
     eslint-plugin-prettier "~3.1.0"
     execa "1.0.0"
-    firost "0.6.1"
-    golgoth "0.1.4"
+    firost "0.8.2"
+    golgoth "0.3.1"
     husky "1.1.3"
     jest "~24.8.0"
     jsonlint "~1.6.0"
@@ -4928,29 +4928,15 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
-firost@0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/firost/-/firost-0.6.1.tgz#7fe0642b845d074a1a8ee64070072ab7cd404df8"
-  integrity sha512-HbFAfo/fN2XiQZ0efeJPocihemRnJeuEXhiJHEJ4/hIrzyRlHTzTv3Q226oxovwvQsN98h/PI+DPPZJem0TBBg==
+firost@0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/firost/-/firost-0.8.2.tgz#34c67513388ab9db7b34f40f4073e9cb01e7b1d0"
+  integrity sha512-MPK8rjp2AMF6CXYbpdKywMELg+S/yvE32DxfFO1Bhjs4G7h8l/TrR34p58drXnePOLlvlN4lTImtOninbwlBmw==
   dependencies:
     chokidar "3.0.2"
     fs-extra "7.0.0"
     globby "8.0.2"
-    golgoth "~0.1.0"
-    inquirer "6.5.0"
-    is-glob "4.0.0"
-    json-stable-stringify "1.0.1"
-    shelljs "0.8.2"
-
-firost@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/firost/-/firost-0.7.1.tgz#3f32dbc1e0919e2e5645e6f3503c06ab6c9711a1"
-  integrity sha512-y24Tk78I3Dl5P4K9fPgaTNqx1/MfAI1X7vQUh9JGY3hw6wdtHHxlK/s59PipxQBtapbl08Gd8jvStjgdMdQsbA==
-  dependencies:
-    chokidar "3.0.2"
-    fs-extra "7.0.0"
-    globby "8.0.2"
-    golgoth "~0.1.0"
+    golgoth "0.3.0"
     inquirer "6.5.0"
     is-glob "4.0.0"
     json-stable-stringify "1.0.1"
@@ -5371,13 +5357,14 @@ globjoin@^0.1.4:
   resolved "https://registry.yarnpkg.com/globjoin/-/globjoin-0.1.4.tgz#2f4494ac8919e3767c5cbb691e9f463324285d43"
   integrity sha1-L0SUrIkZ43Z8XLtpHp9GMyQoXUM=
 
-golgoth@0.1.4, golgoth@~0.1.0:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.1.4.tgz#c38c13f8cc004c7e22f23474412daa5f8b40b16e"
-  integrity sha512-EADI93hDrmo5xxmGPCRT41K6Em9UAATJmN8eJecwFudB8CMKspDIA+JqJNwIiwalnN0+xZ4uxe8FQUmsvSQskA==
+golgoth@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.3.0.tgz#329e17799b308ecb518f6f4b3c715b169730a475"
+  integrity sha512-sZHhRS/EbGBpcEoSGWh5bz2n4wUePTudsR3hXxcQqexQxy7VsjyvXarRuMYPOFixB/SIki5A03bYmMNZgEhy4g==
   dependencies:
     chalk "2.4.1"
     dayjs "1.7.7"
+    flat "4.1.0"
     got "9.3.2"
     lodash "4.17.11"
     ora "3.0.0"
@@ -5386,11 +5373,12 @@ golgoth@0.1.4, golgoth@~0.1.0:
     p-map-series "1.0.0"
     pify "4.0.1"
     query-string "6.2.0"
+    time-span "3.1.0"
 
-golgoth@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.3.0.tgz#329e17799b308ecb518f6f4b3c715b169730a475"
-  integrity sha512-sZHhRS/EbGBpcEoSGWh5bz2n4wUePTudsR3hXxcQqexQxy7VsjyvXarRuMYPOFixB/SIki5A03bYmMNZgEhy4g==
+golgoth@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.3.1.tgz#97c30868909f40c6c1d93c74643dc63dafd4fc19"
+  integrity sha512-RwFFuZqcxkXWoNg7s6R5ImtKEuKoOiUTpMpYOezedWGt6bjXnNVHN2fDiGwrCsegNtpiNcsbII7C3jA5Qsg/Pg==
   dependencies:
     chalk "2.4.1"
     dayjs "1.7.7"
