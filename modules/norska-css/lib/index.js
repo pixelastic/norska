@@ -29,8 +29,8 @@ export default {
    **/
   getPlugins() {
     const basePlugins = [
-      // this.__pluginImport(),
-      // this.__pluginNested(),
+      this.__pluginImport(),
+      this.__pluginNested(),
       this.__pluginTailwind(),
     ];
 
