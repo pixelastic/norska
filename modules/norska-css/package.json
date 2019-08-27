@@ -14,7 +14,7 @@
     "@fullhuman/postcss-purgecss": "1.0.1",
     "autoprefixer": "~9.0.0",
     "firost": "0.8.2",
-    "golgoth": "0.3.1",
+    "golgoth": "^0.3.2",
     "hex-rgb": "4.1.0",
     "norska-config": "^0.1.0",
     "norska-helper": "^0.1.0",

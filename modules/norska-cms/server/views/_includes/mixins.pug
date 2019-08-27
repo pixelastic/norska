@@ -32,11 +32,21 @@ mixin upload(field)
   .flrnw.p-1
     +label(field)
     .fla
-      input(type="hidden" name=`${field.name}.isUpload` value="1")
+      if field.value
+        +upload_thumbnail(field.value)
+      input(type="hidden" name=`${field.name}.uploadKey` value=field.name)
       input(type="hidden" name=`${field.name}.uploadDirectory` value=field.uploadDirectory)
       input(type="hidden" name=`${field.name}.uploadBasename` value=field.uploadBasename)
       input(type="hidden" name=`${field.name}.previousValue` value=field.value)
       input(type="file" name=`${field.name}`)
+
+mixin upload_thumbnail(value)
+  - 
+    const extension = _.last(_.split(value, '.'));
+    const imageExtensions = ['png', 'jpg', 'gif', 'svg'];
+    const isImage = _.includes(imageExtensions, extension);
+  if isImage
+    img(src=`/src/${value}`)
 
 mixin list(field)
   .flcnw.p-1

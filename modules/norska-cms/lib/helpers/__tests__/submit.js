@@ -34,7 +34,7 @@ describe('helpers/submit', () => {
       it('should keep the original value if no upload set', async () => {
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
             'screenshot.previousValue': 'foo',
           },
           files: [],
@@ -49,7 +49,7 @@ describe('helpers/submit', () => {
 
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
           },
           files: [
             {
@@ -68,7 +68,7 @@ describe('helpers/submit', () => {
         await firost.write('foo', `${uploadTmpPath}/uuid`);
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
           },
           files: [
             {
@@ -90,7 +90,7 @@ describe('helpers/submit', () => {
 
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
           },
           files: [
             {
@@ -113,7 +113,7 @@ describe('helpers/submit', () => {
 
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
             'screenshot.previousValue': `${uploadPathRelative}/old.png`,
           },
           files: [
@@ -136,7 +136,7 @@ describe('helpers/submit', () => {
 
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
             'screenshot.uploadDirectory': 'assets',
           },
           files: [
@@ -157,7 +157,7 @@ describe('helpers/submit', () => {
 
         const input = {
           body: {
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
             'screenshot.uploadBasename': 'foo',
           },
           files: [
@@ -182,7 +182,7 @@ describe('helpers/submit', () => {
         const input = {
           body: {
             title: 'Foo Bar',
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
             'screenshot.uploadDirectory': 'assets/{title}',
           },
           files: [
@@ -204,7 +204,7 @@ describe('helpers/submit', () => {
         const input = {
           body: {
             title: 'Foo Bar',
-            'screenshot.isUpload': '1',
+            'screenshot.uploadKey': 'screenshot',
             'screenshot.uploadBasename': '{title}',
           },
           files: [
@@ -238,6 +238,45 @@ describe('helpers/submit', () => {
 
         expect(actual[0]).toEqual({ name: 'foo', description: 'foooooooo' });
         expect(actual[1]).toEqual({ name: 'bar', description: 'baaaaaar' });
+      });
+      describe('with upload', () => {
+        it('should upload all files', async () => {
+          await firost.write('foo', `${uploadTmpPath}/uuid1`);
+          await firost.write('bar', `${uploadTmpPath}/uuid2`);
+
+          const input = {
+            body: {
+              __isList: '1',
+              name: ['foo', 'bar'],
+              'screenshot[0].uploadKey': 'screenshot[0]',
+              'screenshot[1].uploadKey': 'screenshot[1]',
+            },
+            files: [
+              {
+                fieldname: 'screenshot[0]',
+                originalname: 'one.png',
+                path: `${uploadTmpPath}/uuid1`,
+              },
+              {
+                fieldname: 'screenshot[1]',
+                originalname: 'two.png',
+                path: `${uploadTmpPath}/uuid2`,
+              },
+            ],
+          };
+
+          const data = await module.getDataFromRequest(input);
+
+          const uploadOne = await firost.read(
+            config.fromPath(data[0].screenshot)
+          );
+          const uploadTwo = await firost.read(
+            config.fromPath(data[1].screenshot)
+          );
+
+          expect(uploadOne).toEqual('foo');
+          expect(uploadTwo).toEqual('bar');
+        });
       });
     });
   });

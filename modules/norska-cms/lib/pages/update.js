@@ -18,6 +18,12 @@ export default async function index(req, res) {
   const filepath = config.fromPath(`_data/${fileName}`);
   await firost.writeJson(data, filepath);
 
-  // res.render('debug', { data: { data, body: req.body, files: req.files }});
+  // res.render('debug', {
+  //   data: {
+  //     data,
+  //     body: req.body,
+  //     files: req.files,
+  //   },
+  // });
   res.redirect('/');
 }

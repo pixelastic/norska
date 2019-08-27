@@ -76,8 +76,11 @@ export default {
       app.set('view engine', 'pug');
       app.locals.basedir = this.viewsPath();
 
-      // Where are the static assets
+      // Where are the static assets of the CMS
       app.use(express.static(this.staticPath()));
+
+      // Allow access to files in ./src directly
+      app.use('/src', express.static(config.from()));
 
       const upload = multer({ dest: this.uploadTmpPath() });
 
