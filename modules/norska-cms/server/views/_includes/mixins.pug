@@ -32,13 +32,16 @@ mixin upload(field)
   .flrnw.p-1
     +label(field)
     .fla
-      if field.value
-        +upload_thumbnail(field.value)
-      input(type="hidden" name=`${field.name}.uploadKey` value=field.name)
-      input(type="hidden" name=`${field.name}.uploadDirectory` value=field.uploadDirectory)
-      input(type="hidden" name=`${field.name}.uploadBasename` value=field.uploadBasename)
-      input(type="hidden" name=`${field.name}.previousValue` value=field.value)
-      input(type="file" name=`${field.name}`)
+      label.pointer(for=field.name)
+        if field.value
+          +upload_thumbnail(field.value)
+        input(type="hidden" name=`${field.name}.uploadKey` value=field.name)
+        input(type="hidden" name=`${field.name}.uploadDirectory` value=field.uploadDirectory)
+        input(type="hidden" name=`${field.name}.uploadBasename` value=field.uploadBasename)
+        input(type="hidden" name=`${field.name}.previousValue` value=field.value)
+        input.hidden(type="file" id=field.name name=field.name)
+        .bold.text-3.bg-blue.hover_bg-blue-5.px-02.py-01.white.rounded-2.text-center Click to choose file
+
 
 mixin upload_thumbnail(value)
   - 
@@ -46,7 +49,11 @@ mixin upload_thumbnail(value)
     const imageExtensions = ['png', 'jpg', 'gif', 'svg'];
     const isImage = _.includes(imageExtensions, extension);
   if isImage
-    img(src=`/src/${value}`)
+    .relative
+      .absolute.top-0.bottom-0.left-0.right-0
+        .opacity-0.hover_opacity-100.h-100p.bg-black.bg-opacity-3.flrnw.flc
+          .bold.text-5.bg-blue.bg-opacity-100.px-02.py-01.white.rounded-2.text-center.shadow-3 Click to change file
+      img.rounded-3(src=`/src/${value}`)
 
 mixin list(field)
   .flcnw.p-1
