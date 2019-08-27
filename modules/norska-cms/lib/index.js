@@ -54,6 +54,12 @@ export default {
   dataPath() {
     return config.fromPath('_data');
   },
+  uploadPath() {
+    return config.fromPath('uploads');
+  },
+  uploadTmpPath() {
+    return '/tmp/norska-cms/upload';
+  },
   /**
    * Start the CMS server
    * @returns {Promise} Resolves when server is ready
@@ -73,7 +79,7 @@ export default {
       // Where are the static assets
       app.use(express.static(this.staticPath()));
 
-      const upload = multer({ dest: 'uploads/' });
+      const upload = multer({ dest: this.uploadTmpPath() });
 
       // Custom pages
       app.get('/', this.page('index'));

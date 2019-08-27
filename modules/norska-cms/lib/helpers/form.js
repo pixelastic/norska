@@ -1,5 +1,9 @@
 import { _ } from 'golgoth';
 import firost from 'firost';
+/**
+ * Helper method to get input field types from data. Those fields will be used
+ * to create the add/edit UI
+ **/
 export default {
   async getFieldsFromFilepath(filepath) {
     const data = await firost.readJson(filepath);
