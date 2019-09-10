@@ -1,5 +1,4 @@
 import { _ } from 'golgoth';
-import colors from './colorsAsRGB';
 
 /**
  * Allow using .bg-opacity-1 to change the background opacity
@@ -10,20 +9,8 @@ import colors from './colorsAsRGB';
  **/
 export default function(variants) {
   return function({ addUtilities, theme }) {
-    // Rewrite all bg-color classes with rgba
-    let newClasses = _.transform(
-      colors,
-      (result, colorValue, colorName) => {
-        result[`.bg-${colorName}`] = {
-          backgroundColor: `rgba(${colorValue.red}, ${colorValue.green}, ${colorValue.blue}, var(--background-opacity, 1))`,
-        };
-      },
-      {}
-    );
-
-    // Add .bg-opacity-X helpers
     const opacities = theme('opacity');
-    newClasses = _.transform(
+    const newClasses = _.transform(
       opacities,
       (result, opacityValue, opacityName) => {
         const className = `.bg-opacity-${opacityName}`;
@@ -31,7 +18,7 @@ export default function(variants) {
           '--background-opacity': opacityValue,
         };
       },
-      newClasses
+      {}
     );
 
     addUtilities(newClasses, variants);

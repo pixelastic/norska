@@ -214,7 +214,7 @@ export default {
    **/
   guessFieldType(name, value) {
     if (_.isBoolean(value)) {
-      return 'boolean';
+      return 'checkbox';
     }
     if (_.isString(value) && value.length > 80) {
       return 'textarea';

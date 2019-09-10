@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/**
+ * Simulate a checkbox with a linked label
+ * Markup:
+ * .cms-checkbox
+ *   input.hidden(type="checkbox" id="foo")
+ *   label.bullet-tick.transparent.border-2.border-gray-3(for="foo")
+ **/
+.cms-checkbox {
+  input[type="checkbox"] + label:hover {
+    @apply border-blue;
+  }
+  input[type="checkbox"]:checked + label {
+    @apply blue;
+  }
+}

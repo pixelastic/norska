@@ -237,7 +237,7 @@ describe('helpers/form', () => {
       it('should merge each item field schema with those defined in the top-level itemSchema', async () => {
         const readFileSchema = {
           type: 'list',
-          itemSchema: [{ name: 'title', type: 'boolean' }],
+          itemSchema: [{ name: 'title', type: 'checkbox' }],
         };
         const data = [{ title: 'foo' }];
 
@@ -249,7 +249,7 @@ describe('helpers/form', () => {
         const items = actual.items;
 
         expect(items[0].fields).toContainEqual(
-          objectWith({ name: 'title', type: 'boolean' })
+          objectWith({ name: 'title', type: 'checkbox' })
         );
       });
       it('should set the item fields in the order defined in the top-level itemSchema', async () => {
@@ -284,7 +284,7 @@ describe('helpers/form', () => {
 
       expect(actual[0]).toEqual(objectWith({ name: 'foo', type: 'text' }));
       expect(actual[1]).toEqual(
-        objectWith({ name: 'isAwesome', type: 'boolean' })
+        objectWith({ name: 'isAwesome', type: 'checkbox' })
       );
     });
     describe('with a list', () => {
@@ -387,15 +387,15 @@ describe('helpers/form', () => {
 
       expect(actual).toEqual('list');
     });
-    it('should return boolean for false', () => {
+    it('should return checkbox for false', () => {
       const actual = module.guessFieldType('isAwesome', false);
 
-      expect(actual).toEqual('boolean');
+      expect(actual).toEqual('checkbox');
     });
-    it('should return boolean for true', () => {
+    it('should return checkbox for true', () => {
       const actual = module.guessFieldType('isAwesome', true);
 
-      expect(actual).toEqual('boolean');
+      expect(actual).toEqual('checkbox');
     });
     it('should return text by default', () => {
       const actual = module.guessFieldType();
