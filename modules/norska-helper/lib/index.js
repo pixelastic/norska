@@ -67,11 +67,11 @@ export default {
     return newError;
   },
   /**
-   * Read the _data.json file in ./src and returns its content
+   * Read and return all .json content in ./src/_data
    * @param {object} userOptions Option object. Allowed keys are:
    * - cache {boolean} default to true. If set to false, will force re-reading
    *   the file
-   * @returns {object} The _data.json config object
+   * @returns {object} The config object
    **/
   async siteData(userOptions = {}) {
     const cacheKey = 'norska.helper.siteData';
@@ -86,22 +86,45 @@ export default {
       return cache.read(cacheKey);
     }
 
-    // Find all .json files in _data
     const dataFolder = config.fromPath('_data');
-    const dataFiles = await firost.glob(config.fromPath('_data/**/*.json'));
+    const jsonFiles = config.fromPath('_data/**/*.json');
+    const jsFiles = config.fromPath('_data/**/*.js');
     const data = {};
+
+    // Read from all JSON and JS files
+    const dataFiles = await firost.glob([jsonFiles, jsFiles]);
     await pMap(dataFiles, async filepath => {
-      const content = await firost.readJson(filepath);
-      const keyPath = _.chain(path.relative(dataFolder, filepath))
-        .replace('.json', '')
-        .replace('/', '.')
-        .value();
+      const extname = path.extname(filepath);
+      const relativePath = _.replace(
+        path.relative(dataFolder, filepath),
+        extname,
+        ''
+      );
+      const keyPath = _.replace(relativePath, '/', '.');
+      const content = await this.readDataFile(filepath);
       _.set(data, keyPath, content);
     });
 
     // Read and record data to cache
     return cache.write(cacheKey, data);
   },
+  /**
+   * Read a .json or .js file and return its content as an object
+   * Reads JSON directly, or parses JavaScript. If the exported object if
+   * a function, call it directly
+   * @param {string} filepath Path to the file to read
+   * @returns {object} Data object read from file
+   **/
+  async readDataFile(filepath) {
+    const extname = path.extname(filepath);
+    if (extname == '.json') {
+      return await firost.readJson(filepath);
+    }
+
+    const content = await firost.require(filepath);
+    return _.isFunction(content) ? await content() : content;
+  },
+
   /**
    * Clears the current site data read from _data.json. During a regular build,
    * it is advised to keep a cached copy instead of re-reading the file, but in

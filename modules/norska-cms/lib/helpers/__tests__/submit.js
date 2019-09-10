@@ -223,6 +223,85 @@ describe('helpers/submit', () => {
           `${uploadPathRelative}/fooBar.png`
         );
       });
+      it('should delete the previous file if .deletePreviousValue is set', async () => {
+        await firost.write('previous file', `${uploadPath}/old.png`);
+
+        const input = {
+          body: {
+            'screenshot.uploadKey': 'screenshot',
+            'screenshot.previousValue': `${uploadPathRelative}/old.png`,
+            'screenshot.deletePreviousValue': '',
+          },
+          files: [],
+        };
+
+        const actual = await module.getDataFromRequest(input);
+
+        expect(actual).toHaveProperty('screenshot', null);
+        expect(await firost.exist(`${uploadPath}/old.png`)).toEqual(false);
+      });
+      it('should not upload a new file if .deletePreviousValue is set', async () => {
+        await firost.write('previous file', `${uploadPath}/old.png`);
+        await firost.write('new file', `${uploadTmpPath}/uuid`);
+
+        const input = {
+          body: {
+            'screenshot.uploadKey': 'screenshot',
+            'screenshot.previousValue': `${uploadPathRelative}/old.png`,
+            'screenshot.deletePreviousValue': '',
+          },
+          files: [
+            {
+              fieldname: 'screenshot',
+              originalname: 'something.png',
+              path: `${uploadTmpPath}/uuid`,
+            },
+          ],
+        };
+
+        const actual = await module.getDataFromRequest(input);
+
+        expect(actual).toHaveProperty('screenshot', null);
+        expect(await firost.exist(`${uploadPath}/old.png`)).toEqual(false);
+        expect(await firost.exist(`${uploadPath}/uuid.png`)).toEqual(false);
+      });
+    });
+    describe('checkboxes', () => {
+      it('should set false to unchecked checkboxes', async () => {
+        const input = {
+          body: {
+            'isOk.isCheckbox': '',
+          },
+        };
+
+        const actual = await module.getDataFromRequest(input);
+
+        expect(actual).toHaveProperty('isOk', false);
+      });
+      it('should set true to checked checkboxes', async () => {
+        const input = {
+          body: {
+            'isOk.isCheckbox': '',
+            'isOk.isChecked': '',
+          },
+        };
+
+        const actual = await module.getDataFromRequest(input);
+
+        expect(actual).toHaveProperty('isOk', true);
+      });
+      it('should set true to checked checkboxes no matter the value', async () => {
+        const input = {
+          body: {
+            'isOk.isCheckbox': '',
+            'isOk.isChecked': 'whatever',
+          },
+        };
+
+        const actual = await module.getDataFromRequest(input);
+
+        expect(actual).toHaveProperty('isOk', true);
+      });
     });
     describe('multiple items', () => {
       it('should zip list of items together', async () => {

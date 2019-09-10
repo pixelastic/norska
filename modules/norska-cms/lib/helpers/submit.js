@@ -16,12 +16,52 @@ export default {
     if (data.__isList) {
       const list = this.zipList(data);
       return await pMap(list, async item => {
-        return await this.normalizeUpload(item, req.files);
+        return await this.normalizeSpecialFields(item, req.files);
       });
     }
 
-    data = await this.normalizeUpload(data, req.files);
+    data = await this.normalizeSpecialFields(data, req.files);
     return data;
+  },
+  /**
+   * Fields like upload and checkboxes need some data normalization
+   * @param {object} inputData Form data
+   * @param {object} files Files data
+   * @returns {object} Final normalized data
+   **/
+  async normalizeSpecialFields(inputData, files) {
+    let data = inputData;
+    data = await this.normalizeCheckboxes(data);
+    data = await this.normalizeUploads(data, files);
+    return data;
+  },
+  /**
+   * Cast to boolean any checkbox
+   * @param {object} data Form data
+   * @returns {object} Normalized data
+   **/
+  async normalizeCheckboxes(data) {
+    const checkboxKeys = _.filter(_.keys(data), key => {
+      return _.has(data[key], 'isCheckbox');
+    });
+    return _.transform(
+      checkboxKeys,
+      (result, key) => {
+        result[key] = _.has(data, `${key}.isChecked`);
+      },
+      data
+    );
+  },
+  /**
+   * Delete an existing uploaded file
+   * @param {string} previousValue Path to the uploaded file, relative to source
+   **/
+  async deletePreviousValue(previousValue) {
+    const previousValuePath = config.fromPath(previousValue);
+    if (!(await firost.isFile(previousValuePath))) {
+      return;
+    }
+    await firost.remove(previousValuePath);
   },
   /**
    * Enhance form data with upload information
@@ -31,7 +71,7 @@ export default {
    * @param {object} files Files data
    * @returns {object} Final merged data
    **/
-  async normalizeUpload(data, files) {
+  async normalizeUploads(data, files) {
     // Finding all fields that are uploads
     const uploadKeys = _.filter(_.keys(data), key => {
       return _.get(data, `${key}.uploadKey`);
@@ -44,12 +84,21 @@ export default {
     // Get matching upload information from the files array and add it to the
     // main data
     await pMap(uploadKeys, async fieldName => {
+      const previousValue = _.get(data, `${fieldName}.previousValue`);
+
+      // Reseting the value if the file is marked for deletion
+      if (_.has(data, `${fieldName}.deletePreviousValue`)) {
+        await this.deletePreviousValue(previousValue);
+        data[fieldName] = null;
+        return;
+      }
+
       // What is this upload unique key in the files array?
       const uploadKey = data[fieldName].uploadKey;
       const matchingUpload = _.find(files, { fieldname: uploadKey });
       // No new upload, we keep the previous value
       if (!matchingUpload) {
-        data[fieldName] = data[fieldName].previousValue;
+        data[fieldName] = previousValue;
         return;
       }
 
@@ -58,12 +107,8 @@ export default {
       const srcPath = path.relative(config.from(), absolutePath);
 
       // We delete the previous file if there was one
-      const previousValue = _.get(data, `${fieldName}.previousValue`);
       if (previousValue) {
-        const absolutePreviousValue = config.fromPath(previousValue);
-        if (await firost.exist(absolutePreviousValue)) {
-          await firost.remove(absolutePreviousValue);
-        }
+        await this.deletePreviousValue(previousValue);
       }
       // We move the temporary uploaded file to ./src
       await firost.move(matchingUpload.path, absolutePath);

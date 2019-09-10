@@ -3,17 +3,24 @@
 @tailwind utilities;
 
 /**
- * Simulate a checkbox with a linked label
  * Markup:
- * .cms-checkbox
- *   input.hidden(type="checkbox" id="foo")
- *   label.bullet-tick.transparent.border-2.border-gray-3(for="foo")
+ * label.cms-checkbox
+ *   input(type="checkbox")
+ *   .whatever ✓
  **/
 .cms-checkbox {
-  input[type="checkbox"] + label:hover {
+  @apply w-6 h-6 bg-white border-2 border-gray-3 rounded-2 pointer;
+  @apply flcnw flc;
+  &:hover {
     @apply border-blue;
   }
-  input[type="checkbox"]:checked + label {
-    @apply blue;
+  input[type="checkbox"] {
+    @apply hidden;
+    & + * {
+      @apply text-7 lh-1 hidden;
+    }
+    &:checked + * {
+      @apply block;
+    }
   }
 }

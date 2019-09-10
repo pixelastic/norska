@@ -81,6 +81,24 @@ describe('norska-helper', () => {
 
       expect(actual).toHaveProperty('foo.foo', 'bar');
     });
+    it('returns keys for .js file in _data', async () => {
+      await firost.write(
+        'export default { foo: "bar" }',
+        config.fromPath('_data/foo.js')
+      );
+      const actual = await module.siteData();
+
+      expect(actual).toHaveProperty('foo.foo', 'bar');
+    });
+    it('returns keys for .js as a function file in _data', async () => {
+      await firost.write(
+        'export default async () => { return { foo: "bar" } }',
+        config.fromPath('_data/foo.js')
+      );
+      const actual = await module.siteData();
+
+      expect(actual).toHaveProperty('foo.foo', 'bar');
+    });
     it('returns keys for all .json file in _data', async () => {
       await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
       await firost.writeJson({ bar: 'baz' }, config.fromPath('_data/bar.json'));

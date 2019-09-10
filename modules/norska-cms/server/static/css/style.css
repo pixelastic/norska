@@ -12218,12 +12218,43 @@ video {
   color: #702459;
 }
 
-.cms-checkbox input[type="checkbox"] + label:hover {
+/**
+ * Markup:
+ * label.cms-checkbox
+ *   input(type="checkbox")
+ *   .whatever ✓
+ **/
+
+.cms-checkbox {
+  width: 3rem;
+  height: 3rem;
+  background-color: rgba(255, 255, 255, var(--background-opacity, 1));
+  border-width: 2px;
+  border-color: #e2e8f0;
+  border-radius: .25rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cms-checkbox:hover {
   border-color: #3182ce;
 }
 
-.cms-checkbox input[type="checkbox"]:checked + label {
-  color: #3182ce
+.cms-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.cms-checkbox input[type="checkbox"] + * {
+  font-size: 3rem;
+  line-height: 1;
+  display: none;
+}
+
+.cms-checkbox input[type="checkbox"]:checked + * {
+  display: block;
 }
 
 @media (min-width: 640px) {
