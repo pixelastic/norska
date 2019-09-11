@@ -89,6 +89,16 @@ describe('norska-html', () => {
         expect(actual).toEqual(false);
         expect(helper.consoleWarn).toHaveBeenCalled();
       });
+      it('should contain lodash', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('p=_.keys({foo: "bar"})', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<p>foo</p>');
+      });
     });
     describe('urls', () => {
       it('should have url.here in root', async () => {

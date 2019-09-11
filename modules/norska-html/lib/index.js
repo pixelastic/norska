@@ -5,6 +5,7 @@ import path from 'path';
 import { _, pMap, chalk } from 'golgoth';
 import firost from 'firost';
 import pug from 'pug';
+import pugMethods from './pugMethods';
 
 export default {
   /**
@@ -30,9 +31,15 @@ export default {
       base: baseUrl,
       here: `/${destination}`,
     };
-    return {
+
+    const baseData = {
       data: sourceData,
       url: urlData,
+    };
+
+    return {
+      ...baseData,
+      ...pugMethods(baseData),
     };
   },
   /**
