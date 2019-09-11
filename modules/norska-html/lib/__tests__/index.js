@@ -1,5 +1,6 @@
 import module from '../index';
 import config from 'norska-config';
+import data from 'norska-data';
 import helper from 'norska-helper';
 import firost from 'firost';
 import pug from 'pug';
@@ -36,6 +37,7 @@ describe('norska-html', () => {
   describe('compile', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
+      data.clearCache();
     });
     describe('simple files', () => {
       it('index.html', async () => {
@@ -68,11 +70,12 @@ describe('norska-html', () => {
         const actual = await firost.read(output);
         expect(actual).toEqual('<p>foo</p>');
       });
-      it('should contain data from _data.json', async () => {
-        jest.spyOn(helper, 'siteData').mockReturnValue({ foo: { bar: 'baz' } });
+      it('should contain data from _data/', async () => {
         const input = config.fromPath('index.pug');
         const output = config.toPath('index.html');
-        await firost.write('p=foo.bar', input);
+        const dataFile = config.fromPath('_data/foo.json');
+        await firost.write('p=data.foo.bar', input);
+        await firost.writeJson({ bar: 'baz' }, dataFile);
 
         await module.compile(input);
 
@@ -122,12 +125,11 @@ describe('norska-html', () => {
       });
       it('should have url.base in prod', async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-        jest
-          .spyOn(helper, 'siteData')
-          .mockReturnValue({ site: { url: 'http://www.prod.com/' } });
         const input = config.fromPath('index.pug');
         const output = config.toPath('index.html');
+        const dataFile = config.fromPath('_data/site.json');
         await firost.write('p=url.base', input);
+        await firost.writeJson({ url: 'http://www.prod.com/' }, dataFile);
 
         await module.compile(input);
 
@@ -227,6 +229,7 @@ describe('norska-html', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
       await firost.mkdirp(config.from());
+      data.clearCache();
     });
     afterEach(async () => {
       await firost.unwatchAll();
@@ -252,7 +255,7 @@ describe('norska-html', () => {
     });
     describe('_data/', () => {
       it('should run everything when files in _data/ are created', async () => {
-        await firost.write('p=foo.bar', config.fromPath('index.pug'));
+        await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
         await module.watch();
         await firost.writeJson(
           { bar: 'baz' },
@@ -268,7 +271,7 @@ describe('norska-html', () => {
           { bar: 'baz' },
           config.fromPath('_data/foo.json')
         );
-        await firost.write('p=foo.bar', config.fromPath('index.pug'));
+        await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
         await module.watch();
         await firost.writeJson(
           { bar: 'quxx' },

@@ -1,13 +1,6 @@
-import { _, chalk, pMap } from 'golgoth';
-import config from 'norska-config';
-import firost from 'firost';
-import path from 'path';
+import { _, chalk } from 'golgoth';
 
 export default {
-  /**
-   * Cache of the site data, read from ./src/_data.json
-   **/
-  __siteData: {},
   /**
    * Write a warning log message
    * @param {string} text Text to display
@@ -65,72 +58,5 @@ export default {
     newError.code = errorCode;
     newError.message = errorMessage;
     return newError;
-  },
-  /**
-   * Read and return all .json content in ./src/_data
-   * @param {object} userOptions Option object. Allowed keys are:
-   * - cache {boolean} default to true. If set to false, will force re-reading
-   *   the file
-   * @returns {object} The config object
-   **/
-  async siteData(userOptions = {}) {
-    const cacheKey = 'norska.helper.siteData';
-    const cache = firost.cache;
-    const options = {
-      cache: true,
-      ...userOptions,
-    };
-
-    // Return the cache value if we already read it
-    if (options.cache && cache.has(cacheKey)) {
-      return cache.read(cacheKey);
-    }
-
-    const dataFolder = config.fromPath('_data');
-    const jsonFiles = config.fromPath('_data/**/*.json');
-    const jsFiles = config.fromPath('_data/**/*.js');
-    const data = {};
-
-    // Read from all JSON and JS files
-    const dataFiles = await firost.glob([jsonFiles, jsFiles]);
-    await pMap(dataFiles, async filepath => {
-      const extname = path.extname(filepath);
-      const relativePath = _.replace(
-        path.relative(dataFolder, filepath),
-        extname,
-        ''
-      );
-      const keyPath = _.replace(relativePath, '/', '.');
-      const content = await this.readDataFile(filepath);
-      _.set(data, keyPath, content);
-    });
-
-    // Read and record data to cache
-    return cache.write(cacheKey, data);
-  },
-  /**
-   * Read a .json or .js file and return its content as an object
-   * Reads JSON directly, or parses JavaScript. If the exported object if
-   * a function, call it directly
-   * @param {string} filepath Path to the file to read
-   * @returns {object} Data object read from file
-   **/
-  async readDataFile(filepath) {
-    const extname = path.extname(filepath);
-    if (extname == '.json') {
-      return await firost.readJson(filepath);
-    }
-
-    const content = await firost.require(filepath);
-    return _.isFunction(content) ? await content() : content;
-  },
-
-  /**
-   * Clears the current site data read from _data.json. During a regular build,
-   * it is advised to keep a cached copy instead of re-reading the file, but in
-   * watch mode, we need to clear the cache
-   **/
-  clearSiteData() {
-    firost.cache.clear('norska.helper.siteData');
   },
 };

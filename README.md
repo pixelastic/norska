@@ -92,17 +92,13 @@ module.exports = {
 
 ### Custom variables
 
-The content of the `_data.json` file is injected into every HTML page, allowing
-you to use Pug interpolation to use those variables in your code.
+All `.js` and `.json` files located in `_data` are parsed and made available
+through the `data` variable in pug templates. If the `.js` files exports
+a method, the return of the method is actually used.
 
-A `path` key is also added and contains the following keys. Examples are for a
-file saved as `./dist/subdir-one/subdir-two/file.html`.
-
-| key             | value                   | description                              |
-| --------------- | ----------------------- | ---------------------------------------- |
-| `path.basename` | `file`                  | Name of the HTML file, without extension |
-| `path.dirname`  | `subdir-one/subdir-two` | Directory path from the root             |
-| `path.toRoot`   | `../..`                 | Relative path to get back to the root    |
+The `url` key also contains some useful shortcuts for crafting links. `url.base`
+contains the base url to the root of the website (value can be different from
+dev and prod). `url.here` contains an absolute link to the current page.
 
 ## Contributing
 

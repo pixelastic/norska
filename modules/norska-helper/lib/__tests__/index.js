@@ -1,17 +1,7 @@
 import module from '../index';
 import { chalk } from 'golgoth';
-import config from 'norska-config';
-import firost from 'firost';
 
 describe('norska-helper', () => {
-  const tmpDirectory = './tmp/norska-helper/';
-  beforeEach(async () => {
-    await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
-    });
-    await firost.emptyDir(tmpDirectory);
-  });
   describe('consoleWarn', () => {
     beforeEach(() => {
       jest.spyOn(console, 'info').mockReturnValue();
@@ -69,68 +59,6 @@ describe('norska-helper', () => {
       const actual = module.isProduction();
 
       expect(actual).toEqual(false);
-    });
-  });
-  describe('siteData', () => {
-    beforeEach(() => {
-      module.clearSiteData();
-    });
-    it('returns keys for one .json file in _data', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
-      const actual = await module.siteData();
-
-      expect(actual).toHaveProperty('foo.foo', 'bar');
-    });
-    it('returns keys for .js file in _data', async () => {
-      await firost.write(
-        'export default { foo: "bar" }',
-        config.fromPath('_data/foo.js')
-      );
-      const actual = await module.siteData();
-
-      expect(actual).toHaveProperty('foo.foo', 'bar');
-    });
-    it('returns keys for .js as a function file in _data', async () => {
-      await firost.write(
-        'export default async () => { return { foo: "bar" } }',
-        config.fromPath('_data/foo.js')
-      );
-      const actual = await module.siteData();
-
-      expect(actual).toHaveProperty('foo.foo', 'bar');
-    });
-    it('returns keys for all .json file in _data', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
-      await firost.writeJson({ bar: 'baz' }, config.fromPath('_data/bar.json'));
-      const actual = await module.siteData();
-
-      expect(actual).toHaveProperty('foo.foo', 'bar');
-      expect(actual).toHaveProperty('bar.bar', 'baz');
-    });
-    it('reads from cache by default', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
-      jest.spyOn(firost, 'readJson');
-
-      await module.siteData();
-      await module.siteData();
-
-      expect(firost.readJson).toHaveBeenCalledTimes(1);
-    });
-    it('force a re-read if cache: false is passed', async () => {
-      await firost.writeJson({ foo: 'bar' }, config.fromPath('_data/foo.json'));
-      jest.spyOn(firost, 'readJson');
-
-      await module.siteData();
-      await module.siteData({ cache: false });
-
-      expect(firost.readJson).toHaveBeenCalledTimes(2);
-    });
-  });
-  describe('clearSiteData', () => {
-    it('should set the internal __siteData empty', async () => {
-      await module.siteData();
-      await module.clearSiteData();
-      expect(module.__siteData).toEqual({});
     });
   });
 });

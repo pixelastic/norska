@@ -1,13 +1,15 @@
 {
-  "name": "norska-helper",
+  "name": "norska-data",
   "version": "0.1.0",
-  "description": "Set of common methods used by all helpers",
+  "description": "Read data stored in ./src/_data",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-helper",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-data",
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
-    "golgoth": "^0.3.2"
+    "firost": "0.8.2",
+    "golgoth": "^0.3.2",
+    "norska-config": "^0.1.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",

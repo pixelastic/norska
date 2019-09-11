@@ -1,3 +1,4 @@
+import data from 'norska-data';
 import config from 'norska-config';
 import helper from 'norska-helper';
 import path from 'path';
@@ -20,16 +21,18 @@ export default {
    * @returns {object} Data object
    **/
   async getData(destination) {
-    const siteData = await helper.siteData();
-    const siteUrl = _.get(siteData, 'site.url', '/');
+    const sourceData = await data.getSourceData();
+
+    const siteUrl = _.get(sourceData, 'site.url', '/');
     const liveServerUrl = `http://127.0.0.1:${config.get('port')}`;
     const baseUrl = helper.isProduction() ? siteUrl : liveServerUrl;
+    const urlData = {
+      base: baseUrl,
+      here: `/${destination}`,
+    };
     return {
-      ...siteData,
-      url: {
-        base: baseUrl,
-        here: `/${destination}`,
-      },
+      data: sourceData,
+      url: urlData,
     };
   },
   /**
@@ -81,7 +84,6 @@ export default {
       await this.compile(filepath);
     });
   },
-
   /**
    * Listen to any changes on pug files and rebuild them
    **/
@@ -96,7 +98,7 @@ export default {
     const dataPath = config.fromPath('_data/**/*.json');
     await firost.watch(dataPath, async () => {
       // Clear the cache so we don't read a stale data
-      helper.clearSiteData();
+      data.clearCache();
       await this.run();
     });
 
