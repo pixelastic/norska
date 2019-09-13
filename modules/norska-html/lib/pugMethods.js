@@ -30,12 +30,12 @@ export default function(data) {
      **/
     include(filepath) {
       const input = config.fromPath(filepath);
-      const extname = path.extname(input);
       if (!fs.existsSync(input)) {
         return `ERROR: ${input} does not exist`;
       }
 
       const content = fs.readFileSync(input, 'utf8');
+      const extname = path.extname(input);
       if (extname === '.pug') {
         // We make sure we pass both the data from the parent, and this set of
         // methods recursively
@@ -43,8 +43,13 @@ export default function(data) {
       }
       return content;
     },
+    /**
+     * Convert markdown to html
+     * @param {string} input Markdown string to parse
+     * @returns {string} HTML string
+     **/
     markdown(input) {
-      return markdown.render(input);
+      return _.trim(markdown.render(input));
     },
   };
 

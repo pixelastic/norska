@@ -89,16 +89,6 @@ describe('norska-html', () => {
         expect(actual).toEqual(false);
         expect(helper.consoleWarn).toHaveBeenCalled();
       });
-      it('should contain lodash', async () => {
-        const input = config.fromPath('index.pug');
-        const output = config.toPath('index.html');
-        await firost.write('p=_.keys({foo: "bar"})', input);
-
-        await module.compile(input);
-
-        const actual = await firost.read(output);
-        expect(actual).toEqual('<p>foo</p>');
-      });
     });
     describe('urls', () => {
       it('should have url.here in root', async () => {
@@ -219,6 +209,116 @@ describe('norska-html', () => {
         expect(actual).toEqual(false);
       });
     });
+    describe('custom methods', () => {
+      it('should contain lodash', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('p=_.keys({foo: "bar"})', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<p>foo</p>');
+      });
+      it('should allow converting markdown', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('div !{markdown("# foo")}', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<div><h1>foo</h1></div>');
+      });
+      describe('include', () => {
+        it('should include file content', async () => {
+          const input = config.fromPath('index.pug');
+          const output = config.toPath('index.html');
+          await firost.write('p=include("include.txt")', input);
+          await firost.write('foo', config.fromPath('include.txt'));
+
+          await module.compile(input);
+
+          const actual = await firost.read(output);
+          expect(actual).toEqual('<p>foo</p>');
+        });
+        it('should return an error placeholder if file does not exist', async () => {
+          const input = config.fromPath('index.pug');
+          const output = config.toPath('index.html');
+          await firost.write('p=include("include.txt")', input);
+
+          await module.compile(input);
+
+          const actual = await firost.read(output);
+          expect(actual).toMatch(new RegExp('<p>ERROR: (.*)</p>'));
+        });
+        describe('pug', () => {
+          it('should parse pug file content', async () => {
+            const input = config.fromPath('index.pug');
+            const output = config.toPath('index.html');
+            await firost.write('p !{include("include.pug")}', input);
+            await firost.write(
+              'strong.bg-red foo',
+              config.fromPath('include.pug')
+            );
+
+            await module.compile(input);
+
+            const actual = await firost.read(output);
+            expect(actual).toEqual(
+              '<p><strong class="bg-red">foo</strong></p>'
+            );
+          });
+          it('included file should contain lodash', async () => {
+            const input = config.fromPath('index.pug');
+            const output = config.toPath('index.html');
+            await firost.write('p !{include("include.pug")}', input);
+            await firost.write(
+              'strong=_.keys({ foo: "bar"})',
+              config.fromPath('include.pug')
+            );
+
+            await module.compile(input);
+
+            const actual = await firost.read(output);
+            expect(actual).toEqual('<p><strong>foo</strong></p>');
+          });
+          it('included file should contain top level data', async () => {
+            const input = config.fromPath('index.pug');
+            const output = config.toPath('index.html');
+            await firost.write('p !{include("include.pug")}', input);
+            await firost.write(
+              'strong=data.foo.bar',
+              config.fromPath('include.pug')
+            );
+            await firost.writeJson(
+              { bar: 'baz' },
+              config.fromPath('_data/foo.json')
+            );
+
+            await module.compile(input);
+
+            const actual = await firost.read(output);
+            expect(actual).toEqual('<p><strong>baz</strong></p>');
+          });
+          it('recursive includes should work', async () => {
+            const input = config.fromPath('index.pug');
+            const output = config.toPath('index.html');
+            await firost.write('p !{include("include.pug")}', input);
+            await firost.write(
+              'span !{include("include2.pug")}',
+              config.fromPath('include.pug')
+            );
+            await firost.write('strong foo', config.fromPath('include2.pug'));
+
+            await module.compile(input);
+
+            const actual = await firost.read(output);
+            expect(actual).toEqual('<p><span><strong>foo</strong></span></p>');
+          });
+        });
+      });
+    });
   });
   describe('run', () => {
     beforeEach(async () => {
@@ -264,60 +364,129 @@ describe('norska-html', () => {
       });
     });
     describe('_data/', () => {
-      it('should run everything when files in _data/ are created', async () => {
-        await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
-        await module.watch();
-        await firost.writeJson(
-          { bar: 'baz' },
-          config.fromPath('_data/foo.json')
-        );
+      describe('json', () => {
+        it('should run everything when files in _data/ are created', async () => {
+          await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
+          await module.watch();
+          await firost.writeJson(
+            { bar: 'baz' },
+            config.fromPath('_data/foo.json')
+          );
 
-        await firost.waitForWatchers();
-        const actual = await firost.read(config.toPath('index.html'));
-        expect(actual).toEqual('<p>baz</p>');
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('<p>baz</p>');
+        });
+        it('should run everything when files in _data/ are modified', async () => {
+          await firost.writeJson(
+            { bar: 'baz' },
+            config.fromPath('_data/foo.json')
+          );
+          await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
+          await module.watch();
+          await firost.writeJson(
+            { bar: 'quxx' },
+            config.fromPath('_data/foo.json')
+          );
+
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('<p>quxx</p>');
+        });
       });
-      it('should run everything when files in _data/ are modified', async () => {
-        await firost.writeJson(
-          { bar: 'baz' },
-          config.fromPath('_data/foo.json')
-        );
-        await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
-        await module.watch();
-        await firost.writeJson(
-          { bar: 'quxx' },
-          config.fromPath('_data/foo.json')
-        );
+      describe('js', () => {
+        it('should run everything when files in _data/ are created', async () => {
+          const uuid = firost.uuid();
+          await firost.write(
+            `p=data['${uuid}'].bar`,
+            config.fromPath('index.pug')
+          );
+          await module.watch();
+          await firost.write(
+            'export default { bar: "baz" }',
+            config.fromPath(`_data/${uuid}.js`)
+          );
 
-        await firost.waitForWatchers();
-        const actual = await firost.read(config.toPath('index.html'));
-        expect(actual).toEqual('<p>quxx</p>');
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('<p>baz</p>');
+        });
+        it('should run everything when .js files in _data/ are modified', async () => {
+          const uuid = firost.uuid();
+          await firost.write(
+            'export default { bar: "baz" }',
+            config.fromPath(`_data/${uuid}.js`)
+          );
+          await firost.write(
+            `p=data['${uuid}'].bar`,
+            config.fromPath('index.pug')
+          );
+          await module.watch();
+          await firost.write(
+            'export default { bar: "quxx" }',
+            config.fromPath(`_data/${uuid}.js`)
+          );
+
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('<p>quxx</p>');
+        });
       });
     });
     describe('includes', () => {
-      it('should run everything when an included file is added', async () => {
-        await firost.write(
-          'extends /_includes/layout',
-          config.fromPath('index.pug')
-        );
-        await module.watch();
-        await firost.write('p foo', config.fromPath('_includes/layout.pug'));
+      describe('pug', () => {
+        it('should run everything when an included file is added', async () => {
+          await firost.write(
+            'extends /_includes/layout',
+            config.fromPath('index.pug')
+          );
+          await module.watch();
+          await firost.write('p foo', config.fromPath('_includes/layout.pug'));
 
-        await firost.waitForWatchers();
-        const actual = await firost.read(config.toPath('index.html'));
-        expect(actual).toEqual('<p>foo</p>');
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('<p>foo</p>');
+        });
+        it('should run everything when an included file is modified', async () => {
+          await firost.write(
+            'extends /_includes/layout',
+            config.fromPath('index.pug')
+          );
+          await firost.write('p foo', config.fromPath('_includes/layout.pug'));
+          await module.watch();
+          await firost.write('p bar', config.fromPath('_includes/layout.pug'));
+
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('<p>bar</p>');
+        });
       });
-      it('should run everything when an included file is modified', async () => {
-        await firost.write(
-          'extends /_includes/layout',
-          config.fromPath('index.pug')
-        );
-        await firost.write('p foo', config.fromPath('_includes/layout.pug'));
-        await module.watch();
-        await firost.write('p bar', config.fromPath('_includes/layout.pug'));
+      describe('any extension', () => {
+        it('should run everything when an included file is added', async () => {
+          await firost.write(
+            'include /_includes/include.txt',
+            config.fromPath('index.pug')
+          );
+          await module.watch();
+          await firost.write('foo', config.fromPath('_includes/include.txt'));
 
-        await firost.waitForWatchers();
-        const actual = await firost.read(config.toPath('index.html'));
-        expect(actual).toEqual('<p>bar</p>');
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('foo');
+        });
+        it('should run everything when an included file is modified', async () => {
+          await firost.write(
+            'include /_includes/include.txt',
+            config.fromPath('index.pug')
+          );
+          await firost.write('foo', config.fromPath('_includes/include.txt'));
+          await module.watch();
+          await firost.write('bar', config.fromPath('_includes/include.txt'));
+
+          await firost.waitForWatchers();
+          const actual = await firost.read(config.toPath('index.html'));
+          expect(actual).toEqual('bar');
+        });
       });
     });
   });

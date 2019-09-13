@@ -93,7 +93,6 @@ export default {
         `[norska-js]: ${err.name} in ${relativeSource} on line ${err.line}`
       );
       helper.consoleError(`[norska-js]: ${err.toString()}`);
-      helper.exit(1);
       return;
     }
 

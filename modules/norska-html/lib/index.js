@@ -102,7 +102,7 @@ export default {
     });
 
     // Reload all pug files whenever files in _data/ are changed
-    const dataPath = config.fromPath('_data/**/*.json');
+    const dataPath = config.fromPath('_data/**/*.{js,json}');
     await firost.watch(dataPath, async () => {
       // Clear the cache so we don't read a stale data
       data.clearCache();
@@ -110,7 +110,7 @@ export default {
     });
 
     // Rebuild everything whenever an included file changes
-    const pugIncludePatterns = [`${config.from()}/_includes/**/*.pug`];
+    const pugIncludePatterns = [config.fromPath('_includes/**/*')];
     await firost.watch(pugIncludePatterns, async () => {
       await this.run();
     });

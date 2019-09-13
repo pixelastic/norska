@@ -12,4 +12,6 @@ export default {
   6: '2.25rem',
   7: '3rem',
   8: '4rem',
+  9: '8rem',
+  10: '12rem',
 };
