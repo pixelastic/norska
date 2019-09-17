@@ -1,6 +1,6 @@
 {
   "name": "norska-html",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Convert .pug files to .html files",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-html",
@@ -11,10 +11,10 @@
     "golgoth": "^0.3.2",
     "markdown-it": "^10.0.0",
     "markdown-it-highlightjs": "^3.0.0",
-    "norska-config": "^0.1.0",
-    "norska-revv": "^0.1.0",
-    "norska-data": "^0.1.0",
-    "norska-helper": "^0.1.0",
+    "norska-config": "^0.2.0",
+    "norska-data": "^0.2.0",
+    "norska-helper": "^0.2.0",
+    "norska-revv": "^0.2.0",
     "pug": "2.0.3"
   },
   "scripts": {
