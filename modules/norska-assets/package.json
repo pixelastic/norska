@@ -1,6 +1,6 @@
 {
   "name": "norska-assets",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Copy assets from source to destination",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-assets",
@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "golgoth": "^0.3.2",
-    "norska-config": "^0.2.2"
+    "norska-config": "^0.2.3"
   },
   "devDependencies": {
     "firost": "0.8.2"

@@ -1,6 +1,6 @@
 {
   "name": "norska-css",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Compile .css files through postcss and Tailwind",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-css",
@@ -15,8 +15,8 @@
     "firost": "0.8.2",
     "golgoth": "^0.3.2",
     "hex-rgb": "4.1.0",
-    "norska-config": "^0.2.2",
-    "norska-helper": "^0.2.2",
+    "norska-config": "^0.2.3",
+    "norska-helper": "^0.2.3",
     "postcss": "~7.0.0",
     "postcss-clean": "1.1.0",
     "postcss-import": "~12.0.0",
