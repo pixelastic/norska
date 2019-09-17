@@ -7,8 +7,7 @@
   "license": "MIT",
   "main": "./build/index.js",
   "files": [
-    "./build/index.js",
-    "./tailwind.config.js"
+    "./build"
   ],
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.0.1",

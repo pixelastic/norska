@@ -6,6 +6,9 @@
   "homepage": "https://github.com/pixelastic/norska/modules/norska-html",
   "license": "MIT",
   "main": "./build/index.js",
+  "files": [
+    "./build"
+  ],
   "dependencies": {
     "firost": "0.8.2",
     "golgoth": "^0.3.2",

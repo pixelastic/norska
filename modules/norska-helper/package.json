@@ -6,6 +6,9 @@
   "homepage": "https://github.com/pixelastic/norska/modules/norska-helper",
   "license": "MIT",
   "main": "./build/index.js",
+  "files": [
+    "./build"
+  ],
   "dependencies": {
     "golgoth": "^0.3.2"
   },

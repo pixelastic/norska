@@ -6,6 +6,10 @@
   "homepage": "https://github.com/pixelastic/norska/modules/norska-cms",
   "license": "MIT",
   "main": "./build/index.js",
+  "files": [
+    "build",
+    "server"
+  ],
   "dependencies": {
     "connect-livereload": "0.6.1",
     "express": "4.17.1",
