@@ -1,21 +1,17 @@
 {
-  "name": "norska-html",
+  "name": "norska-revv",
   "version": "0.1.0",
-  "description": "Convert .pug files to .html files",
+  "description": "Revving filenames after build",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-html",
+  "homepage": "https://github.com/pixelastic/norska/modules/norska-revv",
   "license": "MIT",
   "main": "./build/index.js",
   "dependencies": {
     "firost": "0.8.2",
     "golgoth": "^0.3.2",
-    "markdown-it": "^10.0.0",
-    "markdown-it-highlightjs": "^3.0.0",
     "norska-config": "^0.1.0",
-    "norska-revv": "^0.1.0",
-    "norska-data": "^0.1.0",
     "norska-helper": "^0.1.0",
-    "pug": "2.0.3"
+    "rev-hash": "^3.0.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",

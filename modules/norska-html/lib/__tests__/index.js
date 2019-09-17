@@ -2,6 +2,7 @@ import module from '../index';
 import config from 'norska-config';
 import data from 'norska-data';
 import helper from 'norska-helper';
+import revv from 'norska-revv';
 import firost from 'firost';
 import pug from 'pug';
 import { chalk } from 'golgoth';
@@ -316,6 +317,43 @@ describe('norska-html', () => {
             const actual = await firost.read(output);
             expect(actual).toEqual('<p><span><strong>foo</strong></span></p>');
           });
+        });
+      });
+      describe('revv', () => {
+        beforeEach(() => {
+          jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+          firost.cache.clear(revv.cacheKey);
+        });
+        it('should add the file to the revv manifest', async () => {
+          const input = config.fromPath('index.pug');
+          await firost.write('a(href=revv("foo.txt")) foo', input);
+
+          await module.compile(input);
+
+          const actual = revv.manifest();
+          expect(actual).toHaveProperty(['foo.txt'], null);
+        });
+        it('should return a {revv: path} placeholder', async () => {
+          const input = config.fromPath('index.pug');
+          const output = config.toPath('index.html');
+          await firost.write('a(href=revv("foo.txt")) foo', input);
+
+          await module.compile(input);
+
+          const actual = await firost.read(output);
+          expect(actual).toEqual('<a href="{revv: foo.txt}">foo</a>');
+        });
+        it('should keep the same path in dev', async () => {
+          jest.spyOn(helper, 'isProduction').mockReturnValue(false);
+
+          const input = config.fromPath('index.pug');
+          const output = config.toPath('index.html');
+          await firost.write('a(href=revv("foo.txt")) foo', input);
+
+          await module.compile(input);
+
+          const actual = await firost.read(output);
+          expect(actual).toEqual('<a href="foo.txt">foo</a>');
         });
       });
     });

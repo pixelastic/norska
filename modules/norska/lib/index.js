@@ -3,6 +3,7 @@ import cms from 'norska-cms';
 import config from 'norska-config';
 import css from 'norska-css';
 import helper from 'norska-helper';
+import revv from 'norska-revv';
 import html from 'norska-html';
 import init from 'norska-init';
 import js from 'norska-js';
@@ -67,6 +68,8 @@ export default {
       async () => await js.run(),
       async () => await assets.run(),
     ]);
+
+    await revv.run();
   },
   /**
    * Dynamically build and serve the website, listening to changes and

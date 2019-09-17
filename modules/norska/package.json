@@ -24,7 +24,8 @@
     "norska-helper": "^0.1.0",
     "norska-html": "^0.1.0",
     "norska-init": "^0.1.0",
-    "norska-js": "^0.1.0"
+    "norska-js": "^0.1.0",
+    "norska-revv": "^0.1.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",

@@ -2,6 +2,8 @@ import { _ } from 'golgoth';
 import fs from 'fs';
 import path from 'path';
 import config from 'norska-config';
+import helper from 'norska-helper';
+import revv from 'norska-revv';
 import pug from 'pug';
 import markdownIt from 'markdown-it';
 import markdownItHighlight from 'markdown-it-highlightjs';
@@ -50,6 +52,20 @@ export default function(data) {
      **/
     markdown(input) {
       return _.trim(markdown.render(input));
+    },
+    /**
+     * Mark a file for revving
+     * @param {string} filepath File to rev
+     * @returns {string} {revv: path} placeholder
+     **/
+    revv(filepath) {
+      if (!helper.isProduction()) {
+        return filepath;
+      }
+
+      revv.add(filepath);
+
+      return `{revv: ${filepath}}`;
     },
   };
 
