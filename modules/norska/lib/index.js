@@ -8,7 +8,6 @@ import html from 'norska-html';
 import init from 'norska-init';
 import js from 'norska-js';
 import liveServer from 'live-server';
-// import screenshot from 'norska-screenshot';
 import { pAll, chalk, _ } from 'golgoth';
 import firost from 'firost';
 
@@ -96,7 +95,4 @@ export default {
   async cms() {
     await cms.run();
   },
-  // async screenshot(options) {
-  //   await screenshot.run(options);
-  // },
 };
