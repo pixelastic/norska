@@ -46,7 +46,11 @@ export default {
       { source: 'norska.config.js', destination: 'norska.config.js' },
       {
         source: 'src/script.js',
-        destination: `${config.from()}/${config.get('js.input')}`,
+        destination: `${config.fromPath(config.get('js.input'))}`,
+      },
+      {
+        source: 'src/style.css',
+        destination: `${config.fromPath(config.get('css.input'))}`,
       },
     ];
     await pMap(manifest, async item => {
