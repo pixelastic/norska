@@ -7,8 +7,8 @@
   "license": "MIT",
   "main": "./build/index.js",
   "files": [
-    "./build",
-    "./templates"
+    "build/",
+    "templates/"
   ],
   "dependencies": {
     "firost": "0.8.2",

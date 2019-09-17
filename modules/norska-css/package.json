@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "./build/index.js",
   "files": [
-    "./build"
+    "build/"
   ],
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.0.1",

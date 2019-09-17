@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "./build/index.js",
   "files": [
-    "./build"
+    "build/"
   ],
   "dependencies": {
     "golgoth": "^0.3.2"
