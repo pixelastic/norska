@@ -10,6 +10,7 @@
     "build/"
   ],
   "dependencies": {
+    "@babel/core": "~7.4.0",
     "babel-loader": "8.0.5",
     "firost": "0.8.2",
     "golgoth": "^0.3.2",

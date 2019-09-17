@@ -9,6 +9,7 @@ export default {
   // higher.
   resolveLoader: {
     modules: [
+      path.join(process.cwd(), './node_modules'), // project deps
       path.join(__dirname, '../node_modules'), // norska-js deps
       path.join(__dirname, '../../../node_modules'), // norska workspace deps
     ],
