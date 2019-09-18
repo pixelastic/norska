@@ -4,8 +4,15 @@ import firost from 'firost';
 import config from 'norska-config';
 
 describe('norska-init', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.spyOn(config, 'rootDir').mockReturnValue('./tmp/norska-init');
+    await config.init({
+      from: './tmp/norska-init/src',
+      to: './tmp/norska-init/dist',
+      js: { input: 'js/script.js' },
+      css: { input: 'css/style.css' },
+    });
+    await firost.emptyDir('./tmp/norska-init');
   });
   describe('templatePath', () => {
     it('should return the path to the template directory', () => {
@@ -64,30 +71,140 @@ describe('norska-init', () => {
       expect(actual).toEqual(false);
     });
   });
-  describe('run', () => {
-    beforeAll(async () => {
-      jest.spyOn(config, 'rootDir').mockReturnValue('./tmp/norska-init');
-      await firost.emptyDir('./tmp/norska-init');
+  describe('addPackageScript', () => {
+    it('should return false if entry in package.json scripts already exist', async () => {
+      await firost.writeJson(
+        { scripts: { foo: 'bar' } },
+        config.rootPath('package.json')
+      );
 
-      await config.init({
-        from: 'source',
-        js: {
-          input: 'my-script.js',
-        },
-      });
-      await module.run();
+      const actual = await module.addPackageScript('foo', 'scripts/build');
+
+      expect(actual).toEqual(false);
     });
-    it('should create a norska.config.js file at the root', async () => {
+    it('should add an entry to the package.json scripts keys', async () => {
+      await firost.writeJson({}, config.rootPath('package.json'));
+
+      await module.addPackageScript('build', 'scripts/build');
+
+      const actual = await firost.readJson(config.rootPath('package.json'));
+
+      expect(actual).toHaveProperty('scripts.build', './scripts/build');
+    });
+    it('should copy script to the host ./scripts directory', async () => {
+      await firost.writeJson({}, config.rootPath('package.json'));
+
+      await module.addPackageScript('build', 'scripts/build');
+
+      const actual = await firost.isFile(config.rootPath('scripts/build'));
+
+      expect(actual).toEqual(true);
+    });
+  });
+  describe('addScripts', () => {
+    beforeEach(async () => {
+      await firost.writeJson({}, config.rootPath('package.json'));
+    });
+    it('should add build script', async () => {
+      await module.addScripts();
+
+      const packageJson = await firost.readJson(
+        config.rootPath('package.json')
+      );
+      const fileCreated = await firost.isFile(config.rootPath('scripts/build'));
+
+      expect(packageJson).toHaveProperty('scripts.build', './scripts/build');
+      expect(fileCreated).toEqual(true);
+    });
+    it('should add build:prod script', async () => {
+      await module.addScripts();
+
+      const packageJson = await firost.readJson(
+        config.rootPath('package.json')
+      );
+      const fileCreated = await firost.isFile(
+        config.rootPath('scripts/build-prod')
+      );
+
+      expect(packageJson).toHaveProperty(
+        'scripts.build:prod',
+        './scripts/build-prod'
+      );
+      expect(fileCreated).toEqual(true);
+    });
+    it('should add cms script', async () => {
+      await module.addScripts();
+
+      const packageJson = await firost.readJson(
+        config.rootPath('package.json')
+      );
+      const fileCreated = await firost.isFile(config.rootPath('scripts/cms'));
+
+      expect(packageJson).toHaveProperty('scripts.cms', './scripts/cms');
+      expect(fileCreated).toEqual(true);
+    });
+    it('should add serve script', async () => {
+      await module.addScripts();
+
+      const packageJson = await firost.readJson(
+        config.rootPath('package.json')
+      );
+      const fileCreated = await firost.isFile(config.rootPath('scripts/serve'));
+
+      expect(packageJson).toHaveProperty('scripts.serve', './scripts/serve');
+      expect(fileCreated).toEqual(true);
+    });
+  });
+  describe('run', () => {
+    beforeEach(async () => {
+      await firost.writeJson({}, config.rootPath('package.json'));
+    });
+    it('should create norska.config.js in the root', async () => {
+      await module.run();
+
       const actual = await firost.isFile(config.rootPath('norska.config.js'));
 
       expect(actual).toEqual(true);
     });
-    it('should create an input js file in the source', async () => {
-      const actual = await firost.isFile(
-        config.rootPath('source/my-script.js')
-      );
+    it('should create _data files', async () => {
+      await module.run();
+
+      const actual = await firost.glob(config.fromPath('_data/*.json'));
+
+      expect(actual).toInclude(config.fromPath('_data/author.json'));
+      expect(actual).toInclude(config.fromPath('_data/page.json'));
+      expect(actual).toInclude(config.fromPath('_data/site.json'));
+    });
+    it('should create pug files', async () => {
+      await module.run();
+
+      const actual = await firost.glob(config.fromPath('**/*.pug'));
+
+      expect(actual).toInclude(config.fromPath('_includes/layout.pug'));
+      expect(actual).toInclude(config.fromPath('index.pug'));
+    });
+    it('should create CSS file', async () => {
+      await module.run();
+
+      const actual = await firost.isFile(config.fromPath('css/style.css'));
 
       expect(actual).toEqual(true);
+    });
+    it('should create JavaScript file', async () => {
+      await module.run();
+
+      const actual = await firost.isFile(config.fromPath('js/script.js'));
+
+      expect(actual).toEqual(true);
+    });
+    it('should add scripts to the package.json', async () => {
+      await module.run();
+
+      const actual = await firost.readJson(config.rootPath('package.json'));
+      expect(actual).toHaveProperty('scripts.build');
+      expect(actual).toHaveProperty('scripts.build:prod');
+      expect(actual).toHaveProperty('scripts.cms');
+      expect(actual).toHaveProperty('scripts.serve');
     });
   });
 });

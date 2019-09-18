@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -e
+
+NODE_ENV=production norska build "$@"
