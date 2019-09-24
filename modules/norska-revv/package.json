@@ -1,6 +1,6 @@
 {
   "name": "norska-revv",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Revving filenames after build",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-revv",
@@ -12,8 +12,8 @@
   "dependencies": {
     "firost": "^0.12.1",
     "golgoth": "^0.3.2",
-    "norska-config": "^0.3.0",
-    "norska-helper": "^0.3.0",
+    "norska-config": "^0.3.1",
+    "norska-helper": "^0.3.1",
     "rev-hash": "^3.0.0"
   },
   "scripts": {

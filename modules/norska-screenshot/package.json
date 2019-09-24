@@ -1,6 +1,6 @@
 {
   "name": "norska-screenshot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Take screenshots of pages, for use as OpenGraph picture",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-screenshot",
@@ -14,8 +14,8 @@
     "golgoth": "^0.3.2",
     "is-port-reachable": "2.0.1",
     "live-server": "1.2.1",
-    "norska-config": "^0.3.0",
-    "norska-helper": "^0.3.0"
+    "norska-config": "^0.3.1",
+    "norska-helper": "^0.3.1"
   },
   "scripts": {
     "build": "../../scripts/local/build",
