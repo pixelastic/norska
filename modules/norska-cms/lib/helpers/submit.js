@@ -88,8 +88,8 @@ export default {
 
       // Reseting the value if the file is marked for deletion
       if (_.has(data, `${fieldName}.deletePreviousValue`)) {
-        await this.deletePreviousValue(previousValue);
         data[fieldName] = null;
+        await this.deletePreviousValue(previousValue);
         return;
       }
 
@@ -105,15 +105,15 @@ export default {
       // Getting full filepath on disk, and relative filepath to save
       const absolutePath = this.uploadPath(data, fieldName, matchingUpload);
       const srcPath = path.relative(config.from(), absolutePath);
+      data[fieldName] = srcPath;
 
       // We delete the previous file if there was one
       if (previousValue) {
         await this.deletePreviousValue(previousValue);
       }
+
       // We move the temporary uploaded file to ./src
       await firost.move(matchingUpload.path, absolutePath);
-
-      data[fieldName] = srcPath;
     });
 
     return data;

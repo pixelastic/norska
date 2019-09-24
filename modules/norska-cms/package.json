@@ -13,7 +13,7 @@
   "dependencies": {
     "connect-livereload": "0.6.1",
     "express": "4.17.1",
-    "firost": "^0.11.1",
+    "firost": "^0.12.1",
     "golgoth": "^0.3.2",
     "livereload": "0.8.0",
     "multer": "1.4.2",

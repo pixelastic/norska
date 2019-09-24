@@ -2,8 +2,8 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "0.1.10",
-    "firost": "^0.11.1",
+    "aberlaas": "^0.4.4",
+    "firost": "^0.12.1",
     "golgoth": "^0.3.2",
     "lerna": "~3.15.0"
   },
