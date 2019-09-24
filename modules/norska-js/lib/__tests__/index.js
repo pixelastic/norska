@@ -175,4 +175,40 @@ describe('norska-js', () => {
       );
     });
   });
+  describe('watch', () => {
+    beforeEach(async () => {
+      await config.init({
+        from: './tmp/norska-js/src',
+        to: './tmp/norska-js/dist',
+        js: module.defaultConfig(),
+      });
+      jest.spyOn(module, 'displayResults').mockReturnValue();
+      await firost.emptyDir('./tmp/norska-js');
+    });
+    afterEach(async () => {
+      await firost.unwatchAll();
+    });
+    it('should recompile the input file whenever it is changed', async () => {
+      await firost.write('console.info("foo")', config.fromPath('script.js'));
+      await module.watch();
+      await firost.write('console.info("bar")', config.fromPath('script.js'));
+
+      await firost.waitForWatchers();
+
+      const actual = await firost.read(config.toPath('script.js'));
+      expect(actual).toContain('console.info("bar");');
+    });
+    it('should handle multiple rewrites', async () => {
+      await firost.write('console.info("foo")', config.fromPath('script.js'));
+      await module.watch();
+      await firost.write('console.info("bar")', config.fromPath('script.js'));
+      await firost.waitForWatchers();
+      await firost.write('console.info("baz")', config.fromPath('script.js'));
+
+      await firost.waitForWatchers();
+
+      const actual = await firost.read(config.toPath('script.js'));
+      expect(actual).toContain('console.info("baz");');
+    });
+  });
 });

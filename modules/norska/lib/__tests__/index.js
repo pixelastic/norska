@@ -136,6 +136,7 @@ describe('norska', () => {
       jest.spyOn(module, 'build').mockReturnValue();
       jest.spyOn(html, 'watch').mockReturnValue();
       jest.spyOn(css, 'watch').mockReturnValue();
+      jest.spyOn(js, 'watch').mockReturnValue();
       jest.spyOn(liveServer, 'start').mockReturnValue();
       await config.init({
         from: './tmp/norska/src',
@@ -151,6 +152,14 @@ describe('norska', () => {
     it('should watch for changes on html files', async () => {
       await module.serve();
       expect(html.watch).toHaveBeenCalled();
+    });
+    it('should watch for changes on css files', async () => {
+      await module.serve();
+      expect(css.watch).toHaveBeenCalled();
+    });
+    it('should watch for changes on js files', async () => {
+      await module.serve();
+      expect(js.watch).toHaveBeenCalled();
     });
     it('should start a live server in the dist folder', async () => {
       await module.serve();

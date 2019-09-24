@@ -4,6 +4,7 @@ import firost from 'firost';
 import config from 'norska-config';
 import helper from 'norska-helper';
 import webpackProdConfig from './webpack.prod.config.js';
+import webpackDevConfig from './webpack.dev.config.js';
 
 export default {
   defaultConfig() {
@@ -56,13 +57,11 @@ export default {
     });
   },
   /**
-   * Run Webpack on the entrypoint in source and creates the compiled version in
-   * destination. Warns if the file does not exist.
-   * @returns {boolean} True if compilation worked, false otherwise
+   * Wrapper around the webpack compiler to catch errors and sanity check inputs
+   * @param {object} config Webpack config
+   * @returns {boolean} True on success, exit on error
    **/
-  async run() {
-    const config = this.loadConfig(webpackProdConfig);
-
+  async runWebpack(config) {
     // Check that entry file exists, and fail early if it does not
     const entryFile = _.get(config, 'entry', null);
     if (!(await firost.exist(entryFile))) {
@@ -95,6 +94,24 @@ export default {
     helper.consoleSuccess(`${filename} compiled in ${time}ms`);
   },
   /**
+   * Run webpack for production once
+   * @returns {boolean} True if compilation worked, false otherwise
+   **/
+  async run() {
+    const config = this.loadConfig(webpackProdConfig);
+    return await this.runWebpack(config);
+  },
+  /**
+   * Run webpack and listen for dev changes
+   * @returns {boolean} True if compilation worked, false otherwise
+   **/
+  async watch() {
+    const webpackConfig = this.loadConfig(webpackDevConfig);
+    await firost.watch(webpackConfig.entry, async () => {
+      await this.runWebpack(webpackConfig);
+    });
+  },
+  /**
    * Wrapper around webpack(), to make it easier to mock in tests
    * @param {object} config Webpack config
    * @returns {object} Webpack compiler
@@ -102,12 +119,4 @@ export default {
   __webpack(config) {
     return webpack(config);
   },
-
-  // watch() {
-  //   // Rebuild main file when changed
-  //   const watchedFiles = path.join(config.from(), '*.js');
-  //   firost.watch(watchedFiles, () => {
-  //     this.run({ isProduction: false });
-  //   });
-  // },
 };

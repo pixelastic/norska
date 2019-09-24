@@ -80,6 +80,7 @@ export default {
     await pAll([
       async () => await html.watch(),
       async () => await css.watch(),
+      async () => await js.watch(),
       async () => await assets.watch(),
     ]);
 
