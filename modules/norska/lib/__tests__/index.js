@@ -137,6 +137,7 @@ describe('norska', () => {
       jest.spyOn(html, 'watch').mockReturnValue();
       jest.spyOn(css, 'watch').mockReturnValue();
       jest.spyOn(js, 'watch').mockReturnValue();
+      jest.spyOn(assets, 'watch').mockReturnValue();
       jest.spyOn(liveServer, 'start').mockReturnValue();
       await config.init({
         from: './tmp/norska/src',
