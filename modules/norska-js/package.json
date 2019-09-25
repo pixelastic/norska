@@ -16,7 +16,7 @@
     "golgoth": "^0.3.2",
     "norska-config": "^0.3.1",
     "norska-helper": "^0.3.1",
-    "webpack": "4.21.0"
+    "webpack": "4.41.0"
   },
   "scripts": {
     "build": "../../scripts/local/build",
@@ -25,5 +25,8 @@
     "lint:fix": "../../scripts/local/lint-fix",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
+  },
+  "devDependencies": {
+    "p-event": "^4.1.0"
   }
 }

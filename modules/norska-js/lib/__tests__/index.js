@@ -3,128 +3,145 @@ import config from 'norska-config';
 import firost from 'firost';
 import helper from 'norska-helper';
 import { _ } from 'golgoth';
+import pEvent from 'p-event';
 
 describe('norska-js', () => {
-  beforeEach(() => {
-    firost.cache.clear('norska.js.compilers');
+  const tmpDirectory = './tmp/norska-js';
+  beforeEach(async () => {
+    await config.init({
+      from: `${tmpDirectory}/src`,
+      to: `${tmpDirectory}/dist`,
+      js: module.defaultConfig(),
+    });
+    await firost.emptyDir(tmpDirectory);
   });
   describe('loadConfig', () => {
-    beforeEach(async () => {
-      await config.init({
-        from: '/source',
-        to: '/destination',
-        js: { input: 'input.js', output: 'output.js' },
-      });
-    });
-    it('uses the specified object as basis', () => {
-      const actual = module.loadConfig({ foo: 'bar' });
+    it('should return false if the entry point does not exist', async () => {
+      const actual = await module.loadConfig();
 
-      expect(actual).toHaveProperty('foo', 'bar');
+      expect(actual).toEqual(false);
     });
-    it('set the entrypoint to the js.input option in source directory', async () => {
-      const actual = module.loadConfig({});
+    it('should return the object with correct entry if exists', async () => {
+      const input = config.fromPath('script.js');
+      await firost.write('foo', input);
 
-      expect(actual).toHaveProperty('entry', '/source/input.js');
+      const actual = await module.loadConfig();
+
+      expect(actual).toHaveProperty('entry', input);
     });
-    it('set the output file to the js.output option', async () => {
-      const actual = module.loadConfig({});
+    it('should set the output path', async () => {
+      await firost.write('foo', config.fromPath('script.js'));
 
-      expect(actual).toHaveProperty('output.filename', 'output.js');
+      const actual = await module.loadConfig();
+
+      expect(actual).toHaveProperty('output.path', config.to());
     });
-    it('set the output directory to the destination', async () => {
-      const actual = module.loadConfig({});
+    it('should set the output filename', async () => {
+      await firost.write('foo', config.fromPath('script.js'));
 
-      expect(actual).toHaveProperty('output.path', '/destination');
+      const actual = await module.loadConfig();
+
+      expect(actual).toHaveProperty('output.filename', 'script.js');
+    });
+    it('should use development config by default', async () => {
+      await firost.write('foo', config.fromPath('script.js'));
+
+      const actual = await module.loadConfig();
+
+      expect(actual).toHaveProperty('mode', 'development');
+    });
+    it('should use production values in production', async () => {
+      await firost.write('foo', config.fromPath('script.js'));
+      jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+
+      const actual = await module.loadConfig();
+
+      expect(actual).toHaveProperty('mode', 'production');
     });
   });
   describe('getCompiler', () => {
-    it('should return a webpack instance with the specified config', () => {
-      jest.spyOn(module, '__webpack').mockReturnValue('webpack instance');
-      const actual = module.getCompiler({ name: 'foo' }, 'foo');
+    it('should return false if no config is loaded', async () => {
+      jest.spyOn(module, 'loadConfig').mockReturnValue(false);
+      const actual = await module.getCompiler();
 
-      expect(actual).toEqual('webpack instance');
-      expect(module.__webpack).toHaveBeenCalledWith({ name: 'foo' });
+      expect(actual).toEqual(false);
     });
-    it('should use cache if called with the same key again', () => {
-      jest.spyOn(module, '__webpack').mockReturnValue('webpack instance');
+    it('should return a webpack instance with the specified config', async () => {
+      jest.spyOn(module, 'loadConfig').mockReturnValue({ foo: 'bar' });
+      jest.spyOn(module, '__webpack').mockReturnValue({ bar: 'baz', run() {} });
 
-      module.getCompiler({ name: 'foo' }, 'foo');
-      const actual = module.getCompiler({ anything: 'does not matter' }, 'foo');
+      const actual = await module.getCompiler();
 
-      expect(actual).toEqual('webpack instance');
-      expect(module.__webpack).toHaveBeenCalledTimes(1);
-      expect(module.__webpack).toHaveBeenCalledWith({ name: 'foo' });
+      expect(actual).toEqual(expect.objectContaining({ bar: 'baz' }));
+      expect(module.__webpack).toHaveBeenCalledWith({ foo: 'bar' });
+    });
+    it('should promisify and bind the run methods', async () => {
+      jest.spyOn(module, 'loadConfig').mockReturnValue({});
+      const mockWebpack = {
+        foo: 'bar',
+        run() {
+          return this.foo;
+        },
+      };
+      jest.spyOn(module, '__webpack').mockReturnValue(mockWebpack);
+      jest.spyOn(module, '__pify').mockImplementation(input => {
+        return input;
+      });
+
+      const actual = await module.getCompiler();
+
+      expect(actual.run()).toEqual('bar');
+      expect(module.__pify).toHaveBeenCalledWith(mockWebpack.run);
     });
   });
-  describe('displayResults', () => {
+  describe('displayStats', () => {
     it('should display a success message with timing', () => {
       const input = { endTime: 10, startTime: 5 };
       _.set(input, 'compilation.options.output.filename', 'foo.js');
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
 
-      module.displayResults(input);
+      module.displayStats(input);
 
       expect(helper.consoleSuccess).toHaveBeenCalledWith(
         'foo.js compiled in 5ms'
       );
     });
   });
-  describe('runCompiler', () => {
-    let mockCompiler, mockError, mockStats;
-    beforeEach(() => {
-      mockCompiler = {
-        run: jest.fn().mockImplementation(method => {
-          method(mockError, mockStats);
-        }),
-      };
-    });
-    it('should return with the stats if ok', async () => {
-      mockError = null;
-      mockStats = {
-        hasErrors: jest.fn().mockReturnValue(false),
-        foo: 'bar',
-      };
-
-      const actual = await module.runCompiler(mockCompiler);
-
-      expect(actual).toHaveProperty('foo', 'bar');
-    });
-    it('should throw an error is has errors', async () => {
-      mockError = null;
-      mockStats = {
-        hasErrors: jest.fn().mockReturnValue(true),
-        toJson: jest.fn().mockReturnValue({ errors: ['line 1', 'line 2'] }),
-        foo: 'bar',
-      };
-
-      let actual;
-      try {
-        actual = await module.runCompiler(mockCompiler);
-      } catch (err) {
-        actual = err;
-      }
-
-      expect(actual).toHaveProperty('code', 'ERROR_WEBPACK_COMPILATION_FAILED');
-      expect(actual).toHaveProperty('message', 'line 1\nline 2');
-    });
-  });
   describe('run', () => {
     beforeEach(async () => {
-      await config.init({
-        from: './tmp/norska-js/src',
-        to: './tmp/norska-js/dist',
-        js: module.defaultConfig(),
-      });
-      jest.spyOn(module, 'displayResults').mockReturnValue();
-      await firost.emptyDir('./tmp/norska-js');
+      jest.spyOn(module, 'displayStats').mockReturnValue();
     });
-    describe('no errors', () => {
+    describe('in dev', () => {
+      it('should do nothing if no input file', async () => {
+        const actual = await module.run();
+
+        expect(actual).toEqual(false);
+      });
       it('should compile script.js in destination', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
+
         await module.run();
 
         const actual = await firost.isFile(config.toPath('script.js'));
         expect(actual).toEqual(true);
+      });
+      it('should not create a source map file', async () => {
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath('script.js.map'));
+        expect(actual).toEqual(false);
+      });
+      it('should display timing results', async () => {
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
+
+        expect(module.displayStats).toHaveBeenCalled();
+      });
+    });
+    describe('in production', () => {
+      beforeEach(() => {
+        jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
       it('should create a source map file', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
@@ -135,80 +152,45 @@ describe('norska-js', () => {
       });
     });
     describe('with errors', () => {
-      it('should warn about missing entryfile', async () => {
-        jest.spyOn(helper, 'consoleWarn').mockReturnValue();
-        const actual = await module.run();
+      it('should display error', async () => {
+        await firost.write('b@d code', config.fromPath('script.js'));
 
-        expect(helper.consoleWarn).toHaveBeenCalledWith(expect.anything());
-        expect(actual).toBe(false);
-      });
-
-      describe('bad input file', () => {
-        it('should stop and display an error', async () => {
-          jest.spyOn(module, 'runCompiler').mockImplementation(async () => {
-            throw helper.error('errorCode', 'errorMessage');
-          });
-
-          jest.spyOn(helper, 'exit').mockReturnValue();
-          jest.spyOn(helper, 'consoleError').mockReturnValue();
-          await firost.write('b@d j$ code', config.fromPath('script.js'));
+        let actual = null;
+        try {
           await module.run();
+        } catch (err) {
+          actual = err;
+        }
 
-          expect(helper.exit).toHaveBeenCalledWith(1);
-          expect(helper.consoleError).toHaveBeenCalledWith(
-            '[norska-js]: errorCode'
-          );
-          expect(helper.consoleError).toHaveBeenCalledWith('errorMessage');
-        });
+        expect(actual).toHaveProperty(
+          'code',
+          'ERROR_WEBPACK_COMPILATION_FAILED'
+        );
+        expect(actual.toString()).toContain('SyntaxError');
       });
-    });
-    it('should display timing results', async () => {
-      await firost.write('console.log("ok");', config.fromPath('script.js'));
-
-      await module.run();
-
-      expect(module.displayResults).toHaveBeenCalledWith(
-        expect.objectContaining({
-          startTime: expect.any(Number),
-          endTime: expect.any(Number),
-        })
-      );
     });
   });
   describe('watch', () => {
-    beforeEach(async () => {
-      await config.init({
-        from: './tmp/norska-js/src',
-        to: './tmp/norska-js/dist',
-        js: module.defaultConfig(),
-      });
-      jest.spyOn(module, 'displayResults').mockReturnValue();
-      await firost.emptyDir('./tmp/norska-js');
+    afterEach(() => {
+      module.unwatch();
     });
-    afterEach(async () => {
-      await firost.unwatchAll();
+    beforeEach(async () => {
+      jest.spyOn(module, 'displayStats').mockReturnValue();
     });
     it('should recompile the input file whenever it is changed', async () => {
-      await firost.write('console.info("foo")', config.fromPath('script.js'));
-      await module.watch();
-      await firost.write('console.info("bar")', config.fromPath('script.js'));
+      await firost.write('console.log("ok");', config.fromPath('script.js'));
+      const pulse = await module.watch();
+      await pEvent(pulse, 'build');
 
-      await firost.waitForWatchers();
-
+      await firost.write('console.log("bar");', config.fromPath('script.js'));
+      await pEvent(pulse, 'build');
       const actual = await firost.read(config.toPath('script.js'));
-      expect(actual).toContain('console.info("bar");');
+      expect(actual).toContain('console.log("bar")');
     });
-    it('should handle multiple rewrites', async () => {
-      await firost.write('console.info("foo")', config.fromPath('script.js'));
-      await module.watch();
-      await firost.write('console.info("bar")', config.fromPath('script.js'));
-      await firost.waitForWatchers();
-      await firost.write('console.info("baz")', config.fromPath('script.js'));
-
-      await firost.waitForWatchers();
-
-      const actual = await firost.read(config.toPath('script.js'));
-      expect(actual).toContain('console.info("baz");');
+    it('should fire an error event when compilation fails', async () => {
+      await firost.write('console.log("ok");', config.fromPath('script.js'));
+      const pulse = await module.watch();
+      await pEvent(pulse, 'build');
     });
   });
 });
