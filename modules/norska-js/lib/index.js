@@ -26,14 +26,19 @@ export default {
    * @returns {object} Webpack configuration object
    **/
   async loadConfig() {
-    const baseConfig = helper.isProduction()
-      ? webpackProdConfig
-      : webpackDevConfig;
+    let baseConfig;
+    let outputFilename = config.get('js.output');
+    if (helper.isProduction()) {
+      baseConfig = webpackProdConfig;
+      outputFilename = _.replace(outputFilename, '.js', '.[hash].js');
+    } else {
+      baseConfig = webpackDevConfig;
+    }
     const webpackConfig = _.merge({}, baseConfig, {
       entry: config.fromPath(config.get('js.input')),
       output: {
         path: config.to(),
-        filename: config.get('js.output'),
+        filename: outputFilename,
       },
     });
     // Check that entry file exists, and fail early if it does not
@@ -85,6 +90,14 @@ export default {
       const errorMessage = stats.toJson().errors.join('\n');
       throw helper.error('ERROR_WEBPACK_COMPILATION_FAILED', errorMessage);
     }
+
+    const jsFiles = _.chain(stats.toJson())
+      .get('entrypoints.main.assets')
+      .filter(item => {
+        return _.endsWith(item, '.js');
+      })
+      .value();
+    firost.cache.write('norska.js.files', jsFiles);
     this.displayStats(stats);
   },
   /**

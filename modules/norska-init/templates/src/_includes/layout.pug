@@ -21,5 +21,6 @@ html(lang='en')
     link(type="text/css", rel="stylesheet", href=revv("/style.css"))
     body
       block content
-      script(src=revv("/script.js"))
+      each jsFile in files.js
+        script(src=jsFile)
 

@@ -4,9 +4,11 @@ import assets from 'norska-assets';
 import js from 'norska-js';
 import css from 'norska-css';
 import html from 'norska-html';
+import revv from 'norska-revv';
 import config from 'norska-config';
 import init from 'norska-init';
 import liveServer from 'live-server';
+import { emptyDir, exist, write } from 'firost';
 
 describe('norska', () => {
   describe('initConfig', () => {
@@ -129,6 +131,60 @@ describe('norska', () => {
         foo: 'bar',
         bar: 'baz',
       });
+    });
+  });
+  describe('build', () => {
+    const tmpDirectory = './tmp/norska';
+    beforeEach(async () => {
+      await config.init({
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
+      });
+      await emptyDir(tmpDirectory);
+    });
+    beforeEach(async () => {
+      jest.spyOn(js, 'run').mockReturnValue();
+      jest.spyOn(html, 'run').mockReturnValue();
+      jest.spyOn(css, 'run').mockReturnValue();
+      jest.spyOn(assets, 'run').mockReturnValue();
+      jest.spyOn(revv, 'run').mockReturnValue();
+    });
+    it('should run js, then html, then css', async () => {
+      let stack = [];
+      jest.spyOn(js, 'run').mockImplementation(() => {
+        stack.push('js');
+      });
+      jest.spyOn(html, 'run').mockImplementation(() => {
+        stack.push('html');
+      });
+      jest.spyOn(css, 'run').mockImplementation(() => {
+        stack.push('css');
+      });
+
+      await module.build();
+
+      expect(stack).toEqual(['js', 'html', 'css']);
+    });
+    it('should run assets', async () => {
+      await module.build();
+      expect(assets.run).toHaveBeenCalled();
+    });
+    it('should revv assets', async () => {
+      await module.build();
+      expect(revv.run).toHaveBeenCalled();
+    });
+    it('should create the destination directory', async () => {
+      await module.build();
+
+      expect(await exist(config.to())).toEqual(true);
+    });
+    it('should clear the destination directory in production', async () => {
+      await write('foo', config.toPath('something.js'));
+      jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+
+      await module.build();
+
+      expect(await exist(config.toPath('something.js'))).toEqual(false);
     });
   });
   describe('serve', () => {

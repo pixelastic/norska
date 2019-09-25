@@ -138,17 +138,42 @@ describe('norska-js', () => {
 
         expect(module.displayStats).toHaveBeenCalled();
       });
+      it('should fill the cache with the asset list', async () => {
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
+
+        const actual = firost.cache.read('norska.js.files');
+        expect(actual).toEqual(['script.js']);
+      });
     });
     describe('in production', () => {
       beforeEach(() => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
+      it('should create revved assets', async () => {
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
+
+        const actual = await firost.isFile(
+          config.toPath('script.75c8d52ae032d81c1592.js')
+        );
+        expect(actual).toEqual(true);
+      });
       it('should create a source map file', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        const actual = await firost.isFile(config.toPath('script.js.map'));
+        const actual = await firost.isFile(
+          config.toPath('script.75c8d52ae032d81c1592.js.map')
+        );
         expect(actual).toEqual(true);
+      });
+      it('should fill the cache with the asset list', async () => {
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
+
+        const actual = firost.cache.read('norska.js.files');
+        expect(actual).toEqual(['script.75c8d52ae032d81c1592.js']);
       });
     });
     describe('with errors', () => {

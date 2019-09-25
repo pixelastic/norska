@@ -57,14 +57,20 @@ export default {
    * Build the website, compiling all files in .from()
    **/
   async build() {
+    if (helper.isProduction()) {
+      await firost.remove(config.to());
+    }
     await firost.mkdirp(config.to());
 
     await pAll([
       async () => {
+        // We unfortunately need to run those in sequence
+        // The HTML needs the list of JS files to include them
+        // The CSS needs the HTML output to purge its list of classes
+        await js.run();
         await html.run();
         await css.run();
       },
-      async () => await js.run(),
       async () => await assets.run(),
     ]);
 

@@ -139,6 +139,32 @@ describe('norska-html', () => {
         expect(actual).toEqual('<p>http://www.prod.com/</p>');
       });
     });
+    describe('files', () => {
+      beforeEach(() => {
+        firost.cache.clear('norska.js');
+      });
+      it('should have files.js', async () => {
+        firost.cache.write('norska.js.files', ['script.js', 'vendors.js']);
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('p=files.js', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<p>script.js,vendors.js</p>');
+      });
+      it('should be empty by default', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('p=files.js', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<p></p>');
+      });
+    });
     describe('with layout', () => {
       beforeEach(async () => {
         await firost.write('p layout', config.fromPath('_includes/layout.pug'));

@@ -31,10 +31,14 @@ export default {
       base: baseUrl,
       here: `/${destination}`,
     };
+    const filesData = {
+      js: firost.cache.read('norska.js.files', []),
+    };
 
     const baseData = {
       data: sourceData,
       url: urlData,
+      files: filesData,
     };
 
     return {
