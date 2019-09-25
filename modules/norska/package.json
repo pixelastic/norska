@@ -1,6 +1,6 @@
 {
   "name": "norska",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Opinionated static website generator",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/",
@@ -25,7 +25,7 @@
     "norska-helper": "^0.3.1",
     "norska-html": "^0.3.1",
     "norska-init": "^0.3.1",
-    "norska-js": "^0.3.1",
+    "norska-js": "^0.3.2",
     "norska-revv": "^0.3.1"
   },
   "scripts": {
