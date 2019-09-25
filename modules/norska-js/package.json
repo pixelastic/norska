@@ -1,6 +1,6 @@
 {
   "name": "norska-js",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Compile .js files through Webpack",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-js",
@@ -14,8 +14,8 @@
     "babel-loader": "8.0.5",
     "firost": "^0.13.0",
     "golgoth": "^0.3.2",
-    "norska-config": "^0.3.1",
-    "norska-helper": "^0.3.1",
+    "norska-config": "^0.3.3",
+    "norska-helper": "^0.3.3",
     "webpack": "4.41.0"
   },
   "scripts": {

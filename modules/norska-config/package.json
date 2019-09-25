@@ -1,6 +1,6 @@
 {
   "name": "norska-config",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "Configuration object shared across Norska modules",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-config",
