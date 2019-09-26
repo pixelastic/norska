@@ -5,6 +5,15 @@ import helper from 'norska-helper';
 import { _ } from 'golgoth';
 import pEvent from 'p-event';
 
+// Note:
+// Webpack seems to have trouble when too many compiler are instanciated.
+// Jest complains that some handles are not correctly closed.
+// To fix the issue, the module keeps an internal cache of the compiler, using
+// this cached value on subsequent calls.
+// But because this value contains the webpack config, we need to clear it
+// before running some tests that assume a dev/prod environment
+// As beforeAll/afterAll is buggy (fires even for skipped/non-focused tests), we
+// use a hack around beforeEach/afterEach with a variable
 describe('norska-js', () => {
   const tmpDirectory = './tmp/norska-js';
   beforeEach(async () => {
@@ -60,11 +69,29 @@ describe('norska-js', () => {
     });
   });
   describe('getCompiler', () => {
+    beforeEach(() => {
+      module.__compiler = null;
+    });
+    afterEach(() => {
+      module.__compiler = null;
+    });
     it('should return false if no config is loaded', async () => {
       jest.spyOn(module, 'loadConfig').mockReturnValue(false);
       const actual = await module.getCompiler();
 
       expect(actual).toEqual(false);
+    });
+    it('should return a cached value on second call', async () => {
+      jest.spyOn(module, 'loadConfig').mockReturnValue({ foo: 'bar' });
+      const mockWebpack = { bar: 'baz', run() {} };
+      jest.spyOn(module, '__webpack').mockReturnValue(mockWebpack);
+
+      await module.getCompiler();
+      expect(module.__compiler).toEqual(mockWebpack);
+      const actual = await module.getCompiler();
+      expect(actual).toEqual(mockWebpack);
+
+      expect(module.__webpack).toHaveBeenCalledTimes(1);
     });
     it('should return a webpack instance with the specified config', async () => {
       jest.spyOn(module, 'loadConfig').mockReturnValue({ foo: 'bar' });
@@ -75,7 +102,7 @@ describe('norska-js', () => {
       expect(actual).toEqual(expect.objectContaining({ bar: 'baz' }));
       expect(module.__webpack).toHaveBeenCalledWith({ foo: 'bar' });
     });
-    it('should promisify and bind the run methods', async () => {
+    it('should promisify and bind the run method', async () => {
       jest.spyOn(module, 'loadConfig').mockReturnValue({});
       const mockWebpack = {
         foo: 'bar',
@@ -112,6 +139,13 @@ describe('norska-js', () => {
       jest.spyOn(module, 'displayStats').mockReturnValue();
     });
     describe('in dev', () => {
+      let firstRun = true;
+      beforeEach(() => {
+        if (firstRun) {
+          module.__compiler = null;
+          firstRun = false;
+        }
+      });
       it('should do nothing if no input file', async () => {
         const actual = await module.run();
 
@@ -145,9 +179,32 @@ describe('norska-js', () => {
         const actual = firost.cache.read('norska.js.files');
         expect(actual).toEqual(['script.js']);
       });
+      describe('with errors', () => {
+        it('should display error', async () => {
+          await firost.write('b@d code!', config.fromPath('script.js'));
+
+          let actual = null;
+          try {
+            await module.run();
+          } catch (err) {
+            actual = err;
+          }
+
+          expect(actual).toHaveProperty(
+            'code',
+            'ERROR_WEBPACK_COMPILATION_FAILED'
+          );
+          expect(actual.toString()).toContain('SyntaxError');
+        });
+      });
     });
     describe('in production', () => {
+      let firstRun = true;
       beforeEach(() => {
+        if (firstRun) {
+          module.__compiler = null;
+          firstRun = false;
+        }
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
       it('should create revved assets', async () => {
@@ -176,31 +233,18 @@ describe('norska-js', () => {
         expect(actual).toEqual(['script.75c8d52ae032d81c1592.js']);
       });
     });
-    describe('with errors', () => {
-      it('should display error', async () => {
-        await firost.write('b@d code', config.fromPath('script.js'));
-
-        let actual = null;
-        try {
-          await module.run();
-        } catch (err) {
-          actual = err;
-        }
-
-        expect(actual).toHaveProperty(
-          'code',
-          'ERROR_WEBPACK_COMPILATION_FAILED'
-        );
-        expect(actual.toString()).toContain('SyntaxError');
-      });
-    });
   });
   describe('watch', () => {
-    afterEach(() => {
-      module.unwatch();
-    });
+    let firstRun = true;
     beforeEach(async () => {
+      if (firstRun) {
+        module.__compiler = null;
+        firstRun = false;
+      }
       jest.spyOn(module, 'displayStats').mockReturnValue();
+    });
+    afterEach(async () => {
+      await module.unwatch();
     });
     it('should recompile the input file whenever it is changed', async () => {
       await firost.write('console.log("ok");', config.fromPath('script.js'));
@@ -213,9 +257,15 @@ describe('norska-js', () => {
       expect(actual).toContain('console.log("bar")');
     });
     it('should fire an error event when compilation fails', async () => {
+      jest.spyOn(helper, 'consoleError').mockReturnValue();
       await firost.write('console.log("ok");', config.fromPath('script.js'));
       const pulse = await module.watch();
       await pEvent(pulse, 'build');
+
+      await firost.write('b@@@@d code', config.fromPath('script.js'));
+      await pEvent(pulse, 'buildError');
+
+      expect(helper.consoleError).toHaveBeenCalled();
     });
   });
 });

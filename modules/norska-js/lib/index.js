@@ -55,6 +55,9 @@ export default {
    * otherwise
    **/
   async getCompiler() {
+    if (this.__compiler) {
+      return this.__compiler;
+    }
     const webpackConfig = await this.loadConfig();
     if (!webpackConfig) {
       return false;
@@ -62,7 +65,7 @@ export default {
 
     const compiler = this.__webpack(webpackConfig);
     compiler.run = this.__pify(compiler.run.bind(compiler));
-    // compiler.watch = this.__pify(compiler.watch.bind(compiler));
+    this.__compiler = compiler;
     return compiler;
   },
   /**
@@ -111,9 +114,9 @@ export default {
     }
 
     const pulse = new EventEmitter();
-    this.watcher = compiler.watch({}, (err, stats) => {
+    this.__watcher = compiler.watch({}, (err, stats) => {
       if (stats.hasErrors()) {
-        pulse.emit('error', stats);
+        pulse.emit('buildError', stats);
         const errorMessage = stats.toJson().errors.join('\n');
         helper.consoleError(errorMessage);
         return;
@@ -124,17 +127,21 @@ export default {
     return pulse;
   },
   /**
-   * Webpack watcher instance, to be able to call .unwatch() to stop watching
-   * (used in tests)
-   **/
-  watcher: null,
-  /**
    * Stop watching for file changes
    * Note: This is very useful in tests to prevent the watch to run forever
    **/
-  unwatch() {
-    this.watcher.close();
+  async unwatch() {
+    await this.__watcher.close();
   },
+  /**
+   * Webpack watcher instance, to be able to call .unwatch() to stop watching
+   * (used in tests)
+   **/
+  __watcher: null,
+  /**
+   * Compiler cache
+   **/
+  __compiler: null,
   /**
    * Wrapper around webpack(), to make it easier to mock in tests
    * @param {object} config Webpack config
