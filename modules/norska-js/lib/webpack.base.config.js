@@ -37,6 +37,10 @@ export default {
         enforce: 'pre',
         use: { loader: 'babel-loader' },
       },
+      {
+        test: /\.pug$/,
+        use: { loader: 'pug-loader' },
+      },
     ],
   },
 };
