@@ -122,15 +122,19 @@ describe('norska-js', () => {
     });
   });
   describe('displayStats', () => {
-    it('should display a success message with timing', () => {
+    it('should display a success message with timing with all files', () => {
       const input = { endTime: 10, startTime: 5 };
-      _.set(input, 'compilation.options.output.filename', 'foo.js');
+      _.set(input, 'entrypoints.main.assets', ['foo.js', 'bar.js']);
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
 
-      module.displayStats(input);
+      module.displayStats({
+        toJson() {
+          return input;
+        },
+      });
 
       expect(helper.consoleSuccess).toHaveBeenCalledWith(
-        'foo.js compiled in 5ms'
+        'foo.js and bar.js compiled in 5ms'
       );
     });
   });
