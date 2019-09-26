@@ -8,6 +8,7 @@ import fontSize from './tailwind/fontSize';
 import opacity from './tailwind/opacity';
 import spacing from './tailwind/spacing';
 import zIndex from './tailwind/zIndex';
+import backgroundGradientPlugin from './tailwind/backgroundGradientPlugin';
 import backgroundOpacityPlugin from './tailwind/backgroundOpacityPlugin';
 import bulletsPlugin from './tailwind/bulletsPlugin';
 import debugPlugin from './tailwind/debugPlugin';
@@ -39,6 +40,7 @@ module.exports = {
   },
   plugins: [
     backgroundOpacityPlugin(['hover']),
+    backgroundGradientPlugin(),
     bulletsPlugin(),
     debugPlugin(),
     flexboxPlugin(['responsive']),

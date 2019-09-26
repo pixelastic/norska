@@ -1,5 +1,4 @@
 import { _ } from 'golgoth';
-import colors from './colors';
 
 /**
  * Allow using .purple instead of .font-purple to color text
@@ -7,7 +6,8 @@ import colors from './colors';
  * @returns {Function} Plugin function
  **/
 export default function(variants) {
-  return function({ addUtilities }) {
+  return function({ addUtilities, theme }) {
+    const colors = theme('textColor');
     const newClasses = _.transform(
       colors,
       (result, colorValue, colorName) => {
