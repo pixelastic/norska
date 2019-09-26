@@ -1,6 +1,6 @@
 {
   "name": "norska-js",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Compile .js files through Webpack",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-js",
