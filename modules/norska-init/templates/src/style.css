@@ -1,3 +1,6 @@
+/* Add all your @import here, before the Tailwind init */
+/* @import "_styles/imported.css" */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -224,7 +224,6 @@ describe('norska', () => {
         expect.objectContaining({
           root: config.to(),
           port: 1234,
-          ignore: 'assets',
         })
       );
     });

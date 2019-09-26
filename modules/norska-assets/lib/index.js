@@ -10,7 +10,7 @@ export default {
    **/
   defaultConfig() {
     return {
-      files: '**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,txt,woff}',
+      files: '**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,txt,woff,woff2}',
     };
   },
   /**

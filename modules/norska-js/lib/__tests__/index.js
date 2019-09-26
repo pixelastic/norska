@@ -2,7 +2,6 @@ import module from '../index';
 import config from 'norska-config';
 import firost from 'firost';
 import helper from 'norska-helper';
-import { _ } from 'golgoth';
 import pEvent from 'p-event';
 
 // Note:
@@ -123,13 +122,16 @@ describe('norska-js', () => {
   });
   describe('displayStats', () => {
     it('should display a success message with timing with all files', () => {
-      const input = { endTime: 10, startTime: 5 };
-      _.set(input, 'entrypoints.main.assets', ['foo.js', 'bar.js']);
+      const toJson = {
+        entrypoints: { main: { assets: ['foo.js', 'bar.js'] } },
+      };
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
 
       module.displayStats({
+        endTime: 10,
+        startTime: 5,
         toJson() {
-          return input;
+          return toJson;
         },
       });
 

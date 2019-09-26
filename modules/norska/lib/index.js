@@ -93,7 +93,6 @@ export default {
     liveServer.start({
       root: config.to(),
       port: config.get('port'),
-      ignore: 'assets',
     });
   },
   /**

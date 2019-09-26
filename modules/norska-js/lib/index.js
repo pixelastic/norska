@@ -74,9 +74,8 @@ export default {
    * @param {object} stats Stats object, as returned by webpack
    **/
   displayStats(stats) {
-    const jsonStats = stats.toJson();
     const filenames = this.getEntrypointsFromStats(stats).join(' and ');
-    const time = jsonStats.endTime - jsonStats.startTime;
+    const time = stats.endTime - stats.startTime;
     helper.consoleSuccess(`${filenames} compiled in ${time}ms`);
   },
   /**
