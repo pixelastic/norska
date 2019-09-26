@@ -1,4 +1,4 @@
-import module from '../backgroundColor';
+import module from '../../tailwind/backgroundColor';
 
 describe('backgroundColor', () => {
   it('should contain .bg-black as RGB', () => {

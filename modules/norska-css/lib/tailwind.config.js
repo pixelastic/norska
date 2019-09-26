@@ -1,5 +1,6 @@
 /* eslint-disable import/no-commonjs */
 import backgroundColor from './tailwind/backgroundColor';
+import textColor from './tailwind/textColor';
 import borderRadius from './tailwind/borderRadius';
 import boxShadow from './tailwind/boxShadow';
 import colors from './tailwind/colors';
@@ -15,6 +16,7 @@ import grayscalePlugin from './tailwind/grayscalePlugin';
 import lineHeightPlugin from './tailwind/lineHeightPlugin';
 import shorterClassesPlugin from './tailwind/shorterClassesPlugin';
 import textColorPlugin from './tailwind/textColorPlugin';
+import textOpacityPlugin from './tailwind/textOpacityPlugin';
 
 module.exports = {
   separator: '_',
@@ -31,17 +33,19 @@ module.exports = {
     minWidth: spacing,
     opacity,
     spacing,
+    textColor,
     width: spacing,
     zIndex,
   },
   plugins: [
-    bulletsPlugin(),
     backgroundOpacityPlugin(['hover']),
+    bulletsPlugin(),
     debugPlugin(),
     flexboxPlugin(['responsive']),
     grayscalePlugin(['hover']),
     lineHeightPlugin(),
     shorterClassesPlugin(),
     textColorPlugin(['hover']),
+    textOpacityPlugin(['hover']),
   ],
 };
