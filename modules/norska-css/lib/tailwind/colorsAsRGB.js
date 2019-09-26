@@ -6,6 +6,7 @@ const rgbColors = _.transform(
   colors,
   (result, colorValue, colorName) => {
     if (!_.startsWith(colorValue, '#')) {
+      result[colorName] = { raw: colorValue };
       return;
     }
     const { red, green, blue } = hexToRGB(colorValue);
