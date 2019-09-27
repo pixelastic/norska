@@ -1,8 +1,13 @@
-const scale = {
+export default {
   // No space at all
   0: '0',
   // Default space
   auto: 'auto',
+  // Really small
+  '001': '1px',
+  '002': '2px',
+  '003': '4px',
+  '004': '8px',
   // Smaller than the base unit
   '01': '0.25rem',
   '02': '0.5rem',
@@ -46,5 +51,3 @@ const scale = {
   '100vw': '100vw',
   '100vh': '100vh',
 };
-
-export default scale;
