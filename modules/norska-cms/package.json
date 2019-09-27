@@ -1,6 +1,6 @@
 {
   "name": "norska-cms",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "description": "Edit _data folder interactively",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-cms",
@@ -19,7 +19,7 @@
     "multer": "1.4.2",
     "nodemon": "1.19.1",
     "norska-config": "^0.4.0",
-    "norska-css": "^0.4.1",
+    "norska-css": "^0.4.3",
     "norska-helper": "^0.4.0",
     "open": "6.4.0"
   },
