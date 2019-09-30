@@ -6,7 +6,7 @@ doctype html
 html(lang='en')
   head
     meta(charset='utf-8')
-    meta('http-equiv'='x-ua-compatible',content='ie-edge')
+    meta('http-equiv'='x-ua-compatible', content='ie-edge')
     title=data.page.title
     meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
     meta(name='description', content=data.page.description)
@@ -17,8 +17,8 @@ html(lang='en')
     meta(property='og:title', content=data.page.title)
     meta(property='og:description', content=data.page.description)
     meta(property='og:image', content=data.page.image)
-    link(rel="shortcut icon", href="/favicon.ico")
-    link(type="text/css", rel="stylesheet", href=revv("/style.css"))
+    link(rel="shortcut icon", href="favicon.ico")
+    link(type="text/css", rel="stylesheet", href=revv("style.css"))
     body
       block content
       each jsFile in files.js
