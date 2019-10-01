@@ -44,6 +44,12 @@ module.exports = {
     width: spacing,
     zIndex,
   },
+  variants: {
+    height: ['responsive', 'hover'],
+    position: ['responsive', 'hover'],
+    width: ['responsive', 'hover'],
+    zIndex: ['responsive', 'hover'],
+  },
   plugins: [
     backgroundOpacityPlugin(['hover']),
     backgroundGradientPlugin(),
