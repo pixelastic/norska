@@ -3,6 +3,23 @@ import config from 'norska-config';
 import firost from 'firost';
 
 describe('norska-assets', () => {
+  describe('globs', () => {
+    it('should prepend the from path to all entries', async () => {
+      await config.init({
+        from: './tmp/norska-assets/src',
+        to: './tmp/norska-assets/dist',
+        assets: {
+          files: ['**/*.foo', '**/*.bar'],
+        },
+      });
+      const actual = module.globs();
+
+      expect(actual).toEqual([
+        config.fromPath('**/*.foo'),
+        config.fromPath('**/*.bar'),
+      ]);
+    });
+  });
   describe('compile', () => {
     beforeEach(async () => {
       await config.init({
@@ -150,6 +167,15 @@ describe('norska-assets', () => {
       });
       it('should copy txt files', async () => {
         const filepath = 'robots.txt';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(true);
+      });
+      it('should copy _redirects file (Netlify)', async () => {
+        const filepath = '_redirects';
 
         await firost.write('foo', config.fromPath(filepath));
         await module.run();

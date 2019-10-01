@@ -1,4 +1,4 @@
-import { pMap } from 'golgoth';
+import { _, pMap } from 'golgoth';
 import firost from 'firost';
 import path from 'path';
 import config from 'norska-config';
@@ -10,7 +10,16 @@ export default {
    **/
   defaultConfig() {
     return {
-      files: '**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,txt,woff,woff2}',
+      files: [
+        // Static files
+        '**/*.{html,txt}',
+        // Images
+        '**/*.{ico,jpg,gif,png,svg}',
+        // Fonts
+        '**/*.{eot,otf,ttf,woff,woff2}',
+        // Netlify redirects
+        '_redirects',
+      ],
     };
   },
   /**
@@ -27,13 +36,20 @@ export default {
     await firost.copy(absoluteSource, absoluteDestination);
   },
   /**
+   * Returns a list of all absolute globs to copy
+   * @returns {Array} List of all absolute glob patterns
+   **/
+  globs() {
+    return _.map(config.get('assets.files'), filepath => {
+      return config.fromPath(filepath);
+    });
+  },
+  /**
    * Copy static assets from source to destination, keeping same directory
    * structure but not performing any transformation
    **/
   async run() {
-    const inputFiles = await firost.glob(
-      config.fromPath(config.get('assets.files'))
-    );
+    const inputFiles = await firost.glob(this.globs());
 
     await pMap(inputFiles, this.compile);
   },
@@ -41,8 +57,7 @@ export default {
    * Listen for any changes in assets and copy them to destination
    **/
   async watch() {
-    const pattern = config.fromPath(config.get('assets.files'));
-    await firost.watch(pattern, async (filepath, type) => {
+    await firost.watch(this.globs(), async (filepath, type) => {
       // When removing a file in source, we remove it in destination as well
       if (type === 'removed') {
         const sourceFolder = config.from();
