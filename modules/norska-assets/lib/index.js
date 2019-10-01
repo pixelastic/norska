@@ -17,8 +17,10 @@ export default {
         '**/*.{ico,jpg,gif,png,svg}',
         // Fonts
         '**/*.{eot,otf,ttf,woff,woff2}',
-        // Netlify redirects
+        // Netlify
         '_redirects',
+        '_headers',
+        'netlify.toml',
       ],
     };
   },

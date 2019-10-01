@@ -146,6 +146,35 @@ describe('norska-assets', () => {
         expect(actual).toEqual(true);
       });
     });
+    describe('Netlify config', () => {
+      it('should copy _redirects file', async () => {
+        const filepath = '_redirects';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(true);
+      });
+      it('should copy _headers file', async () => {
+        const filepath = '_headers';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(true);
+      });
+      it('should copy netlify.toml', async () => {
+        const filepath = 'netlify.toml';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(true);
+      });
+    });
     describe('misc', () => {
       it('should not copy unknown files', async () => {
         const filepath = 'foo.weird';
@@ -167,15 +196,6 @@ describe('norska-assets', () => {
       });
       it('should copy txt files', async () => {
         const filepath = 'robots.txt';
-
-        await firost.write('foo', config.fromPath(filepath));
-        await module.run();
-
-        const actual = await firost.isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy _redirects file (Netlify)', async () => {
-        const filepath = '_redirects';
 
         await firost.write('foo', config.fromPath(filepath));
         await module.run();
