@@ -1,6 +1,6 @@
 {
   "name": "norska-assets",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Copy assets from source to destination",
   "author": "Pixelastic <tim@pixelastic.com>",
   "homepage": "https://github.com/pixelastic/norska/modules/norska-assets",
