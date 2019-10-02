@@ -45,6 +45,7 @@ module.exports = {
     zIndex,
   },
   variants: {
+    cursor: ['responsive', 'hover'],
     height: ['responsive', 'hover'],
     position: ['responsive', 'hover'],
     width: ['responsive', 'hover'],
