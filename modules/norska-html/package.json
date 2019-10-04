@@ -3,7 +3,8 @@
   "version": "0.5.0",
   "description": "Convert .pug files to .html files",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-html",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-html",
+  "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
   "files": [

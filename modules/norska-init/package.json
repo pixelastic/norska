@@ -3,7 +3,8 @@
   "version": "0.5.2",
   "description": "Initialize a new Norska project",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-init",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-init",
+  "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
   "files": [

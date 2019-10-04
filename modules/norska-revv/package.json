@@ -3,7 +3,8 @@
   "version": "0.5.0",
   "description": "Revving filenames after build",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-revv",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-revv",
+  "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
   "files": [

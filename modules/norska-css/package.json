@@ -3,7 +3,8 @@
   "version": "0.5.3",
   "description": "Compile .css files through postcss and Tailwind",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-css",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-css",
+  "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
   "files": [

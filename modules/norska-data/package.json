@@ -3,7 +3,8 @@
   "version": "0.5.0",
   "description": "Read data stored in ./src/_data",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-data",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-data",
+  "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
   "files": [

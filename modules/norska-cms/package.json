@@ -3,7 +3,8 @@
   "version": "0.5.3",
   "description": "Edit _data folder interactively",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "homepage": "https://github.com/pixelastic/norska/modules/norska-cms",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-cms",
+  "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
   "files": [

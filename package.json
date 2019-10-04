@@ -7,14 +7,11 @@
     "golgoth": "^0.3.2",
     "lerna": "~3.15.0"
   },
-  "homepage": "https://github.com/pixelastic/norska#readme",
+  "homepage": "https://github.com/pixelastic/norska",
   "license": "MIT",
   "name": "norska-monorepo",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pixelastic/norska.git"
-  },
+  "repository": "git@github.com:pixelastic/norska.git",
   "scripts": {
     "build": "./scripts/meta/build",
     "build:watch": "./scripts/meta/build-watch",
