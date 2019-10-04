@@ -1,6 +1,6 @@
 {
   "name": "norska-helper",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Set of common methods used by all helpers",
   "author": "Pixelastic <tim@pixelastic.com>",
   "repository": "https://github.com/pixelastic/norska/modules/norska-helper",
