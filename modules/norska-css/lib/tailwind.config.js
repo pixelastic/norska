@@ -60,7 +60,7 @@ module.exports = {
     flexboxPlugin(['responsive']),
     grayscalePlugin(['hover']),
     lineHeightPlugin(),
-    shorterClassesPlugin(),
+    shorterClassesPlugin(['responsive', 'hover']),
     textColorPlugin(['hover']),
     textOpacityPlugin(['hover']),
   ],

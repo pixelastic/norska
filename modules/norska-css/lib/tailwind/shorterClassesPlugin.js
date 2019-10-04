@@ -1,8 +1,9 @@
 /**
  * Add simpler ways to style bold, strike, etc
+ * @param {Array} variants Tailwind potential variants
  * @returns {Function} Plugin function
  **/
-export default function() {
+export default function(variants) {
   return function({ addUtilities, theme }) {
     const fontWeight = theme('fontWeight');
     // Default new classes
@@ -17,6 +18,6 @@ export default function() {
         cursor: 'pointer',
       },
     };
-    addUtilities(newClasses);
+    addUtilities(newClasses, variants);
   };
 }
