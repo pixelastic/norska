@@ -11,7 +11,7 @@
     "build/"
   ],
   "dependencies": {
-    "firost": "^0.13.0",
+    "firost": "^0.13.1",
     "golgoth": "^0.3.2"
   },
   "scripts": {
