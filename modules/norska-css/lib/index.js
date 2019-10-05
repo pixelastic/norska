@@ -127,12 +127,6 @@ export default {
     await firost.watch(watchPatterns, async () => {
       await this.compile(inputFile);
     });
-
-    // // Rebuild all files when main tailwind config is changed
-    // const tailwindConfigFile = config.get('css.tailwind.configPath');
-    // firost.watch(tailwindConfigFile, () => {
-    //   this.run();
-    // });
   },
   /**
    * Wrapper around the postcss method, to make it easier to mock in tests

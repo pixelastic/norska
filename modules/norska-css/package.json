@@ -15,13 +15,13 @@
     "autoprefixer": "~9.0.0",
     "firost": "^0.13.1",
     "golgoth": "^0.3.2",
-    "hex-rgb": "4.1.0",
     "norska-config": "^0.5.5",
     "norska-helper": "^0.5.5",
     "postcss": "~7.0.0",
     "postcss-clean": "1.1.0",
     "postcss-import": "~12.0.0",
     "postcss-nested": "~4.1.0",
+    "tailwind-config-norska": "0.0.3",
     "tailwindcss": "1.1.2"
   },
   "scripts": {
@@ -31,8 +31,5 @@
     "lint:fix": "../../scripts/local/lint-fix",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
-  },
-  "devDependencies": {
-    "css": "2.2.4"
   }
 }
