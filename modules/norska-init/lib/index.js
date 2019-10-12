@@ -114,6 +114,10 @@ export default {
         source: 'src/style.css',
         destination: `${config.fromPath(config.get('css.input'))}`,
       },
+      {
+        source: 'src/_styles/reset.css',
+        destination: `${config.fromPath('_styles/reset.css')}`,
+      },
     ];
 
     await pMap(manifest, async item => {

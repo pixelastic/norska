@@ -1,9 +1,5 @@
 /* Add all your @import here, before ANYTHING else */
-/* @import "_styles/imported.css" */
-
-/* Force html and body to take the whole height, and extend if needed*/
-html { @apply h-100p; }
-body { @apply min-h-100p; }
+@import "_styles/reset.css";
 
 @tailwind base;
 @tailwind components;
