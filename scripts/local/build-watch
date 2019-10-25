@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-aberlaas build --watch --config ../../babel.config.js "$@"
+aberlaas build --watch --config="../../babel.config.js" "$@"

@@ -28,4 +28,4 @@ fi
 MODULE_FULL_PATH="$INITIAL_PWD" \
   aberlaas test "${aberlaas_arguments[@]}" \
   --watch \
-  --config "jest.config.local.js"
+  --config="jest.config.local.js"

@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-aberlaas lint:js --config ../../.eslintrc.js "$@"
+aberlaas lint:js --config="../../.eslintrc.js" "$@"
