@@ -1,6 +1,6 @@
 {
   "name": "norska-init",
-  "version": "0.5.5",
+  "version": "0.5.7",
   "description": "Initialize a new Norska project",
   "author": "Pixelastic <tim@pixelastic.com>",
   "repository": "https://github.com/pixelastic/norska/modules/norska-init",
