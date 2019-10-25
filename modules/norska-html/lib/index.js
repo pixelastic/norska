@@ -27,9 +27,16 @@ export default {
     const siteUrl = _.get(sourceData, 'site.url', '/');
     const liveServerUrl = `http://127.0.0.1:${config.get('port')}`;
     const baseUrl = helper.isProduction() ? siteUrl : liveServerUrl;
+
+    const fullPathDir = path.dirname(config.toPath(destination));
+    const relativePathDir = path.relative(fullPathDir, config.to());
+    const pathToRoot = _.isEmpty(relativePathDir)
+      ? './'
+      : `${relativePathDir}/`;
     const urlData = {
       base: baseUrl,
       here: `/${destination}`,
+      pathToRoot,
     };
     const filesData = {
       js: firost.cache.read('norska.js.files', []),

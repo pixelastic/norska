@@ -138,6 +138,26 @@ describe('norska-html', () => {
         const actual = await firost.read(output);
         expect(actual).toEqual('<p>http://www.prod.com/</p>');
       });
+      it('should have url.pathToRoot in subfolders ', async () => {
+        const input = config.fromPath('deep/down/index.pug');
+        const output = config.toPath('deep/down/index.html');
+        await firost.write('p=url.pathToRoot', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<p>../../</p>');
+      });
+      it('should have url.pathToRoot in root ', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('p=url.pathToRoot', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toEqual('<p>./</p>');
+      });
     });
     describe('files', () => {
       beforeEach(() => {
