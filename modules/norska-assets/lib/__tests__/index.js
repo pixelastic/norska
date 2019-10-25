@@ -146,6 +146,17 @@ describe('norska-assets', () => {
         expect(actual).toEqual(true);
       });
     });
+    describe('documents', () => {
+      it('should copy pdf files', async () => {
+        const filepath = 'documents/foo.pdf';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        const actual = await firost.isFile(config.toPath(filepath));
+        expect(actual).toEqual(true);
+      });
+    });
     describe('Netlify config', () => {
       it('should copy _redirects file', async () => {
         const filepath = '_redirects';
