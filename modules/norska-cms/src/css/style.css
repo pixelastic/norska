@@ -14,7 +14,7 @@
   &:hover {
     @apply border-blue;
   }
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     @apply hidden;
     & + * {
       @apply text-7 lh-1 hidden;

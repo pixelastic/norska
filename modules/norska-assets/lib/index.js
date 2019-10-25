@@ -18,7 +18,7 @@ export default {
         // Fonts
         '**/*.{eot,otf,ttf,woff,woff2}',
         // Documents
-        '**/*.{pdf}',
+        '**/*.pdf',
         // Netlify
         '_redirects',
         '_headers',

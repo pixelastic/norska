@@ -1,5 +1,6 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
+  "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
     "aberlaas": "0.6.9",
@@ -16,6 +17,7 @@
   "scripts": {
     "build": "./scripts/meta/build",
     "build:watch": "./scripts/meta/build-watch",
+    "husky:precommit": "./scripts/meta/husky-precommit",
     "learn": "lerna",
     "lint": "./scripts/meta/lint",
     "lint:css": "./scripts/meta/lint-css",
@@ -27,13 +29,12 @@
     "lint:json:fix": "./scripts/meta/lint-json-fix",
     "release": "./scripts/meta/release",
     "sync-dependencies": "./scripts/meta/sync-dependencies",
-    "update-dependencies": "node -r esm ./scripts/meta/update-dependencies",
     "test": "./scripts/meta/test",
-    "test:watch": "./scripts/meta/test-watch"
+    "test:watch": "./scripts/meta/test-watch",
+    "update-dependencies": "node -r esm ./scripts/meta/update-dependencies"
   },
   "version": "0.0.4",
   "workspaces": [
     "modules/*"
-  ],
-  "dependencies": {}
+  ]
 }

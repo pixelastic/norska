@@ -1,5 +1,5 @@
 /* Add all your @import here, before ANYTHING else */
-@import "_styles/reset.css";
+@import '_styles/reset.css';
 
 @tailwind base;
 @tailwind components;
