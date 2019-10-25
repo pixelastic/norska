@@ -2,7 +2,8 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "^0.4.8",
+    "aberlaas": "0.6.9",
+    "esm": "3.2.25",
     "firost": "^0.13.1",
     "golgoth": "^0.3.2",
     "lerna": "~3.15.0"
@@ -26,7 +27,7 @@
     "lint:json:fix": "./scripts/meta/lint-json-fix",
     "release": "./scripts/meta/release",
     "sync-dependencies": "./scripts/meta/sync-dependencies",
-    "update-dependencies": "babel-node ./scripts/meta/update-dependencies",
+    "update-dependencies": "node -r esm ./scripts/meta/update-dependencies",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch"
   },
