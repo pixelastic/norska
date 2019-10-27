@@ -203,11 +203,27 @@ describe('norska-config', () => {
 
       expect(actual).toEqual('baz');
     });
-    it('should return null if no value found', () => {
+    it('should return undefined if no value found', () => {
       module.__config = {};
       const actual = module.get('nope');
 
-      expect(actual).toEqual(null);
+      expect(actual).toEqual(undefined);
+    });
+    it('should return a default value if no such key', () => {
+      module.__config = {};
+      const actual = module.get('nope', 'foo');
+
+      expect(actual).toEqual('foo');
+    });
+  });
+  describe('set', () => {
+    it('should set the value at the specific key', () => {
+      module.__config = {};
+      module.set('foo.bar', { baz: 42 });
+
+      const actual = module.get('foo.bar.baz');
+
+      expect(actual).toEqual(42);
     });
   });
   describe('from', () => {

@@ -178,11 +178,11 @@ describe('norska-js', () => {
 
         expect(module.displayStats).toHaveBeenCalled();
       });
-      it('should fill the cache with the asset list', async () => {
+      it('should fill the runtime config with the asset list', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        const actual = firost.cache.read('norska.js.files');
+        const actual = config.get('runtime.jsFiles');
         expect(actual).toEqual(['script.js']);
       });
       describe('with errors', () => {
@@ -231,11 +231,11 @@ describe('norska-js', () => {
         );
         expect(actual).toEqual(true);
       });
-      it('should fill the cache with the asset list', async () => {
+      it('should fill the runtime with the asset list', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        const actual = firost.cache.read('norska.js.files');
+        const actual = config.get('runtime.jsFiles');
         expect(actual).toEqual(['script.75c8d52ae032d81c1592.js']);
       });
     });

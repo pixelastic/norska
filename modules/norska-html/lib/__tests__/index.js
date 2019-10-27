@@ -160,14 +160,11 @@ describe('norska-html', () => {
       });
     });
     describe('files', () => {
-      beforeEach(() => {
-        firost.cache.clear('norska.js');
-      });
       it('should have files.js', async () => {
-        firost.cache.write('norska.js.files', ['script.js', 'vendors.js']);
+        config.set('runtime.jsFiles', ['script.js', 'vendors.js']);
         const input = config.fromPath('index.pug');
         const output = config.toPath('index.html');
-        await firost.write('p=files.js', input);
+        await firost.write('p=runtime.jsFiles', input);
 
         await module.compile(input);
 
@@ -177,7 +174,7 @@ describe('norska-html', () => {
       it('should be empty by default', async () => {
         const input = config.fromPath('index.pug');
         const output = config.toPath('index.html');
-        await firost.write('p=files.js', input);
+        await firost.write('p=runtime.jsFiles', input);
 
         await module.compile(input);
 

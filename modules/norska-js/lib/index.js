@@ -108,7 +108,7 @@ export default {
     }
 
     const jsFiles = this.getEntrypointsFromStats(stats);
-    firost.cache.write('norska.js.files', jsFiles);
+    config.set('runtime.jsFiles', jsFiles);
     this.displayStats(stats);
   },
   /**

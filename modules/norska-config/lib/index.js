@@ -89,10 +89,19 @@ export default {
   /**
    * Return the current config value at the specified key
    * @param {string} key Config key, accepting dot-notation
+   * @param {*} defaultValue Default value if key not found
    * @returns {*} Current config value for specified key
    **/
-  get(key) {
-    return _.get(this.__config, key, null);
+  get(key, defaultValue) {
+    return _.get(this.__config, key, defaultValue);
+  },
+  /**
+   * Set a specific config key
+   * @param {string} key Config key, accepting dot-notation
+   * @param {*} value Value to store
+   **/
+  set(key, value) {
+    _.set(this.__config, key, value);
   },
   /**
    * Init the config singleton by merging all possible sources of config.

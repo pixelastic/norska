@@ -38,14 +38,12 @@ export default {
       here: `/${destination}`,
       pathToRoot,
     };
-    const filesData = {
-      js: firost.cache.read('norska.js.files', []),
-    };
+    const runtimeData = config.get('runtime', {});
 
     const baseData = {
       data: sourceData,
       url: urlData,
-      files: filesData,
+      runtime: runtimeData,
     };
 
     return {
