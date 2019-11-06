@@ -5,7 +5,7 @@ import helper from 'norska-helper';
 import webpackDevConfig from './webpack.dev.config.js';
 import webpackProdConfig from './webpack.prod.config.js';
 import webpack from 'webpack';
-import { _, pify } from 'golgoth';
+import { _, pify, chalk } from 'golgoth';
 
 export default {
   /**
@@ -91,6 +91,20 @@ export default {
       })
       .value();
   },
+  errorMessage(stats) {
+    return _.chain(stats.toJson())
+      .get('errors')
+      .nth(0)
+      .split('\n')
+      .reject(line => {
+        return (
+          _.startsWith(line, 'Module build failed') ||
+          _.startsWith(line, '    at ')
+        );
+      })
+      .join('\n')
+      .value();
+  },
   /**
    * Build the output js file once
    * @returns {boolean} True if compilation worked, false otherwise
@@ -103,8 +117,8 @@ export default {
 
     const stats = await compiler.run();
     if (stats.hasErrors()) {
-      const errorMessage = stats.toJson().errors.join('\n');
-      throw helper.error('ERROR_WEBPACK_COMPILATION_FAILED', errorMessage);
+      const errorMessage = this.errorMessage(stats);
+      throw helper.error('ERROR_JS_COMPILATION_FAILED', errorMessage);
     }
 
     const jsFiles = this.getEntrypointsFromStats(stats);
@@ -125,8 +139,8 @@ export default {
     this.__watcher = compiler.watch({}, (err, stats) => {
       if (stats.hasErrors()) {
         pulse.emit('buildError', stats);
-        const errorMessage = stats.toJson().errors.join('\n');
-        helper.consoleError(errorMessage);
+        const errorMessage = this.errorMessage(stats);
+        helper.consoleError(chalk.red(errorMessage));
         return;
       }
       pulse.emit('build', stats);

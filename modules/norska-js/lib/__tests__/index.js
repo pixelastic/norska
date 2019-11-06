@@ -140,6 +140,24 @@ describe('norska-js', () => {
       );
     });
   });
+  describe('errorMessage', () => {
+    it('should remove the stacktrace', () => {
+      const error = [
+        './path/to/file.js\nModule build failed\nSyntax Error: xxxx\ncode sample\n    at xxx\n    at yyyy',
+      ];
+      const stats = {
+        toJson() {
+          return { errors: [error] };
+        },
+      };
+
+      const actual = module.errorMessage(stats);
+
+      expect(actual).toEqual(
+        './path/to/file.js\nSyntax Error: xxxx\ncode sample'
+      );
+    });
+  });
   describe('run', () => {
     beforeEach(async () => {
       jest.spyOn(module, 'displayStats').mockReturnValue();
@@ -196,10 +214,7 @@ describe('norska-js', () => {
             actual = err;
           }
 
-          expect(actual).toHaveProperty(
-            'code',
-            'ERROR_WEBPACK_COMPILATION_FAILED'
-          );
+          expect(actual).toHaveProperty('code', 'ERROR_JS_COMPILATION_FAILED');
           expect(actual.toString()).toContain('SyntaxError');
         });
       });
@@ -271,7 +286,9 @@ describe('norska-js', () => {
       await firost.write('b@@@@d code', config.fromPath('script.js'));
       await pEvent(pulse, 'buildError');
 
-      expect(helper.consoleError).toHaveBeenCalled();
+      expect(helper.consoleError).toHaveBeenCalledWith(
+        expect.stringContaining('Unexpected token')
+      );
     });
   });
 });
