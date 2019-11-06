@@ -143,6 +143,8 @@ describe('norska', () => {
       await emptyDir(tmpDirectory);
     });
     beforeEach(async () => {
+      jest.spyOn(helper, 'exit').mockReturnValue();
+      jest.spyOn(helper, 'consoleError').mockReturnValue();
       jest.spyOn(js, 'run').mockReturnValue();
       jest.spyOn(html, 'run').mockReturnValue();
       jest.spyOn(css, 'run').mockReturnValue();
@@ -185,6 +187,21 @@ describe('norska', () => {
       await module.build();
 
       expect(await exist(config.toPath('something.js'))).toEqual(false);
+    });
+    it('should exit with error if one of the build command fails', async () => {
+      html.run.mockImplementation(() => {
+        throw helper.error('ERROR_CODE', 'error message');
+      });
+
+      await module.build();
+
+      expect(helper.consoleError).toHaveBeenCalledWith(
+        expect.stringContaining('ERROR_CODE')
+      );
+      expect(helper.consoleError).toHaveBeenCalledWith(
+        expect.stringContaining('error message')
+      );
+      expect(helper.exit).toHaveBeenCalledWith(1);
     });
   });
   describe('serve', () => {
