@@ -4,8 +4,6 @@ import data from 'norska-data';
 import helper from 'norska-helper';
 import revv from 'norska-revv';
 import firost from 'firost';
-import pug from 'pug';
-import { chalk } from 'golgoth';
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/index';
@@ -228,30 +226,39 @@ describe('norska-html', () => {
       });
     });
     describe('compilation error', () => {
-      beforeEach(() => {
-        jest.spyOn(pug, 'compile').mockImplementation(() => {
-          throw { toString: jest.fn().mockReturnValue('pug error') };
-        });
-        jest.spyOn(chalk, 'red').mockImplementation(input => {
-          return `${input} in red`;
-        });
-        jest.spyOn(helper, 'consoleError').mockReturnValue();
-      });
-      it('should display an error if compilation fails', async () => {
+      it('should throw if invalid syntax', async () => {
         const input = config.fromPath('index.pug');
-        await firost.write('p foo', input);
+        await firost.write('p.invalid:syntax foo', input);
 
-        await module.compile(input);
+        let actual = null;
+        try {
+          await module.compile(input);
+        } catch (error) {
+          actual = error;
+        }
 
-        expect(helper.consoleError).toHaveBeenCalledWith('pug error in red');
+        expect(actual).toHaveProperty('code', 'ERROR_HTML_COMPILATION_FAILED');
+        expect(actual).toHaveProperty(
+          'message',
+          expect.stringMatching('Unexpected token')
+        );
       });
-      it('should return false if compilation fails', async () => {
+      it('should throw if missing object key', async () => {
         const input = config.fromPath('index.pug');
-        await firost.write('p foo', input);
+        await firost.write('p=foo.key', input);
 
-        const actual = await module.compile(input);
+        let actual = null;
+        try {
+          await module.compile(input);
+        } catch (error) {
+          actual = error;
+        }
 
-        expect(actual).toEqual(false);
+        expect(actual).toHaveProperty('code', 'ERROR_HTML_COMPILATION_FAILED');
+        expect(actual).toHaveProperty(
+          'message',
+          expect.stringMatching("Cannot read property 'key'")
+        );
       });
     });
     describe('custom methods', () => {
@@ -414,6 +421,24 @@ describe('norska-html', () => {
 
         const actual = await firost.exist(config.toPath('_foo/index.html'));
         expect(actual).toEqual(false);
+      });
+    });
+    describe('compilation error', () => {
+      it('should throw if one of the compilation fails', async () => {
+        await firost.write('p foo', config.fromPath('index.pug'));
+        await firost.write(
+          'p.invalid:syntax foo',
+          config.fromPath('error.pug')
+        );
+
+        let actual = null;
+        try {
+          await module.run();
+        } catch (error) {
+          actual = error;
+        }
+
+        expect(actual).toHaveProperty('code', 'ERROR_HTML_COMPILATION_FAILED');
       });
     });
   });

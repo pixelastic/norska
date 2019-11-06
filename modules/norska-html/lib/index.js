@@ -73,20 +73,19 @@ export default {
     const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
     const absoluteDestination = config.toPath(relativeDestination);
 
-    let compiler;
+    const data = await this.getData(relativeDestination);
+
+    let result;
     try {
-      compiler = pug.compileFile(absoluteSource, {
+      const compiler = pug.compileFile(absoluteSource, {
         filename: absoluteSource,
         basedir: config.from(),
       });
+      result = compiler(data);
     } catch (err) {
-      helper.consoleError(chalk.red(err.toString()));
-      return false;
+      throw helper.error('ERROR_HTML_COMPILATION_FAILED', err.toString());
     }
 
-    const data = await this.getData(relativeDestination);
-
-    const result = compiler(data);
     await firost.write(result, absoluteDestination);
     return true;
   },
@@ -107,7 +106,11 @@ export default {
     // Reload a given pug file whenever it is changed
     const pugFilesPattern = await this.pugFilesPattern();
     await firost.watch(pugFilesPattern, async filepath => {
-      await this.compile(filepath);
+      try {
+        await this.compile(filepath);
+      } catch (error) {
+        helper.consoleError(chalk.red(error.message));
+      }
     });
 
     // Reload all pug files whenever files in _data/ are changed

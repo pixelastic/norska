@@ -167,5 +167,23 @@ describe('norska-html', () => {
         });
       });
     });
+    describe('compilation errors', () => {
+      beforeEach(() => {
+        jest.spyOn(helper, 'consoleError').mockReturnValue();
+      });
+      it('should display the errors', async () => {
+        await module.watch();
+        await firost.write(
+          'p.invalid:syntax foo',
+          config.fromPath('error.pug')
+        );
+
+        await firost.waitForWatchers();
+
+        expect(helper.consoleError).toHaveBeenCalledWith(
+          expect.stringMatching('Unexpected token')
+        );
+      });
+    });
   });
 });
