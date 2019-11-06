@@ -57,6 +57,9 @@ export default {
       port: 8083,
       from: './src',
       to: './dist',
+      runtime: {
+        jsFiles: [],
+      },
     };
   },
   /**

@@ -47,6 +47,11 @@ describe('norska-config', () => {
 
       expect(actual).toHaveProperty('to', './dist');
     });
+    it('should have an empty list of jsFiles', () => {
+      const actual = module.defaultConfig();
+
+      expect(actual).toHaveProperty('runtime.jsFiles', []);
+    });
   });
   describe('cliConfig', () => {
     it('should not return the positional arguments', () => {
