@@ -1,6 +1,6 @@
 {
   "name": "norska",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "Opinionated static website generator",
   "author": "Pixelastic <tim@pixelastic.com>",
   "repository": "https://github.com/pixelastic/norska/",
@@ -19,15 +19,15 @@
     "golgoth": "^0.3.2",
     "live-server": "1.2.1",
     "minimist": "1.2.0",
-    "norska-assets": "^0.5.10",
-    "norska-cms": "^0.5.10",
-    "norska-config": "^0.5.10",
-    "norska-css": "^0.5.10",
+    "norska-assets": "^0.5.11",
+    "norska-cms": "^0.5.11",
+    "norska-config": "^0.5.11",
+    "norska-css": "^0.5.11",
     "norska-helper": "^0.5.5",
-    "norska-html": "^0.5.10",
-    "norska-init": "^0.5.10",
-    "norska-js": "^0.5.10",
-    "norska-revv": "^0.5.10"
+    "norska-html": "^0.5.11",
+    "norska-init": "^0.5.11",
+    "norska-js": "^0.5.11",
+    "norska-revv": "^0.5.11"
   },
   "scripts": {
     "build": "../../scripts/local/build",
