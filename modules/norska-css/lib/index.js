@@ -1,7 +1,7 @@
 import path from 'path';
 import config from 'norska-config';
 import firost from 'firost';
-import { _, timeSpan } from 'golgoth';
+import { _, timeSpan, chalk } from 'golgoth';
 import helper from 'norska-helper';
 import postcss from 'postcss';
 import postcssAutoprefixer from 'autoprefixer';
@@ -23,10 +23,9 @@ export default {
   },
 
   /**
-   * Returns the list of postCSS plugins to load, based on the current env (prod
-   * or dev)
+   * Returns the list of postCSS plugins to load, based on the current env (prod or dev)
    * @returns {Array} Array of configured plugins
-   **/
+   */
   getPlugins() {
     const basePlugins = [
       this.__pluginImport(),
@@ -89,11 +88,8 @@ export default {
       });
       compiledCss = _.get(compilationResult, 'css');
     } catch (err) {
-      helper.consoleError(
-        `[norska-js]: ${err.name} in ${relativeSource} on line ${err.line}`
-      );
-      helper.consoleError(`[norska-js]: ${err.toString()}`);
-      return;
+      throw helper.error('ERROR_CSS_COMPILATION_FAILED', err.toString());
+      // `[norska-js]: ${err.name} in ${relativeSource} on line ${err.line}`
     }
 
     await firost.write(compiledCss, absoluteDestination);
@@ -125,7 +121,11 @@ export default {
 
     // Rebuild the entrypoint whenever something changed
     await firost.watch(watchPatterns, async () => {
-      await this.compile(inputFile);
+      try {
+        await this.compile(inputFile);
+      } catch (error) {
+        helper.consoleError(chalk.red(error.message));
+      }
     });
   },
   /**

@@ -17,7 +17,7 @@ describe('norska-css', () => {
       });
       await firost.emptyDir(tmpDirectory);
     });
-    it('should fail if file is not in the source folder', async () => {
+    it('should silently fail if file is not in the source folder', async () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
       const input = '/nope/foo.css';
 
@@ -64,6 +64,24 @@ describe('norska-css', () => {
         '/* compiled content */',
         config.toPath('style.css')
       );
+    });
+    describe('compilation errors', () => {
+      it('should throw if cannot compile', async () => {
+        await firost.write('.foo {', config.fromPath('style.css'));
+
+        let actual;
+        try {
+          await module.compile('style.css');
+        } catch (error) {
+          actual = error;
+        }
+
+        expect(actual).toHaveProperty('code', 'ERROR_CSS_COMPILATION_FAILED');
+        expect(actual).toHaveProperty(
+          'message',
+          expect.stringContaining('Unclosed block')
+        );
+      });
     });
   });
   describe('run', () => {
@@ -252,6 +270,22 @@ describe('norska-css', () => {
       await firost.waitForWatchers();
       const actual = await firost.read(config.toPath('./style.css'));
       expect(actual).toMatchSnapshot();
+    });
+    describe('compilation errors', () => {
+      beforeEach(() => {
+        jest.spyOn(helper, 'consoleError').mockReturnValue();
+      });
+      it('should display compilation errors', async () => {
+        await module.watch();
+
+        await firost.write('body { ', config.fromPath('style.css'));
+
+        await firost.waitForWatchers();
+
+        expect(helper.consoleError).toHaveBeenCalledWith(
+          expect.stringContaining('Unclosed block')
+        );
+      });
     });
   });
 });
