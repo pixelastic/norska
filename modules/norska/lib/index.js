@@ -76,7 +76,7 @@ export default {
       ]);
       await revv.run();
     } catch (error) {
-      helper.consoleError(chalk.red(error.code));
+      helper.consoleError(chalk.red(error.code || 'Build Error'));
       helper.consoleError(chalk.red(error.message));
       helper.exit(1);
     }
