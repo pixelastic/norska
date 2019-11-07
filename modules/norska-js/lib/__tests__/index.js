@@ -120,24 +120,14 @@ describe('norska-js', () => {
       expect(module.__pify).toHaveBeenCalledWith(mockWebpack.run);
     });
   });
-  describe('displayStats', () => {
+  describe('getOutputStats', () => {
     it('should display a success message with timing with all files', () => {
-      const toJson = {
-        entrypoints: { main: { assets: ['foo.js', 'bar.js'] } },
-      };
-      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
-
-      module.displayStats({
+      const actual = module.getOutputStats({
         endTime: 10,
         startTime: 5,
-        toJson() {
-          return toJson;
-        },
       });
 
-      expect(helper.consoleSuccess).toHaveBeenCalledWith(
-        'foo.js and bar.js compiled in 5ms'
-      );
+      expect(actual).toEqual('JavaScript compiled in 5ms');
     });
   });
   describe('errorMessage', () => {
@@ -160,7 +150,10 @@ describe('norska-js', () => {
   });
   describe('run', () => {
     beforeEach(async () => {
-      jest.spyOn(module, 'displayStats').mockReturnValue();
+      jest.spyOn(module, 'getOutputStats').mockReturnValue();
+      jest
+        .spyOn(firost, 'spinner')
+        .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     describe('in dev', () => {
       let firstRun = true;
@@ -194,7 +187,7 @@ describe('norska-js', () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        expect(module.displayStats).toHaveBeenCalled();
+        expect(module.getOutputStats).toHaveBeenCalled();
       });
       it('should fill the runtime config with the asset list', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
@@ -262,7 +255,6 @@ describe('norska-js', () => {
         module.__compiler = null;
         firstRun = false;
       }
-      jest.spyOn(module, 'displayStats').mockReturnValue();
     });
     afterEach(async () => {
       await module.unwatch();
