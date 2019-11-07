@@ -62,7 +62,7 @@ describe('norska-assets', () => {
       await firost.emptyDir('./tmp/norska-assets');
       jest
         .spyOn(firost, 'spinner')
-        .mockReturnValue({ tick() {}, success() {}, failure() {} });
+        .mockReturnValue({ text() {}, tick() {}, success() {}, failure() {} });
     });
     describe('images', () => {
       it('should copy gif files', async () => {
@@ -216,6 +216,16 @@ describe('norska-assets', () => {
 
         const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
+      });
+    });
+    describe('spinner', () => {
+      it('should contain the total number of files', async () => {
+        const filepath = './subdir/foo.gif';
+
+        await firost.write('foo', config.fromPath(filepath));
+        await module.run();
+
+        expect(firost.spinner).toHaveBeenCalledWith(1);
       });
     });
   });

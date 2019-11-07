@@ -53,16 +53,20 @@ export default {
    * structure but not performing any transformation
    **/
   async run() {
-    const timer = timeSpan();
-    const progress = firost.spinner();
-    progress.tick('Copying assets');
-
     const inputFiles = await firost.glob(this.globs());
+    const timer = timeSpan();
+    const progress = firost.spinner(inputFiles.length);
+    progress.text('Copying assets');
 
-    await pMap(inputFiles, async filepath => {
-      progress.tick(`Copying ${filepath}`);
-      await this.compile(filepath);
-    });
+    await pMap(
+      inputFiles,
+      async filepath => {
+        const relativePath = path.relative(config.from(), filepath);
+        progress.tick(`Copying ${relativePath}`);
+        await this.compile(filepath);
+      },
+      { concurrency: 20 }
+    );
     progress.success(`Assets copied in ${timer.rounded()}ms`);
   },
   /**
