@@ -151,7 +151,7 @@ describe('norska', () => {
       jest.spyOn(assets, 'run').mockReturnValue();
       jest.spyOn(revv, 'run').mockReturnValue();
     });
-    it('should run js, then html, then css', async () => {
+    it('should run js => html => css => assets => revv', async () => {
       let stack = [];
       jest.spyOn(js, 'run').mockImplementation(() => {
         stack.push('js');
@@ -162,10 +162,16 @@ describe('norska', () => {
       jest.spyOn(css, 'run').mockImplementation(() => {
         stack.push('css');
       });
+      jest.spyOn(assets, 'run').mockImplementation(() => {
+        stack.push('assets');
+      });
+      jest.spyOn(revv, 'run').mockImplementation(() => {
+        stack.push('revv');
+      });
 
       await module.build();
 
-      expect(stack).toEqual(['js', 'html', 'css']);
+      expect(stack).toEqual(['js', 'html', 'css', 'assets', 'revv']);
     });
     it('should run assets', async () => {
       await module.build();

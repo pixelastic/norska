@@ -63,17 +63,15 @@ export default {
     await firost.mkdirp(config.to());
 
     try {
-      await pAll([
-        async () => {
-          // We unfortunately need to run those in sequence
-          // The HTML needs the list of JS files to include them
-          // The CSS needs the HTML output to purge its list of classes
-          await js.run();
-          await html.run();
-          await css.run();
-        },
-        async () => await assets.run(),
-      ]);
+      // We unfortunately need to run those in sequence
+      // The HTML needs the list of JS files to include them
+      // The CSS needs the HTML output to purge its list of classes
+      // Running the asset copy in parallel to the js makes the js slow
+      // Revv should be done once everything is copied
+      await js.run();
+      await html.run();
+      await css.run();
+      await assets.run();
       await revv.run();
     } catch (error) {
       helper.consoleError(chalk.red(error.code || 'Build Error'));
