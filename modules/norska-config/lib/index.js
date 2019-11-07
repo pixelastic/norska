@@ -59,6 +59,7 @@ export default {
       to: './dist',
       runtime: {
         jsFiles: [],
+        revvFiles: {},
       },
     };
   },
