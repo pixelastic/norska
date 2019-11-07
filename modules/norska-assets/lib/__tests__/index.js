@@ -60,6 +60,9 @@ describe('norska-assets', () => {
         assets: module.defaultConfig(),
       });
       await firost.emptyDir('./tmp/norska-assets');
+      jest
+        .spyOn(firost, 'spinner')
+        .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     describe('images', () => {
       it('should copy gif files', async () => {

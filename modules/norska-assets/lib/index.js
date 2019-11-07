@@ -1,4 +1,4 @@
-import { _, pMap } from 'golgoth';
+import { _, pMap, timeSpan } from 'golgoth';
 import firost from 'firost';
 import path from 'path';
 import config from 'norska-config';
@@ -53,9 +53,17 @@ export default {
    * structure but not performing any transformation
    **/
   async run() {
+    const timer = timeSpan();
+    const progress = firost.spinner();
+    progress.tick('Copying assets');
+
     const inputFiles = await firost.glob(this.globs());
 
-    await pMap(inputFiles, this.compile);
+    await pMap(inputFiles, async filepath => {
+      progress.tick(`Copying ${filepath}`);
+      await this.compile(filepath);
+    });
+    progress.success(`Assets copied in ${timer.rounded()}ms`);
   },
   /**
    * Listen for any changes in assets and copy them to destination
