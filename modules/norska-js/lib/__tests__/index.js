@@ -255,6 +255,7 @@ describe('norska-js', () => {
         module.__compiler = null;
         firstRun = false;
       }
+      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
     });
     afterEach(async () => {
       await module.unwatch();

@@ -18,6 +18,10 @@ describe('norska-html', () => {
       jest.spyOn(helper, 'consoleWarn').mockReturnValue();
       await firost.mkdirp(config.from());
       data.clearCache();
+      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
+      jest
+        .spyOn(firost, 'spinner')
+        .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     afterEach(async () => {
       await firost.unwatchAll();
