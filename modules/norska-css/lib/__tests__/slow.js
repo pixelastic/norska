@@ -17,15 +17,6 @@ describe('norska-css', () => {
       });
       await firost.emptyDir(tmpDirectory);
     });
-    it('should silently fail if file is not in the source folder', async () => {
-      jest.spyOn(helper, 'consoleWarn').mockReturnValue();
-      const input = '/nope/foo.css';
-
-      const actual = await module.compile(input);
-
-      expect(actual).toEqual(false);
-      expect(helper.consoleWarn).toHaveBeenCalled();
-    });
     it('should call the compiler with the raw content', async () => {
       await firost.write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
@@ -66,6 +57,22 @@ describe('norska-css', () => {
       );
     });
     describe('compilation errors', () => {
+      it('should fail if file is not in the source folder', async () => {
+        const input = '/nope/foo.css';
+
+        let actual;
+        try {
+          await module.compile(input);
+        } catch (error) {
+          actual = error;
+        }
+
+        expect(actual).toHaveProperty('code', 'ERROR_CSS_COMPILATION_FAILED');
+        expect(actual).toHaveProperty(
+          'message',
+          expect.stringContaining('not in the source directory')
+        );
+      });
       it('should throw if cannot compile', async () => {
         await firost.write('.foo {', config.fromPath('style.css'));
 
@@ -87,6 +94,9 @@ describe('norska-css', () => {
   describe('run', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
+      jest
+        .spyOn(firost, 'spinner')
+        .mockReturnValue({ tick() {}, success() {}, failure() {} });
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,

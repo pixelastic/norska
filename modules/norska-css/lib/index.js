@@ -64,7 +64,6 @@ export default {
    * @returns {boolean} True on success, false otherwise
    **/
   async compile(inputFile) {
-    const timer = timeSpan();
     const sourceFolder = config.from();
     const absoluteSource = config.fromPath(inputFile);
     const relativeSource = path.relative(sourceFolder, absoluteSource);
@@ -72,10 +71,10 @@ export default {
 
     // We only compile files that are in the source directory
     if (!_.startsWith(absoluteSource, sourceFolder)) {
-      helper.consoleWarn(
-        `${absoluteSource} compilation aborted. It is not in the source directory.`
+      throw helper.error(
+        'ERROR_CSS_COMPILATION_FAILED',
+        `${absoluteSource} is not in the source directory.`
       );
-      return false;
     }
 
     const rawContent = await firost.read(absoluteSource);
@@ -89,11 +88,10 @@ export default {
       compiledCss = _.get(compilationResult, 'css');
     } catch (err) {
       throw helper.error('ERROR_CSS_COMPILATION_FAILED', err.toString());
-      // `[norska-js]: ${err.name} in ${relativeSource} on line ${err.line}`
     }
 
     await firost.write(compiledCss, absoluteDestination);
-    helper.consoleSuccess(`${relativeSource} compiled in ${timer.rounded()}ms`);
+
     return true;
   },
 
@@ -101,8 +99,19 @@ export default {
    * Compile all source CSS to destination
    **/
   async run() {
-    const inputFile = config.fromPath(config.get('css.input'));
-    await this.compile(inputFile);
+    const timer = timeSpan();
+    const progress = firost.spinner();
+    progress.tick('Compiling CSS');
+
+    try {
+      const inputFile = config.fromPath(config.get('css.input'));
+      await this.compile(inputFile);
+    } catch (error) {
+      progress.failure('CSS compilation failed');
+      throw error;
+    }
+
+    progress.success(`CSS compiled in ${timer.rounded()}ms`);
   },
 
   /**
