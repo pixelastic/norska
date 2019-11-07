@@ -3,14 +3,15 @@ import config from 'norska-config';
 import helper from 'norska-helper';
 import firost from 'firost';
 
-describe('norska-data', () => {
+describe('norska-revv', () => {
   beforeEach(async () => {
     await config.init({
       from: './tmp/norska-revv/src',
       to: './tmp/norska-revv/dist',
     });
     await firost.emptyDir('./tmp/norska-revv');
-    firost.cache.clear(module.cacheKey);
+    config.set('runtime.revvFiles', {});
+    jest.spyOn(firost, 'spinner').mockReturnValue({ tick() {}, success() {} });
   });
   describe('manifest', () => {
     it('should return an empty object if no manifest yet set', () => {
@@ -43,13 +44,6 @@ describe('norska-data', () => {
 
       expect(actual).toEqual('foo.acbd18db4c.txt');
     });
-    it('return revved filepath with starting slash', async () => {
-      await firost.write('foo', config.toPath('foo.txt'));
-
-      const actual = await module.revvPath('/foo.txt');
-
-      expect(actual).toEqual('/foo.acbd18db4c.txt');
-    });
     it('return different filepath if content is different', async () => {
       await firost.write('foo', config.toPath('foo.txt'));
       const revv1 = await module.revvPath('foo.txt');
@@ -64,7 +58,7 @@ describe('norska-data', () => {
       expect(actual).toEqual('foo.txt');
     });
   });
-  describe('fillManifes', () => {
+  describe('fillManifest', () => {
     it('should add revved filepath to each file in the manifest', async () => {
       await firost.write('foo', config.toPath('foo.txt'));
       await firost.write('bar', config.toPath('bar.txt'));
@@ -110,6 +104,16 @@ describe('norska-data', () => {
         '<a href="foo.acbd18db4c.txt">foo</a><a href="foo.acbd18db4c.txt">foo</a>'
       );
     });
+    it('should work in deep nested files', async () => {
+      const input = config.toPath('./deep/nested/file/index.html');
+      await firost.write('<a href="{revv: foo.txt}">foo</a>', input);
+
+      await module.compile(input);
+
+      const actual = await firost.read(input);
+
+      expect(actual).toEqual('<a href="../../../foo.acbd18db4c.txt">foo</a>');
+    });
   });
   describe('renameAssets', () => {
     it('should create a revved copy of each file in manifest', async () => {
@@ -150,9 +154,10 @@ describe('norska-data', () => {
       await module.run();
 
       const expected = '<a href="foo.acbd18db4c.txt">foo</a>';
+      const expectedSubfile = '<a href="../../foo.acbd18db4c.txt">foo</a>';
 
       expect(await firost.read(index)).toEqual(expected);
-      expect(await firost.read(subfile)).toEqual(expected);
+      expect(await firost.read(subfile)).toEqual(expectedSubfile);
     });
     it('should not run in dev', async () => {
       jest.spyOn(helper, 'isProduction').mockReturnValue(false);

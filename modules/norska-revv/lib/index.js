@@ -3,11 +3,9 @@ import firost from 'firost';
 import helper from 'norska-helper';
 import path from 'path';
 import revHash from 'rev-hash';
-import { _, pMap } from 'golgoth';
+import { _, pMap, timeSpan } from 'golgoth';
 
 export default {
-  // Cache to save list of input files and revved file names
-  cacheKey: 'norska.revv',
   /**
    * Convenience method to read/write in the cached manifest
    * Each key is the base asset path, and value is its revved path or null
@@ -16,9 +14,9 @@ export default {
    **/
   manifest(value) {
     if (!value) {
-      return firost.cache.read(this.cacheKey, {});
+      return config.get('runtime.revvFiles', {});
     }
-    firost.cache.write(this.cacheKey, value);
+    config.set('runtime.revvFiles', value);
   },
   /**
    * Add a file to the manifest
@@ -36,7 +34,7 @@ export default {
    * @returns {string} Revved filepath
    **/
   async revvPath(filepath) {
-    const fullPath = config.toPath(_.trimStart(filepath, '/'));
+    const fullPath = config.toPath(filepath);
 
     if (!(await firost.exist(fullPath))) {
       return filepath;
@@ -65,10 +63,21 @@ export default {
 
     const manifest = this.manifest();
     _.each(manifest, (revvedPath, basePath) => {
+      const baseFullPath = config.toPath(basePath);
+      const baseRelativePath = path.relative(
+        path.dirname(htmlPath),
+        baseFullPath
+      );
+      const revvedRelativePath = _.replace(
+        baseRelativePath,
+        new RegExp(`${basePath}$`),
+        revvedPath
+      );
+
       content = _.replace(
         content,
         new RegExp(`{revv: ${basePath}}`, 'g'),
-        revvedPath
+        revvedRelativePath
       );
     });
 
@@ -84,8 +93,8 @@ export default {
       return { revvedPath, basePath };
     });
     await pMap(assets, async asset => {
-      const basePath = config.toPath(_.trimStart(asset.basePath, '/'));
-      const revvedPath = config.toPath(_.trimStart(asset.revvedPath, '/'));
+      const basePath = config.toPath(asset.basePath);
+      const revvedPath = config.toPath(asset.revvedPath);
       await firost.copy(basePath, revvedPath);
     });
   },
@@ -93,16 +102,28 @@ export default {
    * Update all HTML files in destination with path to the revved assets
    **/
   async run() {
+    const timer = timeSpan();
+    const progress = firost.spinner();
+    progress.tick('Revving assets');
     if (!helper.isProduction()) {
+      progress.success('Revving skipped in dev');
       return;
     }
-    await this.fillManifest();
 
-    const htmlFiles = await firost.glob(config.toPath('**/*.html'));
-    await pMap(htmlFiles, async filepath => {
-      await this.compile(filepath);
-    });
+    try {
+      await this.fillManifest();
+      const htmlFiles = await firost.glob(config.toPath('**/*.html'));
 
-    await this.renameAssets();
+      await pMap(htmlFiles, async filepath => {
+        await this.compile(filepath);
+      });
+
+      await this.renameAssets();
+    } catch (error) {
+      progress.failure('Revving failed');
+      throw error;
+    }
+
+    progress.success(`Assets revved in ${timer.rounded()}ms`);
   },
 };
