@@ -117,7 +117,12 @@ export default {
     const pugFilesPattern = await this.pugFilesPattern();
     await firost.watch(pugFilesPattern, async filepath => {
       try {
+        const timer = timeSpan();
+        const relativePath = path.relative(config.from(), filepath);
         await this.compile(filepath);
+        helper.consoleSuccess(
+          `${relativePath} compiled in ${timer.rounded()}ms`
+        );
       } catch (error) {
         helper.consoleError(chalk.red(error.message));
       }

@@ -131,7 +131,12 @@ export default {
     // Rebuild the entrypoint whenever something changed
     await firost.watch(watchPatterns, async () => {
       try {
+        const timer = timeSpan();
+        const relativePath = path.relative(config.from(), inputFile);
         await this.compile(inputFile);
+        helper.consoleSuccess(
+          `${relativePath} compiled in ${timer.rounded()}ms`
+        );
       } catch (error) {
         helper.consoleError(chalk.red(error.message));
       }
