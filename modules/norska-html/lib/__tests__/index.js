@@ -411,7 +411,9 @@ describe('norska-html', () => {
   });
   describe('run', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'consoleWarn').mockReturnValue();
+      jest
+        .spyOn(firost, 'spinner')
+        .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     describe('excluded files', () => {
       it('folder starting with _ should not be processed', async () => {

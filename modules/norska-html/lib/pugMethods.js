@@ -17,9 +17,10 @@ const markdown = markdownIt({
  * It must be called with the base data object to be made available in the pug
  * files as it needs to be passed down recursively to each include() call
  * @param {object} data Data object to be made available in pug files
+ * @param {string} destination Path to the created file
  * @returns {object} Custom methods available in pug files
  **/
-export default function(data) {
+export default function(data, destination) {
   const methods = {
     // Making lodash available in pug files
     _,
@@ -63,9 +64,14 @@ export default function(data) {
         return filepath;
       }
 
-      revv.add(filepath);
+      // Normalize the file path from the root
+      const fullPathSourceFile = config.fromPath(destination);
+      const fullPath = path.resolve(path.dirname(fullPathSourceFile), filepath);
+      const relativePath = path.relative(config.from(), fullPath);
 
-      return `{revv: ${filepath}}`;
+      revv.add(relativePath);
+
+      return `{revv: ${relativePath}}`;
     },
   };
 

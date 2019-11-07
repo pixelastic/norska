@@ -2,7 +2,7 @@ import data from 'norska-data';
 import config from 'norska-config';
 import helper from 'norska-helper';
 import path from 'path';
-import { _, pMap, chalk } from 'golgoth';
+import { _, pMap, chalk, timeSpan } from 'golgoth';
 import firost from 'firost';
 import pug from 'pug';
 import pugMethods from './pugMethods';
@@ -48,7 +48,7 @@ export default {
 
     return {
       ...baseData,
-      ...pugMethods(baseData),
+      ...pugMethods(baseData, destination),
     };
   },
   /**
@@ -93,11 +93,21 @@ export default {
    * Compile all source files to html
    **/
   async run() {
-    const pugFilesPattern = await this.pugFilesPattern();
-    const pugFiles = await firost.glob(pugFilesPattern);
-    await pMap(pugFiles, async filepath => {
-      await this.compile(filepath);
-    });
+    const timer = timeSpan();
+    const progress = firost.spinner();
+    progress.tick('Compiling HTML');
+
+    try {
+      const pugFilesPattern = await this.pugFilesPattern();
+      const pugFiles = await firost.glob(pugFilesPattern);
+      await pMap(pugFiles, async filepath => {
+        await this.compile(filepath);
+      });
+    } catch (error) {
+      progress.failure('HTML compilation failed');
+      throw error;
+    }
+    progress.success(`HTML compiled in ${timer.rounded()}ms`);
   },
   /**
    * Listen to any changes on pug files and rebuild them
