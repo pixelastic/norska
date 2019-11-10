@@ -1,9 +1,7 @@
-import { _, pMap, timeSpan, pify } from 'golgoth';
+import { _, pMap, timeSpan } from 'golgoth';
 import firost from 'firost';
 import path from 'path';
 import config from 'norska-config';
-import cpx from 'cpx';
-const copy = pify(cpx.copy);
 
 export default {
   /**
@@ -35,12 +33,10 @@ export default {
    * */
   async compile(inputFile) {
     const source = config.fromPath(inputFile);
-    const relativeDir = path.relative(config.from(), path.dirname(source));
-    const destination = `${config.toPath(relativeDir)}/`;
+    const relativePath = path.relative(config.from(), source);
+    const destination = config.toPath(relativePath);
 
-    await copy(source, destination, {
-      preserve: true,
-    });
+    await firost.copy(source, destination);
   },
   /**
    * Returns a list of all absolute globs to copy
