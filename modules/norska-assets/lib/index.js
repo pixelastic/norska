@@ -1,7 +1,7 @@
 import { _, pMap, timeSpan } from 'golgoth';
+import config from 'norska-config';
 import firost from 'firost';
 import path from 'path';
-import config from 'norska-config';
 
 export default {
   /**
