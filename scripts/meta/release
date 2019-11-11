@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 set -e
+yarn run build
 yarn run test
 lerna publish --yes "$@"
