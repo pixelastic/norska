@@ -65,8 +65,14 @@ export default function(data, destination) {
       }
 
       // Normalize the file path from the root
+      // We force the removal of any starting slash to avoid people targeting
+      // files outside of their repo
+      const forcedRelativePath = _.trimStart(filepath, '/');
       const fullPathSourceFile = config.fromPath(destination);
-      const fullPath = path.resolve(path.dirname(fullPathSourceFile), filepath);
+      const fullPath = path.resolve(
+        path.dirname(fullPathSourceFile),
+        forcedRelativePath
+      );
       const relativePath = path.relative(config.from(), fullPath);
 
       revv.add(relativePath);

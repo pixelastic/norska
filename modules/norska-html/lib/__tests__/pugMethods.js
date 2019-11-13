@@ -42,6 +42,14 @@ describe('norska-html/pugMethods', () => {
 
         expect(actual).toEqual('{revv: style.css}');
       });
+      it('index.pug / /style.css', () => {
+        mockDestination = 'index.pug';
+
+        const pugMethods = module(mockData, mockDestination);
+        const actual = pugMethods.revv('/style.css');
+
+        expect(actual).toEqual('{revv: style.css}');
+      });
       it('index.pug / style.css', () => {
         mockDestination = 'index.pug';
 
