@@ -22,7 +22,7 @@
     "build:watch": "../../scripts/local/build-watch",
     "lint": "../../scripts/local/lint",
     "lint:fix": "../../scripts/local/lint-fix",
-    "release": "../../scripts/meta/release",
+    "release": "../../scripts/local/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   }
