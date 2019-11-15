@@ -9,6 +9,7 @@ import postcssImport from 'postcss-import';
 import postcssNested from 'postcss-nested';
 import postcssClean from 'postcss-clean';
 import postcssPurge from '@fullhuman/postcss-purgecss';
+import purgeHtml from 'purge-from-html';
 import tailwind from 'tailwindcss';
 
 export default {
@@ -198,6 +199,12 @@ export default {
     const dynamicClassesPatterns = [/^ais-/, /^js-/];
     const options = {
       content: [`${config.to()}/**/*.html`],
+      extractors: [
+        {
+          extractor: purgeHtml,
+          extensions: ['html'],
+        },
+      ],
       whitelistPatterns: dynamicClassesPatterns,
       whitelistPatternsChildren: dynamicClassesPatterns,
     };

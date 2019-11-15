@@ -143,78 +143,38 @@ describe('norska-css', () => {
     describe('in production', () => {
       beforeEach(async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+      });
+      it('should build a neat CSS file', async () => {
         await firost.write(
           '<p class="context"><span>foo</span></p>',
           config.toPath('index.html')
         );
-      });
-      it('should remove simple comments', async () => {
         await firost.write(
-          '/* This should be removed */',
+          `/* This should be removed */
+          /*! This should still be remove */
+          .context { color: green; user-select: none; }
+          span { color: green; }
+          .nope { color: red; }
+          .foo { color: red; }
+          .ais-bar { 
+            color: green; 
+            span {
+              color: green;
+            }
+          }
+          .js-bar { 
+            color: green; 
+            span {
+              color: green;
+            }
+          }
+          /* purgecss start ignore */
+          .quxx { color: green; }
+          /* purgecss end ignore */
+          `,
           config.fromPath('style.css')
         );
-        await module.run();
 
-        const actual = await firost.read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
-      });
-      it('should remove special comments', async () => {
-        await firost.write(
-          '/*! This should be removed */',
-          config.fromPath('style.css')
-        );
-        await module.run();
-
-        const actual = await firost.read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
-      });
-      it('should keep classes available in the markup', async () => {
-        await firost.write(
-          '.context { color: red; }',
-          config.fromPath('style.css')
-        );
-        await module.run();
-
-        const actual = await firost.read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
-      });
-      it('should remove classes not available in the markup', async () => {
-        await firost.write(
-          '.nope { color: red; }',
-          config.fromPath('style.css')
-        );
-        await module.run();
-
-        const actual = await firost.read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
-      });
-      it('should add vendor prefixes', async () => {
-        await firost.write(
-          '.context { user-select: none; }',
-          config.fromPath('style.css')
-        );
-        await module.run();
-
-        const actual = await firost.read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
-      });
-      it('should always keep ais-* classes', async () => {
-        await firost.write(
-          `.ais-foo { color: red; }
-            .ais-foo span { color: red; }`,
-          config.fromPath('style.css')
-        );
-        await module.run();
-
-        const actual = await firost.read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
-      });
-      it('should always keep js-* classes', async () => {
-        await firost.write(
-          `.js-foo { color: red; }
-            .js-foo span { color: red; }`,
-          config.fromPath('style.css')
-        );
         await module.run();
 
         const actual = await firost.read(config.toPath('style.css'));
