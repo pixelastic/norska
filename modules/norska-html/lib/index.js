@@ -22,7 +22,7 @@ export default {
    * @returns {object} Data object
    **/
   async getData(destination) {
-    const sourceData = await data.getSourceData();
+    const sourceData = await data.getAll();
 
     const siteUrl = _.get(sourceData, 'site.url', '/');
     const liveServerUrl = `http://127.0.0.1:${config.get('port')}`;
@@ -58,6 +58,9 @@ export default {
    * @returns {boolean} True on success, false otherwise
    **/
   async compile(inputFile) {
+    // We double check that all data has been loaded
+    await data.init();
+
     const sourceFolder = config.from();
     const absoluteSource = config.fromPath(inputFile);
     const relativeSource = path.relative(sourceFolder, absoluteSource);
@@ -73,7 +76,7 @@ export default {
     const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
     const absoluteDestination = config.toPath(relativeDestination);
 
-    const data = await this.getData(relativeDestination);
+    const compileData = await this.getData(relativeDestination);
 
     let result;
     try {
@@ -81,7 +84,7 @@ export default {
         filename: absoluteSource,
         basedir: config.from(),
       });
-      result = compiler(data);
+      result = compiler(compileData);
     } catch (err) {
       throw helper.error('ERROR_HTML_COMPILATION_FAILED', err.toString());
     }
@@ -93,6 +96,9 @@ export default {
    * Compile all source files to html
    **/
   async run() {
+    // We warm the cache to avoid doing it for each compilation
+    await data.init();
+
     const timer = timeSpan();
     const progress = firost.spinner();
     progress.tick('Compiling HTML');
@@ -113,6 +119,9 @@ export default {
    * Listen to any changes on pug files and rebuild them
    **/
   async watch() {
+    // We warm the cache to avoid doing it for each compilation
+    await data.init();
+
     // Reload a given pug file whenever it is changed
     const pugFilesPattern = await this.pugFilesPattern();
     await firost.watch(pugFilesPattern, async filepath => {
@@ -131,8 +140,7 @@ export default {
     // Reload all pug files whenever files in _data/ are changed
     const dataPath = config.fromPath('_data/**/*.{js,json}');
     await firost.watch(dataPath, async () => {
-      // Clear the cache so we don't read a stale data
-      data.clearCache();
+      await data.updateCache();
       await this.run();
     });
 

@@ -79,4 +79,7 @@ export default {
     );
     return _.replace(relativeBasename, /\//g, '.');
   },
+  clearCache() {
+    this.__cache = {};
+  },
 };
