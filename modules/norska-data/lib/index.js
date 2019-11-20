@@ -4,26 +4,44 @@ import path from 'path';
 import { _, pMap } from 'golgoth';
 
 export default {
-  cacheKey: 'norska.data.sourceData',
+  __cache: {},
   /**
-   * Returns a nested object of all data files saved in _data
-   * First call will read files from disk, subsequent calls will read from cache
-   * @returns {object} Data object
+   * Check if the cache is currently filled
+   * @returns {boolean} True if data cached, false otherwise
    **/
-  async getSourceData() {
-    if (firost.cache.has(this.cacheKey)) {
-      return firost.cache.read(this.cacheKey);
+  hasCache() {
+    return !_.chain(this)
+      .get('__cache')
+      .keys()
+      .isEmpty()
+      .value();
+  },
+  /**
+   * Return the current cache
+   * @returns {object} The cache object
+   **/
+  getAll() {
+    return this.__cache;
+  },
+  /**
+   * Init the module, filling the cache if needed.
+   * Won't do anything if called more than once
+   **/
+  async init() {
+    if (this.hasCache()) {
+      return;
     }
-
+    await this.updateCache();
+  },
+  // Force updating
+  async updateCache() {
+    this.__cache = {};
     const files = await firost.glob(config.fromPath('_data/**/*.{js,json}'));
-    const data = {};
     await pMap(files, async filepath => {
       const value = await this.read(filepath);
       const key = await this.key(filepath);
-      _.set(data, key, value);
+      _.set(this.__cache, key, value);
     });
-    firost.cache.write(this.cacheKey, data);
-    return data;
   },
   /**
    * Read a .json or .js file from disk and return its content
@@ -38,7 +56,7 @@ export default {
       case '.json':
         return await firost.readJson(filepath);
       case '.js': {
-        const content = await firost.require(filepath);
+        const content = await firost.require(filepath, { forceReload: true });
         return _.isFunction(content) ? await content() : content;
       }
       default:
@@ -60,8 +78,5 @@ export default {
       ''
     );
     return _.replace(relativeBasename, /\//g, '.');
-  },
-  clearCache() {
-    firost.cache.clear(this.cacheKey);
   },
 };
