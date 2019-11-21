@@ -408,6 +408,19 @@ describe('norska-html', () => {
         });
       });
     });
+    describe('tweaks', () => {
+      it('should contain ensureUrlTrailingSlashSource', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await firost.write('p=tweaks.ensureUrlTrailingSlashSource', input);
+
+        await module.compile(input);
+
+        const actual = await firost.read(output);
+        expect(actual).toStartWith('<p>(function(){');
+        expect(actual).toEndWith('})()</p>');
+      });
+    });
   });
   describe('run', () => {
     beforeEach(async () => {

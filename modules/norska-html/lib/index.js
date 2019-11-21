@@ -6,6 +6,7 @@ import { _, pMap, chalk, timeSpan } from 'golgoth';
 import firost from 'firost';
 import pug from 'pug';
 import pugMethods from './pugMethods';
+import ensureUrlTrailingSlash from 'ensure-url-trailing-slash';
 
 export default {
   /**
@@ -28,6 +29,7 @@ export default {
     const liveServerUrl = `http://127.0.0.1:${config.get('port')}`;
     const baseUrl = helper.isProduction() ? siteUrl : liveServerUrl;
 
+    // Various ways of refering to the current document in the url
     const fullPathDir = path.dirname(config.toPath(destination));
     const relativePathDir = path.relative(fullPathDir, config.to());
     const pathToRoot = _.isEmpty(relativePathDir)
@@ -38,12 +40,21 @@ export default {
       here: `/${destination}`,
       pathToRoot,
     };
+
+    // Runtime data, like compiled script names to include
     const runtimeData = config.get('runtime', {});
+
+    // Tweaks that are helpful to have in every norska build
+    const tweaksData = {
+      // JavaScript snippet to force a redirect if no trailing slash
+      ensureUrlTrailingSlashSource: ensureUrlTrailingSlash.source,
+    };
 
     const baseData = {
       data: sourceData,
       url: urlData,
       runtime: runtimeData,
+      tweaks: tweaksData,
     };
 
     return {
