@@ -59,8 +59,4 @@ const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
 
     await firost.writeJson(packageJson, filepath, { sort: false });
   });
-
-  // Finally sync all dependencies to make sure it's correctly hoisted
-  console.info('Syncing dependencies');
-  await firost.shell('yarn run sync-dependencies');
 })();

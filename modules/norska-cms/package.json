@@ -15,7 +15,7 @@
     "connect-livereload": "0.6.1",
     "express": "4.17.1",
     "firost": "0.16.0",
-    "golgoth": "0.5.0",
+    "golgoth": "0.5.1",
     "livereload": "0.8.0",
     "multer": "1.4.2",
     "nodemon": "1.19.1",
