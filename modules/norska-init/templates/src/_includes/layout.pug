@@ -1,26 +1,32 @@
 block config
-  //- This is empty on purpose, so that each file extending this layout can use
-  //- it to set its own configuration
+  //- Empty on purpose so each page can update its variables
+
+- pageAuthor = pageAuthor || data.site.defaultAuthor
+- pageDescription = pageDescription || data.site.defaultDescription
+- pageImage = pageImage || data.site.defaultImage
+- pageTitle = pageTitle || data.site.defaultTitle
+- pageUrl = pageUrl || data.site.defaultUrl
 
 doctype html
 html(lang='en')
   head
     meta(charset='utf-8')
     meta('http-equiv'='x-ua-compatible', content='ie-edge')
-    title=data.page.title
+    title=pageTitle
     meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
-    meta(name='description', content=data.page.description)
+    meta(name='description', content=pageDescription)
     meta(name='twitter:card', content='summary_large_image')
-    meta(name='twitter:site', content=data.author.twitter)
-    meta(name='twitter:creator', content=data.author.twitter)
-    meta(property='og:url', content=data.page.url)
-    meta(property='og:title', content=data.page.title)
-    meta(property='og:description', content=data.page.description)
-    meta(property='og:image', content=data.page.image)
-    link(rel="shortcut icon", href="./favicon.ico")
-    link(type="text/css", rel="stylesheet", href=revv("./style.css"))
+    meta(name='twitter:site', content=pageAuthor)
+    meta(name='twitter:creator', content=pageAuthor)
+    meta(property='og:url', content=pageUrl)
+    meta(property='og:title', content=pageTitle)
+    meta(property='og:description', content=pageDescription)
+    meta(property='og:image', content=`${pageUrl}${pageImage}`)
+    script!=tweaks.ensureUrlTrailingSlashSource
+    link(rel="shortcut icon", href=`./favicon.png`)
+    link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
     body
       block content
-      each jsFile in files.js
-        script(src=`./${jsFile})
+      each jsFile in runtime.jsFiles
+        script(src=`${url.pathToRoot}${jsFile}`)
 

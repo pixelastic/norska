@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "firost": "0.16.0",
-    "golgoth": "^0.3.2",
+    "golgoth": "0.5.0",
     "norska-config": "^0.5.18",
     "norska-helper": "^0.5.18",
     "rev-hash": "^3.0.0"

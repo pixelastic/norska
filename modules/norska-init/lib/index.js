@@ -87,14 +87,6 @@ export default {
     const manifest = [
       { source: 'norska.config.js', destination: 'norska.config.js' },
       {
-        source: 'src/_data/author.json',
-        destination: `${config.fromPath('_data/author.json')}`,
-      },
-      {
-        source: 'src/_data/page.json',
-        destination: `${config.fromPath('_data/page.json')}`,
-      },
-      {
         source: 'src/_data/site.json',
         destination: `${config.fromPath('_data/site.json')}`,
       },

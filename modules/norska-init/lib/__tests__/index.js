@@ -21,8 +21,8 @@ describe('norska-init', () => {
       expect(actual).toEqual(path.resolve(__dirname, '../..', 'templates'));
     });
     it('should return a path to a file in the template directory', async () => {
-      const path = module.templatePath('src/script.js');
-      const actual = await firost.isFile(path);
+      const filepath = module.templatePath('src/script.js');
+      const actual = await firost.isFile(filepath);
 
       expect(actual).toEqual(true);
     });
@@ -171,8 +171,6 @@ describe('norska-init', () => {
 
       const actual = await firost.glob(config.fromPath('_data/*.json'));
 
-      expect(actual).toInclude(config.fromPath('_data/author.json'));
-      expect(actual).toInclude(config.fromPath('_data/page.json'));
       expect(actual).toInclude(config.fromPath('_data/site.json'));
     });
     it('should create pug files', async () => {
