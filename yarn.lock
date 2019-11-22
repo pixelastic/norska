@@ -4662,10 +4662,10 @@ enhanced-resolve@^4.1.0:
     memory-fs "^0.4.0"
     tapable "^1.0.0"
 
-ensure-url-trailing-slash@0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.0.7.tgz#b9655529b551b47f30b8246ff27127e3bb65db3f"
-  integrity sha512-PiBJdMa093MkSCxL/MSz9ok9GTUR7TD9kAGivf/Mij35FKV5ZDKloY6cBIgnuh4881jHFuY6ZOd0auZDRT7jwA==
+ensure-url-trailing-slash@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.2.tgz#ef06a5bb19b3c4bfcc6e87cf56fb0fed9f338597"
+  integrity sha512-cGDOYMjqS+B8XoXZsZg7y1WHHga4zF7gZb3oCbGJx7VFDB/G7Ifa517g60QPEcMqSbrnBcj0wcDhff6XXSBnWQ==
 
 entities@^1.1.1:
   version "1.1.2"

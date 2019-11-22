@@ -11,7 +11,7 @@
     "build/"
   ],
   "dependencies": {
-    "ensure-url-trailing-slash": "0.0.7",
+    "ensure-url-trailing-slash": "0.1.2",
     "firost": "0.16.0",
     "golgoth": "0.5.0",
     "markdown-it": "^10.0.0",
