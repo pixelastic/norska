@@ -7,7 +7,7 @@
     "esm": "3.2.25",
     "firost": "0.16.0",
     "golgoth": "0.5.0",
-    "lerna": "~3.15.0"
+    "lerna": "3.19.0"
   },
   "homepage": "https://github.com/pixelastic/norska",
   "license": "MIT",
@@ -22,7 +22,6 @@
     "lint": "./scripts/meta/lint",
     "lint:fix": "./scripts/meta/lint-fix",
     "release": "./scripts/meta/release",
-    "sync-dependencies": "./scripts/meta/sync-dependencies",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch",
     "update-dependencies": "node -r esm ./scripts/meta/update-dependencies"

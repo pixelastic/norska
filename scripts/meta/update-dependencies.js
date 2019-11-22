@@ -2,7 +2,7 @@ import firost from 'firost';
 import { _, pMap } from 'golgoth';
 
 // Those modules will be updated to the latest available version
-const safelist = ['firost', 'aberlaas', 'golgoth'];
+const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
 
 (async function() {
   // Allow specifying which dep to update
