@@ -9,7 +9,7 @@ describe('norska-css', () => {
   const tmpDirectory = './tmp/norska-css/slow';
   describe('compile', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
@@ -93,7 +93,7 @@ describe('norska-css', () => {
   });
   describe('run', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
       jest
         .spyOn(firost, 'spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
@@ -184,7 +184,7 @@ describe('norska-css', () => {
   });
   describe('watch', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
@@ -243,7 +243,7 @@ describe('norska-css', () => {
     });
     describe('compilation errors', () => {
       beforeEach(() => {
-        jest.spyOn(helper, 'consoleError').mockReturnValue();
+        jest.spyOn(firost, 'consoleError').mockReturnValue();
       });
       it('should display compilation errors', async () => {
         await module.watch();
@@ -252,7 +252,7 @@ describe('norska-css', () => {
 
         await firost.waitForWatchers();
 
-        expect(helper.consoleError).toHaveBeenCalledWith(
+        expect(firost.consoleError).toHaveBeenCalledWith(
           expect.stringContaining('Unclosed block')
         );
       });

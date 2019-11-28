@@ -121,7 +121,7 @@ export default {
     if (stats.hasErrors()) {
       const errorMessage = this.errorMessage(stats);
       progress.failure('JavaScript compilation failed');
-      throw helper.error('ERROR_JS_COMPILATION_FAILED', errorMessage);
+      throw firost.error('ERROR_JS_COMPILATION_FAILED', errorMessage);
     }
 
     const jsFiles = this.getEntrypointsFromStats(stats);
@@ -144,11 +144,11 @@ export default {
       if (stats.hasErrors()) {
         pulse.emit('buildError', stats);
         const errorMessage = this.errorMessage(stats);
-        helper.consoleError(chalk.red(errorMessage));
+        firost.consoleError(chalk.red(errorMessage));
         return;
       }
       pulse.emit('build', stats);
-      helper.consoleSuccess(this.getOutputStats(stats));
+      firost.consoleSuccess(this.getOutputStats(stats));
     });
     return pulse;
   },

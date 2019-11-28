@@ -72,7 +72,7 @@ export default {
 
     // We only compile files that are in the source directory
     if (!_.startsWith(absoluteSource, sourceFolder)) {
-      throw helper.error(
+      throw firost.error(
         'ERROR_CSS_COMPILATION_FAILED',
         `${absoluteSource} is not in the source directory.`
       );
@@ -88,7 +88,7 @@ export default {
       });
       compiledCss = _.get(compilationResult, 'css');
     } catch (err) {
-      throw helper.error('ERROR_CSS_COMPILATION_FAILED', err.toString());
+      throw firost.error('ERROR_CSS_COMPILATION_FAILED', err.toString());
     }
 
     await firost.write(compiledCss, absoluteDestination);
@@ -135,11 +135,11 @@ export default {
         const timer = timeSpan();
         const relativePath = path.relative(config.from(), inputFile);
         await this.compile(inputFile);
-        helper.consoleSuccess(
+        firost.consoleSuccess(
           `${relativePath} compiled in ${timer.rounded()}ms`
         );
       } catch (error) {
-        helper.consoleError(chalk.red(error.message));
+        firost.consoleError(chalk.red(error.message));
       }
     });
   },

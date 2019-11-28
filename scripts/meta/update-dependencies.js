@@ -59,4 +59,7 @@ const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
 
     await firost.writeJson(packageJson, filepath, { sort: false });
   });
+
+  // Re-run yarn install so yarn hoists all dependencies it can
+  await firost.run('yarn install');
 })();

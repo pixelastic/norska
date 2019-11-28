@@ -78,7 +78,7 @@ export default {
 
     // We only compile files that are in the source directory
     if (!_.startsWith(absoluteSource, sourceFolder)) {
-      helper.consoleWarn(
+      firost.consoleWarn(
         `${absoluteSource} compilation aborted. It is not in the source directory.`
       );
       return false;
@@ -97,7 +97,7 @@ export default {
       });
       result = compiler(compileData);
     } catch (err) {
-      throw helper.error('ERROR_HTML_COMPILATION_FAILED', err.toString());
+      throw firost.error('ERROR_HTML_COMPILATION_FAILED', err.toString());
     }
 
     await firost.write(result, absoluteDestination);
@@ -140,11 +140,11 @@ export default {
         const timer = timeSpan();
         const relativePath = path.relative(config.from(), filepath);
         await this.compile(filepath);
-        helper.consoleSuccess(
+        firost.consoleSuccess(
           `${relativePath} compiled in ${timer.rounded()}ms`
         );
       } catch (error) {
-        helper.consoleError(chalk.red(error.message));
+        firost.consoleError(chalk.red(error.message));
       }
     });
 

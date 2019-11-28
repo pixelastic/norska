@@ -221,30 +221,28 @@ describe('norska-js', () => {
         }
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
+      it('should fill the runtime with the asset list', async () => {
+        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await module.run();
+
+        const actual = config.get('runtime.jsFiles');
+        expect(actual[0]).toEqual(expect.stringMatching(/script\.(.*)\.js/));
+      });
       it('should create revved assets', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        const actual = await firost.isFile(
-          config.toPath('script.75c8d52ae032d81c1592.js')
-        );
+        const filepath = config.get('runtime.jsFiles')[0];
+        const actual = await firost.isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should create a source map file', async () => {
         await firost.write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        const actual = await firost.isFile(
-          config.toPath('script.75c8d52ae032d81c1592.js.map')
-        );
+        const filepath = config.get('runtime.jsFiles')[0];
+        const actual = await firost.isFile(config.toPath(`${filepath}.map`));
         expect(actual).toEqual(true);
-      });
-      it('should fill the runtime with the asset list', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
-        await module.run();
-
-        const actual = config.get('runtime.jsFiles');
-        expect(actual).toEqual(['script.75c8d52ae032d81c1592.js']);
       });
     });
   });
@@ -255,7 +253,7 @@ describe('norska-js', () => {
         module.__compiler = null;
         firstRun = false;
       }
-      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
     });
     afterEach(async () => {
       await module.unwatch();
@@ -271,7 +269,7 @@ describe('norska-js', () => {
       expect(actual).toContain('console.log("bar")');
     });
     it('should fire an error event when compilation fails', async () => {
-      jest.spyOn(helper, 'consoleError').mockReturnValue();
+      jest.spyOn(firost, 'consoleError').mockReturnValue();
       await firost.write('console.log("ok");', config.fromPath('script.js'));
       const pulse = await module.watch();
       await pEvent(pulse, 'build');
@@ -279,7 +277,7 @@ describe('norska-js', () => {
       await firost.write('b@@@@d code', config.fromPath('script.js'));
       await pEvent(pulse, 'buildError');
 
-      expect(helper.consoleError).toHaveBeenCalledWith(
+      expect(firost.consoleError).toHaveBeenCalledWith(
         expect.stringContaining('Unexpected token')
       );
     });

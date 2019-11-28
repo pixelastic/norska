@@ -3,9 +3,9 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "0.7.3",
+    "aberlaas": "0.10.0",
     "esm": "3.2.25",
-    "firost": "0.16.0",
+    "firost": "0.19.2",
     "golgoth": "0.5.1",
     "lerna": "3.19.0"
   },
@@ -16,12 +16,15 @@
   "repository": "git@github.com:pixelastic/norska.git",
   "scripts": {
     "build": "./scripts/meta/build",
+    "build:prod": "./scripts/build-prod",
     "build:watch": "./scripts/meta/build-watch",
+    "cms": "./scripts/cms",
     "husky:precommit": "./scripts/meta/husky-precommit",
     "learn": "lerna",
     "lint": "./scripts/meta/lint",
     "lint:fix": "./scripts/meta/lint-fix",
     "release": "./scripts/meta/release",
+    "serve": "./scripts/serve",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch",
     "update-dependencies": "node -r esm ./scripts/meta/update-dependencies"

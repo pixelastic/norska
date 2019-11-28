@@ -36,7 +36,7 @@ describe('norska-html', () => {
   });
   describe('compile', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'consoleWarn').mockReturnValue();
+      jest.spyOn(firost, 'consoleWarn').mockReturnValue();
       data.clearCache();
     });
     describe('simple files', () => {
@@ -87,7 +87,7 @@ describe('norska-html', () => {
 
         const actual = await module.compile(input);
         expect(actual).toEqual(false);
-        expect(helper.consoleWarn).toHaveBeenCalled();
+        expect(firost.consoleWarn).toHaveBeenCalled();
       });
     });
     describe('urls', () => {
@@ -101,7 +101,7 @@ describe('norska-html', () => {
         const actual = await firost.read(output);
         expect(actual).toEqual('<p>/index.html</p>');
       });
-      it('should have url.here in subfolders ', async () => {
+      it('should have url.here in subfolders', async () => {
         const input = config.fromPath('deep/down/index.pug');
         const output = config.toPath('deep/down/index.html');
         await firost.write('p=url.here', input);
@@ -136,7 +136,7 @@ describe('norska-html', () => {
         const actual = await firost.read(output);
         expect(actual).toEqual('<p>http://www.prod.com/</p>');
       });
-      it('should have url.pathToRoot in subfolders ', async () => {
+      it('should have url.pathToRoot in subfolders', async () => {
         const input = config.fromPath('deep/down/index.pug');
         const output = config.toPath('deep/down/index.html');
         await firost.write('p=url.pathToRoot', input);
@@ -146,7 +146,7 @@ describe('norska-html', () => {
         const actual = await firost.read(output);
         expect(actual).toEqual('<p>../../</p>');
       });
-      it('should have url.pathToRoot in root ', async () => {
+      it('should have url.pathToRoot in root', async () => {
         const input = config.fromPath('index.pug');
         const output = config.toPath('index.html');
         await firost.write('p=url.pathToRoot', input);

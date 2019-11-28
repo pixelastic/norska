@@ -11,7 +11,7 @@
     "build/"
   ],
   "dependencies": {
-    "firost": "0.16.0",
+    "firost": "0.19.2",
     "golgoth": "0.5.1",
     "is-port-reachable": "2.0.1",
     "live-server": "1.2.1",

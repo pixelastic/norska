@@ -81,7 +81,7 @@ export default {
         await firost.remove(absoluteDestination);
         return;
       }
-      // Otherwise, we simly copy it
+      // Otherwise, we simply copy it
       await this.compile(filepath);
     });
   },

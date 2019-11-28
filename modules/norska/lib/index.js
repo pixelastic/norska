@@ -22,8 +22,8 @@ export default {
     // Stop early if no such command exists
     const safelist = ['build', 'cms', 'init', 'screenshot', 'serve'];
     if (!_.includes(safelist, command)) {
-      helper.consoleError(`Unknown command ${chalk.red(command)}`);
-      helper.exit(1);
+      firost.consoleError(`Unknown command ${chalk.red(command)}`);
+      firost.exit(1);
       return;
     }
 
@@ -74,9 +74,9 @@ export default {
       await assets.run();
       await revv.run();
     } catch (error) {
-      helper.consoleError(chalk.red(error.code || 'Build Error'));
-      helper.consoleError(chalk.red(error.message));
-      helper.exit(1);
+      firost.consoleError(chalk.red(error.code || 'Build Error'));
+      firost.consoleError(chalk.red(error.message));
+      firost.exit(1);
     }
   },
   /**

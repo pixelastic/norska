@@ -1,7 +1,6 @@
 import module from '../index';
 import config from 'norska-config';
 import data from 'norska-data';
-import helper from 'norska-helper';
 import firost from 'firost';
 
 describe('norska-html', () => {
@@ -15,10 +14,10 @@ describe('norska-html', () => {
   });
   describe('watch', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'consoleWarn').mockReturnValue();
+      jest.spyOn(firost, 'consoleWarn').mockReturnValue();
+      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
       await firost.mkdirp(config.from());
       data.clearCache();
-      jest.spyOn(helper, 'consoleSuccess').mockReturnValue();
       jest
         .spyOn(firost, 'spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
@@ -173,7 +172,7 @@ describe('norska-html', () => {
     });
     describe('compilation errors', () => {
       beforeEach(() => {
-        jest.spyOn(helper, 'consoleError').mockReturnValue();
+        jest.spyOn(firost, 'consoleError').mockReturnValue();
       });
       it('should display the errors', async () => {
         await module.watch();
@@ -184,7 +183,7 @@ describe('norska-html', () => {
 
         await firost.waitForWatchers();
 
-        expect(helper.consoleError).toHaveBeenCalledWith(
+        expect(firost.consoleError).toHaveBeenCalledWith(
           expect.stringMatching('Unexpected token')
         );
       });
