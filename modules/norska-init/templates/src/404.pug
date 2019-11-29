@@ -1,7 +1,8 @@
-extends _includes/layout
+extends _includes/_layouts/core
 
 block config
- - data.page.title = "Page not found"
+  - pageTitle = "404: Page not found"
+  - pageDescription = "Sorry, we couldn't find this page"
 
 block content
   p Sorry, the page you're looking for was not found

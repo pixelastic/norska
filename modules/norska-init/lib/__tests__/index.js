@@ -5,10 +5,15 @@ import config from 'norska-config';
 
 describe('norska-init', () => {
   beforeEach(async () => {
-    jest.spyOn(config, 'rootDir').mockReturnValue('./tmp/norska-init');
+    jest
+      .spyOn(config, 'rootDir')
+      .mockReturnValue(path.resolve('./tmp/norska-init'));
+    jest
+      .spyOn(firost, 'spinner')
+      .mockReturnValue({ tick: jest.fn(), success: jest.fn() });
     await config.init({
-      from: './tmp/norska-init/src',
-      to: './tmp/norska-init/dist',
+      from: config.rootPath('src'),
+      to: config.rootPath('dist'),
       js: { input: 'js/script.js' },
       css: { input: 'css/style.css' },
     });
@@ -23,80 +28,6 @@ describe('norska-init', () => {
     it('should return a path to a file in the template directory', async () => {
       const filepath = module.templatePath('src/script.js');
       const actual = await firost.isFile(filepath);
-
-      expect(actual).toEqual(true);
-    });
-  });
-  describe('copyTemplate', () => {
-    beforeEach(async () => {
-      await firost.emptyDir('./tmp/norska-init');
-    });
-    it('should copy from template directory to host', async () => {
-      await module.copyTemplate('norska.config.js', 'norska.config.js');
-
-      const actual = await firost.isFile(config.rootPath('norska.config.js'));
-
-      expect(actual).toEqual(true);
-    });
-    it("should copy into subfolders, even if they don't exist", async () => {
-      await module.copyTemplate('src/script.js', 'my/sub/dir/script.js');
-
-      const actual = await firost.isFile(
-        config.rootPath('my/sub/dir/script.js')
-      );
-
-      expect(actual).toEqual(true);
-    });
-    it('should return true if file copied', async () => {
-      const actual = await module.copyTemplate(
-        'norska.config.js',
-        'norska.config.js'
-      );
-
-      expect(actual).toEqual(true);
-    });
-    it('should return false if source does not exist', async () => {
-      const actual = await module.copyTemplate('nope', 'norska.config.js');
-
-      expect(actual).toEqual(false);
-    });
-    it('should return false if destination already exist', async () => {
-      await firost.write('creating file', config.rootPath('already-there.js'));
-
-      const actual = await module.copyTemplate(
-        'norska.config.js',
-        'already-there.js'
-      );
-
-      expect(actual).toEqual(false);
-    });
-  });
-  describe('addPackageScript', () => {
-    it('should return false if entry in package.json scripts already exist', async () => {
-      await firost.writeJson(
-        { scripts: { foo: 'bar' } },
-        config.rootPath('package.json')
-      );
-
-      const actual = await module.addPackageScript('foo', 'scripts/build');
-
-      expect(actual).toEqual(false);
-    });
-    it('should add an entry to the package.json scripts keys', async () => {
-      await firost.writeJson({}, config.rootPath('package.json'));
-
-      await module.addPackageScript('build', 'scripts/build');
-
-      const actual = await firost.readJson(config.rootPath('package.json'));
-
-      expect(actual).toHaveProperty('scripts.build', './scripts/build');
-    });
-    it('should copy script to the host ./scripts directory', async () => {
-      await firost.writeJson({}, config.rootPath('package.json'));
-
-      await module.addPackageScript('build', 'scripts/build');
-
-      const actual = await firost.isFile(config.rootPath('scripts/build'));
 
       expect(actual).toEqual(true);
     });
@@ -178,20 +109,29 @@ describe('norska-init', () => {
 
       const actual = await firost.glob(config.fromPath('**/*.pug'));
 
-      expect(actual).toInclude(config.fromPath('_includes/layout.pug'));
+      expect(actual).toInclude(config.fromPath('_includes/_layouts/core.pug'));
       expect(actual).toInclude(config.fromPath('index.pug'));
+      expect(actual).toInclude(config.fromPath('404.pug'));
     });
-    it('should create CSS file', async () => {
+    it('should create CSS files', async () => {
       await module.run();
 
-      const actual = await firost.isFile(config.fromPath('css/style.css'));
+      const actual = await firost.glob(config.fromPath('**/*.css'));
 
-      expect(actual).toEqual(true);
+      expect(actual).toInclude(config.fromPath('style.css'));
+      expect(actual).toInclude(config.fromPath('_styles/reset.css'));
     });
     it('should create JavaScript file', async () => {
       await module.run();
 
-      const actual = await firost.isFile(config.fromPath('js/script.js'));
+      const actual = await firost.isFile(config.fromPath('script.js'));
+
+      expect(actual).toEqual(true);
+    });
+    it('should create _headers file', async () => {
+      await module.run();
+
+      const actual = await firost.isFile(config.fromPath('_headers'));
 
       expect(actual).toEqual(true);
     });

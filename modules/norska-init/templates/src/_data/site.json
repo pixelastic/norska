@@ -3,5 +3,6 @@
   "defaultTitle": "Default page title. You can overwrite it in any pug file",
   "defaultUrl": "http://www.your-production-url.com/",
   "defaultImage": "opengraph.png",
-  "defaultAuthor": "@yourusername"
+  "defaultAuthor": "Your Name",
+  "defaultTwitter": "@yourusername"
 }

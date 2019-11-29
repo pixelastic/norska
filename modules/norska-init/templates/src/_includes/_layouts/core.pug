@@ -5,6 +5,7 @@ block config
 - pageDescription = pageDescription || data.site.defaultDescription
 - pageImage = pageImage || data.site.defaultImage
 - pageTitle = pageTitle || data.site.defaultTitle
+- pageTwitter = pageTwitter || data.site.defaultTwitter
 - pageUrl = pageUrl || data.site.defaultUrl
 
 doctype html
@@ -16,8 +17,8 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
     meta(name='description', content=pageDescription)
     meta(name='twitter:card', content='summary_large_image')
-    meta(name='twitter:site', content=pageAuthor)
-    meta(name='twitter:creator', content=pageAuthor)
+    meta(name='twitter:site', content=pageTwitter)
+    meta(name='twitter:creator', content=pageTwitter)
     meta(property='og:url', content=pageUrl)
     meta(property='og:title', content=pageTitle)
     meta(property='og:description', content=pageDescription)

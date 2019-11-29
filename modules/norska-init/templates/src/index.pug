@@ -1,8 +1,9 @@
-extends _includes/layout
+extends _includes/_layouts/core
 
 block config
- - data.page.description = "Custom homepage description"
- - data.page.title = "Custom homepage title"
+  - pageTitle = "Custom title"
+  - pageDescription = "Custom description"
+  // see also: pageAuthor, pageImage, pageTwitter, pageUrl
 
 block content
   p This is your website
