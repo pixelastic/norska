@@ -8,7 +8,8 @@
   "license": "MIT",
   "main": "./build/index.js",
   "files": [
-    "build/"
+    "build/",
+    "reset.css"
   ],
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.0.1",
