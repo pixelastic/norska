@@ -126,7 +126,6 @@ describe('norska-init', () => {
       const actual = await firost.glob(config.fromPath('**/*.css'));
 
       expect(actual).toInclude(config.fromPath('style.css'));
-      expect(actual).toInclude(config.fromPath('_styles/reset.css'));
     });
     it('should create JavaScript file', async () => {
       await module.run();
