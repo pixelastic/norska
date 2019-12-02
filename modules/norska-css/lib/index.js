@@ -158,17 +158,13 @@ export default {
    * @param {Array} plugins Array of plugins to load
    * @returns {object} A postcss instance
    **/
-  __postcss(plugins) {
-    return postcss(plugins);
-  },
+  __postcss: postcss,
   /**
    * Wrapper around the postcss import plugin, to make it easier to mock in
    * tests
    * @returns {object} A postcss-import plugin instance
    **/
-  __pluginImport() {
-    return postcssImport();
-  },
+  __pluginImport: postcssImport,
   /**
    * Wrapper around the postcss nested plugin, to make it easier to mock in
    * tests
@@ -224,8 +220,5 @@ export default {
    * Wrapper around Tailwindcss
    * @returns {object} A tailwind plugin instance
    **/
-  __pluginTailwind() {
-    const moduleConfig = path.resolve(__dirname, 'tailwind.config.js');
-    return tailwind(moduleConfig);
-  },
+  __pluginTailwind: tailwind,
 };
