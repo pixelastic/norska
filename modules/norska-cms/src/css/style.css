@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 /**
  * Markup:
@@ -9,7 +9,6 @@
  *   .whatever ✓
  **/
 .cms-checkbox {
-  @apply w-6 h-6 bg-white border-2 border-gray-3 rounded-2 pointer;
   @apply flcnw flc;
   &:hover {
     @apply border-blue;

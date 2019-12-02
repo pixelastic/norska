@@ -1,6 +1,4 @@
-/* Add all your @import here, before ANYTHING else */
 @import 'tailwindcss/base';
 @import 'norska/reset';
-
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
