@@ -14,7 +14,6 @@
   "dependencies": {
     "firost": "0.19.2",
     "golgoth": "0.5.1",
-    "norska": "^0.5.26",
     "norska-config": "^0.5.25"
   },
   "scripts": {
