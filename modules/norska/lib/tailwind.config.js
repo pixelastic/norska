@@ -1,3 +1,5 @@
+/* eslint-disable import/no-commonjs */
 // This file exists so websites can import the full CSS config directly from the
 // norska dependency
-export { default } from 'norska-css/build/tailwind.config.js';
+const config = require('norska-css/build/tailwind.config.js').default;
+module.exports = config;

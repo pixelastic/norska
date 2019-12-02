@@ -9,7 +9,8 @@
   "main": "./build/index.js",
   "files": [
     "build/",
-    "bin/"
+    "bin/",
+    "reset.css"
   ],
   "bin": {
     "norska": "./bin/norska"
