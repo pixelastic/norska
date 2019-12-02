@@ -1,6 +1,5 @@
-/* eslint-disable import/no-commonjs */
-import config from 'norska-css/build/tailwind.config.js';
-module.exports = {
+import config from 'norska/build/tailwind.config.js';
+export default {
   // norska comes preloaded with its custom Tailwind config
   // See https://github.com/pixelastic/tailwind-config-norska for details
   ...config,
