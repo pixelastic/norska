@@ -97,6 +97,13 @@ describe('norska-init', () => {
 
       expect(actual).toEqual(true);
     });
+    it('should create tailwind.config.js in the root', async () => {
+      await module.run();
+
+      const actual = await firost.isFile(config.rootPath('tailwind.config.js'));
+
+      expect(actual).toEqual(true);
+    });
     it('should create _data files', async () => {
       await module.run();
 

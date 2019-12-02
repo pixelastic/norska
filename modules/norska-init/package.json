@@ -14,7 +14,8 @@
   "dependencies": {
     "firost": "0.19.2",
     "golgoth": "0.5.1",
-    "norska-config": "^0.5.25"
+    "norska-config": "^0.5.25",
+    "norska-css": "^0.5.25"
   },
   "scripts": {
     "build": "../../scripts/local/build",

@@ -27,11 +27,11 @@ export default {
    * Returns the list of postCSS plugins to load, based on the current env (prod or dev)
    * @returns {Array} Array of configured plugins
    */
-  getPlugins() {
+  async getPlugins() {
     const basePlugins = [
       this.__pluginImport(),
       this.__pluginNested(),
-      this.__pluginTailwind(),
+      this.__pluginTailwind(await this.getTailwindConfigPath()),
     ];
 
     // That's all the plugins we need in dev
@@ -51,8 +51,8 @@ export default {
    * Returns a postCSS compiler instance, initialized with all the plugins
    * @returns {object} postCSS Compiler
    **/
-  getCompiler() {
-    const plugins = this.getPlugins();
+  async getCompiler() {
+    const plugins = await this.getPlugins();
 
     const postcssInstance = this.__postcss(plugins);
     return _.bind(postcssInstance.process, postcssInstance);
@@ -79,7 +79,7 @@ export default {
     }
 
     const rawContent = await firost.read(absoluteSource);
-    const compiler = this.getCompiler();
+    const compiler = await this.getCompiler();
 
     let compiledCss;
     try {
@@ -142,6 +142,16 @@ export default {
         firost.consoleError(chalk.red(error.message));
       }
     });
+  },
+  async getTailwindConfigPath() {
+    // First check in the host
+    const configFromHost = config.rootPath('tailwind.config.js');
+    if (await firost.exists(configFromHost)) {
+      return configFromHost;
+    }
+
+    // Fallback to value in norska-css
+    return path.resolve(__dirname, './tailwind.config.js');
   },
   /**
    * Wrapper around the postcss method, to make it easier to mock in tests

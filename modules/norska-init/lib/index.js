@@ -10,7 +10,7 @@ export default {
   async run() {
     const progress = firost.spinner();
     const files = await firost.glob(
-      [this.templatePath('norska.config.js'), this.templatePath('src/**/*')],
+      [this.templatePath('**/*'), `!${this.templatePath('scripts')}`],
       { directories: false }
     );
 
