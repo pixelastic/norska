@@ -4,5 +4,5 @@
   "defaultUrl": "http://www.your-production-url.com/",
   "defaultImage": "opengraph.png",
   "defaultAuthor": "Your Name",
-  "defaultTwitter": "@yourusername"
+  "defaultTwitter": "yourusername"
 }

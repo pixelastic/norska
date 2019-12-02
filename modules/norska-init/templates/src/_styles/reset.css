@@ -4,6 +4,7 @@ html {
 }
 body {
   @apply min-h-100p;
+  font-family: Verdana, Geneva, sans-serif;
 }
 /* purgecss start ignore */
 ol,
