@@ -8,6 +8,14 @@ than hacking my way in existing SSGs.
 
 ## Usage
 
+### Init
+
+Running `yarn norska init` will scaffold your repository to be used with norska.
+It will create the `./src` source folder with some default data and layout. It
+will also create `build`, `build:prod` and `serve` entries to your
+`package.json` with matching scripts in `./scripts` to build and serve your
+website.
+
 ### Build
 
 Running `norska build` will convert all source files in `./src` into a static
@@ -37,16 +45,6 @@ Running `norska serve` will build everything the same way but will also open a
 live-server of the `./dist` folder on [http://localhost:8083][1] (use `--port`
 to change the port).
 
-### Screenshot
-
-You can take screenshots of pages (to use in OpenGraph data for example) by
-using the `norska screenshot` command. This will create a `screenshot.png` file
-of the website in your source folder.
-
-Use `--url` to change the page to capture (this is relative to the destination
-root), and `--output` to change where to save the file. You can take screenshots
-of specific DOM elements by passing the `--selector` argument along with a CSS
-selector.
 
 ## Configuration
 
@@ -76,19 +74,12 @@ module.exports = {
 
 ### Updating Tailwind configuration
 
-Update the `norska.config.js` file to tell norska where your custom Tailwind
-config file is located:
+A default `tailwind.config.js` file added to your project. It includes all
+custom config defined in the `tailwind-config-norska` module, but you can extend
+it to add your own.
 
-```js
-// norska.config.js
-module.exports = {
-  css: {
-    tailwind: {
-      configPath: '/path/to/tailwind.config.js',
-    },
-  },
-};
-```
+You can safely remove the file; norska will then fallback to using
+`tailwind-config-norska` by default.
 
 ### Custom variables
 
