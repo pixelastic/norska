@@ -29,7 +29,6 @@ export default {
    */
   async getPlugins() {
     const tailwindConfigPath = await this.getTailwindConfigPath();
-    console.info(tailwindConfigPath);
     const basePlugins = [
       this.__pluginImport(),
       this.__pluginNested(),
