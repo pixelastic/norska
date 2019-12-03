@@ -1,3 +1,3 @@
 /* eslint-disable import/no-commonjs */
-import config from 'tailwind-config-norska';
+const config = require('tailwind-config-norska');
 module.exports = config;
