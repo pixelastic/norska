@@ -241,6 +241,18 @@ describe('norska-css', () => {
       const actual = await firost.read(config.toPath('./style.css'));
       expect(actual).toMatchSnapshot();
     });
+    it('should recompile the input file whenever the tailwind.config.js file is changed', async () => {
+      jest.spyOn(config, 'rootDir').mockReturnValue(tmpDirectory);
+      jest.spyOn(module, 'compile').mockReturnValue();
+      await firost.write('body {}', config.fromPath('style.css'));
+      await firost.write('// foo', config.rootPath('tailwind.config.js'));
+      await module.watch();
+
+      await firost.write('// bar', config.rootPath('tailwind.config.js'));
+
+      await firost.waitForWatchers();
+      expect(module.compile).toHaveBeenCalled();
+    });
     describe('compilation errors', () => {
       beforeEach(() => {
         jest.spyOn(firost, 'consoleError').mockReturnValue();

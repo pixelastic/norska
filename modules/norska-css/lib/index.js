@@ -130,6 +130,10 @@ export default {
     const includedFiles = `${config.from()}/_styles/**/*.css`;
     watchPatterns.push(includedFiles);
 
+    // Listen to the tailwind.config.js file
+    const tailwindConfig = await this.getTailwindConfigPath();
+    watchPatterns.push(tailwindConfig);
+
     // Rebuild the entrypoint whenever something changed
     await firost.watch(watchPatterns, async () => {
       try {
