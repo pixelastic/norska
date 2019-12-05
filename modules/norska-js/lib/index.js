@@ -139,18 +139,20 @@ export default {
       return false;
     }
 
-    const pulse = new EventEmitter();
     this.__watcher = compiler.watch({}, (err, stats) => {
       if (stats.hasErrors()) {
-        pulse.emit('buildError', stats);
+        this.pulse.emit('buildError', stats);
         const errorMessage = this.errorMessage(stats);
         firost.consoleError(chalk.red(errorMessage));
         return;
       }
-      pulse.emit('build', stats);
+
+      // Update list of runtime files so we can reload the HTML
+      config.set('runtime.jsFiles', this.getEntrypointsFromStats(stats));
+
       firost.consoleSuccess(this.getOutputStats(stats));
+      this.pulse.emit('build', stats);
     });
-    return pulse;
   },
   /**
    * Stop watching for file changes
@@ -180,4 +182,8 @@ export default {
    * @returns {Function} Promisified method
    **/
   __pify: pify,
+  /**
+   * Event emitter to emit/listen to events
+   **/
+  pulse: new EventEmitter(),
 };

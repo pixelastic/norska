@@ -2,6 +2,7 @@ import module from '../index';
 import config from 'norska-config';
 import data from 'norska-data';
 import firost from 'firost';
+import pEvent from 'p-event';
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/slow';
@@ -168,6 +169,20 @@ describe('norska-html', () => {
           const actual = await firost.read(config.toPath('index.html'));
           expect(actual).toEqual('bar');
         });
+      });
+    });
+    describe('runtime.jsFiles', () => {
+      beforeEach(async () => {
+        config.set('runtime.jsFiles', []);
+      });
+      it('should run everything whenever the runtime.jsFiles is updated', async () => {
+        await firost.write('p=runtime.jsFiles', config.fromPath('index.pug'));
+        await module.watch();
+        config.set('runtime.jsFiles', ['anything.js']);
+
+        await pEvent(module.pulse, 'run');
+        const actual = await firost.read(config.toPath('index.html'));
+        expect(actual).toEqual('<p>anything.js</p>');
       });
     });
     describe('compilation errors', () => {

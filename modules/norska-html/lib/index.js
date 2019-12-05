@@ -1,12 +1,13 @@
-import data from 'norska-data';
+import EventEmitter from 'events';
 import config from 'norska-config';
+import data from 'norska-data';
+import ensureUrlTrailingSlash from 'ensure-url-trailing-slash';
+import firost from 'firost';
 import helper from 'norska-helper';
 import path from 'path';
-import { _, pMap, chalk, timeSpan } from 'golgoth';
-import firost from 'firost';
-import pug from 'pug';
 import pugMethods from './pugMethods';
-import ensureUrlTrailingSlash from 'ensure-url-trailing-slash';
+import pug from 'pug';
+import { _, pMap, chalk, timeSpan } from 'golgoth';
 
 export default {
   /**
@@ -125,6 +126,7 @@ export default {
       throw error;
     }
     progress.success(`HTML compiled in ${timer.rounded()}ms`);
+    this.pulse.emit('run');
   },
   /**
    * Listen to any changes on pug files and rebuild them
@@ -160,5 +162,17 @@ export default {
     await firost.watch(pugIncludePatterns, async () => {
       await this.run();
     });
+
+    // Rebuild everything whenever the list of jsFiles to include changes
+    config.pulse.on('set', async key => {
+      if (key !== 'runtime.jsFiles') {
+        return;
+      }
+      await this.run();
+    });
   },
+  /**
+   * Event emitter to emit/listen to events
+   **/
+  pulse: new EventEmitter(),
 };

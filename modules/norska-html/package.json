@@ -30,5 +30,8 @@
     "release": "../../scripts/local/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
+  },
+  "devDependencies": {
+    "p-event": "4.1.0"
   }
 }

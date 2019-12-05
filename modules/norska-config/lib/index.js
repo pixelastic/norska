@@ -1,3 +1,4 @@
+import EventEmitter from 'events';
 import path from 'path';
 import { _ } from 'golgoth';
 import firost from 'firost';
@@ -105,7 +106,13 @@ export default {
    * @param {*} value Value to store
    **/
   set(key, value) {
+    // No change of value, so we stop
+    if (this.get(key) === value) {
+      return;
+    }
+
     _.set(this.__config, key, value);
+    this.pulse.emit('set', key, value);
   },
   /**
    * Init the config singleton by merging all possible sources of config.
@@ -139,4 +146,8 @@ export default {
    * Internal singleton representation of the config
    **/
   __config: {},
+  /**
+   * Event emitter to emit/listen to events
+   **/
+  pulse: new EventEmitter(),
 };

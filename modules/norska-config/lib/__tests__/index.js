@@ -222,13 +222,29 @@ describe('norska-config', () => {
     });
   });
   describe('set', () => {
-    it('should set the value at the specific key', () => {
+    beforeEach(async () => {
       module.__config = {};
+      jest.spyOn(module.pulse, 'emit').mockReturnValue();
+    });
+    it('should set the value at the specific key', () => {
       module.set('foo.bar', { baz: 42 });
 
       const actual = module.get('foo.bar.baz');
 
       expect(actual).toEqual(42);
+    });
+    it('should emit a set event when a value is changed', async () => {
+      module.set('foo', 'bar');
+      module.set('foo', 'baz');
+
+      expect(module.pulse.emit).toHaveBeenCalledWith('set', 'foo', 'bar');
+      expect(module.pulse.emit).toHaveBeenCalledWith('set', 'foo', 'baz');
+    });
+    it('should not emit a set event when the value is the same', async () => {
+      module.set('foo', 'bar');
+      module.set('foo', 'bar');
+
+      expect(module.pulse.emit).toHaveBeenCalledTimes(1);
     });
   });
   describe('from', () => {

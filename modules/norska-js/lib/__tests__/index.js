@@ -254,32 +254,43 @@ describe('norska-js', () => {
         firstRun = false;
       }
       jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(firost, 'consoleError').mockReturnValue();
     });
     afterEach(async () => {
       await module.unwatch();
     });
     it('should recompile the input file whenever it is changed', async () => {
       await firost.write('console.log("ok");', config.fromPath('script.js'));
-      const pulse = await module.watch();
-      await pEvent(pulse, 'build');
+      await module.watch();
+      await pEvent(module.pulse, 'build');
 
       await firost.write('console.log("bar");', config.fromPath('script.js'));
-      await pEvent(pulse, 'build');
+      await pEvent(module.pulse, 'build');
       const actual = await firost.read(config.toPath('script.js'));
       expect(actual).toContain('console.log("bar")');
     });
     it('should fire an error event when compilation fails', async () => {
       jest.spyOn(firost, 'consoleError').mockReturnValue();
       await firost.write('console.log("ok");', config.fromPath('script.js'));
-      const pulse = await module.watch();
-      await pEvent(pulse, 'build');
+      await module.watch();
+      await pEvent(module.pulse, 'build');
 
       await firost.write('b@@@@d code', config.fromPath('script.js'));
-      await pEvent(pulse, 'buildError');
+      await pEvent(module.pulse, 'buildError');
 
       expect(firost.consoleError).toHaveBeenCalledWith(
         expect.stringContaining('Unexpected token')
       );
+    });
+    it('should update the list of jsFiles in runtime', async () => {
+      config.set('runtime.jsFiles', ['foo.js']);
+
+      await firost.write('console.log("foo");', config.fromPath('script.js'));
+      await module.watch();
+      await pEvent(module.pulse, 'build');
+
+      const actual = config.get('runtime.jsFiles');
+      expect(actual).toEqual(['script.js']);
     });
   });
 });
