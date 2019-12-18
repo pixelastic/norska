@@ -1,7 +1,6 @@
 /* Force html and body to take the whole height, and extend if needed*/
 html {
   @apply h-100p;
-  font-family: Verdana, Geneva, sans-serif;
 }
 body {
   @apply min-h-100p;
