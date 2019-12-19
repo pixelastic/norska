@@ -1,15 +1,8 @@
-/* Force html and body to take the whole height, and extend if needed*/
-html {
-  @apply h-100p;
-}
-body {
-  @apply min-h-100p;
-}
-/* purgecss start ignore */
-ol,
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-/* purgecss end ignore */
+/**
+ * This file is empty on purpose.
+ * It used to be used for overriding some styles that were not reset in
+ * Tailwind in previous versions but now are.
+ * We decided to keep this file as it is @imported from the default style.css in
+ * case we need to add more overwrites in the future without requiring users to
+ * add the @import line
+ **/
