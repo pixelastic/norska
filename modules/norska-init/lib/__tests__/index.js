@@ -134,10 +134,10 @@ describe('norska-init', () => {
 
       expect(actual).toEqual(true);
     });
-    it('should create _headers file', async () => {
+    it('should create netlify.toml file', async () => {
       await module.run();
 
-      const actual = await firost.isFile(config.fromPath('_headers'));
+      const actual = await firost.isFile(config.rootPath('netlify.toml'));
 
       expect(actual).toEqual(true);
     });
