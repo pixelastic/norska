@@ -13,8 +13,8 @@
   "dependencies": {
     "@babel/core": "~7.4.0",
     "babel-loader": "8.0.5",
-    "firost": "0.19.2",
-    "golgoth": "0.5.1",
+    "firost": "0.20.0",
+    "golgoth": "0.6.4",
     "norska-config": "^0.5.28",
     "norska-helper": "^0.5.25",
     "pug-loader": "^2.4.0",

@@ -3,14 +3,18 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "0.10.3",
+    "aberlaas": "0.11.0",
     "esm": "3.2.25",
-    "firost": "0.19.2",
-    "golgoth": "0.5.1",
+    "firost": "0.20.0",
+    "golgoth": "0.6.4",
     "lerna": "3.19.0"
   },
+  "files": [
+    "build/"
+  ],
   "homepage": "https://github.com/pixelastic/norska",
   "license": "MIT",
+  "main": "build/index.js",
   "name": "norska-monorepo",
   "private": true,
   "repository": "git@github.com:pixelastic/norska.git",
@@ -18,6 +22,7 @@
     "build": "./scripts/meta/build",
     "build:prod": "./scripts/build-prod",
     "build:watch": "./scripts/meta/build-watch",
+    "ci": "./scripts/ci",
     "cms": "./scripts/cms",
     "husky:precommit": "./scripts/meta/husky-precommit",
     "learn": "lerna",
