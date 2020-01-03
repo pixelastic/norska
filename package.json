@@ -5,7 +5,7 @@
   "devDependencies": {
     "aberlaas": "0.10.3",
     "esm": "3.2.25",
-    "firost": "0.19.2",
+    "firost": "0.20.0",
     "golgoth": "0.5.1",
     "lerna": "3.19.0"
   },

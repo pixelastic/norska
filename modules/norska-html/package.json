@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "ensure-url-trailing-slash": "0.1.2",
-    "firost": "0.19.2",
+    "firost": "0.20.0",
     "golgoth": "0.5.1",
     "markdown-it": "^10.0.0",
     "markdown-it-highlightjs": "^3.0.0",
