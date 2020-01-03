@@ -30,6 +30,6 @@
     "test:watch": "../../scripts/local/test-watch"
   },
   "devDependencies": {
-    "p-event": "^4.1.0"
+    "p-event": "4.1.0"
   }
 }
