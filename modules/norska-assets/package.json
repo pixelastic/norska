@@ -11,7 +11,7 @@
     "build/"
   ],
   "dependencies": {
-    "golgoth": "0.5.1",
+    "golgoth": "0.6.4",
     "norska-config": "^0.5.28"
   },
   "devDependencies": {

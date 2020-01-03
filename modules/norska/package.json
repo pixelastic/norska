@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "firost": "0.19.2",
-    "golgoth": "0.5.1",
+    "golgoth": "0.6.4",
     "live-server": "1.2.1",
     "minimist": "1.2.0",
     "norska-assets": "^0.5.28",
