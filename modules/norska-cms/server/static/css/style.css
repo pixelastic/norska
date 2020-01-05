@@ -18548,6 +18548,78 @@ video {
   cursor: pointer;
 }
 
+.switch-1 {
+  display: none;
+}
+
+.switch-1:checked ~ .switch-1_flex {
+  display: flex;
+}
+
+.switch-1:checked ~ .switch-1_hidden {
+  display: hidden;
+}
+
+.switch-1:checked ~ .switch-1_block {
+  display: block;
+}
+
+.switch-1:checked ~ .switch-1_inline {
+  display: inline;
+}
+
+.switch-1:checked ~ .switch-1_inline-block {
+  display: inline-block;
+}
+
+.switch-2 {
+  display: none;
+}
+
+.switch-2:checked ~ .switch-2_flex {
+  display: flex;
+}
+
+.switch-2:checked ~ .switch-2_hidden {
+  display: hidden;
+}
+
+.switch-2:checked ~ .switch-2_block {
+  display: block;
+}
+
+.switch-2:checked ~ .switch-2_inline {
+  display: inline;
+}
+
+.switch-2:checked ~ .switch-2_inline-block {
+  display: inline-block;
+}
+
+.switch-3 {
+  display: none;
+}
+
+.switch-3:checked ~ .switch-3_flex {
+  display: flex;
+}
+
+.switch-3:checked ~ .switch-3_hidden {
+  display: hidden;
+}
+
+.switch-3:checked ~ .switch-3_block {
+  display: block;
+}
+
+.switch-3:checked ~ .switch-3_inline {
+  display: inline;
+}
+
+.switch-3:checked ~ .switch-3_inline-block {
+  display: inline-block;
+}
+
 .transparent {
   color: transparent;
 }
