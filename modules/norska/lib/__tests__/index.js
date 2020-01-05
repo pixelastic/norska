@@ -97,13 +97,6 @@ describe('norska', () => {
 
       expect(module.serve).toHaveBeenCalled();
     });
-    // it('should allow running the screenshot command', async () => {
-    //   const input = { _: ['screenshot'] };
-
-    //   await module.run(input);
-
-    //   expect(module.screenshot).toHaveBeenCalled();
-    // });
     it('should run the build command by default', async () => {
       const input = { _: [] };
 

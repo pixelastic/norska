@@ -2,3 +2,5 @@
 @import 'norska/reset';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@import '_styles/fonts.css';

@@ -1,4 +1,4 @@
-const norskaCms = require('../build/index.js').default;
+import norskaCms from '../lib/index.js';
 
 (async function() {
   try {

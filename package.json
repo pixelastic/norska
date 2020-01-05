@@ -7,7 +7,7 @@
     "esm": "3.2.25",
     "firost": "0.20.0",
     "golgoth": "0.6.4",
-    "lerna": "3.19.0"
+    "lerna": "3.20.2"
   },
   "files": [
     "build/"
