@@ -20,7 +20,7 @@
     "norska-data": "^0.5.34",
     "norska-helper": "^0.5.34",
     "norska-revv": "^0.5.34",
-    "pug": "2.0.3"
+    "pug": "2.0.4"
   },
   "scripts": {
     "build": "../../scripts/local/build",
