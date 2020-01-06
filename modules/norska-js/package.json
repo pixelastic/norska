@@ -18,7 +18,7 @@
     "norska-config": "^0.5.34",
     "norska-helper": "^0.5.34",
     "pug-loader": "^2.4.0",
-    "webpack": "4.41.3"
+    "webpack": "4.41.5"
   },
   "scripts": {
     "build": "../../scripts/local/build",
