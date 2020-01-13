@@ -34,6 +34,45 @@ describe('norska-html', () => {
       expect(actual).not.toContain(config.fromPath('_subdir/index.pug'));
     });
   });
+  describe('createPage', () => {
+    beforeEach(async () => {
+      data.clearCache();
+    });
+    it('should create a file from a template', async () => {
+      const input = config.fromPath('_templates/foo.pug');
+      const output = config.toPath('output.html');
+      await firost.write('p foo', input);
+
+      await module.createPage(input, output);
+
+      const actual = await firost.read(output);
+      expect(actual).toEqual('<p>foo</p>');
+    });
+    it('should use site data', async () => {
+      const input = config.fromPath('_templates/foo.pug');
+      const output = config.toPath('output.html');
+      const dataPath = config.fromPath('_data/foo.json');
+      await firost.write('p=data.foo.bar', input);
+      await firost.writeJson({ bar: 'baz' }, dataPath);
+
+      await module.createPage(input, output);
+
+      const actual = await firost.read(output);
+      expect(actual).toEqual('<p>baz</p>');
+    });
+    it('should allow overriding site data', async () => {
+      const input = config.fromPath('_templates/foo.pug');
+      const output = config.toPath('output.html');
+      const dataPath = config.fromPath('_data/foo.json');
+      await firost.write('p=data.foo.bar', input);
+      await firost.writeJson({ bar: 'baz' }, dataPath);
+
+      await module.createPage(input, output, { foo: { bar: 'quux' } });
+
+      const actual = await firost.read(output);
+      expect(actual).toEqual('<p>quux</p>');
+    });
+  });
   describe('compile', () => {
     beforeEach(async () => {
       jest.spyOn(firost, 'consoleWarn').mockReturnValue();

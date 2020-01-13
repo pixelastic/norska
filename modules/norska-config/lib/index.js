@@ -54,6 +54,7 @@ export default {
    * @returns {object} Default config object
    **/
   defaultConfig() {
+    const noop = () => {};
     return {
       port: 8083,
       from: './src',
@@ -61,6 +62,9 @@ export default {
       runtime: {
         jsFiles: [],
         revvFiles: {},
+      },
+      hooks: {
+        afterHtml: noop,
       },
     };
   },

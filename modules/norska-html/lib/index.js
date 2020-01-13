@@ -24,6 +24,9 @@ export default {
    * @returns {object} Data object
    **/
   async getData(destination) {
+    // We double check that all data has been loaded
+    await data.init();
+
     const sourceData = await data.getAll();
 
     const siteUrl = _.get(sourceData, 'site.url', '/');
@@ -63,32 +66,11 @@ export default {
       ...pugMethods(baseData, destination),
     };
   },
-  /**
-   * Compile a file from source into destination
-   * @param {string} inputFile Absolute path to the source file. It is expected to
-   * be in the config.from() folder
-   * @returns {boolean} True on success, false otherwise
-   **/
-  async compile(inputFile) {
-    // We double check that all data has been loaded
-    await data.init();
-
-    const sourceFolder = config.from();
-    const absoluteSource = config.fromPath(inputFile);
-    const relativeSource = path.relative(sourceFolder, absoluteSource);
-
-    // We only compile files that are in the source directory
-    if (!_.startsWith(absoluteSource, sourceFolder)) {
-      firost.consoleWarn(
-        `${absoluteSource} compilation aborted. It is not in the source directory.`
-      );
-      return false;
-    }
-
-    const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
-    const absoluteDestination = config.toPath(relativeDestination);
-
-    const compileData = await this.getData(relativeDestination);
+  async createPage(source, destination, pageData = {}) {
+    const absoluteDestination = config.toPath(destination);
+    const absoluteSource = config.fromPath(source);
+    const siteData = await this.getData(destination);
+    const compileData = _.merge({}, siteData, { data: pageData });
 
     let result;
     try {
@@ -103,6 +85,28 @@ export default {
 
     await firost.write(result, absoluteDestination);
     return true;
+  },
+  /**
+   * Compile a file from source into destination
+   * @param {string} inputFile Absolute path to the source file. It is expected to
+   * be in the config.from() folder
+   * @returns {boolean} True on success, false otherwise
+   **/
+  async compile(inputFile) {
+    const sourceFolder = config.from();
+    const absoluteSource = config.fromPath(inputFile);
+
+    // We only compile files that are in the source directory
+    if (!_.startsWith(absoluteSource, sourceFolder)) {
+      firost.consoleWarn(
+        `${absoluteSource} compilation aborted. It is not in the source directory.`
+      );
+      return false;
+    }
+
+    const relativeSource = path.relative(sourceFolder, absoluteSource);
+    const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
+    return await this.createPage(relativeSource, relativeDestination);
   },
   /**
    * Compile all source files to html
@@ -125,6 +129,12 @@ export default {
       progress.failure('HTML compilation failed');
       throw error;
     }
+
+    // Running hook
+    await config.get('hooks.afterHtml')({
+      createPage: this.createPage.bind(this),
+    });
+
     progress.success(`HTML compiled in ${timer.rounded()}ms`);
     this.pulse.emit('run');
   },
