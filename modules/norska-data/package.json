@@ -1,6 +1,6 @@
 {
   "name": "norska-data",
-  "version": "0.5.36",
+  "version": "0.5.37",
   "description": "Read data stored in ./src/_data",
   "author": "Pixelastic <tim@pixelastic.com>",
   "repository": "https://github.com/pixelastic/norska/modules/norska-data",
@@ -13,7 +13,7 @@
   "dependencies": {
     "firost": "0.21.0",
     "golgoth": "0.6.4",
-    "norska-config": "^0.5.36"
+    "norska-config": "^0.5.37"
   },
   "scripts": {
     "build": "../../scripts/local/build",
