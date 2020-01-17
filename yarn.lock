@@ -4473,11 +4473,6 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
-dayjs@1.8.17:
-  version "1.8.17"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.17.tgz#53ec413f2a7b02afbea1846d61bb260fa8567cea"
-  integrity sha512-47VY/htqYqr9GHd7HW/h56PpQzRBSJcxIQFwqL3P20bMF/3az5c3PWdVY3LmPXFl6cQCYHL7c79b9ov+2bOBbw==
-
 dayjs@1.8.18:
   version "1.8.18"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.18.tgz#c9b3fcd5a8eca96ed20a907f4491516d6eda15c9"
@@ -6077,23 +6072,6 @@ golgoth@0.6.4:
     query-string "6.9.0"
     time-span "3.1.0"
 
-golgoth@^0.6.0:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/golgoth/-/golgoth-0.6.2.tgz#c0bcc20a4377a3563683e33ec70400c62f385639"
-  integrity sha512-nX4YKqZdsCXpDB3ZPo+SFdTD0zjC083JVpBtyM3afKjKwtg9lA+GgcxeUWayplUPxMty7ojTtw9UbzkqkcwIhQ==
-  dependencies:
-    chalk "3.0.0"
-    dayjs "1.8.17"
-    flat "5.0.0"
-    got "9.6.0"
-    lodash "^4.17.15"
-    p-all "2.1.0"
-    p-map "3.0.0"
-    p-map-series "2.1.0"
-    pify "4.0.1"
-    query-string "6.9.0"
-    time-span "3.1.0"
-
 gonzales-pe@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/gonzales-pe/-/gonzales-pe-4.2.4.tgz#356ae36a312c46fe0f1026dd6cb539039f8500d2"
@@ -6275,7 +6253,7 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hex-rgb@^4.1.0:
+hex-rgb@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/hex-rgb/-/hex-rgb-4.1.0.tgz#2d5d3a2943bd40e7dc9b0d5b98903d7d17035967"
   integrity sha512-n7xsIfyBkFChITGPh6FLtxNzAt2HxZLcQIY9hYH4gm2gmMQJHMguMH3E+jnmvUbSTF5QrmFnGab5Ippi+D7e/g==
@@ -11873,13 +11851,13 @@ table@^5.2.3, table@^5.4.6:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwind-config-norska@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/tailwind-config-norska/-/tailwind-config-norska-0.0.8.tgz#9a10f64c4960c5c70a93d426bf51e64d13d6db13"
-  integrity sha512-so/ir8TpWgdxTxsUKz74LcmdwTTArTIGLZUOdLobI1IPDjH09XOWWIfWLJwgn+K09vyTXxksuz1wUJlEXvMj1A==
+tailwind-config-norska@0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/tailwind-config-norska/-/tailwind-config-norska-0.0.9.tgz#404245612b3c3c27c488bef1d54f78b4175e2297"
+  integrity sha512-jFDiPQLWz+4kaAQfycjz7VazLkn4X4NerNKMSDioztuYa/H4Dm8Fo9TVK1/MKVBxo8TVG3XutYG9UvSVk0OX2Q==
   dependencies:
-    golgoth "^0.6.0"
-    hex-rgb "^4.1.0"
+    golgoth "0.6.4"
+    hex-rgb "4.1.0"
 
 tailwindcss@1.1.4:
   version "1.1.4"
