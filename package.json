@@ -3,7 +3,7 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "0.11.3",
+    "aberlaas": "0.11.4",
     "esm": "3.2.25",
     "firost": "0.21.0",
     "golgoth": "0.6.4",
