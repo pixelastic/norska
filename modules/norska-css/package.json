@@ -23,7 +23,7 @@
     "postcss-import": "12.0.1",
     "postcss-nested": "4.2.1",
     "purge-from-html": "1.0.3",
-    "tailwind-config-norska": "0.0.9",
+    "tailwind-config-norska": "0.0.10",
     "tailwindcss": "1.1.4"
   },
   "scripts": {
