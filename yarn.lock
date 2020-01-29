@@ -3650,7 +3650,7 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-chokidar@3.3.1:
+chokidar@3.3.1, chokidar@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.3.1.tgz#c84e5b3d18d9a4d77558fef466b1bf16bbeb3450"
   integrity sha512-4QYCEWOcK3OJrxwvyyAOxFuhpvOVCYkr33LPfFNBjAD/w3sEzWsp2BUOkI4l9bHvWioAd0rc6NlHUOEaWkTeqg==
@@ -3665,7 +3665,7 @@ chokidar@3.3.1:
   optionalDependencies:
     fsevents "~2.1.2"
 
-chokidar@^2.0.2, chokidar@^2.0.4, chokidar@^2.1.5, chokidar@^2.1.8:
+chokidar@^2.0.2, chokidar@^2.0.4, chokidar@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
   integrity sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==
@@ -7936,12 +7936,18 @@ live-server@1.2.1:
     send latest
     serve-index "^1.9.1"
 
-livereload@0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/livereload/-/livereload-0.8.2.tgz#0ebb756cd5150bc956e33110b884bc2d7d87b723"
-  integrity sha512-8wCvhiCL4cGVoT3U5xoe+UjpiiVZLrlOvr6dbhb1VlyC5QarhrlyRRt4z7EMGO4KSgXj+tKF/dr284F28/wI+g==
+livereload-js@^3.1.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/livereload-js/-/livereload-js-3.2.1.tgz#817d2c0a1190b1aa4e1c812d35fe399de0116299"
+  integrity sha512-AJ+SUkAbAU6ijexIG/33PnBerq8O8g7b/qC4GdJLq2F5y4Ekf0XtCbXKv2C7kFzPmHc+lnCvDp+AaFG74NgHIQ==
+
+livereload@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/livereload/-/livereload-0.9.0.tgz#e10099dc1f5073c91d59557f9e1d2380c98ba03e"
+  integrity sha512-/VH4EdhY8xJa87KL58hw2SSnN7tNsNp9jcxL+E3yHVbQG4KUoYsGXI//XrAocceAzcyU74fQ/AfrLj1DR9uFcA==
   dependencies:
-    chokidar "^2.1.5"
+    chokidar "^3.3.0"
+    livereload-js "^3.1.0"
     opts ">= 1.2.0"
     ws "^6.2.1"
 
