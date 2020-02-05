@@ -45,7 +45,6 @@ Running `norska serve` will build everything the same way but will also open a
 live-server of the `./dist` folder on [http://localhost:8083][1] (use `--port`
 to change the port).
 
-
 ## Configuration
 
 You can configure aspects of norska through the `norska.config.js` file. If the
@@ -63,14 +62,15 @@ module.exports = {
 
 ### Default values
 
-| Key            | Default Value                                      | Description                                                                               |
-| -------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `from`         | `./src`                                            | Source folder                                                                             |
-| `to`           | `./dist`                                           | Destination folder                                                                        |
-| `port`         | `8083`                                             | Local server port                                                                         |
-| `assets.files` | `**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,woff}` | List of files that should be copied from source to destination without any transformation |
-| `js.input`     | `script.js`                                        | JavaScript entry point (relative to source) to compile through Webpack                    |
-| `js.output`    | `script.js`                                        | Webpack output file (relative to destination)                                             |
+| Key                  | Default Value                                      | Description                                                                               |
+| -------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `from`               | `./src`                                            | Source folder                                                                             |
+| `to`                 | `./dist`                                           | Destination folder                                                                        |
+| `port`               | `8083`                                             | Local server port                                                                         |
+| `assets.files`       | `**/*.{eot,gif,html,ico,jpg,otf,png,svg,ttf,woff}` | List of files that should be copied from source to destination without any transformation |
+| `js.input`           | `script.js`                                        | JavaScript entry point (relative to source) to compile through Webpack                    |
+| `js.output`          | `script.js`                                        | Webpack output file (relative to destination)                                             |
+| `revv.hashingMethod` | Based on the file content                          | Async method to call with the path to the file that should return the revved path         |
 
 ### Updating Tailwind configuration
 
@@ -88,7 +88,7 @@ through the `data` variable in pug templates. If the `.js` files exports
 a method, the return of the method is actually used.
 
 The `url` key also contains some useful shortcuts for crafting links. `url.base`
-contains the base url to the root of the website (value can be different from
+contains the base URL to the root of the website (value can be different from
 dev and prod). `url.here` contains an absolute link to the current page.
 
 ## Contributing

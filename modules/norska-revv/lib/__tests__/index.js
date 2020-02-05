@@ -37,25 +37,45 @@ describe('norska-revv', () => {
     });
   });
   describe('revvPath', () => {
-    it('return revved filepath of file', async () => {
-      await firost.write('foo', config.toPath('foo.txt'));
-
-      const actual = await module.revvPath('foo.txt');
-
-      expect(actual).toEqual('foo.acbd18db4c.txt');
-    });
-    it('return different filepath if content is different', async () => {
-      await firost.write('foo', config.toPath('foo.txt'));
-      const revv1 = await module.revvPath('foo.txt');
-      await firost.write('bar', config.toPath('foo.txt'));
-      const revv2 = await module.revvPath('foo.txt');
-
-      expect(revv1).not.toEqual(revv2);
-    });
     it('keep same path if file does not exist', async () => {
       const actual = await module.revvPath('foo.txt');
 
       expect(actual).toEqual('foo.txt');
+    });
+    describe('with default method', () => {
+      it('return revved filepath of file', async () => {
+        await firost.write('foo', config.toPath('foo.txt'));
+
+        const actual = await module.revvPath('foo.txt');
+
+        expect(actual).toEqual('foo.acbd18db4c.txt');
+      });
+      it('return different filepath if content is different', async () => {
+        await firost.write('foo', config.toPath('foo.txt'));
+        const revv1 = await module.revvPath('foo.txt');
+        await firost.write('bar', config.toPath('foo.txt'));
+        const revv2 = await module.revvPath('foo.txt');
+
+        expect(revv1).not.toEqual(revv2);
+      });
+    });
+    describe('with custom method', () => {
+      it('should use the custom method returned value', async () => {
+        await config.init({
+          from: './tmp/norska-revv/src',
+          to: './tmp/norska-revv/dist',
+          revv: {
+            hashingMethod(_filepath) {
+              return 'bar.baz';
+            },
+          },
+        });
+        await firost.write('foo', config.toPath('foo.txt'));
+
+        const actual = await module.revvPath('foo.txt');
+
+        expect(actual).toEqual('bar.baz');
+      });
     });
   });
   describe('fillManifest', () => {

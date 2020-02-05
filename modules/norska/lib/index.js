@@ -44,6 +44,7 @@ export default {
       cms: cms.defaultConfig(),
       css: css.defaultConfig(),
       js: js.defaultConfig(),
+      revv: revv.defaultConfig(),
     };
     await config.init(cliArgs, modulesConfig);
   },

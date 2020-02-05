@@ -7,6 +7,15 @@ import { _, pMap, timeSpan } from 'golgoth';
 
 export default {
   /**
+   * Default configuration object
+   * @returns {object} Default module config
+   **/
+  defaultConfig() {
+    return {
+      hashingMethod: null, // Set this to a method to override the hashing method
+    };
+  },
+  /**
    * Convenience method to read/write in the cached manifest
    * Each key is the base asset path, and value is its revved path or null
    * @param {object} value Manifest object to write
@@ -29,6 +38,25 @@ export default {
     this.manifest(manifest);
   },
   /**
+   * Returns a hash from a filepath
+   * @param {string} filepath Path to the file
+   * @returns {string} Hash
+   **/
+  async getHash(filepath) {
+    const hashingMethod = config.get('revv.hashingMethod');
+    if (!hashingMethod) {
+      const fullPath = config.toPath(filepath);
+      const hash = revHash(await firost.read(fullPath));
+      const extname = path.extname(filepath);
+      return _.replace(
+        filepath,
+        new RegExp(`${extname}$`),
+        `.${hash}${extname}`
+      );
+    }
+    return await hashingMethod(filepath);
+  },
+  /**
    * Return the revved filepath of any file
    * @param {string} filepath Path to the initial file
    * @returns {string} Revved filepath
@@ -40,9 +68,7 @@ export default {
       return filepath;
     }
 
-    const hash = revHash(await firost.read(fullPath));
-    const extname = path.extname(filepath);
-    return _.replace(filepath, new RegExp(`${extname}$`), `.${hash}${extname}`);
+    return await this.getHash(filepath);
   },
   /**
    * Update the manifest with revved filenames for each file
