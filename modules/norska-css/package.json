@@ -1,6 +1,6 @@
 {
   "name": "norska-css",
-  "version": "0.5.39",
+  "version": "0.5.40",
   "description": "Compile .css files through postcss and Tailwind",
   "author": "Pixelastic <tim@pixelastic.com>",
   "repository": "https://github.com/pixelastic/norska/modules/norska-css",
