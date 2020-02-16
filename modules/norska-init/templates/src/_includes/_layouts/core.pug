@@ -26,7 +26,7 @@ html(lang='en')
     script!=tweaks.ensureUrlTrailingSlashSource
     link(rel="shortcut icon", href=`./favicon.png`)
     link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
-    body
+    body.arial
       include /_includes/header
       block content
       each jsFile in runtime.jsFiles
