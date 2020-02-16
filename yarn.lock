@@ -11892,10 +11892,10 @@ table@^5.2.3, table@^5.4.6:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwind-config-norska@0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/tailwind-config-norska/-/tailwind-config-norska-0.0.12.tgz#3f5418b5170093776ae7fcd3cf377673e5e3152e"
-  integrity sha512-Pqjd4g4ZAE6GIxIb94G/9IBccI7Dk+WWx3pvisccEjBKZHutVcnjlUXODfI3NqqOdBTCGH8TMVlnMU75vZmKjw==
+tailwind-config-norska@0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/tailwind-config-norska/-/tailwind-config-norska-0.0.13.tgz#f2767fb5b4d1373a04dff6278a1a4de416a78709"
+  integrity sha512-3jR6EXmUzNLB1VSjpICpeRLPq5vN+g0HhbA01V+I+fz+YkO0K1Ql3p4Odr96K7bUL36Xr/qCbXVCzFFFbNs+oA==
   dependencies:
     golgoth "0.6.4"
     hex-rgb "4.1.0"

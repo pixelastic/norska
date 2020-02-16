@@ -1,8 +1,17 @@
 /**
- * This file is empty on purpose.
- * It used to be used for overriding some styles that were not reset in
- * Tailwind in previous versions but now are.
- * We decided to keep this file as it is @imported from the default style.css in
- * case we need to add more overwrites in the future without requiring users to
- * add the @import line
+ * The following rules are extracted from normalize.css
+ * They're wrapped in purgecss ignore comments so purgecss does not remove them
+ * They cover default styling of elements dynamically added by InstantSearch
  **/
+/* purgecss start ignore */
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+button {
+  background: transparent;
+  padding: 0;
+}
+/* purgecss end ignore */
