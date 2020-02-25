@@ -11,8 +11,8 @@
     "build/"
   ],
   "dependencies": {
-    "firost": "0.21.0",
-    "golgoth": "0.6.4"
+    "firost": "1.3.0",
+    "golgoth": "1.1.1"
   },
   "scripts": {
     "build": "../../scripts/local/build",
