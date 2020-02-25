@@ -1,3 +1,0 @@
-# Prevents aberlaas from raising linting issues in the large CSS file generated
-# by the cms
-modules/norska-cms/server/static/css

@@ -1,0 +1,2 @@
+# Do not prettify the static CSS file
+server/static/css
