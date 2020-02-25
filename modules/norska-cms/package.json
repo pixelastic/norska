@@ -18,11 +18,11 @@
     "golgoth": "0.6.4",
     "livereload": "0.9.1",
     "multer": "1.4.2",
-    "nodemon": "1.19.4",
+    "nodemon": "2.0.2",
     "norska-config": "^0.5.37",
     "norska-css": "^0.5.41",
     "norska-helper": "^0.5.34",
-    "open": "6.4.0"
+    "open": "7.0.2"
   },
   "scripts": {
     "build": "./scripts/build",

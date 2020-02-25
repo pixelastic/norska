@@ -13,7 +13,7 @@
   "dependencies": {
     "firost": "0.21.0",
     "golgoth": "0.6.4",
-    "is-port-reachable": "2.0.1",
+    "is-port-reachable": "3.0.0",
     "live-server": "1.2.1",
     "norska-config": "^0.5.37",
     "norska-helper": "^0.5.34"
