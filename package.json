@@ -8,12 +8,8 @@
     "golgoth": "1.1.1",
     "lerna": "3.20.2"
   },
-  "files": [
-    "lib/*.js"
-  ],
   "homepage": "https://github.com/pixelastic/norska",
   "license": "MIT",
-  "main": "lib/main.js",
   "name": "norska-monorepo",
   "private": true,
   "repository": "git@github.com:pixelastic/norska.git",
@@ -31,7 +27,7 @@
     "serve": "./scripts/serve",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch",
-    "update-dependencies": "node -r esm ./scripts/meta/update-dependencies"
+    "update-dependencies": "node ./scripts/meta/update-dependencies"
   },
   "version": "0.0.4",
   "workspaces": [
