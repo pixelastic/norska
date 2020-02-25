@@ -1,8 +1,10 @@
 const config = require('norska-config');
-const firost = require('firost');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
+const glob = require('firost/lib/glob');
+const readJson = require('firost/lib/readJson');
+const firostRequire = require('firost/lib/require');
 
 module.exports = {
   __cache: {},
@@ -37,7 +39,7 @@ module.exports = {
   // Force updating
   async updateCache() {
     this.__cache = {};
-    const files = await firost.glob(config.fromPath('_data/**/*.{js,json}'));
+    const files = await glob(config.fromPath('_data/**/*.{js,json}'));
     await pMap(files, async filepath => {
       const value = await this.read(filepath);
       const key = await this.key(filepath);
@@ -55,9 +57,9 @@ module.exports = {
     const extname = path.extname(filepath);
     switch (extname) {
       case '.json':
-        return await firost.readJson(filepath);
+        return await readJson(filepath);
       case '.js': {
-        const content = await firost.require(filepath, { forceReload: true });
+        const content = await this.__require(filepath, { forceReload: true });
         return _.isFunction(content) ? await content() : content;
       }
       default:
@@ -83,4 +85,5 @@ module.exports = {
   clearCache() {
     this.__cache = {};
   },
+  __require: firostRequire,
 };

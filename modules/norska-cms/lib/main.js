@@ -1,13 +1,15 @@
 const path = require('path');
 const config = require('norska-config');
 const express = require('express');
-const firost = require('firost');
 const norskaCss = require('norska-css');
 const _ = require('golgoth/lib/lodash');
 const livereload = require('livereload');
 const connectLivereload = require('connect-livereload');
 const open = require('open');
 const multer = require('multer');
+const read = require('firost/lib/read');
+const write = require('firost/lib/write');
+const firostRequire = require('firost/lib/require');
 
 module.exports = {
   /**
@@ -148,8 +150,8 @@ module.exports = {
    **/
   page(pageName) {
     const pagePath = path.resolve(this.pagesPath(), `${pageName}.js`);
-    return function(req, res) {
-      return firost.require(pagePath, { forceReload: true })(req, res);
+    return (req, res) => {
+      return this.__require(pagePath, { forceReload: true })(req, res);
     };
   },
   /**
@@ -160,14 +162,14 @@ module.exports = {
   async generateCssFile() {
     const sourceCssPath = path.resolve(__dirname, '../src/css/style.css');
     const destinationCssPath = path.resolve(this.staticPath(), 'css/style.css');
-    const cssContent = await firost.read(sourceCssPath);
+    const cssContent = await read(sourceCssPath);
     const cssCompiler = await norskaCss.getCompiler();
     const compilationResult = await cssCompiler(cssContent, {
       from: sourceCssPath,
     });
     const compiledCss = _.get(compilationResult, 'css');
 
-    await firost.write(compiledCss, destinationCssPath);
+    await write(compiledCss, destinationCssPath);
   },
   /**
    * Wrapping the livereload dependency so we can mock it in tests
@@ -176,4 +178,5 @@ module.exports = {
   __livereload() {
     return livereload;
   },
+  __require: firostRequire,
 };

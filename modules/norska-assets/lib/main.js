@@ -1,9 +1,13 @@
-const _ = require('golgoth/lib/lodash');
-const pMap = require('golgoth/lib/pMap');
-const timeSpan = require('golgoth/lib/timeSpan');
 const config = require('norska-config');
-const firost = require('firost');
+const copy = require('firost/lib/copy');
+const glob = require('firost/lib/glob');
+const pMap = require('golgoth/lib/pMap');
 const path = require('path');
+const remove = require('firost/lib/remove');
+const spinner = require('firost/lib/spinner');
+const timeSpan = require('golgoth/lib/timeSpan');
+const watch = require('firost/lib/watch');
+const _ = require('golgoth/lib/lodash');
 
 module.exports = {
   /**
@@ -38,7 +42,7 @@ module.exports = {
     const relativePath = path.relative(config.from(), source);
     const destination = config.toPath(relativePath);
 
-    await firost.copy(source, destination);
+    await copy(source, destination);
   },
   /**
    * Returns a list of all absolute globs to copy
@@ -54,9 +58,9 @@ module.exports = {
    * structure but not performing any transformation
    **/
   async run() {
-    const inputFiles = await firost.glob(this.globs());
+    const inputFiles = await glob(this.globs());
     const timer = timeSpan();
-    const progress = firost.spinner(inputFiles.length);
+    const progress = this.__spinner(inputFiles.length);
     progress.text('Copying assets');
 
     await pMap(
@@ -74,17 +78,18 @@ module.exports = {
    * Listen for any changes in assets and copy them to destination
    **/
   async watch() {
-    await firost.watch(this.globs(), async (filepath, type) => {
+    await watch(this.globs(), async (filepath, type) => {
       // When removing a file in source, we remove it in destination as well
       if (type === 'removed') {
         const sourceFolder = config.from();
         const relativeSource = path.relative(sourceFolder, filepath);
         const absoluteDestination = config.toPath(relativeSource);
-        await firost.remove(absoluteDestination);
+        await remove(absoluteDestination);
         return;
       }
       // Otherwise, we simply copy it
       await this.compile(filepath);
     });
   },
+  __spinner: spinner,
 };

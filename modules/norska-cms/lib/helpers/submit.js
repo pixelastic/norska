@@ -1,9 +1,12 @@
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
 const path = require('path');
-const cms = require('../index.js');
+const cms = require('../main.js');
 const config = require('norska-config');
-const firost = require('firost');
+const isFile = require('firost/lib/isFile');
+const move = require('firost/lib/move');
+const remove = require('firost/lib/remove');
+
 module.exports = {
   /**
    * Return the data to save to file from the request sent by the form
@@ -59,10 +62,10 @@ module.exports = {
    **/
   async deletePreviousValue(previousValue) {
     const previousValuePath = config.fromPath(previousValue);
-    if (!(await firost.isFile(previousValuePath))) {
+    if (!(await isFile(previousValuePath))) {
       return;
     }
-    await firost.remove(previousValuePath);
+    await remove(previousValuePath);
   },
   /**
    * Enhance form data with upload information
@@ -114,7 +117,7 @@ module.exports = {
       }
 
       // We move the temporary uploaded file to ./src
-      await firost.move(matchingUpload.path, absolutePath);
+      await move(matchingUpload.path, absolutePath);
     });
 
     return data;

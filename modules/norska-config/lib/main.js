@@ -1,7 +1,7 @@
 const EventEmitter = require('events');
+const exists = require('firost/lib/exists');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
-const firost = require('firost');
 
 module.exports = {
   /**
@@ -75,10 +75,10 @@ module.exports = {
    **/
   async fileConfig() {
     const configFilePath = this.rootPath('norska.config.js');
-    if (!(await firost.exists(configFilePath))) {
+    if (!(await exists(configFilePath))) {
       return {};
     }
-    return firost.require(configFilePath);
+    return this.__require(configFilePath);
   },
   /**
    * Returns named CLI arguments as a config object. This will expand
@@ -154,4 +154,5 @@ module.exports = {
    * Event emitter to emit/listen to events
    **/
   pulse: new EventEmitter(),
+  __require: require,
 };

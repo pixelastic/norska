@@ -1,4 +1,4 @@
-const module = require('../index');
+const module = require('../main');
 
 describe('norska-helper', () => {
   describe('isProduction', () => {

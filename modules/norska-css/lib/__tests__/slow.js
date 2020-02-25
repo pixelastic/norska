@@ -1,7 +1,12 @@
-const module = require('../index');
+const module = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
+const read = require('firost/lib/read');
+const mkdirp = require('firost/lib/mkdirp');
+const unwatchAll = require('firost/lib/unwatchAll');
+const waitForWatchers = require('firost/lib/waitForWatchers');
 
 // This tests are slow as they actually really compile CSS through postCSS. We
 // put them in their own file to easily ignore them when watching tests
@@ -9,16 +14,16 @@ describe('norska-css', () => {
   const tmpDirectory = './tmp/norska-css/slow';
   describe('compile', () => {
     beforeEach(async () => {
-      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
         css: module.defaultConfig(),
       });
-      await firost.emptyDir(tmpDirectory);
+      await emptyDir(tmpDirectory);
     });
     it('should call the compiler with the raw content', async () => {
-      await firost.write('/* css content */', config.fromPath('style.css'));
+      await write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
       jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
 
@@ -30,7 +35,7 @@ describe('norska-css', () => {
       );
     });
     it('should call the compiler with from as the source', async () => {
-      await firost.write('/* css content */', config.fromPath('style.css'));
+      await write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
       jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
 
@@ -42,8 +47,8 @@ describe('norska-css', () => {
       );
     });
     it('should write the .css key result to file', async () => {
-      jest.spyOn(firost, 'write');
-      await firost.write('/* css content */', config.fromPath('style.css'));
+      jest.spyOn(module, '__write');
+      await write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn().mockImplementation(async () => {
         return { css: '/* compiled content */' };
       });
@@ -51,7 +56,7 @@ describe('norska-css', () => {
 
       await module.compile('style.css');
 
-      expect(firost.write).toHaveBeenCalledWith(
+      expect(module.__write).toHaveBeenCalledWith(
         '/* compiled content */',
         config.toPath('style.css')
       );
@@ -74,7 +79,7 @@ describe('norska-css', () => {
         );
       });
       it('should throw if cannot compile', async () => {
-        await firost.write('.foo {', config.fromPath('style.css'));
+        await write('.foo {', config.fromPath('style.css'));
 
         let actual;
         try {
@@ -93,50 +98,44 @@ describe('norska-css', () => {
   });
   describe('run', () => {
     beforeEach(async () => {
-      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
       jest
-        .spyOn(firost, 'spinner')
+        .spyOn(module, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
         css: module.defaultConfig(),
       });
-      await firost.emptyDir(tmpDirectory);
+      await emptyDir(tmpDirectory);
     });
 
     it('should compile basic CSS', async () => {
-      await firost.write(
-        '.class { color: red; }',
-        config.fromPath('style.css')
-      );
+      await write('.class { color: red; }', config.fromPath('style.css'));
       await module.run();
 
-      const actual = await firost.read(config.toPath('style.css'));
+      const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
     });
     it('should import statements inline', async () => {
-      await firost.write(
+      await write(
         '@import "_styles/imported.css"',
         config.fromPath('style.css')
       );
-      await firost.write(
+      await write(
         'b { color: blue; }',
         config.fromPath('_styles/imported.css')
       );
       await module.run();
 
-      const actual = await firost.read(config.toPath('style.css'));
+      const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
     });
     it('should flatten nested syntax', async () => {
-      await firost.write(
-        '.class { a { color: red; } }',
-        config.fromPath('style.css')
-      );
+      await write('.class { a { color: red; } }', config.fromPath('style.css'));
       await module.run();
 
-      const actual = await firost.read(config.toPath('style.css'));
+      const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
     });
 
@@ -145,11 +144,11 @@ describe('norska-css', () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
       it('should build a neat CSS file', async () => {
-        await firost.write(
+        await write(
           '<p class="context"><span>foo</span></p>',
           config.toPath('index.html')
         );
-        await firost.write(
+        await write(
           `/* This should be removed */
           /*! This should still be remove */
           .context { color: green; user-select: none; }
@@ -177,94 +176,91 @@ describe('norska-css', () => {
 
         await module.run();
 
-        const actual = await firost.read(config.toPath('style.css'));
+        const actual = await read(config.toPath('style.css'));
         expect(actual).toMatchSnapshot();
       });
     });
   });
   describe('watch', () => {
     beforeEach(async () => {
-      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
+      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
         css: module.defaultConfig(),
       });
-      await firost.emptyDir(tmpDirectory);
-      await firost.mkdirp(config.from());
+      await emptyDir(tmpDirectory);
+      await mkdirp(config.from());
     });
     afterEach(async () => {
-      await firost.unwatchAll();
+      await unwatchAll();
     });
     it('should compile the input file when it is created', async () => {
       await module.watch();
 
-      await firost.write(
+      await write(
         'body { background-color: red; }',
         config.fromPath('style.css')
       );
 
-      await firost.waitForWatchers();
-      const actual = await firost.read(config.toPath('style.css'));
+      await waitForWatchers();
+      const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
     });
     it('should recompile the input file whenever it is changed', async () => {
-      await firost.write('body {}', config.fromPath('style.css'));
+      await write('body {}', config.fromPath('style.css'));
       await module.watch();
-      await firost.write(
+      await write(
         'body { background-color: red; }',
         config.fromPath('./style.css')
       );
 
-      await firost.waitForWatchers();
+      await waitForWatchers();
 
-      const actual = await firost.read(config.toPath('./style.css'));
+      const actual = await read(config.toPath('./style.css'));
       expect(actual).toMatchSnapshot();
     });
     it('should recompile the input file whenever an included file is changed', async () => {
-      await firost.write(
+      await write(
         '@import "_styles/imported.css"',
         config.fromPath('style.css')
       );
-      await firost.write(
+      await write(
         'b { color: blue; }',
         config.fromPath('_styles/imported.css')
       );
       await module.watch();
 
-      await firost.write(
-        'b { color: red; }',
-        config.fromPath('_styles/imported.css')
-      );
+      await write('b { color: red; }', config.fromPath('_styles/imported.css'));
 
-      await firost.waitForWatchers();
-      const actual = await firost.read(config.toPath('./style.css'));
+      await waitForWatchers();
+      const actual = await read(config.toPath('./style.css'));
       expect(actual).toMatchSnapshot();
     });
     it('should recompile the input file whenever the tailwind.config.js file is changed', async () => {
       jest.spyOn(config, 'rootDir').mockReturnValue(tmpDirectory);
       jest.spyOn(module, 'compile').mockReturnValue();
-      await firost.write('body {}', config.fromPath('style.css'));
-      await firost.write('// foo', config.rootPath('tailwind.config.js'));
+      await write('body {}', config.fromPath('style.css'));
+      await write('// foo', config.rootPath('tailwind.config.js'));
       await module.watch();
 
-      await firost.write('// bar', config.rootPath('tailwind.config.js'));
+      await write('// bar', config.rootPath('tailwind.config.js'));
 
-      await firost.waitForWatchers();
+      await waitForWatchers();
       expect(module.compile).toHaveBeenCalled();
     });
     describe('compilation errors', () => {
       beforeEach(() => {
-        jest.spyOn(firost, 'consoleError').mockReturnValue();
+        jest.spyOn(module, '__consoleError').mockReturnValue();
       });
       it('should display compilation errors', async () => {
         await module.watch();
 
-        await firost.write('body { ', config.fromPath('style.css'));
+        await write('body { ', config.fromPath('style.css'));
 
-        await firost.waitForWatchers();
+        await waitForWatchers();
 
-        expect(firost.consoleError).toHaveBeenCalledWith(
+        expect(module.__consoleError).toHaveBeenCalledWith(
           expect.stringContaining('Unclosed block')
         );
       });

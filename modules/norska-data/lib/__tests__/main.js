@@ -1,6 +1,9 @@
-const module = require('../index');
+const module = require('../main');
 const config = require('norska-config');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
+const uuid = require('firost/lib/uuid');
+const writeJson = require('firost/lib/writeJson');
 
 describe('norska-data', () => {
   beforeEach(async () => {
@@ -8,7 +11,7 @@ describe('norska-data', () => {
       from: './tmp/norska-data/src',
       to: './tmp/norska-data/dist',
     });
-    await firost.emptyDir('./tmp/norska-data');
+    await emptyDir('./tmp/norska-data');
     module.__cache = {};
   });
   describe('hasCache', () => {
@@ -55,7 +58,7 @@ describe('norska-data', () => {
     describe('from json', () => {
       it('should return json content', async () => {
         const input = config.fromPath('_data/foo.json');
-        await firost.writeJson({ foo: 'bar' }, input);
+        await writeJson({ foo: 'bar' }, input);
 
         const actual = await module.read(input);
 
@@ -69,76 +72,37 @@ describe('norska-data', () => {
       // mechanism, not allowing us to purge the cache between tests.
       // To circumvent this issue, we will actually write files with unique
       // names, preventing any cache to actually occur
-      describe('export default', () => {
-        it('as an object', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('export default { foo: "bar" }', input);
+      it('as an object', async () => {
+        const input = config.fromPath(`_data/${uuid()}.js`);
+        await write('module.exports = { foo: "bar" }', input);
 
-          const actual = await module.read(input);
+        const actual = await module.read(input);
 
-          expect(actual).toHaveProperty('foo', 'bar');
-        });
-        it('as a string', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('export default "bar"', input);
-
-          const actual = await module.read(input);
-
-          expect(actual).toEqual('bar');
-        });
-        it('as a number', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('export default 42', input);
-
-          const actual = await module.read(input);
-
-          expect(actual).toEqual(42);
-        });
-        it('as a function', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('export default function() { return 42 }', input);
-
-          const actual = await module.read(input);
-
-          expect(actual).toEqual(42);
-        });
+        expect(actual).toHaveProperty('foo', 'bar');
       });
-      describe('module.exports', () => {
-        it('as an object', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('module.exports = { foo: "bar" }', input);
+      it('as a string', async () => {
+        const input = config.fromPath(`_data/${uuid()}.js`);
+        await write('module.exports = "bar"', input);
 
-          const actual = await module.read(input);
+        const actual = await module.read(input);
 
-          expect(actual).toHaveProperty('foo', 'bar');
-        });
-        it('as a string', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('module.exports = "bar"', input);
+        expect(actual).toEqual('bar');
+      });
+      it('as a number', async () => {
+        const input = config.fromPath(`_data/${uuid()}.js`);
+        await write('module.exports = 42', input);
 
-          const actual = await module.read(input);
+        const actual = await module.read(input);
 
-          expect(actual).toEqual('bar');
-        });
-        it('as a number', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write('module.exports = 42', input);
+        expect(actual).toEqual(42);
+      });
+      it('as a function', async () => {
+        const input = config.fromPath(`_data/${uuid()}.js`);
+        await write('module.exports = function() { return 42 }', input);
 
-          const actual = await module.read(input);
+        const actual = await module.read(input);
 
-          expect(actual).toEqual(42);
-        });
-        it('as a function', async () => {
-          const input = config.fromPath(`_data/${firost.uuid()}.js`);
-          await firost.write(
-            'module.exports = function() { return 42 }',
-            input
-          );
-
-          const actual = await module.read(input);
-
-          expect(actual).toEqual(42);
-        });
+        expect(actual).toEqual(42);
       });
     });
   });
@@ -167,14 +131,11 @@ describe('norska-data', () => {
   });
   describe('updateCache', () => {
     it('should write data for js and json files in cache', async () => {
-      const jsId = firost.uuid();
-      const jsonId = firost.uuid();
-      await firost.writeJson(
-        { name: 'foo' },
-        config.fromPath(`_data/${jsonId}.json`)
-      );
-      await firost.write(
-        'export default function() { return { name: "bar" } }',
+      const jsId = uuid();
+      const jsonId = uuid();
+      await writeJson({ name: 'foo' }, config.fromPath(`_data/${jsonId}.json`));
+      await write(
+        'module.exports = function() { return { name: "bar" } }',
         config.fromPath(`_data/${jsId}.js`)
       );
 

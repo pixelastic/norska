@@ -1,12 +1,13 @@
 const _ = require('golgoth/lib/lodash');
-const firost = require('firost');
+const isFile = require('firost/lib/isFile');
+const readJson = require('firost/lib/readJson');
 /**
  * Helper method to get input field types from data. Those fields will be used
  * to create the add/edit UI
  **/
 module.exports = {
   async getFieldsFromFilepath(filepath) {
-    const data = await firost.readJson(filepath);
+    const data = await readJson(filepath);
     const readFileSchema = await this.readFileSchema(filepath);
     const guessedFileSchema = await this.guessSchema(data);
     const fileSchema = this.reconcileFileSchema(
@@ -171,10 +172,10 @@ module.exports = {
    **/
   async readFileSchema(filepath) {
     const schemaPath = _.replace(filepath, /\.json$/, '.schema.json');
-    if (!(await firost.isFile(schemaPath))) {
+    if (!(await isFile(schemaPath))) {
       return false;
     }
-    return await firost.readJson(schemaPath);
+    return await readJson(schemaPath);
   },
   /**
    * Guess all schema based only on the name and value

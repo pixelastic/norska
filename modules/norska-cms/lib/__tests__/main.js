@@ -1,6 +1,6 @@
-const module = require('../index');
+const module = require('../main');
 const config = require('norska-config');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
 const objectWith = expect.objectContaining;
 const arrayWith = expect.arrayContaining;
 const anything = expect.anything();
@@ -12,7 +12,7 @@ describe('norska-cms', () => {
       from: `${tmpDirectory}/src`,
       to: `${tmpDirectory}/dist`,
     });
-    await firost.emptyDir(tmpDirectory);
+    await emptyDir(tmpDirectory);
   });
   describe('startLivereload', () => {
     let mockCreateServer = jest.fn();
@@ -24,9 +24,6 @@ describe('norska-cms', () => {
       mockCreateServer.mockReturnValue({ watch: mockWatch });
     });
     describe('browser reload', () => {
-      beforeEach(() => {
-        jest.spyOn(firost, 'watch').mockReturnValue();
-      });
       it('should watch for changes in images', async () => {
         await module.startLivereload();
         const expected = objectWith({
@@ -101,7 +98,7 @@ describe('norska-cms', () => {
   describe('page', () => {
     beforeEach(() => {
       jest.spyOn(module, 'pagesPath').mockReturnValue('/tmp/pages');
-      jest.spyOn(firost, 'require').mockReturnValue(jest.fn);
+      jest.spyOn(module, '__require').mockReturnValue(jest.fn);
     });
     it('should return a function', async () => {
       const actual = module.page('foo');
@@ -111,13 +108,13 @@ describe('norska-cms', () => {
     it('that force requires the specified page when called', async () => {
       module.page('foo')();
 
-      expect(firost.require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
+      expect(module.__require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
         forceReload: true,
       });
     });
     it('that applies passed arguments to required function', async () => {
       const mockMethod = jest.fn();
-      jest.spyOn(firost, 'require').mockReturnValue(mockMethod);
+      jest.spyOn(module, '__require').mockReturnValue(mockMethod);
 
       module.page('foo')('bar', 'baz');
 

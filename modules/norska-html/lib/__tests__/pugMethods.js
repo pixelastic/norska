@@ -1,7 +1,7 @@
 const module = require('../pugMethods.js');
 const helper = require('norska-helper');
 const config = require('norska-config');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
 
 describe('norska-html/pugMethods', () => {
   let mockData, mockDestination;
@@ -11,7 +11,7 @@ describe('norska-html/pugMethods', () => {
       from: `${tmpDirectory}/src`,
       to: `${tmpDirectory}/dist`,
     });
-    await firost.emptyDir(tmpDirectory);
+    await emptyDir(tmpDirectory);
 
     mockData = {};
     mockDestination = null;

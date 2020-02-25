@@ -2,7 +2,6 @@ const EventEmitter = require('events');
 const config = require('norska-config');
 const data = require('norska-data');
 const ensureUrlTrailingSlash = require('ensure-url-trailing-slash');
-const firost = require('firost');
 const helper = require('norska-helper');
 const path = require('path');
 const pugMethods = require('./pugMethods');
@@ -11,6 +10,14 @@ const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
 const pMap = require('golgoth/lib/pMap');
 const timeSpan = require('golgoth/lib/timeSpan');
+const write = require('firost/lib/write');
+const spinner = require('firost/lib/spinner');
+const glob = require('firost/lib/glob');
+const watch = require('firost/lib/watch');
+const consoleSuccess = require('firost/lib/consoleSuccess');
+const consoleWarn = require('firost/lib/consoleWarn');
+const consoleError = require('firost/lib/consoleError');
+const firostError = require('firost/lib/error');
 
 module.exports = {
   /**
@@ -83,10 +90,10 @@ module.exports = {
       });
       result = compiler(compileData);
     } catch (err) {
-      throw firost.error('ERROR_HTML_COMPILATION_FAILED', err.toString());
+      throw firostError('ERROR_HTML_COMPILATION_FAILED', err.toString());
     }
 
-    await firost.write(result, absoluteDestination);
+    await write(result, absoluteDestination);
     return true;
   },
   /**
@@ -101,7 +108,7 @@ module.exports = {
 
     // We only compile files that are in the source directory
     if (!_.startsWith(absoluteSource, sourceFolder)) {
-      firost.consoleWarn(
+      this.__consoleWarn(
         `${absoluteSource} compilation aborted. It is not in the source directory.`
       );
       return false;
@@ -119,12 +126,12 @@ module.exports = {
     await data.init();
 
     const timer = timeSpan();
-    const progress = firost.spinner();
+    const progress = this.__spinner();
     progress.tick('Compiling HTML');
 
     try {
       const pugFilesPattern = await this.pugFilesPattern();
-      const pugFiles = await firost.glob(pugFilesPattern);
+      const pugFiles = await glob(pugFilesPattern);
       await pMap(pugFiles, async filepath => {
         await this.compile(filepath);
       });
@@ -150,29 +157,29 @@ module.exports = {
 
     // Reload a given pug file whenever it is changed
     const pugFilesPattern = await this.pugFilesPattern();
-    await firost.watch(pugFilesPattern, async filepath => {
+    await watch(pugFilesPattern, async filepath => {
       try {
         const timer = timeSpan();
         const relativePath = path.relative(config.from(), filepath);
         await this.compile(filepath);
-        firost.consoleSuccess(
+        this.__consoleSuccess(
           `${relativePath} compiled in ${timer.rounded()}ms`
         );
       } catch (error) {
-        firost.consoleError(chalk.red(error.message));
+        this.__consoleError(chalk.red(error.message));
       }
     });
 
     // Reload all pug files whenever files in _data/ are changed
     const dataPath = config.fromPath('_data/**/*.{js,json}');
-    await firost.watch(dataPath, async () => {
+    await watch(dataPath, async () => {
       await data.updateCache();
       await this.run();
     });
 
     // Rebuild everything whenever an included file changes
     const pugIncludePatterns = [config.fromPath('_includes/**/*')];
-    await firost.watch(pugIncludePatterns, async () => {
+    await watch(pugIncludePatterns, async () => {
       await this.run();
     });
 
@@ -188,4 +195,8 @@ module.exports = {
    * Event emitter to emit/listen to events
    **/
   pulse: new EventEmitter(),
+  __consoleError: consoleError,
+  __consoleSuccess: consoleSuccess,
+  __consoleWarn: consoleWarn,
+  __spinner: spinner,
 };

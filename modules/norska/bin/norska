@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable import/no-commonjs */
-const norska = require('../build/index').default;
+const norska = require('../lin/main');
 const minimist = require('minimist');
 const args = minimist(process.argv.slice(2));
 (async () => {

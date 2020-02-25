@@ -1,8 +1,11 @@
-const module = require('../index');
+const module = require('../main');
 const config = require('norska-config');
-const firost = require('firost');
 const helper = require('norska-helper');
 const pEvent = require('p-event');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
+const read = require('firost/lib/read');
+const isFile = require('firost/lib/isFile');
 
 // Note:
 // Webpack seems to have trouble when too many compiler are instanciated.
@@ -21,7 +24,7 @@ describe('norska-js', () => {
       to: `${tmpDirectory}/dist`,
       js: module.defaultConfig(),
     });
-    await firost.emptyDir(tmpDirectory);
+    await emptyDir(tmpDirectory);
   });
   describe('loadConfig', () => {
     it('should return false if the entry point does not exist', async () => {
@@ -31,35 +34,35 @@ describe('norska-js', () => {
     });
     it('should return the object with correct entry if exists', async () => {
       const input = config.fromPath('script.js');
-      await firost.write('foo', input);
+      await write('foo', input);
 
       const actual = await module.loadConfig();
 
       expect(actual).toHaveProperty('entry', input);
     });
     it('should set the output path', async () => {
-      await firost.write('foo', config.fromPath('script.js'));
+      await write('foo', config.fromPath('script.js'));
 
       const actual = await module.loadConfig();
 
       expect(actual).toHaveProperty('output.path', config.to());
     });
     it('should set the output filename', async () => {
-      await firost.write('foo', config.fromPath('script.js'));
+      await write('foo', config.fromPath('script.js'));
 
       const actual = await module.loadConfig();
 
       expect(actual).toHaveProperty('output.filename', 'script.js');
     });
     it('should use development config by default', async () => {
-      await firost.write('foo', config.fromPath('script.js'));
+      await write('foo', config.fromPath('script.js'));
 
       const actual = await module.loadConfig();
 
       expect(actual).toHaveProperty('mode', 'development');
     });
     it('should use production values in production', async () => {
-      await firost.write('foo', config.fromPath('script.js'));
+      await write('foo', config.fromPath('script.js'));
       jest.spyOn(helper, 'isProduction').mockReturnValue(true);
 
       const actual = await module.loadConfig();
@@ -152,7 +155,7 @@ describe('norska-js', () => {
     beforeEach(async () => {
       jest.spyOn(module, 'getOutputStats').mockReturnValue();
       jest
-        .spyOn(firost, 'spinner')
+        .spyOn(module, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     describe('in dev', () => {
@@ -169,28 +172,28 @@ describe('norska-js', () => {
         expect(actual).toEqual(false);
       });
       it('should compile script.js in destination', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
 
         await module.run();
 
-        const actual = await firost.isFile(config.toPath('script.js'));
+        const actual = await isFile(config.toPath('script.js'));
         expect(actual).toEqual(true);
       });
       it('should not create a source map file', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
-        const actual = await firost.isFile(config.toPath('script.js.map'));
+        const actual = await isFile(config.toPath('script.js.map'));
         expect(actual).toEqual(false);
       });
       it('should display timing results', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
         expect(module.getOutputStats).toHaveBeenCalled();
       });
       it('should fill the runtime config with the asset list', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
         const actual = config.get('runtime.jsFiles');
@@ -198,7 +201,7 @@ describe('norska-js', () => {
       });
       describe('with errors', () => {
         it('should display error', async () => {
-          await firost.write('b@d code!', config.fromPath('script.js'));
+          await write('b@d code!', config.fromPath('script.js'));
 
           let actual = null;
           try {
@@ -222,26 +225,26 @@ describe('norska-js', () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
       it('should fill the runtime with the asset list', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
         const actual = config.get('runtime.jsFiles');
         expect(actual[0]).toEqual(expect.stringMatching(/script\.(.*)\.js/));
       });
       it('should create revved assets', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
         const filepath = config.get('runtime.jsFiles')[0];
-        const actual = await firost.isFile(config.toPath(filepath));
+        const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
       });
       it('should create a source map file', async () => {
-        await firost.write('console.log("ok");', config.fromPath('script.js'));
+        await write('console.log("ok");', config.fromPath('script.js'));
         await module.run();
 
         const filepath = config.get('runtime.jsFiles')[0];
-        const actual = await firost.isFile(config.toPath(`${filepath}.map`));
+        const actual = await isFile(config.toPath(`${filepath}.map`));
         expect(actual).toEqual(true);
       });
     });
@@ -253,39 +256,39 @@ describe('norska-js', () => {
         module.__compiler = null;
         firstRun = false;
       }
-      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
-      jest.spyOn(firost, 'consoleError').mockReturnValue();
+      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
+      jest.spyOn(module, '__consoleError').mockReturnValue();
     });
     afterEach(async () => {
       await module.unwatch();
     });
     it('should recompile the input file whenever it is changed', async () => {
-      await firost.write('console.log("ok");', config.fromPath('script.js'));
+      await write('console.log("ok");', config.fromPath('script.js'));
       await module.watch();
       await pEvent(module.pulse, 'build');
 
-      await firost.write('console.log("bar");', config.fromPath('script.js'));
+      await write('console.log("bar");', config.fromPath('script.js'));
       await pEvent(module.pulse, 'build');
-      const actual = await firost.read(config.toPath('script.js'));
+      const actual = await read(config.toPath('script.js'));
       expect(actual).toContain('console.log("bar")');
     });
     it('should fire an error event when compilation fails', async () => {
-      jest.spyOn(firost, 'consoleError').mockReturnValue();
-      await firost.write('console.log("ok");', config.fromPath('script.js'));
+      jest.spyOn(module, '__consoleError').mockReturnValue();
+      await write('console.log("ok");', config.fromPath('script.js'));
       await module.watch();
       await pEvent(module.pulse, 'build');
 
-      await firost.write('b@@@@d code', config.fromPath('script.js'));
+      await write('b@@@@d code', config.fromPath('script.js'));
       await pEvent(module.pulse, 'buildError');
 
-      expect(firost.consoleError).toHaveBeenCalledWith(
+      expect(module.__consoleError).toHaveBeenCalledWith(
         expect.stringContaining('Unexpected token')
       );
     });
     it('should update the list of jsFiles in runtime', async () => {
       config.set('runtime.jsFiles', ['foo.js']);
 
-      await firost.write('console.log("foo");', config.fromPath('script.js'));
+      await write('console.log("foo");', config.fromPath('script.js'));
       await module.watch();
       await pEvent(module.pulse, 'build');
 

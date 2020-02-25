@@ -1,23 +1,24 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "1.2.1",
+    "firost": "1.3.0",
     "golgoth": "1.1.1",
     "norska-config": "^0.5.37"
   },
   "description": "Initialize a new Norska project",
-  "files": ["lib/*.js", "templates/"],
+  "files": [
+    "lib/*.js",
+    "templates/"
+  ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "./build/index.js",
+  "main": "./lib/main.js",
   "name": "norska-init",
   "repository": "https://github.com/pixelastic/norska/modules/norska-init",
   "scripts": {
-    "build": "../../scripts/local/build",
-    "build:watch": "../../scripts/local/build-watch",
     "lint": "../../scripts/local/lint",
     "lint:fix": "../../scripts/local/lint-fix",
-    "release": "../../scripts/local/release",
+    "release": "../../scripts/meta/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },

@@ -1,4 +1,4 @@
-const module = require('../index');
+const module = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
 const firost = require('firost');

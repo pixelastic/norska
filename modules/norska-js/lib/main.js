@@ -1,6 +1,5 @@
 const EventEmitter = require('events');
 const config = require('norska-config');
-const firost = require('firost');
 const helper = require('norska-helper');
 const webpackDevConfig = require('./webpack.dev.config.js');
 const webpackProdConfig = require('./webpack.prod.config.js');
@@ -8,6 +7,11 @@ const webpack = require('webpack');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
 const pify = require('golgoth/lib/pify');
+const consoleError = require('firost/lib/consoleError');
+const consoleSuccess = require('firost/lib/consoleSuccess');
+const spinner = require('firost/lib/spinner');
+const exist = require('firost/lib/exist');
+const firostError = require('firost/lib/error');
 
 module.exports = {
   /**
@@ -45,7 +49,7 @@ module.exports = {
     });
     // Check that entry file exists, and fail early if it does not
     const entryFile = _.get(webpackConfig, 'entry', null);
-    if (!(await firost.exist(entryFile))) {
+    if (!(await exist(entryFile))) {
       return false;
     }
     return webpackConfig;
@@ -111,7 +115,7 @@ module.exports = {
    * @returns {boolean} True if compilation worked, false otherwise
    **/
   async run() {
-    const progress = firost.spinner();
+    const progress = this.__spinner();
     progress.tick('Compiling JavaScript');
     const compiler = await this.getCompiler();
     if (!compiler) {
@@ -123,7 +127,7 @@ module.exports = {
     if (stats.hasErrors()) {
       const errorMessage = this.errorMessage(stats);
       progress.failure('JavaScript compilation failed');
-      throw firost.error('ERROR_JS_COMPILATION_FAILED', errorMessage);
+      throw firostError('ERROR_JS_COMPILATION_FAILED', errorMessage);
     }
 
     const jsFiles = this.getEntrypointsFromStats(stats);
@@ -145,14 +149,14 @@ module.exports = {
       if (stats.hasErrors()) {
         this.pulse.emit('buildError', stats);
         const errorMessage = this.errorMessage(stats);
-        firost.consoleError(chalk.red(errorMessage));
+        this.__consoleError(chalk.red(errorMessage));
         return;
       }
 
       // Update list of runtime files so we can reload the HTML
       config.set('runtime.jsFiles', this.getEntrypointsFromStats(stats));
 
-      firost.consoleSuccess(this.getOutputStats(stats));
+      this.__consoleSuccess(this.getOutputStats(stats));
       this.pulse.emit('build', stats);
     });
   },
@@ -173,19 +177,12 @@ module.exports = {
    **/
   __compiler: null,
   /**
-   * Wrapper around webpack(), to make it easier to mock in tests
-   * @param {object} config Webpack config
-   * @returns {object} Webpack compiler
-   **/
-  __webpack: webpack,
-  /**
-   * Wrapper around pify(), to make it easier to mock in tests
-   * @param {Function} method Method to promisify
-   * @returns {Function} Promisified method
-   **/
-  __pify: pify,
-  /**
    * Event emitter to emit/listen to events
    **/
   pulse: new EventEmitter(),
+  __webpack: webpack,
+  __pify: pify,
+  __spinner: spinner,
+  __consoleError: consoleError,
+  __consoleSuccess: consoleSuccess,
 };

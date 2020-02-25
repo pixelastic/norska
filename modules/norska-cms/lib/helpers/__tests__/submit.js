@@ -1,8 +1,11 @@
 const module = require('../submit');
 const path = require('path');
-const cms = require('../../index.js');
-const firost = require('firost');
+const cms = require('../../main.js');
 const config = require('norska-config');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
+const read = require('firost/lib/read');
+const exist = require('firost/lib/exist');
 
 describe('helpers/submit', () => {
   const tmpPath = './tmp/norska-cms/helper/submit';
@@ -14,7 +17,7 @@ describe('helpers/submit', () => {
     jest.spyOn(cms, 'uploadTmpPath').mockReturnValue(uploadTmpPath);
     jest.spyOn(cms, 'uploadPath').mockReturnValue(uploadPath);
     jest.spyOn(config, 'from').mockReturnValue(srcPath);
-    await firost.emptyDir(tmpPath);
+    await emptyDir(tmpPath);
   });
   describe('getDataFromRequest', () => {
     describe('simple form', () => {
@@ -45,7 +48,7 @@ describe('helpers/submit', () => {
         expect(actual).toHaveProperty('screenshot', 'foo');
       });
       it('should return the upload path with extension if upload given', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -65,7 +68,7 @@ describe('helpers/submit', () => {
         expect(actual.screenshot).toMatch(/uuid.png$/);
       });
       it('should return the upload path in the uploads/ directory by defaul', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
         const input = {
           body: {
             'screenshot.uploadKey': 'screenshot',
@@ -86,7 +89,7 @@ describe('helpers/submit', () => {
         );
       });
       it('should save the uploaded file to the uploads/ folder', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -103,13 +106,13 @@ describe('helpers/submit', () => {
 
         const data = await module.getDataFromRequest(input);
 
-        const actual = await firost.read(config.fromPath(data.screenshot));
+        const actual = await read(config.fromPath(data.screenshot));
 
         expect(actual).toEqual('foo');
       });
       it('should delete the previous file if new upload given', async () => {
-        await firost.write('previous file', `${uploadPath}/old.png`);
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('previous file', `${uploadPath}/old.png`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -127,12 +130,12 @@ describe('helpers/submit', () => {
 
         await module.getDataFromRequest(input);
 
-        const actual = await firost.exist(`${uploadPath}/old.png`);
+        const actual = await exist(`${uploadPath}/old.png`);
 
         expect(actual).toEqual(false);
       });
       it('should allow changing the upload directory to static value', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -153,7 +156,7 @@ describe('helpers/submit', () => {
         expect(actual).toHaveProperty('screenshot', 'assets/uuid.png');
       });
       it('should allow changing the upload name to static value', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -177,7 +180,7 @@ describe('helpers/submit', () => {
         );
       });
       it('should allow changing the upload directory to dynamic value', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -199,7 +202,7 @@ describe('helpers/submit', () => {
         expect(actual).toHaveProperty('screenshot', 'assets/fooBar/uuid.png');
       });
       it('should allow changing the upload name to dynamic value', async () => {
-        await firost.write('foo', `${uploadTmpPath}/uuid`);
+        await write('foo', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -224,7 +227,7 @@ describe('helpers/submit', () => {
         );
       });
       it('should delete the previous file if .deletePreviousValue is set', async () => {
-        await firost.write('previous file', `${uploadPath}/old.png`);
+        await write('previous file', `${uploadPath}/old.png`);
 
         const input = {
           body: {
@@ -238,11 +241,11 @@ describe('helpers/submit', () => {
         const actual = await module.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', null);
-        expect(await firost.exist(`${uploadPath}/old.png`)).toEqual(false);
+        expect(await exist(`${uploadPath}/old.png`)).toEqual(false);
       });
       it('should not upload a new file if .deletePreviousValue is set', async () => {
-        await firost.write('previous file', `${uploadPath}/old.png`);
-        await firost.write('new file', `${uploadTmpPath}/uuid`);
+        await write('previous file', `${uploadPath}/old.png`);
+        await write('new file', `${uploadTmpPath}/uuid`);
 
         const input = {
           body: {
@@ -262,8 +265,8 @@ describe('helpers/submit', () => {
         const actual = await module.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', null);
-        expect(await firost.exist(`${uploadPath}/old.png`)).toEqual(false);
-        expect(await firost.exist(`${uploadPath}/uuid.png`)).toEqual(false);
+        expect(await exist(`${uploadPath}/old.png`)).toEqual(false);
+        expect(await exist(`${uploadPath}/uuid.png`)).toEqual(false);
       });
     });
     describe('checkboxes', () => {
@@ -320,8 +323,8 @@ describe('helpers/submit', () => {
       });
       describe('with upload', () => {
         it('should upload all files', async () => {
-          await firost.write('foo', `${uploadTmpPath}/uuid1`);
-          await firost.write('bar', `${uploadTmpPath}/uuid2`);
+          await write('foo', `${uploadTmpPath}/uuid1`);
+          await write('bar', `${uploadTmpPath}/uuid2`);
 
           const input = {
             body: {
@@ -346,12 +349,8 @@ describe('helpers/submit', () => {
 
           const data = await module.getDataFromRequest(input);
 
-          const uploadOne = await firost.read(
-            config.fromPath(data[0].screenshot)
-          );
-          const uploadTwo = await firost.read(
-            config.fromPath(data[1].screenshot)
-          );
+          const uploadOne = await read(config.fromPath(data[0].screenshot));
+          const uploadTwo = await read(config.fromPath(data[1].screenshot));
 
           expect(uploadOne).toEqual('foo');
           expect(uploadTwo).toEqual('bar');

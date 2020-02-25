@@ -4,18 +4,18 @@
     "golgoth": "1.1.1"
   },
   "description": "Set of common methods used by all helpers",
-  "files": ["lib/*.js"],
+  "files": [
+    "lib/*.js"
+  ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "./build/index.js",
+  "main": "./lib/main.js",
   "name": "norska-helper",
   "repository": "https://github.com/pixelastic/norska/modules/norska-helper",
   "scripts": {
-    "build": "../../scripts/local/build",
-    "build:watch": "../../scripts/local/build-watch",
     "lint": "../../scripts/local/lint",
     "lint:fix": "../../scripts/local/lint-fix",
-    "release": "../../scripts/local/release",
+    "release": "../../scripts/meta/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },

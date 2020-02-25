@@ -1,25 +1,25 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "1.2.1",
+    "firost": "1.3.0",
     "golgoth": "1.1.1",
     "norska-config": "^0.5.37",
     "norska-helper": "^0.5.34",
     "rev-hash": "^3.0.0"
   },
   "description": "Revving filenames after build",
-  "files": ["lib/*.js"],
+  "files": [
+    "lib/*.js"
+  ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "./build/index.js",
+  "main": "./lib/main.js",
   "name": "norska-revv",
   "repository": "https://github.com/pixelastic/norska/modules/norska-revv",
   "scripts": {
-    "build": "../../scripts/local/build",
-    "build:watch": "../../scripts/local/build-watch",
     "lint": "../../scripts/local/lint",
     "lint:fix": "../../scripts/local/lint-fix",
-    "release": "../../scripts/local/release",
+    "release": "../../scripts/meta/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },

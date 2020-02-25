@@ -1,17 +1,22 @@
 const config = require('norska-config');
 const path = require('path');
-const firost = require('firost');
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
 const pMapSeries = require('golgoth/lib/pMapSeries');
+const copy = require('firost/lib/copy');
+const exist = require('firost/lib/exist');
+const glob = require('firost/lib/glob');
+const readJson = require('firost/lib/readJson');
+const spinner = require('firost/lib/spinner');
+const writeJson = require('firost/lib/writeJson');
 
 module.exports = {
   /**
    * Init a directory with the needed norska scaffolding
    **/
   async run() {
-    const progress = firost.spinner();
-    const files = await firost.glob(
+    const progress = this.__spinner();
+    const files = await glob(
       [this.templatePath('**/*'), `!${this.templatePath('scripts')}`],
       { directories: false }
     );
@@ -22,11 +27,11 @@ module.exports = {
     progress.tick('Scaffolding ./src');
     await pMap(files, async source => {
       const destination = _.replace(source, templatePrefix, rootPrefix);
-      if (await firost.exist(destination)) {
+      if (await exist(destination)) {
         return;
       }
 
-      await firost.copy(source, destination);
+      await copy(source, destination);
     });
 
     progress.tick('Adding scripts');
@@ -49,7 +54,7 @@ module.exports = {
    **/
   async addScripts() {
     const packagePath = config.rootPath('package.json');
-    const currentPackage = await firost.readJson(packagePath);
+    const currentPackage = await readJson(packagePath);
     const currentScripts = _.get(currentPackage, 'scripts', {});
 
     const newScripts = [
@@ -69,12 +74,13 @@ module.exports = {
 
       // Copy the script file
       const destination = config.rootPath(filepath);
-      if (!(await firost.exist(destination))) {
+      if (!(await exist(destination))) {
         const source = this.templatePath(filepath);
-        await firost.copy(source, destination);
+        await copy(source, destination);
       }
     });
 
-    await firost.writeJson(currentPackage, packagePath);
+    await writeJson(currentPackage, packagePath);
   },
+  __spinner: spinner,
 };

@@ -1,11 +1,16 @@
 const config = require('norska-config');
-const firost = require('firost');
+const copy = require('firost/lib/copy');
+const exist = require('firost/lib/exist');
+const glob = require('firost/lib/glob');
 const helper = require('norska-helper');
-const path = require('path');
-const revHash = require('rev-hash');
-const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
+const path = require('path');
+const read = require('firost/lib/read');
+const revHash = require('rev-hash');
+const spinner = require('firost/lib/spinner');
 const timeSpan = require('golgoth/lib/timeSpan');
+const write = require('firost/lib/write');
+const _ = require('golgoth/lib/lodash');
 
 module.exports = {
   /**
@@ -48,7 +53,7 @@ module.exports = {
     const hashingMethod = config.get('revv.hashingMethod');
     if (!hashingMethod) {
       const fullPath = config.toPath(filepath);
-      const hash = revHash(await firost.read(fullPath));
+      const hash = revHash(await read(fullPath));
       const extname = path.extname(filepath);
       return _.replace(
         filepath,
@@ -66,7 +71,7 @@ module.exports = {
   async revvPath(filepath) {
     const fullPath = config.toPath(filepath);
 
-    if (!(await firost.exist(fullPath))) {
+    if (!(await exist(fullPath))) {
       return filepath;
     }
 
@@ -87,7 +92,7 @@ module.exports = {
    * @param {string} htmlPath Path to the HTML file to update
    **/
   async compile(htmlPath) {
-    let content = await firost.read(htmlPath);
+    let content = await read(htmlPath);
 
     const manifest = this.manifest();
     _.each(manifest, (revvedPath, basePath) => {
@@ -109,7 +114,7 @@ module.exports = {
       );
     });
 
-    await firost.write(content, htmlPath);
+    await write(content, htmlPath);
   },
   /**
    * Create a revved copy of each revved asset
@@ -123,7 +128,7 @@ module.exports = {
     await pMap(assets, async asset => {
       const basePath = config.toPath(asset.basePath);
       const revvedPath = config.toPath(asset.revvedPath);
-      await firost.copy(basePath, revvedPath);
+      await copy(basePath, revvedPath);
     });
   },
   /**
@@ -131,7 +136,7 @@ module.exports = {
    **/
   async run() {
     const timer = timeSpan();
-    const progress = firost.spinner();
+    const progress = this.__spinner();
     progress.tick('Revving assets');
     if (!helper.isProduction()) {
       progress.success('Revving skipped in dev');
@@ -140,7 +145,7 @@ module.exports = {
 
     try {
       await this.fillManifest();
-      const htmlFiles = await firost.glob(config.toPath('**/*.html'));
+      const htmlFiles = await glob(config.toPath('**/*.html'));
 
       await pMap(htmlFiles, async filepath => {
         await this.compile(filepath);
@@ -154,4 +159,5 @@ module.exports = {
 
     progress.success(`Assets revved in ${timer.rounded()}ms`);
   },
+  __spinner: spinner,
 };

@@ -1,5 +1,6 @@
 const module = require('../form');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
+const writeJson = require('firost/lib/writeJson');
 const _ = require('golgoth/lib/lodash');
 const objectWith = expect.objectContaining;
 
@@ -325,14 +326,14 @@ describe('helpers/form', () => {
   });
   describe('readFileSchema', () => {
     beforeEach(async () => {
-      await firost.emptyDir(tmpDirectory);
+      await emptyDir(tmpDirectory);
     });
     it('should return false if no schema exist for the file', async () => {
       const actual = await module.readFileSchema('nope');
       expect(actual).toEqual(false);
     });
     it('should return the schema if found', async () => {
-      await firost.writeJson({ foo: 'bar' }, `${tmpDirectory}/foo.schema.json`);
+      await writeJson({ foo: 'bar' }, `${tmpDirectory}/foo.schema.json`);
       const actual = await module.readFileSchema(`${tmpDirectory}/foo.json`);
       expect(actual).toEqual({ foo: 'bar' });
     });

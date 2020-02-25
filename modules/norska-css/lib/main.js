@@ -1,6 +1,5 @@
 const path = require('path');
 const config = require('norska-config');
-const firost = require('firost');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
 const timeSpan = require('golgoth/lib/timeSpan');
@@ -13,6 +12,14 @@ const postcssClean = require('postcss-clean');
 const postcssPurge = require('@fullhuman/postcss-purgecss');
 const purgeHtml = require('purge-from-html');
 const tailwind = require('tailwindcss');
+const firostError = require('firost/lib/error');
+const consoleError = require('firost/lib/consoleError');
+const consoleSuccess = require('firost/lib/consoleSuccess');
+const read = require('firost/lib/read');
+const write = require('firost/lib/write');
+const spinner = require('firost/lib/spinner');
+const watch = require('firost/lib/watch');
+const exists = require('firost/lib/exists');
 
 module.exports = {
   /**
@@ -75,13 +82,13 @@ module.exports = {
 
     // We only compile files that are in the source directory
     if (!_.startsWith(absoluteSource, sourceFolder)) {
-      throw firost.error(
+      throw firostError(
         'ERROR_CSS_COMPILATION_FAILED',
         `${absoluteSource} is not in the source directory.`
       );
     }
 
-    const rawContent = await firost.read(absoluteSource);
+    const rawContent = await read(absoluteSource);
     const compiler = await this.getCompiler();
 
     let compiledCss;
@@ -91,10 +98,10 @@ module.exports = {
       });
       compiledCss = _.get(compilationResult, 'css');
     } catch (err) {
-      throw firost.error('ERROR_CSS_COMPILATION_FAILED', err.toString());
+      throw firostError('ERROR_CSS_COMPILATION_FAILED', err.toString());
     }
 
-    await firost.write(compiledCss, absoluteDestination);
+    await this.__write(compiledCss, absoluteDestination);
 
     return true;
   },
@@ -104,7 +111,7 @@ module.exports = {
    **/
   async run() {
     const timer = timeSpan();
-    const progress = firost.spinner();
+    const progress = this.__spinner();
     progress.tick('Compiling CSS');
 
     try {
@@ -137,23 +144,23 @@ module.exports = {
     watchPatterns.push(tailwindConfig);
 
     // Rebuild the entrypoint whenever something changed
-    await firost.watch(watchPatterns, async () => {
+    await watch(watchPatterns, async () => {
       try {
         const timer = timeSpan();
         const relativePath = path.relative(config.from(), inputFile);
         await this.compile(inputFile);
-        firost.consoleSuccess(
+        this.__consoleSuccess(
           `${relativePath} compiled in ${timer.rounded()}ms`
         );
       } catch (error) {
-        firost.consoleError(chalk.red(error.message));
+        this.__consoleError(chalk.red(error.message));
       }
     });
   },
   async getTailwindConfigPath() {
     // First check in the host
     const configFromHost = config.rootPath('tailwind.config.js');
-    if (await firost.exists(configFromHost)) {
+    if (await exists(configFromHost)) {
       return configFromHost;
     }
 
@@ -228,4 +235,8 @@ module.exports = {
    * @returns {object} A tailwind plugin instance
    **/
   __pluginTailwind: tailwind,
+  __consoleSuccess: consoleSuccess,
+  __consoleError: consoleError,
+  __write: write,
+  __spinner: spinner,
 };

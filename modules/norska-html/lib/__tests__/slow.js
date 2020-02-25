@@ -1,8 +1,15 @@
-const module = require('../index');
+const module = require('../main');
 const config = require('norska-config');
 const data = require('norska-data');
-const firost = require('firost');
 const pEvent = require('p-event');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
+const read = require('firost/lib/read');
+const unwatchAll = require('firost/lib/unwatchAll');
+const waitForWatchers = require('firost/lib/waitForWatchers');
+const mkdirp = require('firost/lib/mkdirp');
+const writeJson = require('firost/lib/writeJson');
+const uuid = require('firost/lib/uuid');
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/slow';
@@ -11,162 +18,154 @@ describe('norska-html', () => {
       from: `${tmpDirectory}/src`,
       to: `${tmpDirectory}/dist`,
     });
-    await firost.emptyDir(tmpDirectory);
+    await emptyDir(tmpDirectory);
   });
   describe('watch', () => {
     beforeEach(async () => {
-      jest.spyOn(firost, 'consoleWarn').mockReturnValue();
-      jest.spyOn(firost, 'consoleSuccess').mockReturnValue();
-      await firost.mkdirp(config.from());
+      jest.spyOn(module, '__consoleWarn').mockReturnValue();
+      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
+      await mkdirp(config.from());
       data.clearCache();
       jest
-        .spyOn(firost, 'spinner')
+        .spyOn(module, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     afterEach(async () => {
-      await firost.unwatchAll();
+      await unwatchAll();
     });
     describe('individual files', () => {
       it('should recompile individual pug files when changed', async () => {
-        await firost.write('p foo', config.fromPath('index.pug'));
+        await write('p foo', config.fromPath('index.pug'));
         await module.watch();
-        await firost.write('p bar', config.fromPath('index.pug'));
+        await write('p bar', config.fromPath('index.pug'));
 
-        await firost.waitForWatchers();
-        const actual = await firost.read(config.toPath('index.html'));
+        await waitForWatchers();
+        const actual = await read(config.toPath('index.html'));
         expect(actual).toEqual('<p>bar</p>');
       });
       it('should compile individual pug files when created', async () => {
         await module.watch();
-        await firost.write('p foo', config.fromPath('index.pug'));
+        await write('p foo', config.fromPath('index.pug'));
 
-        await firost.waitForWatchers();
-        const actual = await firost.read(config.toPath('index.html'));
+        await waitForWatchers();
+        const actual = await read(config.toPath('index.html'));
         expect(actual).toEqual('<p>foo</p>');
       });
     });
     describe('_data/', () => {
       describe('json', () => {
         it('should run everything when files in _data/ are created', async () => {
-          await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
+          await write('p=data.foo.bar', config.fromPath('index.pug'));
           await module.watch();
-          await firost.writeJson(
-            { bar: 'baz' },
-            config.fromPath('_data/foo.json')
-          );
+          await writeJson({ bar: 'baz' }, config.fromPath('_data/foo.json'));
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('<p>baz</p>');
         });
         it('should run everything when files in _data/ are modified', async () => {
-          await firost.writeJson(
-            { bar: 'baz' },
-            config.fromPath('_data/foo.json')
-          );
-          await firost.write('p=data.foo.bar', config.fromPath('index.pug'));
+          await writeJson({ bar: 'baz' }, config.fromPath('_data/foo.json'));
+          await write('p=data.foo.bar', config.fromPath('index.pug'));
           await module.watch();
-          await firost.writeJson(
-            { bar: 'quxx' },
-            config.fromPath('_data/foo.json')
-          );
+          await writeJson({ bar: 'quxx' }, config.fromPath('_data/foo.json'));
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('<p>quxx</p>');
         });
       });
       describe('js', () => {
         it('should run everything when files in _data/ are created', async () => {
-          const uuid = firost.uuid();
-          await firost.write(
-            `p=data['${uuid}'].bar`,
+          const uniqueId = uuid();
+          await write(
+            `p=data['${uniqueId}'].bar`,
             config.fromPath('index.pug')
           );
           await module.watch();
-          await firost.write(
-            'export default { bar: "baz" }',
-            config.fromPath(`_data/${uuid}.js`)
+          await write(
+            'module.exports = { bar: "baz" }',
+            config.fromPath(`_data/${uniqueId}.js`)
           );
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('<p>baz</p>');
         });
         it('should run everything when .js files in _data/ are modified', async () => {
-          const uuid = firost.uuid();
-          await firost.write(
-            'export default { bar: "baz" }',
-            config.fromPath(`_data/${uuid}.js`)
+          jest.spyOn(data, 'updateCache');
+          const uniqueId = uuid();
+          await write(
+            'module.exports = { bar: "baz" }',
+            config.fromPath(`_data/${uniqueId}.js`)
           );
-          await firost.write(
-            `p=data['${uuid}'].bar`,
+          await write(
+            `p=data['${uniqueId}'].bar`,
             config.fromPath('index.pug')
           );
           await module.watch();
-          await firost.write(
-            'export default { bar: "quxx" }',
-            config.fromPath(`_data/${uuid}.js`)
+          await write(
+            'module.exports = { bar: "quxx" }',
+            config.fromPath(`_data/${uniqueId}.js`)
           );
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
-          expect(actual).toEqual('<p>quxx</p>');
+          await waitForWatchers();
+
+          expect(data.updateCache).toHaveBeenCalled();
         });
       });
     });
     describe('includes', () => {
       describe('pug', () => {
         it('should run everything when an included file is added', async () => {
-          await firost.write(
+          await write(
             'extends /_includes/layout',
             config.fromPath('index.pug')
           );
           await module.watch();
-          await firost.write('p foo', config.fromPath('_includes/layout.pug'));
+          await write('p foo', config.fromPath('_includes/layout.pug'));
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('<p>foo</p>');
         });
         it('should run everything when an included file is modified', async () => {
-          await firost.write(
+          await write(
             'extends /_includes/layout',
             config.fromPath('index.pug')
           );
-          await firost.write('p foo', config.fromPath('_includes/layout.pug'));
+          await write('p foo', config.fromPath('_includes/layout.pug'));
           await module.watch();
-          await firost.write('p bar', config.fromPath('_includes/layout.pug'));
+          await write('p bar', config.fromPath('_includes/layout.pug'));
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('<p>bar</p>');
         });
       });
       describe('any extension', () => {
         it('should run everything when an included file is added', async () => {
-          await firost.write(
+          await write(
             'include /_includes/include.txt',
             config.fromPath('index.pug')
           );
           await module.watch();
-          await firost.write('foo', config.fromPath('_includes/include.txt'));
+          await write('foo', config.fromPath('_includes/include.txt'));
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('foo');
         });
         it('should run everything when an included file is modified', async () => {
-          await firost.write(
+          await write(
             'include /_includes/include.txt',
             config.fromPath('index.pug')
           );
-          await firost.write('foo', config.fromPath('_includes/include.txt'));
+          await write('foo', config.fromPath('_includes/include.txt'));
           await module.watch();
-          await firost.write('bar', config.fromPath('_includes/include.txt'));
+          await write('bar', config.fromPath('_includes/include.txt'));
 
-          await firost.waitForWatchers();
-          const actual = await firost.read(config.toPath('index.html'));
+          await waitForWatchers();
+          const actual = await read(config.toPath('index.html'));
           expect(actual).toEqual('bar');
         });
       });
@@ -176,29 +175,26 @@ describe('norska-html', () => {
         config.set('runtime.jsFiles', []);
       });
       it('should run everything whenever the runtime.jsFiles is updated', async () => {
-        await firost.write('p=runtime.jsFiles', config.fromPath('index.pug'));
+        await write('p=runtime.jsFiles', config.fromPath('index.pug'));
         await module.watch();
         config.set('runtime.jsFiles', ['anything.js']);
 
         await pEvent(module.pulse, 'run');
-        const actual = await firost.read(config.toPath('index.html'));
+        const actual = await read(config.toPath('index.html'));
         expect(actual).toEqual('<p>anything.js</p>');
       });
     });
     describe('compilation errors', () => {
       beforeEach(() => {
-        jest.spyOn(firost, 'consoleError').mockReturnValue();
+        jest.spyOn(module, '__consoleError').mockReturnValue();
       });
       it('should display the errors', async () => {
         await module.watch();
-        await firost.write(
-          'p.invalid:syntax foo',
-          config.fromPath('error.pug')
-        );
+        await write('p.invalid:syntax foo', config.fromPath('error.pug'));
 
-        await firost.waitForWatchers();
+        await waitForWatchers();
 
-        expect(firost.consoleError).toHaveBeenCalledWith(
+        expect(module.__consoleError).toHaveBeenCalledWith(
           expect.stringMatching('Unexpected token')
         );
       });

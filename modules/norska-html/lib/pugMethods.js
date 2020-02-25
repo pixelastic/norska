@@ -82,4 +82,4 @@ module.exports = function(data, destination) {
   };
 
   return methods;
-}
+};

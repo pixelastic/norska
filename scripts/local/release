@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-set -e
-
-# Run the release from the root
-# It allows us to run *all* the tests and not only the ones from the current
-# module
-cd ../..
-yarn run release "$@"

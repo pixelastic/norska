@@ -3,7 +3,7 @@
   "dependencies": {
     "connect-livereload": "0.6.1",
     "express": "4.17.1",
-    "firost": "1.2.1",
+    "firost": "1.3.0",
     "golgoth": "1.1.1",
     "livereload": "0.9.1",
     "multer": "1.4.2",
@@ -14,19 +14,20 @@
     "open": "6.4.0"
   },
   "description": "Edit _data folder interactively",
-  "files": ["lib/*.js", "server/"],
+  "files": [
+    "lib/*.js",
+    "server/"
+  ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "./build/index.js",
+  "main": "./lib/main.js",
   "name": "norska-cms",
   "repository": "https://github.com/pixelastic/norska/modules/norska-cms",
   "scripts": {
-    "build": "./scripts/build",
-    "build:css": "node -r esm ./scripts/build-css.js",
-    "build:watch": "../../scripts/local/build-watch",
+    "build": "node ./scripts/build.js",
     "lint": "../../scripts/local/lint",
     "lint:fix": "../../scripts/local/lint-fix",
-    "release": "../../scripts/local/release",
+    "release": "../../scripts/meta/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },

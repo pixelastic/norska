@@ -3520,6 +3520,11 @@ caller-path@^2.0.0:
   dependencies:
     caller-callsite "^2.0.0"
 
+callsite@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/callsite/-/callsite-1.0.0.tgz#280398e5d664bd74038b6f0905153e6e8af1bc20"
+  integrity sha1-KAOY5dZkvXQDi28JBRU+borxvCA=
+
 callsites@3.1.0, callsites@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-3.1.0.tgz#b3630abd8943432f54b3f0519238e33cd7df2f73"
@@ -5026,10 +5031,10 @@ enhanced-resolve@^4.1.0:
     memory-fs "^0.5.0"
     tapable "^1.0.0"
 
-ensure-url-trailing-slash@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.2.tgz#ef06a5bb19b3c4bfcc6e87cf56fb0fed9f338597"
-  integrity sha512-cGDOYMjqS+B8XoXZsZg7y1WHHga4zF7gZb3oCbGJx7VFDB/G7Ifa517g60QPEcMqSbrnBcj0wcDhff6XXSBnWQ==
+ensure-url-trailing-slash@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.4.tgz#dc59c09bf1bc4482a0e90d6abfceb9095f42b126"
+  integrity sha512-kyxqon4xxQcvTPStoizkuLjUJn5GQweO3ANvLozAG9fbb2SFxbS0/N9d1Paf7V5n+eRLxQZ9pZ2oULU9YVXj6w==
 
 entities@^1.1.1:
   version "1.1.2"
@@ -5779,6 +5784,27 @@ firost@1.2.1:
     shelljs "0.8.3"
     which "2.0.2"
 
+firost@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/firost/-/firost-1.3.0.tgz#49baf87f39d4f6be5d7714dc54ee087202a77bd6"
+  integrity sha512-HPzc6UHxddLRenI6N74mzaA8OW2Fm/QVHYEvlbZUN+78RrIFYaJV6YvVQebOphjYAxXGi/3vB5F7eiUzlngREw==
+  dependencies:
+    callsite "1.0.0"
+    chokidar "3.3.1"
+    esm "3.2.25"
+    eventemitter2 "6.0.0"
+    execa "4.0.0"
+    fs-extra "8.1.0"
+    globby "11.0.0"
+    golgoth "1.1.1"
+    inquirer "7.0.4"
+    is-glob "4.0.1"
+    json-stable-stringify "1.0.1"
+    nanoid "2.1.11"
+    ora "4.0.3"
+    shelljs "0.8.3"
+    which "2.0.2"
+
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
@@ -6178,7 +6204,7 @@ globby@10.0.2:
     merge2 "^1.2.3"
     slash "^3.0.0"
 
-globby@^11.0.0:
+globby@11.0.0, globby@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/globby/-/globby-11.0.0.tgz#56fd0e9f0d4f8fb0c456f1ab0dee96e1380bc154"
   integrity sha512-iuehFnR3xu5wBBtm4xi0dMe92Ob87ufyu/dHwpDYfbcpYpIbrO5OnS8M1vWvrBhSGEJ3/Ecj7gnX76P8YxpPEg==

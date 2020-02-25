@@ -1,6 +1,7 @@
-const module = require('../index');
+const module = require('../main');
 const path = require('path');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
 
 describe('norska-config', () => {
   describe('rootDir', () => {
@@ -308,7 +309,7 @@ describe('norska-config', () => {
   describe('fileConfig', () => {
     beforeEach(async () => {
       jest.spyOn(module, 'rootDir').mockReturnValue('./tmp/norska-config');
-      await firost.emptyDir(module.rootPath());
+      await emptyDir(module.rootPath());
     });
     it('should return {} if no config file', async () => {
       const actual = await module.fileConfig();
@@ -316,14 +317,14 @@ describe('norska-config', () => {
       expect(actual).toEqual({});
     });
     it('should require the file and return it if found', async () => {
-      jest.spyOn(firost, 'require').mockReturnValue({ foo: 'bar' });
+      jest.spyOn(module, '__require').mockReturnValue({ foo: 'bar' });
       const configPath = module.rootPath('norska.config.js');
-      await firost.write('// anything', configPath);
+      await write('// anything', configPath);
 
       const actual = await module.fileConfig();
 
       expect(actual).toHaveProperty('foo', 'bar');
-      expect(firost.require).toHaveBeenCalledWith(configPath);
+      expect(module.__require).toHaveBeenCalledWith(configPath);
     });
   });
 });

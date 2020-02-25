@@ -11,7 +11,10 @@ const liveServer = require('live-server');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
 const pAll = require('golgoth/lib/pAll');
-const firost = require('firost');
+const consoleError = require('firost/lib/consoleError');
+const exit = require('firost/lib/exit');
+const mkdirp = require('firost/lib/mkdirp');
+const remove = require('firost/lib/remove');
 
 module.exports = {
   /**
@@ -24,8 +27,8 @@ module.exports = {
     // Stop early if no such command exists
     const safelist = ['build', 'cms', 'init', 'screenshot', 'serve'];
     if (!_.includes(safelist, command)) {
-      firost.consoleError(`Unknown command ${chalk.red(command)}`);
-      firost.exit(1);
+      this.__consoleError(`Unknown command ${chalk.red(command)}`);
+      this.__exit(1);
       return;
     }
 
@@ -61,9 +64,9 @@ module.exports = {
    **/
   async build() {
     if (helper.isProduction()) {
-      await firost.remove(config.to());
+      await remove(config.to());
     }
-    await firost.mkdirp(config.to());
+    await mkdirp(config.to());
 
     try {
       // We unfortunately need to run those in sequence
@@ -77,9 +80,9 @@ module.exports = {
       await assets.run();
       await revv.run();
     } catch (error) {
-      firost.consoleError(chalk.red(error.code || 'Build Error'));
-      firost.consoleError(chalk.red(error.message));
-      firost.exit(1);
+      this.__consoleError(chalk.red(error.code || 'Build Error'));
+      this.__consoleError(chalk.red(error.message));
+      this.__exit(1);
     }
   },
   /**
@@ -107,4 +110,6 @@ module.exports = {
   async cms() {
     await cms.run();
   },
+  __consoleError: consoleError,
+  __exit: exit,
 };

@@ -1,4 +1,4 @@
-const module = require('../index');
+const module = require('../main');
 const helper = require('norska-helper');
 const assets = require('norska-assets');
 const js = require('norska-js');
@@ -8,7 +8,10 @@ const revv = require('norska-revv');
 const config = require('norska-config');
 const init = require('norska-init');
 const liveServer = require('live-server');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
+const exist = require('firost/lib/exist');
+const write = require('firost/lib/write');
+const firostError = require('firost/lib/error');
 
 describe('norska', () => {
   describe('initConfig', () => {
@@ -67,8 +70,8 @@ describe('norska', () => {
   });
   describe('run', () => {
     beforeEach(() => {
-      jest.spyOn(firost, 'exit').mockReturnValue();
-      jest.spyOn(firost, 'consoleError').mockReturnValue();
+      jest.spyOn(module, '__exit').mockReturnValue();
+      jest.spyOn(module, '__consoleError').mockReturnValue();
       jest.spyOn(module, 'build').mockReturnValue();
       jest.spyOn(module, 'init').mockReturnValue();
       jest.spyOn(module, 'serve').mockReturnValue();
@@ -109,8 +112,8 @@ describe('norska', () => {
 
       await module.run(input);
 
-      expect(firost.exit).toHaveBeenCalledWith(1);
-      expect(firost.consoleError).toHaveBeenCalledWith(
+      expect(module.__exit).toHaveBeenCalledWith(1);
+      expect(module.__consoleError).toHaveBeenCalledWith(
         expect.stringMatching('Unknown command')
       );
     });
@@ -133,11 +136,11 @@ describe('norska', () => {
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
       });
-      await firost.emptyDir(tmpDirectory);
+      await emptyDir(tmpDirectory);
     });
     beforeEach(async () => {
-      jest.spyOn(firost, 'exit').mockReturnValue();
-      jest.spyOn(firost, 'consoleError').mockReturnValue();
+      jest.spyOn(module, '__exit').mockReturnValue();
+      jest.spyOn(module, '__consoleError').mockReturnValue();
       jest.spyOn(js, 'run').mockReturnValue();
       jest.spyOn(html, 'run').mockReturnValue();
       jest.spyOn(css, 'run').mockReturnValue();
@@ -169,30 +172,30 @@ describe('norska', () => {
     it('should create the destination directory', async () => {
       await module.build();
 
-      expect(await firost.exist(config.to())).toEqual(true);
+      expect(await exist(config.to())).toEqual(true);
     });
     it('should clear the destination directory in production', async () => {
-      await firost.write('foo', config.toPath('something.js'));
+      await write('foo', config.toPath('something.js'));
       jest.spyOn(helper, 'isProduction').mockReturnValue(true);
 
       await module.build();
 
-      expect(await firost.exist(config.toPath('something.js'))).toEqual(false);
+      expect(await exist(config.toPath('something.js'))).toEqual(false);
     });
     it('should exit with error if one of the build command fails', async () => {
       html.run.mockImplementation(() => {
-        throw firost.error('ERROR_CODE', 'error message');
+        throw firostError('ERROR_CODE', 'error message');
       });
 
       await module.build();
 
-      expect(firost.consoleError).toHaveBeenCalledWith(
+      expect(module.__consoleError).toHaveBeenCalledWith(
         expect.stringContaining('ERROR_CODE')
       );
-      expect(firost.consoleError).toHaveBeenCalledWith(
+      expect(module.__consoleError).toHaveBeenCalledWith(
         expect.stringContaining('error message')
       );
-      expect(firost.exit).toHaveBeenCalledWith(1);
+      expect(module.__exit).toHaveBeenCalledWith(1);
     });
   });
   describe('serve', () => {
