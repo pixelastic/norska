@@ -1,4 +1,4 @@
-import module from '../index';
+const module = require('../index');
 
 describe('norska-helper', () => {
   describe('isProduction', () => {

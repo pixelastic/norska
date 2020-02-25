@@ -1,6 +1,5 @@
-/* eslint-disable import/no-commonjs */
 module.exports = {
-  extends: ['./node_modules/aberlaas/build/configs/eslint.js'],
+  extends: ['./node_modules/aberlaas/lib/configs/eslint.js'],
   overrides: [
     {
       // Ignore require/import errors in templates

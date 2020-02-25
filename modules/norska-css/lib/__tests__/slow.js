@@ -1,7 +1,7 @@
-import module from '../index';
-import config from 'norska-config';
-import helper from 'norska-helper';
-import firost from 'firost';
+const module = require('../index');
+const config = require('norska-config');
+const helper = require('norska-helper');
+const firost = require('firost');
 
 // This tests are slow as they actually really compile CSS through postCSS. We
 // put them in their own file to easily ignore them when watching tests

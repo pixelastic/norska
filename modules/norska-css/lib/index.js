@@ -1,18 +1,20 @@
-import path from 'path';
-import config from 'norska-config';
-import firost from 'firost';
-import { _, timeSpan, chalk } from 'golgoth';
-import helper from 'norska-helper';
-import postcss from 'postcss';
-import postcssAutoprefixer from 'autoprefixer';
-import postcssImport from 'postcss-import';
-import postcssNested from 'postcss-nested';
-import postcssClean from 'postcss-clean';
-import postcssPurge from '@fullhuman/postcss-purgecss';
-import purgeHtml from 'purge-from-html';
-import tailwind from 'tailwindcss';
+const path = require('path');
+const config = require('norska-config');
+const firost = require('firost');
+const _ = require('golgoth/lib/lodash');
+const chalk = require('golgoth/lib/chalk');
+const timeSpan = require('golgoth/lib/timeSpan');
+const helper = require('norska-helper');
+const postcss = require('postcss');
+const postcssAutoprefixer = require('autoprefixer');
+const postcssImport = require('postcss-import');
+const postcssNested = require('postcss-nested');
+const postcssClean = require('postcss-clean');
+const postcssPurge = require('@fullhuman/postcss-purgecss');
+const purgeHtml = require('purge-from-html');
+const tailwind = require('tailwindcss');
 
-export default {
+module.exports = {
   /**
    * Default configuration object
    * @returns {object} Default module config

@@ -1,9 +1,11 @@
-import { _, pMap, timeSpan } from 'golgoth';
-import config from 'norska-config';
-import firost from 'firost';
-import path from 'path';
+const _ = require('golgoth/lib/lodash');
+const pMap = require('golgoth/lib/pMap');
+const timeSpan = require('golgoth/lib/timeSpan');
+const config = require('norska-config');
+const firost = require('firost');
+const path = require('path');
 
-export default {
+module.exports = {
   /**
    * Default configuration object
    * @returns {object} Default module config

@@ -1,15 +1,18 @@
-import EventEmitter from 'events';
-import config from 'norska-config';
-import data from 'norska-data';
-import ensureUrlTrailingSlash from 'ensure-url-trailing-slash';
-import firost from 'firost';
-import helper from 'norska-helper';
-import path from 'path';
-import pugMethods from './pugMethods';
-import pug from 'pug';
-import { _, pMap, chalk, timeSpan } from 'golgoth';
+const EventEmitter = require('events');
+const config = require('norska-config');
+const data = require('norska-data');
+const ensureUrlTrailingSlash = require('ensure-url-trailing-slash');
+const firost = require('firost');
+const helper = require('norska-helper');
+const path = require('path');
+const pugMethods = require('./pugMethods');
+const pug = require('pug');
+const _ = require('golgoth/lib/lodash');
+const chalk = require('golgoth/lib/chalk');
+const pMap = require('golgoth/lib/pMap');
+const timeSpan = require('golgoth/lib/timeSpan');
 
-export default {
+module.exports = {
   /**
    * Returns the list of pug files to be processed by the plugin
    * @returns {Array} List of absolute path to pug files to process

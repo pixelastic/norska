@@ -1,8 +1,8 @@
-import module from '../submit';
-import path from 'path';
-import cms from '../../index.js';
-import firost from 'firost';
-import config from 'norska-config';
+const module = require('../submit');
+const path = require('path');
+const cms = require('../../index.js');
+const firost = require('firost');
+const config = require('norska-config');
 
 describe('helpers/submit', () => {
   const tmpPath = './tmp/norska-cms/helper/submit';

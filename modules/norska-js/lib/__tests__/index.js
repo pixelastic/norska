@@ -1,8 +1,8 @@
-import module from '../index';
-import config from 'norska-config';
-import firost from 'firost';
-import helper from 'norska-helper';
-import pEvent from 'p-event';
+const module = require('../index');
+const config = require('norska-config');
+const firost = require('firost');
+const helper = require('norska-helper');
+const pEvent = require('p-event');
 
 // Note:
 // Webpack seems to have trouble when too many compiler are instanciated.

@@ -1,8 +1,8 @@
-import module from '../index';
-import config from 'norska-config';
-import data from 'norska-data';
-import firost from 'firost';
-import pEvent from 'p-event';
+const module = require('../index');
+const config = require('norska-config');
+const data = require('norska-data');
+const firost = require('firost');
+const pEvent = require('p-event');
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/slow';

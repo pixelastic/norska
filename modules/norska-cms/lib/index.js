@@ -1,15 +1,15 @@
-import path from 'path';
-import config from 'norska-config';
-import express from 'express';
-import firost from 'firost';
-import norskaCss from 'norska-css';
-import { _ } from 'golgoth';
-import livereload from 'livereload';
-import connectLivereload from 'connect-livereload';
-import open from 'open';
-import multer from 'multer';
+const path = require('path');
+const config = require('norska-config');
+const express = require('express');
+const firost = require('firost');
+const norskaCss = require('norska-css');
+const _ = require('golgoth/lib/lodash');
+const livereload = require('livereload');
+const connectLivereload = require('connect-livereload');
+const open = require('open');
+const multer = require('multer');
 
-export default {
+module.exports = {
   /**
    * Default plugin configuration
    * @returns {object} Default plugin configuration

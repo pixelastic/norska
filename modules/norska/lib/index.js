@@ -1,17 +1,19 @@
-import assets from 'norska-assets';
-import cms from 'norska-cms';
-import config from 'norska-config';
-import css from 'norska-css';
-import helper from 'norska-helper';
-import revv from 'norska-revv';
-import html from 'norska-html';
-import init from 'norska-init';
-import js from 'norska-js';
-import liveServer from 'live-server';
-import { pAll, chalk, _ } from 'golgoth';
-import firost from 'firost';
+const assets = require('norska-assets');
+const cms = require('norska-cms');
+const config = require('norska-config');
+const css = require('norska-css');
+const helper = require('norska-helper');
+const revv = require('norska-revv');
+const html = require('norska-html');
+const init = require('norska-init');
+const js = require('norska-js');
+const liveServer = require('live-server');
+const _ = require('golgoth/lib/lodash');
+const chalk = require('golgoth/lib/chalk');
+const pAll = require('golgoth/lib/pAll');
+const firost = require('firost');
 
-export default {
+module.exports = {
   /**
    * Parses CLI args and run the appropriate command
    * @param {object} cliArgs CLI Args, as returned by minimist

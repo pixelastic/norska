@@ -1,9 +1,10 @@
-import config from 'norska-config';
-import firost from 'firost';
-import path from 'path';
-import { _, pMap } from 'golgoth';
+const config = require('norska-config');
+const firost = require('firost');
+const path = require('path');
+const _ = require('golgoth/lib/lodash');
+const pMap = require('golgoth/lib/pMap');
 
-export default {
+module.exports = {
   __cache: {},
   /**
    * Check if the cache is currently filled

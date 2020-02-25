@@ -1,5 +1,6 @@
-import firost from 'firost';
-import { _, pMap } from 'golgoth';
+const firost = require('firost');
+const _ = require('golgoth/lib/lodash');
+const pMap = require('golgoth/lib/pMap');
 
 // Those modules will be updated to the latest available version
 const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];

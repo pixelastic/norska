@@ -1,9 +1,9 @@
-import module from '../index';
-import config from 'norska-config';
-import data from 'norska-data';
-import helper from 'norska-helper';
-import revv from 'norska-revv';
-import firost from 'firost';
+const module = require('../index');
+const config = require('norska-config');
+const data = require('norska-data');
+const helper = require('norska-helper');
+const revv = require('norska-revv');
+const firost = require('firost');
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/index';

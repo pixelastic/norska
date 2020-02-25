@@ -1,6 +1,6 @@
-import { _ } from 'golgoth';
+const _ = require('golgoth/lib/lodash');
 
-export default {
+module.exports = {
   /**
    * Wrapper to get the current process.env.NODE_ENV variable.
    * Wrapping it makes it easier to mock in tests

@@ -1,14 +1,14 @@
-import config from 'norska-config';
-import cms from '../index.js';
-import firost from 'firost';
-import path from 'path';
+const config = require('norska-config');
+const cms = require('../index.js');
+const firost = require('firost');
+const path = require('path');
 
 /**
  * Updates a data JSON file on disk with new data
  * @param {object} req The Express Request object
  * @param {object} res The Express Response object
  **/
-export default async function index(req, res) {
+module.exports = async function index(req, res) {
   const helperPath = path.resolve(cms.helpersPath(), 'submit.js');
   const helper = firost.require(helperPath, { forceReload: true });
 

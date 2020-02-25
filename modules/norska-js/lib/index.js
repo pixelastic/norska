@@ -1,13 +1,15 @@
-import EventEmitter from 'events';
-import config from 'norska-config';
-import firost from 'firost';
-import helper from 'norska-helper';
-import webpackDevConfig from './webpack.dev.config.js';
-import webpackProdConfig from './webpack.prod.config.js';
-import webpack from 'webpack';
-import { _, pify, chalk } from 'golgoth';
+const EventEmitter = require('events');
+const config = require('norska-config');
+const firost = require('firost');
+const helper = require('norska-helper');
+const webpackDevConfig = require('./webpack.dev.config.js');
+const webpackProdConfig = require('./webpack.prod.config.js');
+const webpack = require('webpack');
+const _ = require('golgoth/lib/lodash');
+const chalk = require('golgoth/lib/chalk');
+const pify = require('golgoth/lib/pify');
 
-export default {
+module.exports = {
   /**
    * Default configuration object
    * @returns {object} Default module config

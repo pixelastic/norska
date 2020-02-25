@@ -1,9 +1,9 @@
-import EventEmitter from 'events';
-import path from 'path';
-import { _ } from 'golgoth';
-import firost from 'firost';
+const EventEmitter = require('events');
+const path = require('path');
+const _ = require('golgoth/lib/lodash');
+const firost = require('firost');
 
-export default {
+module.exports = {
   /**
    * Return absolute path to the host dir
    * @returns {string} Absolute path to host dir

@@ -1,9 +1,10 @@
-import { _, pMap } from 'golgoth';
-import path from 'path';
-import cms from '../index.js';
-import config from 'norska-config';
-import firost from 'firost';
-export default {
+const _ = require('golgoth/lib/lodash');
+const pMap = require('golgoth/lib/pMap');
+const path = require('path');
+const cms = require('../index.js');
+const config = require('norska-config');
+const firost = require('firost');
+module.exports = {
   /**
    * Return the data to save to file from the request sent by the form
    * @param {object} req Express request

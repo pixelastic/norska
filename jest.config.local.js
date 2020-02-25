@@ -1,4 +1,3 @@
-/* eslint-disable import/no-commonjs */
 /**
  * This config file is used by modules, to run their tests individually. See the
  * "Monorepo quirks" entry in the README to get more context about why this file

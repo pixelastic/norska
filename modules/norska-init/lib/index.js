@@ -1,9 +1,11 @@
-import config from 'norska-config';
-import path from 'path';
-import firost from 'firost';
-import { _, pMap, pMapSeries } from 'golgoth';
+const config = require('norska-config');
+const path = require('path');
+const firost = require('firost');
+const _ = require('golgoth/lib/lodash');
+const pMap = require('golgoth/lib/pMap');
+const pMapSeries = require('golgoth/lib/pMapSeries');
 
-export default {
+module.exports = {
   /**
    * Init a directory with the needed norska scaffolding
    **/

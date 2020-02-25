@@ -1,15 +1,15 @@
-import config from 'norska-config';
-import path from 'path';
-import { _ } from 'golgoth';
-import cms from '../index.js';
-import firost from 'firost';
+const config = require('norska-config');
+const path = require('path');
+const _ = require('golgoth/lib/lodash');
+const cms = require('../index.js');
+const firost = require('firost');
 
 /**
  * Displays a form allowing editing a file
  * @param {object} req The Express Request object
  * @param {object} res The Express Response object
  **/
-export default async function index(req, res) {
+module.exports = async function index(req, res) {
   const helperPath = path.resolve(cms.helpersPath(), 'form.js');
   const helper = firost.require(helperPath, { forceReload: true });
 

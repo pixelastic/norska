@@ -1,7 +1,7 @@
-import module from '../index';
-import path from 'path';
-import firost from 'firost';
-import config from 'norska-config';
+const module = require('../index');
+const path = require('path');
+const firost = require('firost');
+const config = require('norska-config');
 
 describe('norska-init', () => {
   beforeEach(async () => {

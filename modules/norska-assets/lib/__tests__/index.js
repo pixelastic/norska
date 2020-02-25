@@ -1,6 +1,6 @@
-import module from '../index';
-import config from 'norska-config';
-import firost from 'firost';
+const module = require('../index');
+const config = require('norska-config');
+const firost = require('firost');
 
 describe('norska-assets', () => {
   describe('globs', () => {

@@ -4,7 +4,7 @@
 // import isPortReachable from 'is-port-reachable';
 // import { chalk } from 'golgoth';
 
-export default {
+module.exports = {
   // This is currently disabled to make installing deps faster
   // async run(options) {
   //   const timer = helper.timer();

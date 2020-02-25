@@ -1,6 +1,6 @@
-import module from '../form';
-import firost from 'firost';
-import { _ } from 'golgoth';
+const module = require('../form');
+const firost = require('firost');
+const _ = require('golgoth/lib/lodash');
 const objectWith = expect.objectContaining;
 
 describe('helpers/form', () => {

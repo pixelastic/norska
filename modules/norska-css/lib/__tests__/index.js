@@ -1,8 +1,8 @@
-import module from '../index';
-import config from 'norska-config';
-import helper from 'norska-helper';
-import firost from 'firost';
-import path from 'path';
+const module = require('../index');
+const config = require('norska-config');
+const helper = require('norska-helper');
+const firost = require('firost');
+const path = require('path');
 
 describe('norska-css', () => {
   const tmpDirectory = './tmp/norska-css/index';

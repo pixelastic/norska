@@ -1,7 +1,7 @@
-import module from '../pugMethods.js';
-import helper from 'norska-helper';
-import config from 'norska-config';
-import firost from 'firost';
+const module = require('../pugMethods.js');
+const helper = require('norska-helper');
+const config = require('norska-config');
+const firost = require('firost');
 
 describe('norska-html/pugMethods', () => {
   let mockData, mockDestination;

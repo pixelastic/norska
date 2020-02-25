@@ -1,13 +1,5 @@
 {
-  "name": "norska",
-  "version": "0.5.41",
-  "description": "Opinionated static website generator",
   "author": "Pixelastic <tim@pixelastic.com>",
-  "repository": "https://github.com/pixelastic/norska/",
-  "homepage": "https://github.com/pixelastic/norska/",
-  "license": "MIT",
-  "main": "./build/index.js",
-  "files": ["build/", "bin/", "reset.css"],
   "bin": {
     "norska": "./bin/norska"
   },
@@ -26,6 +18,13 @@
     "norska-js": "^0.5.40",
     "norska-revv": "^0.5.39"
   },
+  "description": "Opinionated static website generator",
+  "files": ["lib/*.js", "bin/", "reset.css"],
+  "homepage": "https://github.com/pixelastic/norska/",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "name": "norska",
+  "repository": "https://github.com/pixelastic/norska/",
   "scripts": {
     "build": "../../scripts/local/build",
     "build:watch": "../../scripts/local/build-watch",
@@ -34,5 +33,6 @@
     "release": "../../scripts/local/release",
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
-  }
+  },
+  "version": "0.5.41"
 }

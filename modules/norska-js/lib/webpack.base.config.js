@@ -1,6 +1,6 @@
-import path from 'path';
+const path = require('path');
 
-export default {
+module.exports = {
   // Loader are imported relative to the files they load. We need to
   // overwrite where Webpack should look for them to load them from
   // norska-js and not the root project running norska.

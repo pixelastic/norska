@@ -1,12 +1,12 @@
-import { _ } from 'golgoth';
-import fs from 'fs';
-import path from 'path';
-import config from 'norska-config';
-import helper from 'norska-helper';
-import revv from 'norska-revv';
-import pug from 'pug';
-import markdownIt from 'markdown-it';
-import markdownItHighlight from 'markdown-it-highlightjs';
+const _ = require('golgoth/lib/lodash');
+const fs = require('fs');
+const path = require('path');
+const config = require('norska-config');
+const helper = require('norska-helper');
+const revv = require('norska-revv');
+const pug = require('pug');
+const markdownIt = require('markdown-it');
+const markdownItHighlight = require('markdown-it-highlightjs');
 const markdown = markdownIt({
   html: true,
   linkify: true,
@@ -20,7 +20,7 @@ const markdown = markdownIt({
  * @param {string} destination Path to the created file
  * @returns {object} Custom methods available in pug files
  **/
-export default function(data, destination) {
+module.exports = function(data, destination) {
   const methods = {
     // Making lodash available in pug files
     _,

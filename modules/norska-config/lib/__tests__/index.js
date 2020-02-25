@@ -1,6 +1,6 @@
-import module from '../index';
-import path from 'path';
-import firost from 'firost';
+const module = require('../index');
+const path = require('path');
+const firost = require('firost');
 
 describe('norska-config', () => {
   describe('rootDir', () => {

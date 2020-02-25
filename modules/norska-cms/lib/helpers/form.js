@@ -1,10 +1,10 @@
-import { _ } from 'golgoth';
-import firost from 'firost';
+const _ = require('golgoth/lib/lodash');
+const firost = require('firost');
 /**
  * Helper method to get input field types from data. Those fields will be used
  * to create the add/edit UI
  **/
-export default {
+module.exports = {
   async getFieldsFromFilepath(filepath) {
     const data = await firost.readJson(filepath);
     const readFileSchema = await this.readFileSchema(filepath);

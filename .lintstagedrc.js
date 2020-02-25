@@ -1,4 +1,3 @@
-/* eslint-disable import/no-commonjs */
 module.exports = {
   '*.css': ['./scripts/meta/lint --css --fix', 'git add'],
   '*.yml': ['./scripts/meta/lint --yml --fix', 'git add'],
