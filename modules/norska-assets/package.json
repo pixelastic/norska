@@ -7,15 +7,13 @@
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
-  "files": [
-    "build/"
-  ],
+  "files": ["build/"],
   "dependencies": {
-    "golgoth": "0.6.4",
+    "golgoth": "1.1.1",
     "norska-config": "^0.5.37"
   },
   "devDependencies": {
-    "firost": "0.21.0"
+    "firost": "1.2.1"
   },
   "scripts": {
     "build": "../../scripts/local/build",

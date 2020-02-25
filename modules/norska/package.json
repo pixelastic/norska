@@ -7,17 +7,13 @@
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./build/index.js",
-  "files": [
-    "build/",
-    "bin/",
-    "reset.css"
-  ],
+  "files": ["build/", "bin/", "reset.css"],
   "bin": {
     "norska": "./bin/norska"
   },
   "dependencies": {
-    "firost": "0.21.0",
-    "golgoth": "0.6.4",
+    "firost": "1.2.1",
+    "golgoth": "1.1.1",
     "live-server": "1.2.1",
     "minimist": "1.2.0",
     "norska-assets": "^0.5.37",
