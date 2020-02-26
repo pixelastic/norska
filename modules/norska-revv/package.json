@@ -9,8 +9,7 @@
   },
   "description": "Revving filenames after build",
   "files": [
-    "lib/",
-    "!**/__tests__/"
+    "lib/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

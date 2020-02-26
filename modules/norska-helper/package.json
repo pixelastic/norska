@@ -5,8 +5,7 @@
   },
   "description": "Set of common methods used by all helpers",
   "files": [
-    "lib/",
-    "!**/__tests__/"
+    "lib/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

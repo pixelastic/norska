@@ -20,10 +20,9 @@
   },
   "description": "Opinionated static website generator",
   "files": [
-    "lib/",
+    "lib/*.js",
     "bin/",
-    "reset.css",
-    "!**/__tests__/"
+    "reset.css"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
