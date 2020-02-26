@@ -15,8 +15,9 @@
   },
   "description": "Edit _data folder interactively",
   "files": [
-    "lib/*.js",
-    "server/"
+    "lib/",
+    "server/",
+    "!**/__tests__/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

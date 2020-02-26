@@ -6,7 +6,8 @@
   },
   "description": "Configuration object shared across Norska modules",
   "files": [
-    "lib/*.js"
+    "lib/",
+    "!**/__tests__/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

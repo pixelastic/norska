@@ -15,7 +15,8 @@
     "p-event": "4.1.0"
   },
   "files": [
-    "lib/*.js"
+    "lib/",
+    "!**/__tests__/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

@@ -10,7 +10,8 @@
   },
   "description": "Take screenshots of pages, for use as OpenGraph picture",
   "files": [
-    "lib/*.js"
+    "lib/",
+    "!**/__tests__/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

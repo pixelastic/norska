@@ -17,8 +17,9 @@
   },
   "description": "Compile .css files through postcss and Tailwind",
   "files": [
-    "lib/*.js",
-    "reset.css"
+    "lib/",
+    "reset.css",
+    "!**/__tests__/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

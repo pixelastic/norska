@@ -7,8 +7,9 @@
   },
   "description": "Initialize a new Norska project",
   "files": [
-    "lib/*.js",
-    "templates/"
+    "lib/",
+    "templates/",
+    "!**/__tests__/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
