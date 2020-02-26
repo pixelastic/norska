@@ -8,8 +8,13 @@
     "golgoth": "1.1.1",
     "lerna": "3.20.2"
   },
+  "files": [
+    "lib/",
+    "!**/__tests__"
+  ],
   "homepage": "https://github.com/pixelastic/norska",
   "license": "MIT",
+  "main": "lib/main.js",
   "name": "norska-monorepo",
   "private": true,
   "repository": "git@github.com:pixelastic/norska.git",
