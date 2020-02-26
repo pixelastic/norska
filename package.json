@@ -14,17 +14,12 @@
   "private": true,
   "repository": "git@github.com:pixelastic/norska.git",
   "scripts": {
-    "build": "./scripts/meta/build",
-    "build:prod": "./scripts/build-prod",
-    "build:watch": "./scripts/meta/build-watch",
     "ci": "./scripts/ci",
-    "cms": "./scripts/cms",
     "husky:precommit": "./scripts/meta/husky-precommit",
     "learn": "lerna",
     "lint": "./scripts/meta/lint",
     "lint:fix": "./scripts/meta/lint-fix",
     "release": "./scripts/meta/release",
-    "serve": "./scripts/serve",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch",
     "update-dependencies": "node ./scripts/meta/update-dependencies"

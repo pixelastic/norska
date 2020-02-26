@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-set -e
-
-lerna run --concurrency 3 --stream build
