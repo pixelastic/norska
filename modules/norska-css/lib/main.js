@@ -20,6 +20,7 @@ const write = require('firost/lib/write');
 const spinner = require('firost/lib/spinner');
 const watch = require('firost/lib/watch');
 const exists = require('firost/lib/exists');
+const defaultConfig = require('./config.js');
 
 module.exports = {
   /**
@@ -27,11 +28,8 @@ module.exports = {
    * @returns {object} Default module config
    **/
   defaultConfig() {
-    return {
-      input: 'style.css',
-    };
+    return defaultConfig;
   },
-
   /**
    * Returns the list of postCSS plugins to load, based on the current env (prod or dev)
    * @returns {Array} Array of configured plugins

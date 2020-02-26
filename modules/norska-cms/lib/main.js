@@ -10,16 +10,15 @@ const multer = require('multer');
 const read = require('firost/lib/read');
 const write = require('firost/lib/write');
 const firostRequire = require('firost/lib/require');
+const defaultConfig = require('./config.js');
 
 module.exports = {
   /**
-   * Default plugin configuration
-   * @returns {object} Default plugin configuration
+   * Default configuration object
+   * @returns {object} Default module config
    **/
   defaultConfig() {
-    return {
-      port: 3000,
-    };
+    return defaultConfig;
   },
   /**
    * Path to the views folder used by the app

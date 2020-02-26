@@ -11,6 +11,7 @@ const spinner = require('firost/lib/spinner');
 const timeSpan = require('golgoth/lib/timeSpan');
 const write = require('firost/lib/write');
 const _ = require('golgoth/lib/lodash');
+const defaultConfig = require('./config.js');
 
 module.exports = {
   /**
@@ -18,9 +19,7 @@ module.exports = {
    * @returns {object} Default module config
    **/
   defaultConfig() {
-    return {
-      hashingMethod: null, // Set this to a method to override the hashing method
-    };
+    return defaultConfig;
   },
   /**
    * Convenience method to read/write in the cached manifest

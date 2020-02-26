@@ -15,48 +15,49 @@ const firostError = require('firost/lib/error');
 
 describe('norska', () => {
   describe('initConfig', () => {
-    beforeEach(() => {
-      jest.spyOn(assets, 'defaultConfig').mockReturnValue();
-      jest.spyOn(css, 'defaultConfig').mockReturnValue();
-      jest.spyOn(js, 'defaultConfig').mockReturnValue();
-      jest.spyOn(config, 'init').mockReturnValue();
-    });
     it('should pass the cliArgs to the config.init script', async () => {
+      jest.spyOn(module, '__configInit');
       const input = { _: [], foo: 'bar' };
 
       await module.initConfig(input);
 
-      expect(config.init).toHaveBeenCalledWith(input, expect.anything());
-    });
-    it('should pass the assets config', async () => {
-      assets.defaultConfig.mockReturnValue({ foo: 'bar' });
-
-      await module.initConfig({});
-
-      expect(config.init).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({ assets: { foo: 'bar' } })
+      expect(module.__configInit).toHaveBeenCalledWith(
+        input,
+        expect.anything()
       );
     });
-    it('should pass the css config', async () => {
-      css.defaultConfig.mockReturnValue({ foo: 'bar' });
+    describe('default configs', () => {
+      it('assets', async () => {
+        await module.initConfig({});
+        const actual = config.get(testName);
 
-      await module.initConfig({});
+        expect(actual).toHaveProperty('files');
+      });
+      it('cms', async () => {
+        await module.initConfig({});
+        const actual = config.get(testName);
 
-      expect(config.init).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({ css: { foo: 'bar' } })
-      );
-    });
-    it('should pass the js config', async () => {
-      js.defaultConfig.mockReturnValue({ foo: 'bar' });
+        expect(actual).toHaveProperty('port');
+      });
+      it('css', async () => {
+        await module.initConfig({});
+        const actual = config.get(testName);
 
-      await module.initConfig({});
+        expect(actual).toHaveProperty('input');
+      });
+      it('revv', async () => {
+        await module.initConfig({});
+        const actual = config.get(testName);
 
-      expect(config.init).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({ js: { foo: 'bar' } })
-      );
+        expect(actual).toHaveProperty('hashingMethod');
+      });
+      it('js', async () => {
+        await module.initConfig({});
+        const actual = config.get(testName);
+
+        expect(actual).toHaveProperty('input');
+        expect(actual).toHaveProperty('output');
+      });
     });
   });
   describe('init', () => {

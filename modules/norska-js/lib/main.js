@@ -12,6 +12,7 @@ const consoleSuccess = require('firost/lib/consoleSuccess');
 const spinner = require('firost/lib/spinner');
 const exist = require('firost/lib/exist');
 const firostError = require('firost/lib/error');
+const defaultConfig = require('./config.js');
 
 module.exports = {
   /**
@@ -19,10 +20,7 @@ module.exports = {
    * @returns {object} Default module config
    **/
   defaultConfig() {
-    return {
-      input: 'script.js',
-      output: 'script.js',
-    };
+    return defaultConfig;
   },
   /**
    * Return the correct Webpack config object

@@ -8,6 +8,7 @@ const spinner = require('firost/lib/spinner');
 const timeSpan = require('golgoth/lib/timeSpan');
 const watch = require('firost/lib/watch');
 const _ = require('golgoth/lib/lodash');
+const defaultConfig = require('./config.js');
 
 module.exports = {
   /**
@@ -15,22 +16,7 @@ module.exports = {
    * @returns {object} Default module config
    **/
   defaultConfig() {
-    return {
-      files: [
-        // Static files
-        '**/*.{html,txt}',
-        // Images
-        '**/*.{ico,jpg,gif,png,svg}',
-        // Fonts
-        '**/*.{eot,otf,ttf,woff,woff2}',
-        // Documents
-        '**/*.pdf',
-        // Netlify
-        '_redirects',
-        '_headers',
-        'netlify.toml',
-      ],
-    };
+    return defaultConfig;
   },
   /**
    * Copy a static file from source to destination, keeping the same directory

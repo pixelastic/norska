@@ -1,12 +1,12 @@
-const assets = require('norska-assets');
-const cms = require('norska-cms');
 const config = require('norska-config');
-const css = require('norska-css');
 const helper = require('norska-helper');
-const revv = require('norska-revv');
-const html = require('norska-html');
-const init = require('norska-init');
-const js = require('norska-js');
+// const assets = require('norska-assets');
+// const cms = require('norska-cms');
+// const css = require('norska-css');
+// const revv = require('norska-revv');
+// const html = require('norska-html');
+// const init = require('norska-init');
+// const js = require('norska-js');
 const liveServer = require('live-server');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
@@ -18,16 +18,22 @@ const remove = require('firost/lib/remove');
 
 module.exports = {
   /**
+   * List of allowed commands to run
+   * @returns {Array} List of allowed commands to run
+   **/
+  safelist() {
+    return ['build', 'cms', 'init', 'serve'];
+  },
+  /**
    * Parses CLI args and run the appropriate command
    * @param {object} cliArgs CLI Args, as returned by minimist
    **/
   async run(cliArgs) {
-    const command = _.get(cliArgs, '_[0]', 'build');
+    const commandName = _.get(cliArgs, '_[0]', 'build');
 
     // Stop early if no such command exists
-    const safelist = ['build', 'cms', 'init', 'screenshot', 'serve'];
-    if (!_.includes(safelist, command)) {
-      this.__consoleError(`Unknown command ${chalk.red(command)}`);
+    if (!_.includes(this.safelist(), commandName)) {
+      this.__consoleError(`Unknown command ${chalk.red(commandName)}`);
       this.__exit(1);
       return;
     }
@@ -36,7 +42,12 @@ module.exports = {
     cliArgs._ = _.drop(cliArgs._, 1);
     await this.initConfig(cliArgs);
 
-    await this[command]();
+    try {
+      await this[commandName]();
+    } catch (err) {
+      this.__consoleError(err.message);
+      this.__exit(1);
+    }
   },
   /**
    * Init the config singleton with both the user-defined values passed from the
@@ -45,19 +56,19 @@ module.exports = {
    **/
   async initConfig(cliArgs) {
     const modulesConfig = {
-      assets: assets.defaultConfig(),
-      cms: cms.defaultConfig(),
-      css: css.defaultConfig(),
-      js: js.defaultConfig(),
-      revv: revv.defaultConfig(),
+      assets: require('norska-assets/lib/config'),
+      cms: require('norska-cms/lib/config'),
+      css: require('norska-css/lib/config'),
+      js: require('norska-js/lib/config'),
+      revv: require('norska-revv/lib/config'),
     };
-    await config.init(cliArgs, modulesConfig);
+    await this.__configInit(cliArgs, modulesConfig);
   },
   /**
    * Init a new norska project, by scaffolding needed files
    **/
   async init() {
-    await init.run();
+    await require('norska-init').run();
   },
   /**
    * Build the website, compiling all files in .from()
@@ -67,6 +78,12 @@ module.exports = {
       await remove(config.to());
     }
     await mkdirp(config.to());
+
+    const js = require('norska-js');
+    const html = require('norska-html');
+    const css = require('norska-css');
+    const assets = require('norska-assets');
+    const revv = require('norska-revv');
 
     try {
       // We unfortunately need to run those in sequence
@@ -92,6 +109,11 @@ module.exports = {
   async serve() {
     await this.build();
 
+    const js = require('norska-js');
+    const html = require('norska-html');
+    const css = require('norska-css');
+    const assets = require('norska-assets');
+
     await pAll([
       async () => await html.watch(),
       async () => await css.watch(),
@@ -108,8 +130,10 @@ module.exports = {
    * Start the local CMS, to edit _data files
    **/
   async cms() {
-    await cms.run();
+    await require('norska-cms').run();
   },
   __consoleError: consoleError,
   __exit: exit,
+  __require: require,
+  __configInit: config.init.bind(config),
 };
