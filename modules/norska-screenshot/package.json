@@ -5,8 +5,8 @@
     "golgoth": "1.1.1",
     "is-port-reachable": "2.0.1",
     "live-server": "1.2.1",
-    "norska-config": "^0.5.37",
-    "norska-helper": "^0.5.34"
+    "norska-config": "^0.6.0",
+    "norska-helper": "^0.6.0"
   },
   "description": "Take screenshots of pages, for use as OpenGraph picture",
   "files": [
@@ -26,5 +26,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.5.37"
+  "version": "0.6.0"
 }
