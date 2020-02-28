@@ -115,8 +115,32 @@ module.exports = {
     }
 
     const relativeSource = path.relative(sourceFolder, absoluteSource);
-    const relativeDestination = _.replace(relativeSource, /\.pug$/, '.html');
-    return await this.createPage(relativeSource, relativeDestination);
+    const relativeDestination = this.getDestinationPath(relativeSource);
+    await this.createPage(relativeSource, relativeDestination);
+
+    // // Also create a pretty url custom/index.html
+    // const basename = path.basename(relativeDestination);
+    // if (basename !== 'index.html') {
+    //   const htmlSource = config.toPath(relativeDestination);
+    //   const prettyDestination = htmlSource.replace(/\.html$/, '/index.html');
+    //   await this.createPage(relativeSource, prettyDestination);
+    //   await copy(htmlSource, prettyDestination);
+    // }
+  },
+  /**
+   * Return the path to the output file from a pug file
+   * This will create pretty urls, using the basename as a directory name and
+   * creating an index.html file
+   * @param {string} inputPath Path to the pug file
+   * @returns {string} Path to the html file
+   **/
+  getDestinationPath(inputPath) {
+    const basename = path.basename(inputPath, '.pug');
+    if (basename === 'index') {
+      return inputPath.replace(/\.pug$/, '.html');
+    }
+
+    return inputPath.replace(/\.pug$/, '/index.html');
   },
   /**
    * Compile all source files to html

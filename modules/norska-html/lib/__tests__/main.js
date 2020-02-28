@@ -78,14 +78,40 @@ describe('norska-html', () => {
       expect(actual).toEqual('<p>quux</p>');
     });
   });
+  describe('getDestinationPath', () => {
+    it('index.pug', async () => {
+      const expected = 'index.html';
+      const actual = module.getDestinationPath(testName);
+
+      expect(actual).toEqual(expected);
+    });
+    it('foo.pug', async () => {
+      const expected = 'foo/index.html';
+      const actual = module.getDestinationPath(testName);
+
+      expect(actual).toEqual(expected);
+    });
+    it('foo/index.pug', async () => {
+      const expected = 'foo/index.html';
+      const actual = module.getDestinationPath(testName);
+
+      expect(actual).toEqual(expected);
+    });
+    it('foo/bar.pug', async () => {
+      const expected = 'foo/bar/index.html';
+      const actual = module.getDestinationPath(testName);
+
+      expect(actual).toEqual(expected);
+    });
+  });
   describe('compile', () => {
     beforeEach(async () => {
       jest.spyOn(module, '__consoleWarn').mockReturnValue();
       data.clearCache();
     });
     describe('simple files', () => {
-      it('index.html', async () => {
-        const input = config.fromPath('index.pug');
+      it('index.pug', async () => {
+        const input = config.fromPath(testName);
         const output = config.toPath('index.html');
         await write('p foo', input);
 
@@ -94,9 +120,9 @@ describe('norska-html', () => {
         const actual = await read(output);
         expect(actual).toEqual('<p>foo</p>');
       });
-      it('subdir/index.html', async () => {
-        const input = config.fromPath('subdir/index.pug');
-        const output = config.toPath('subdir/index.html');
+      it('foo.pug', async () => {
+        const input = config.fromPath(testName);
+        const output = config.toPath('foo/index.html');
         await write('p foo', input);
 
         await module.compile(input);
@@ -104,8 +130,8 @@ describe('norska-html', () => {
         const actual = await read(output);
         expect(actual).toEqual('<p>foo</p>');
       });
-      it('subdir/deep/index.html', async () => {
-        const input = config.fromPath('subdir/deep/index.pug');
+      it('subdir/deep/index.pug', async () => {
+        const input = config.fromPath(testName);
         const output = config.toPath('subdir/deep/index.html');
         await write('p foo', input);
 
