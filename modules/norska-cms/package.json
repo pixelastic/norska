@@ -16,6 +16,8 @@
   "description": "Edit _data folder interactively",
   "files": [
     "lib/*.js",
+    "lib/helpers/*.js",
+    "lib/pages/*.js",
     "server/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
