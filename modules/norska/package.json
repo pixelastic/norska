@@ -9,7 +9,7 @@
     "live-server": "1.2.1",
     "minimist": "1.2.0",
     "norska-assets": "^0.7.0",
-    "norska-cms": "^0.7.1",
+    "norska-cms": "^0.7.2",
     "norska-config": "^0.7.0",
     "norska-css": "^0.7.0",
     "norska-helper": "^0.7.0",
@@ -36,5 +36,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.7.1"
+  "version": "0.7.2"
 }
