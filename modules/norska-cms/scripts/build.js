@@ -1,4 +1,4 @@
-const norskaCms = require('../lib/index.js');
+const norskaCms = require('../lib/main.js');
 
 (async function() {
   try {

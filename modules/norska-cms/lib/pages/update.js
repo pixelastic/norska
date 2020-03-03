@@ -1,5 +1,5 @@
 const config = require('norska-config');
-const cms = require('../index.js');
+const cms = require('../main.js');
 const firostRequire = require('firost/lib/require');
 const writeJson = require('firost/lib/writeJson');
 const path = require('path');

@@ -1,7 +1,7 @@
 const config = require('norska-config');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
-const cms = require('../index.js');
+const cms = require('../main.js');
 const firostRequire = require('firost/lib/require');
 
 /**
