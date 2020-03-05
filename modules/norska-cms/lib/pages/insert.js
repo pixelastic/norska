@@ -1,5 +1,6 @@
 const cms = require('../main.js');
 const firostRequire = require('firost/lib/require');
+const readJson = require('firost/lib/readJson');
 const writeJson = require('firost/lib/writeJson');
 const path = require('path');
 const config = require('norska-config');
@@ -13,10 +14,12 @@ module.exports = async function index(req, res) {
   const helperPath = path.resolve(cms.helpersPath(), 'submit.js');
   const helper = firostRequire(helperPath, { forceReload: true });
 
-  const data = await helper.getDataFromRequest(req);
+  const newItem = await helper.getDataFromRequest(req, config);
 
   const { fileName } = req.params;
   const filepath = config.fromPath(`_data/${fileName}`);
+  const data = await readJson(filepath);
+  data.push(newItem);
   await writeJson(data, filepath);
 
   // res.render('debug', {
@@ -26,5 +29,5 @@ module.exports = async function index(req, res) {
   //     files: req.files,
   //   },
   // });
-  res.redirect('/');
+  res.redirect(`/add/${fileName}`);
 };

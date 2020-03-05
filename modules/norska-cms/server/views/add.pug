@@ -4,13 +4,10 @@ block content
   .flrnw
     .fla
       .mb-2.text-5
-        .blue.bold=fileName
-    .fln.flcnw.flc
-      if isList
-        a.text-4.bg-blue.px-1.py-02.white.rounded-2.hover_bg-blue-7(href=`/add/${fileName}`) Add new entry
+        .blue.bold=`Adding new entry to ${fileName}`
 
   .border.border-gray-4.rounded-2.bg-gray-4
-    form(action=`/update/${fileName}` enctype="multipart/form-data" method="post")
+    form(action=`/insert/${fileName}` enctype="multipart/form-data" method="post")
       each field in fields
         +formField(field)
       .flrnw.p-1.flrar

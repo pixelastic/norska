@@ -15,9 +15,18 @@ module.exports = async function index(req, res) {
 
   const { fileName } = req.params;
   const fullDataPath = config.fromPath(`_data/${fileName}`);
-  const fields = await helper.getFieldsFromFilepath(fullDataPath);
+  const allFields = await helper.getFieldsFromFilepath(fullDataPath);
+  const fields = _.chain(allFields)
+    .first()
+    .get('items')
+    .first()
+    .get('fields')
+    .map(item => {
+      item.value = null;
+      item.name = item.name.replace('[0]', '');
+      return item;
+    })
+    .value();
 
-  const isList = _.get(fields, '[0].type') === 'list';
-
-  res.render('edit', { fileName, isList, fields, _ });
+  res.render('add', { fileName, fields, _ });
 };

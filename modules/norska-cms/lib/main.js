@@ -87,8 +87,12 @@ module.exports = {
 
       // Custom pages
       app.get('/', this.page('index'));
+
       app.get('/edit/:fileName', this.page('edit'));
       app.post('/update/:fileName', upload.any(), this.page('update'));
+
+      app.get('/add/:fileName', this.page('add'));
+      app.post('/insert/:fileName', upload.any(), this.page('insert'));
 
       // Add the livereload.js script to the pages
       app.use(connectLivereload());
