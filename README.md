@@ -91,6 +91,11 @@ The `url` key also contains some useful shortcuts for crafting links. `url.base`
 contains the base URL to the root of the website (value can be different from
 dev and prod). `url.here` contains an absolute link to the current page.
 
+The `revv` method is available to pug and will revv a local asset when
+a production build is performed. The `lazyloadBackground` method will help
+generating the `style` and `data-bg` HTML attributes needed for lazy loading of
+images below the fold.
+
 ## Contributing
 
 ### Monorepo
