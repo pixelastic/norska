@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('norska-config');
 const helper = require('norska-helper');
 const revv = require('norska-revv');
+const frontendLazyload = require('norska-frontend/lib/lazyload');
 const pug = require('pug');
 const markdownIt = require('markdown-it');
 const markdownItHighlight = require('markdown-it-highlightjs');
@@ -24,6 +25,8 @@ module.exports = function(data, destination) {
   const methods = {
     // Making lodash available in pug files
     _,
+    // Helper to easily interact with lazysizes
+    lazyloadBackground: frontendLazyload.background,
     /**
      * Workaround for Pug not having dynamic include by default
      * This will read the file in the src directory and return it

@@ -8,6 +8,7 @@
     "markdown-it-highlightjs": "3.1.0",
     "norska-config": "^0.7.3",
     "norska-data": "^0.7.3",
+    "norska-frontend": "^0.7.3",
     "norska-helper": "^0.7.0",
     "norska-revv": "^0.7.3",
     "pug": "2.0.4"
