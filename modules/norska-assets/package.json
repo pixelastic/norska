@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "golgoth": "1.1.1",
-    "norska-config": "^0.7.0"
+    "norska-config": "^0.7.3"
   },
   "description": "Copy assets from source to destination",
   "devDependencies": {
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.7.0"
+  "version": "0.7.3"
 }

@@ -5,7 +5,7 @@
     "babel-loader": "8.0.6",
     "firost": "1.4.1",
     "golgoth": "1.1.1",
-    "norska-config": "^0.7.0",
+    "norska-config": "^0.7.3",
     "norska-helper": "^0.7.0",
     "pug-loader": "^2.4.0",
     "webpack": "4.42.0"
@@ -29,5 +29,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.7.0"
+  "version": "0.7.3"
 }

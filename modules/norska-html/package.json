@@ -6,10 +6,10 @@
     "golgoth": "1.1.1",
     "markdown-it": "10.0.0",
     "markdown-it-highlightjs": "3.1.0",
-    "norska-config": "^0.7.0",
-    "norska-data": "^0.7.0",
+    "norska-config": "^0.7.3",
+    "norska-data": "^0.7.3",
     "norska-helper": "^0.7.0",
-    "norska-revv": "^0.7.0",
+    "norska-revv": "^0.7.3",
     "pug": "2.0.4"
   },
   "description": "Convert .pug files to .html files",
@@ -31,5 +31,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.7.0"
+  "version": "0.7.3"
 }
