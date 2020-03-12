@@ -8,11 +8,10 @@ const pug = require('pug');
  * This will read the file in the src directory and return it
  * If it's a pug file, it will even parse it
  * @param {string} filepath Path to the file to include, relative to source
- * @param {object} data The data object to have available in all pug views
- * @param {object} methods The method object to have available in all pug views
+ * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Content to include
  **/
-module.exports = function(filepath, data, methods) {
+module.exports = function(filepath, context) {
   const input = config.fromPath(filepath);
   if (!fs.existsSync(input)) {
     return `ERROR: ${input} does not exist`;
@@ -23,7 +22,7 @@ module.exports = function(filepath, data, methods) {
   if (extname === '.pug') {
     // We make sure we pass both the data from the parent, and this set of
     // methods recursively
-    return pug.compile(content)({ ...data, ...methods });
+    return pug.compile(content)({ ...context.data, ...context.methods });
   }
   return content;
 };

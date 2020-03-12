@@ -1,9 +1,10 @@
 const _ = require('golgoth/lib/lodash');
 const pugMarkdown = require('./markdown.js');
+const pugRemoteUrl = require('./remoteUrl.js');
 const pugRevv = require('./revv.js');
 const pugInclude = require('./include.js');
-const frontendLazyloadAttributes = require('norska-frontend/lib/lazyload/attributes');
-const frontendCloudinaryProxy = require('norska-frontend/lib/cloudinary/proxy');
+const pugCloudinary = require('./cloudinary.js');
+const pugLazyload = require('./lazyload.js');
 
 /**
  * Returns an object containing custom methods to pass to every pug file
@@ -14,18 +15,19 @@ const frontendCloudinaryProxy = require('norska-frontend/lib/cloudinary/proxy');
  * @returns {object} Custom methods available in pug files
  **/
 module.exports = function(data, destination) {
+  const context = { data, destination };
   const methods = {
     _,
     markdown: pugMarkdown,
-    lazyload: frontendLazyloadAttributes,
-    cloudinary: frontendCloudinaryProxy,
-    include(filepath) {
-      return pugInclude(filepath, data, methods);
-    },
-    revv(filepath) {
-      return pugRevv(filepath, destination);
-    },
+    remoteUrl: _.partialRight(pugRemoteUrl, context),
+    lazyload: _.partialRight(pugLazyload, context),
+    cloudinary: _.partialRight(pugCloudinary, context),
+    include: _.partialRight(pugInclude, context),
+    revv: _.partialRight(pugRevv, context),
   };
+  // We re-add methods into context so it's correctly recursively passed to each
+  // method
+  context.methods = methods;
 
   return methods;
 };

@@ -7,13 +7,15 @@ const revv = require('norska-revv');
 /**
  * Mark a file for revving
  * @param {string} filepath File to rev
- * @param {string} destination Path to the created file
+ * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} {revv: path} placeholder
  **/
-module.exports = function(filepath, destination) {
+module.exports = function(filepath, context) {
   if (!helper.isProduction()) {
     return filepath;
   }
+
+  const destination = context.destination;
 
   // Normalize the file path from the root
   // We force the removal of any starting slash to avoid people targeting

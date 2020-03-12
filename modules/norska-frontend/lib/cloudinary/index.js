@@ -20,7 +20,7 @@ module.exports = {
     }
     throw firostError(
       'CLOUDINARY_MISSING_CONFIG',
-      `No config defined for ${key}`
+      `You tried to pass an image through Cloudinary but you have no cloudinary.${key} defined in your norska.config.js file.`
     );
   },
 };

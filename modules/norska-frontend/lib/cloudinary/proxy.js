@@ -45,6 +45,11 @@ module.exports = function(userUrl, userOptions = {}) {
   const bucketName = cloudinary.get('bucketName');
   const baseUrl = `https://res.cloudinary.com/${bucketName}/image/fetch/`;
 
+  const options = {
+    format: 'auto', // We force to the best format available
+    ...userOptions,
+  };
+
   const availableOptions = {
     blur: 'e_blur:',
     format: 'f_',
@@ -56,18 +61,20 @@ module.exports = function(userUrl, userOptions = {}) {
     width: 'w_',
   };
 
-  const options = Object.keys(userOptions)
+  const parsedOptions = Object.keys(options)
     .sort()
     .map(key => {
       const prefix = availableOptions[key];
-      const value = userOptions[key];
+      const value = options[key];
       // If the value is "true", we simply add the prefix
       if (value === true) {
         return prefix;
       }
       return `${prefix}${value}`;
     });
-  const optionsAsString = options.length ? options.join(',') + '/' : '';
+  const optionsAsString = parsedOptions.length
+    ? parsedOptions.join(',') + '/'
+    : '';
 
   return `${baseUrl}${optionsAsString}${userUrl}`;
 };
