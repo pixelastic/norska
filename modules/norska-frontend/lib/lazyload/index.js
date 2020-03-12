@@ -22,22 +22,4 @@ module.exports = {
       element.style.backgroundImage = `url(${background})`;
     });
   },
-  /**
-   * Computes the data-bg and style attributes for lazyloading a background
-   * image
-   *
-   * @param {string} url Path to the image
-   * @param {object} userOptions
-   * - disable: Force loading if set to true
-   * @returns {object} Attribute object, with .style and .dataBg keys
-   */
-  background(url, userOptions = {}) {
-    const options = {
-      disable: false,
-      ...userOptions,
-    };
-    const style = options.disable ? `background-image:url(${url})` : null;
-    const dataBg = options.disable ? null : url;
-    return { style, dataBg };
-  },
 };

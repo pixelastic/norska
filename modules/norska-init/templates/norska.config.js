@@ -1,1 +1,5 @@
-module.exports = {};
+module.exports = {
+  cloudinary: {
+    bucketName: null,
+  },
+};

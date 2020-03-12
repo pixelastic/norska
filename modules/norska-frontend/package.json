@@ -5,7 +5,9 @@
   },
   "description": "Frontend helpers to be used in live website",
   "files": [
-    "lib/*.js"
+    "lib/*.js",
+    "lib/lazyload/*.js",
+    "lib/cloudinary/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

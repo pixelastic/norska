@@ -84,4 +84,24 @@ describe('norska-html/pugMethods', () => {
       });
     });
   });
+  fdescribe('cloudinary', () => {
+    describe('in dev', () => {
+      fit('remote url passed to proxy', async () => {
+        const input = 'http://www.example.com/foo.png';
+        const options = { foo: 'bar' };
+        jest.spyOn(module, '__cloudinaryProxy').mockReturnValue('bar');
+
+        const pugMethods = module(mockData, mockDestination);
+        const actual = pugMethods.cloudinary(input, options);
+
+        expect(actual).toEqual('bar');
+        expect(module.__cloudinaryProxy).toHaveBeenCalledWith(input, options);
+      });
+      it('local path returned as-is', async () => {});
+    });
+    describe('in production', () => {
+      it('remote url passed to proxy', async () => {});
+      it('local path fixed to remote url', async () => {});
+    });
+  });
 });
