@@ -31,6 +31,11 @@ async function getTestResults(testCases, buildName) {
     cloudinary: {
       bucketName: 'bucket',
     },
+    revv: {
+      hashingMethod(inputFile) {
+        return inputFile.replace('.png', '.h4sh.png');
+      },
+    },
   });
 
   await emptyDir(config.from());
@@ -48,6 +53,10 @@ async function getTestResults(testCases, buildName) {
   const dataSiteContent = { defaultUrl: 'http://a.com' };
   await writeJson(dataSiteContent, dataSiteFile);
 
+  // Write image
+  const imageFile = config.fromPath('foo.png');
+  await write('', imageFile);
+
   const output = await captureOutput(async () => {
     await emptyDir(config.to());
     await module.build();
@@ -55,6 +64,11 @@ async function getTestResults(testCases, buildName) {
   // Display console.log we could have used in debugging
   if (output.stdout.length) {
     consoleInfo(output.stdout.join('\n'));
+  }
+  // Check if build failed
+  const buildFailed = module.__exit.mock.calls.length;
+  if (buildFailed) {
+    return (buildCache[buildName] = { buildFailed: true });
   }
 
   // Create an object of each input, including actual and expected
@@ -64,13 +78,12 @@ async function getTestResults(testCases, buildName) {
     .compact()
     .transform((result, rawActual, index) => {
       const actual = `${rawActual}/>`;
-      const [input, expected] = testCases[index];
-      result[input] = { expected, actual };
+      const [input, expectedDev, expectedProd] = testCases[index];
+      result[input] = { expectedDev, expectedProd, actual };
     })
     .value();
 
-  buildCache[buildName] = results;
-  return results;
+  return (buildCache[buildName] = results);
 }
 
 describe('norska > build', () => {
@@ -78,48 +91,50 @@ describe('norska > build', () => {
     jest.spyOn(module, '__exit').mockReturnValue();
   });
   describe('images', () => {
-    const testCasesDev = [
-      ['img(src=cloudinary("foo.png"))', '<img src="foo.png"/>'],
-      ['img(src=cloudinary("./foo.png"))', '<img src="./foo.png"/>'],
-      [
-        'img(src=cloudinary("http://a.com/foo.png"))',
-        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
-      ],
-    ];
-    const testCasesProd = [
+    const testCases = [
       [
         'img(src=cloudinary("foo.png"))',
+        '<img src="foo.png"/>',
         '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
       ],
       [
         'img(src=cloudinary("./foo.png"))',
+        '<img src="./foo.png"/>',
         '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
       ],
       [
         'img(src=cloudinary("http://a.com/foo.png"))',
         '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
+      ],
+      [
+        'img(src=revv("foo.png"))',
+        '<img src="foo.png"/>',
+        '<img src="foo.h4sh.png"/>',
       ],
     ];
     describe('in dev', () => {
       let testResults = null;
       beforeEach(async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-        testResults = await getTestResults(testCasesDev, 'dev');
+        testResults = await getTestResults(testCases, 'dev');
       });
-      it.each(testCasesDev)('%s', async input => {
+      it.each(testCases)('%s', async input => {
+        expect(testResults).not.toHaveProperty('buildFailed', true);
         const result = testResults[input];
-        expect(result.actual).toEqual(result.expected);
+        expect(result.actual).toEqual(result.expectedDev);
       });
     });
     describe('in prod', () => {
       let testResults = null;
       beforeEach(async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-        testResults = await getTestResults(testCasesProd, 'prod');
+        testResults = await getTestResults(testCases, 'prod');
       });
-      it.each(testCasesProd)('%s', async input => {
+      it.each(testCases)('%s', async input => {
+        expect(testResults).not.toHaveProperty('buildFailed', true);
         const result = testResults[input];
-        expect(result.actual).toEqual(result.expected);
+        expect(result.actual).toEqual(result.expectedProd);
       });
     });
   });
