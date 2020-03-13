@@ -1,11 +1,11 @@
-const module = require('../pugMethods.js');
+const module = require('../revv.js');
 const helper = require('norska-helper');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 
-describe('norska-html/pugMethods', () => {
-  let mockData, mockDestination;
-  const tmpDirectory = './tmp/norska-html/index';
+describe('norska-html > pugMethods > revv', () => {
+  let mockContext;
+  const tmpDirectory = './tmp/norska-html/pugMethods/revv';
   beforeEach(async () => {
     await config.init({
       from: `${tmpDirectory}/src`,
@@ -13,75 +13,39 @@ describe('norska-html/pugMethods', () => {
     });
     await emptyDir(tmpDirectory);
 
-    mockData = {};
-    mockDestination = null;
+    mockContext = {
+      data: {},
+      destination: null,
+      methods: {},
+    };
   });
-  describe('revv', () => {
-    describe('in dev', () => {
-      beforeEach(() => {
-        jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-      });
-      it('should return the input', () => {
-        mockDestination = 'index.pug';
-
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('whatever.foo');
-
-        expect(actual).toEqual('whatever.foo');
-      });
+  describe('in dev', () => {
+    beforeEach(() => {
+      jest.spyOn(helper, 'isProduction').mockReturnValue(false);
     });
-    describe('in production', () => {
-      beforeEach(() => {
-        jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-      });
-      it('index.pug / ./style.css', () => {
-        mockDestination = 'index.pug';
+    it('should return the input', () => {
+      mockContext.destination = 'index.pug';
 
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('./style.css');
+      const actual = module('foo.png', mockContext);
 
-        expect(actual).toEqual('{revv: style.css}');
-      });
-      it('index.pug / /style.css', () => {
-        mockDestination = 'index.pug';
-
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('/style.css');
-
-        expect(actual).toEqual('{revv: style.css}');
-      });
-      it('index.pug / style.css', () => {
-        mockDestination = 'index.pug';
-
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('style.css');
-
-        expect(actual).toEqual('{revv: style.css}');
-      });
-      it('index.pug / ./css/style.css', () => {
-        mockDestination = 'index.pug';
-
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('./css/style.css');
-
-        expect(actual).toEqual('{revv: css/style.css}');
-      });
-      it('private/index.pug / ../style.css', () => {
-        mockDestination = 'private/index.pug';
-
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('../style.css');
-
-        expect(actual).toEqual('{revv: style.css}');
-      });
-      it('private/index.pug / ../css/style.css', () => {
-        mockDestination = 'private/index.pug';
-
-        const pugMethods = module(mockData, mockDestination);
-        const actual = pugMethods.revv('../css/style.css');
-
-        expect(actual).toEqual('{revv: css/style.css}');
-      });
+      expect(actual).toEqual('foo.png');
+    });
+  });
+  describe('in production', () => {
+    beforeEach(() => {
+      jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+    });
+    it.each([
+      ['index.pug', './foo.png', '{revv: foo.png}'],
+      ['index.pug', '/foo.png', '{revv: foo.png}'],
+      ['index.pug', 'foo.png', '{revv: foo.png}'],
+      ['index.pug', './images/foo.png', '{revv: images/foo.png}'],
+      ['private/index.pug', '../foo.png', '{revv: foo.png}'],
+      ['private/index.pug', '../images/foo.png', '{revv: images/foo.png}'],
+    ])('%s: %s => %s', (destination, input, expected) => {
+      mockContext.destination = destination;
+      const actual = module(input, mockContext);
+      expect(actual).toEqual(expected);
     });
   });
 });

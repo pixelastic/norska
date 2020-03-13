@@ -131,7 +131,7 @@ describe('norska', () => {
     });
   });
   describe('build', () => {
-    const tmpDirectory = './tmp/norska';
+    const tmpDirectory = './tmp/norska/main';
     beforeEach(async () => {
       await config.init({
         from: `${tmpDirectory}/src`,

@@ -16,7 +16,7 @@ describe('norska-revv', () => {
     config.set('runtime.revvFiles', {});
     jest
       .spyOn(module, '__spinner')
-      .mockReturnValue({ tick() {}, success() {} });
+      .mockReturnValue({ tick() {}, success() {}, info() {} });
   });
   describe('manifest', () => {
     it('should return an empty object if no manifest yet set', () => {

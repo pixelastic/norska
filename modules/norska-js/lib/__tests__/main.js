@@ -156,7 +156,7 @@ describe('norska-js', () => {
       jest.spyOn(module, 'getOutputStats').mockReturnValue();
       jest
         .spyOn(module, '__spinner')
-        .mockReturnValue({ tick() {}, success() {}, failure() {} });
+        .mockReturnValue({ tick() {}, success() {}, failure() {}, info() {} });
     });
     describe('in dev', () => {
       let firstRun = true;

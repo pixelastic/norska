@@ -17,7 +17,7 @@ frontendCloudinary.init(config.get('cloudinary'));
  **/
 function cloudinary(userUrl, userOptions, context = {}) {
   const isRemote = userUrl.startsWith('http');
-  const isProduction = cloudinary.__isProduction();
+  const isProduction = helper.isProduction();
 
   // Pass remote urls to Cloudinary
   if (isRemote) {
@@ -36,6 +36,5 @@ function cloudinary(userUrl, userOptions, context = {}) {
 
 cloudinary.__frontendProxy = frontendProxy;
 cloudinary.__remoteUrl = pugRemoteUrl;
-cloudinary.__isProduction = helper.isProduction.bind(helper);
 
 module.exports = cloudinary;

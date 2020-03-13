@@ -10,7 +10,7 @@ const pify = require('golgoth/lib/pify');
 const consoleError = require('firost/lib/consoleError');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const spinner = require('firost/lib/spinner');
-const exist = require('firost/lib/exist');
+const exists = require('firost/lib/exists');
 const firostError = require('firost/lib/error');
 const defaultConfig = require('./config.js');
 
@@ -47,7 +47,7 @@ module.exports = {
     });
     // Check that entry file exists, and fail early if it does not
     const entryFile = _.get(webpackConfig, 'entry', null);
-    if (!(await exist(entryFile))) {
+    if (!(await exists(entryFile))) {
       return false;
     }
     return webpackConfig;
@@ -117,7 +117,7 @@ module.exports = {
     progress.tick('Compiling JavaScript');
     const compiler = await this.getCompiler();
     if (!compiler) {
-      progress.success('JavaScript compilation skipped');
+      progress.info('JavaScript compilation skipped');
       return false;
     }
 

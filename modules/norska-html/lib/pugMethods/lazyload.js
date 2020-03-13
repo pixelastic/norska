@@ -14,7 +14,8 @@ const pugCloudinary = require('./cloudinary.js');
 function lazyload(userUrl, userOptions, context) {
   const cloudinaryOptions = _.omit(userOptions, ['disable']);
   const url = pugCloudinary(userUrl, cloudinaryOptions, context);
-  console.info(url);
+  // TODO: Automatically revv files when lazyloading them
+  // TODO: Automatically set a blurred version of the file as a placeholder
 
   return lazyload.__frontendAttributes(url, userOptions);
 }

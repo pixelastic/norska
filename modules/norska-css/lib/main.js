@@ -112,9 +112,15 @@ module.exports = {
     const progress = this.__spinner();
     progress.tick('Compiling CSS');
 
+    // Check that entry file exists, and fail early if it does not
+    const entryFile = config.fromPath(config.get('css.input'));
+    if (!(await exists(entryFile))) {
+      progress.info('CSS compilation skipped');
+      return false;
+    }
+
     try {
-      const inputFile = config.fromPath(config.get('css.input'));
-      await this.compile(inputFile);
+      await this.compile(entryFile);
     } catch (error) {
       progress.failure('CSS compilation failed');
       throw error;

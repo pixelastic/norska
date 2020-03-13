@@ -21,8 +21,16 @@ describe('norska-frontend > cloudinary > proxy', () => {
       const input = 'http://www.example.com/foo.png';
       const actual = module(input);
 
+      expect(actual).toStartWith(
+        'https://res.cloudinary.com/bucket-foo/image/fetch/'
+      );
+    });
+    it('should set the format to auto', async () => {
+      const input = 'http://www.example.com/foo.png';
+      const actual = module(input);
+
       expect(actual).toEqual(
-        `https://res.cloudinary.com/bucket-foo/image/fetch/${input}`
+        `https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/${input}`
       );
     });
     it('should throw an error if url is not remote', async () => {
@@ -76,12 +84,12 @@ describe('norska-frontend > cloudinary > proxy', () => {
       it('grayscale', async () => {
         const input = 'http://www.example.com/foo.png';
         const actual = module(input, { [testName]: true });
-        expect(actual).toContain('/e_grayscale/');
+        expect(actual).toContain(',e_grayscale/');
       });
-      it('several transforms', async () => {
+      it('several transforms ordered alpabetically', async () => {
         const input = 'http://www.example.com/foo.png';
         const actual = module(input, { width: 42, height: 70 });
-        expect(actual).toContain('/fetch/h_70,w_42/');
+        expect(actual).toContain('/fetch/f_auto,h_70,w_42/');
       });
     });
   });

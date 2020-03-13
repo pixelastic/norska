@@ -28,7 +28,8 @@ html(lang='en')
     link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
     body.arial
       include /_includes/header
-      block content
+      .container.mx-auto.p-3.mt-8
+        block content
       each jsFile in runtime.jsFiles
         script(src=`${url.pathToRoot}${jsFile}`)
 

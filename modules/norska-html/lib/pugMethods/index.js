@@ -21,7 +21,9 @@ module.exports = function(data, destination) {
     markdown: pugMarkdown,
     remoteUrl: _.partialRight(pugRemoteUrl, context),
     lazyload: _.partialRight(pugLazyload, context),
-    cloudinary: _.partialRight(pugCloudinary, context),
+    cloudinary(userUrl, userOptions) {
+      return pugCloudinary(userUrl, userOptions, context);
+    },
     include: _.partialRight(pugInclude, context),
     revv: _.partialRight(pugRevv, context),
   };

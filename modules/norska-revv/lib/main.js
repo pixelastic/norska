@@ -138,7 +138,7 @@ module.exports = {
     const progress = this.__spinner();
     progress.tick('Revving assets');
     if (!helper.isProduction()) {
-      progress.success('Revving skipped in dev');
+      progress.info('Revving skipped in dev');
       return;
     }
 

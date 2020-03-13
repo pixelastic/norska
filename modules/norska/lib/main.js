@@ -72,23 +72,17 @@ module.exports = {
     }
     await mkdirp(config.to());
 
-    const js = require('norska-js');
-    const html = require('norska-html');
-    const css = require('norska-css');
-    const assets = require('norska-assets');
-    const revv = require('norska-revv');
-
     try {
       // We unfortunately need to run those in sequence
       // The HTML needs the list of JS files to include them
       // The CSS needs the HTML output to purge its list of classes
       // Running the asset copy in parallel to the js makes the js slow
       // Revv should be done once everything is copied
-      await js.run();
-      await html.run();
-      await css.run();
-      await assets.run();
-      await revv.run();
+      await require('norska-js').run();
+      await require('norska-html').run();
+      await require('norska-css').run();
+      await require('norska-assets').run();
+      await require('norska-revv').run();
     } catch (error) {
       this.__consoleError(chalk.red(error.code || 'Build Error'));
       this.__consoleError(chalk.red(error.message));
