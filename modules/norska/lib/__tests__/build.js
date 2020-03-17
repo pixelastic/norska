@@ -50,7 +50,7 @@ async function getTestResults(testCases, buildName) {
 
   // Write data
   const dataSiteFile = config.fromPath('_data/site.json');
-  const dataSiteContent = { defaultUrl: 'http://a.com' };
+  const dataSiteContent = { defaultUrl: 'http://here.com' };
   await writeJson(dataSiteContent, dataSiteFile);
 
   // Write image
@@ -95,22 +95,32 @@ describe('norska > build', () => {
       [
         'img(src=cloudinary("foo.png"))',
         '<img src="foo.png"/>',
-        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.png"/>',
       ],
       [
         'img(src=cloudinary("./foo.png"))',
         '<img src="./foo.png"/>',
-        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.png"/>',
       ],
       [
-        'img(src=cloudinary("http://a.com/foo.png"))',
-        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
-        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://a.com/foo.png"/>',
+        'img(src=cloudinary("http://there.com/foo.png"))',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
       ],
       [
         'img(src=revv("foo.png"))',
         '<img src="foo.png"/>',
         '<img src="foo.h4sh.png"/>',
+      ],
+      [
+        'img(src=img("foo.png"))',
+        '<img src="foo.png"/>',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
+      ],
+      [
+        'img(src=img("http://there.com/foo.png"))',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
+        '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
       ],
     ];
     describe('in dev', () => {

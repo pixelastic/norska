@@ -3,6 +3,7 @@ const pugMarkdown = require('./markdown.js');
 const pugRemoteUrl = require('./remoteUrl.js');
 const pugRevv = require('./revv.js');
 const pugInclude = require('./include.js');
+const pugImg = require('./img.js');
 const pugCloudinary = require('./cloudinary.js');
 const pugLazyload = require('./lazyload.js');
 
@@ -17,15 +18,16 @@ const pugLazyload = require('./lazyload.js');
 module.exports = function(data, destination) {
   const context = { data, destination };
   const methods = {
-    _,
-    markdown: pugMarkdown,
-    remoteUrl: _.partialRight(pugRemoteUrl, context),
-    lazyload: _.partialRight(pugLazyload, context),
     cloudinary(userUrl, userOptions) {
       return pugCloudinary(userUrl, userOptions, context);
     },
     include: _.partialRight(pugInclude, context),
+    img: _.partialRight(pugImg, context),
+    lazyload: _.partialRight(pugLazyload, context),
+    markdown: pugMarkdown,
+    remoteUrl: _.partialRight(pugRemoteUrl, context),
     revv: _.partialRight(pugRevv, context),
+    _,
   };
   // We re-add methods into context so it's correctly recursively passed to each
   // method
