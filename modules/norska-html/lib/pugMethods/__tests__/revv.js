@@ -42,6 +42,9 @@ describe('norska-html > pugMethods > revv', () => {
       ['index.pug', './images/foo.png', '{revv: images/foo.png}'],
       ['private/index.pug', '../foo.png', '{revv: foo.png}'],
       ['private/index.pug', '../images/foo.png', '{revv: images/foo.png}'],
+      ['private/index.pug', 'foo.png', '{revv: foo.png}'],
+      ['private/index.pug', './foo.png', '{revv: private/foo.png}'],
+      ['private/index.pug', '/foo.png', '{revv: foo.png}'],
     ])('%s: %s => %s', (destination, input, expected) => {
       mockContext.destination = destination;
       const actual = module(input, mockContext);

@@ -15,20 +15,18 @@ module.exports = function(filepath, context) {
     return filepath;
   }
 
-  const destination = context.destination;
+  // Add to manifest the path to the file, relative to the root
+  const normalizedFilepath = _.trimStart(filepath, '/');
 
-  // Normalize the file path from the root
-  // We force the removal of any starting slash to avoid people targeting
-  // files outside of their repo
-  const forcedRelativePath = _.trimStart(filepath, '/');
-  const fullPathSourceFile = config.fromPath(destination);
-  const fullPath = path.resolve(
-    path.dirname(fullPathSourceFile),
-    forcedRelativePath
-  );
-  const relativePath = path.relative(config.from(), fullPath);
+  const fromRoot = config.from();
+  const destination = path.resolve(fromRoot, context.destination);
+  const destinationRoot = path.dirname(destination);
+  const isRelative = _.startsWith(filepath, '.');
+  const baseRoot = isRelative ? destinationRoot : fromRoot;
+  const fullPath = path.resolve(baseRoot, normalizedFilepath);
+  const pathFromRoot = path.relative(fromRoot, fullPath);
 
-  revv.add(relativePath);
+  revv.add(pathFromRoot);
 
-  return `{revv: ${relativePath}}`;
+  return `{revv: ${pathFromRoot}}`;
 };
