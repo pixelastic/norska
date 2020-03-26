@@ -3879,6 +3879,14 @@ clear-module@4.1.0:
     parent-module "^2.0.0"
     resolve-from "^5.0.0"
 
+clear-module@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/clear-module/-/clear-module-4.1.1.tgz#bf8ba3b62eb70ee1e0adec90589741425cf32db8"
+  integrity sha512-ng0E7LeODcT3QkazOckzZqbca+JByQy/Q2Z6qO24YsTp+pLxCfohGz2gJYJqZS0CWTX3LEUiHOqe5KlYeUbEMw==
+  dependencies:
+    parent-module "^2.0.0"
+    resolve-from "^5.0.0"
+
 cli-boxes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/cli-boxes/-/cli-boxes-1.0.0.tgz#4fa917c3e59c94a004cd61f8ee509da651687143"
@@ -5452,6 +5460,11 @@ eventemitter2@6.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.0.0.tgz#218eb512c3603c5341724b6af7b686a1aa5ab8f5"
   integrity sha512-ZuNWHD7S7IoikyEmx35vPU8H1W0L+oi644+4mSTg7nwXvBQpIwQL7DPjYUF0VMB0jPkNMo3MqD07E7MYrkFmjQ==
 
+eventemitter2@6.2.1:
+  version "6.2.1"
+  resolved "https://registry.npmjs.org/eventemitter2/-/eventemitter2-6.2.1.tgz#cec423117a8ce45c471092d0bb01a0aff1ed5e47"
+  integrity sha512-38fV8WMnn95y1ugsY8Iu25hhFTHYSqR+JkDVNSuKmi5/sF79Zt+EpA0N6yCGv/PSCZhIRZlyaIBY3q8ed7ZikA==
+
 eventemitter3@^3.1.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
@@ -5876,6 +5889,28 @@ firost@1.4.1:
     globby "11.0.0"
     golgoth "1.1.1"
     inquirer "7.0.5"
+    is-glob "4.0.1"
+    json-stable-stringify "1.0.1"
+    nanoid "2.1.11"
+    ora "4.0.3"
+    shelljs "0.8.3"
+    which "2.0.2"
+
+firost@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/firost/-/firost-1.5.0.tgz#82b5000b6779a6fc684c9346b5e14f8742e79c0b"
+  integrity sha512-bNsGRJFRdC8EgYmZM7nw4+8B7zoWEfLi/evkOCl2B30aC9kIbbHgxj9Pq2Rdo1vSkA1SZWPJ2WQEcBDfEfOJhw==
+  dependencies:
+    callsite "1.0.0"
+    chokidar "3.3.1"
+    clear-module "4.1.1"
+    esm "3.2.25"
+    eventemitter2 "6.2.1"
+    execa "4.0.0"
+    fs-extra "8.1.0"
+    globby "11.0.0"
+    golgoth "1.1.1"
+    inquirer "7.1.0"
     is-glob "4.0.1"
     json-stable-stringify "1.0.1"
     nanoid "2.1.11"
@@ -6912,6 +6947,25 @@ inquirer@7.0.5:
   version "7.0.5"
   resolved "https://registry.npmjs.org/inquirer/-/inquirer-7.0.5.tgz#fb95b238ba19966c1a1f55db53c3f0ce5c9e4275"
   integrity sha512-6Z5cP+LAO0rzNE7xWjWtT84jxKa5ScLEGLgegPXeO3dGeU8lNe5Ii7SlXH6KVtLGlDuaEhsvsFjrjWjw8j5lFg==
+  dependencies:
+    ansi-escapes "^4.2.1"
+    chalk "^3.0.0"
+    cli-cursor "^3.1.0"
+    cli-width "^2.0.0"
+    external-editor "^3.0.3"
+    figures "^3.0.0"
+    lodash "^4.17.15"
+    mute-stream "0.0.8"
+    run-async "^2.4.0"
+    rxjs "^6.5.3"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+    through "^2.3.6"
+
+inquirer@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.npmjs.org/inquirer/-/inquirer-7.1.0.tgz#1298a01859883e17c7264b82870ae1034f92dd29"
+  integrity sha512-5fJMWEmikSYu0nv/flMc475MhGbB7TSPd/2IpFV4I4rMklboCH2rQjYY5kKiYGHqUF9gvaambupcJFFG9dvReg==
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^3.0.0"

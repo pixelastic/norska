@@ -1,7 +1,7 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "1.4.1",
+    "firost": "1.5.0",
     "golgoth": "1.1.1"
   },
   "description": "Configuration object shared across Norska modules",
