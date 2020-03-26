@@ -18,15 +18,17 @@ const pugLazyload = require('./lazyload.js');
 module.exports = function(data, destination) {
   const context = { data, destination };
   const methods = {
-    cloudinary(userUrl, userOptions) {
-      return pugCloudinary(userUrl, userOptions, context);
+    cloudinary(url, options) {
+      return pugCloudinary(url, options, context);
     },
     include: _.partialRight(pugInclude, context),
     img: _.partialRight(pugImg, context),
     lazyload: _.partialRight(pugLazyload, context),
     markdown: pugMarkdown,
     remoteUrl: _.partialRight(pugRemoteUrl, context),
-    revv: _.partialRight(pugRevv, context),
+    revv(filepath, options) {
+      return pugRevv(filepath, options, context);
+    },
     _,
   };
   // We re-add methods into context so it's correctly recursively passed to each

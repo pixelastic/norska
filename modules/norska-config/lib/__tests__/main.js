@@ -327,4 +327,27 @@ describe('norska-config', () => {
       expect(module.__require).toHaveBeenCalledWith(configPath);
     });
   });
+  describe('relativePath', () => {
+    it.each([
+      ['index.html', 'image.png', 'image.png'],
+      ['index.html', '/image.png', 'image.png'],
+      ['index.html', './image.png', './image.png'],
+      ['index.html', 'subfolder/image.png', 'subfolder/image.png'],
+      ['index.html', '/subfolder/image.png', 'subfolder/image.png'],
+      ['index.html', './subfolder/image.png', './subfolder/image.png'],
+      ['subfolder/index.html', 'image.png', '../image.png'],
+      ['subfolder/index.html', '/image.png', '../image.png'],
+      ['subfolder/index.html', './image.png', './image.png'],
+      ['subfolder/index.html', 'subfolder/image.png', 'image.png'],
+      ['subfolder/index.html', '/subfolder/image.png', 'image.png'],
+      [
+        'subfolder/index.html',
+        './subfolder/image.png',
+        './subfolder/image.png',
+      ],
+    ])('[%s:%s] => %s', (source, destination, expected) => {
+      const actual = module.relativePath(source, destination);
+      expect(actual).toEqual(expected);
+    });
+  });
 });

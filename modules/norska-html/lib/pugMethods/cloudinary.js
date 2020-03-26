@@ -26,7 +26,7 @@ function cloudinary(userUrl, userOptions, context = {}) {
 
   // Don't touch local urls in dev
   if (!isProduction) {
-    return userUrl;
+    return config.relativePath(context.destination, userUrl);
   }
 
   // Transform local path to remote urls in prod

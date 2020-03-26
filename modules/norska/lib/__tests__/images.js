@@ -45,6 +45,35 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.png"/>',
   },
+  // Referencing a local image from a subfolder
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=cloudinary("subimage.png"))',
+    expected: '<img src="../subimage.png"/>',
+  },
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=cloudinary("subimage.png"))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subimage.png"/>',
+  },
+  // Referencing an explicitly local image in a subfolder
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=cloudinary("./subimage.png"))',
+    expected: '<img src="./subimage.png"/>',
+  },
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=cloudinary("./subimage.png"))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subfolder/subimage.png"/>',
+  },
+  // Referencing an external image
   {
     env: 'dev',
     destination: 'index.pug',
@@ -74,6 +103,32 @@ const testCases = initTestCases([
     input: 'img(src=revv("foo.png"))',
     expected: '<img src="foo.h4sh.png"/>',
   },
+  // Normal paths in subfolders
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=revv("subimage.png"))',
+    expected: '<img src="../subimage.png"/>',
+  },
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=revv("foo.png"))',
+    expected: '<img src="../foo.h4sh.png"/>',
+  },
+  // Relative paths in subfolders
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=revv("./subimage.png"))',
+    expected: '<img src="./subimage.png"/>',
+  },
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=revv("./subimage.png"))',
+    expected: '<img src="subimage.h4sh.png"/>',
+  },
   // Img
   // Should ignore local files in dev
   // Should revv and pass through cloudinary local files in prod
@@ -91,6 +146,35 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
   },
+  // Referencing a top level image in a subfolder page
+  {
+    env: 'dev',
+    destination: 'foo/index.pug',
+    input: 'img(src=img("foo.png"))',
+    expected: '<img src="../foo.png"/>',
+  },
+  {
+    env: 'prod',
+    destination: 'foo/index.pug',
+    input: 'img(src=img("foo.png"))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
+  },
+  // Referencing a subfolder image in a subfolder page
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=img("./subimage.png"))',
+    expected: '<img src="./subimage.png"/>',
+  },
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=img("./subimage.png"))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subfolder/subimage.h4sh.png"/>',
+  },
+  // Referencing an external image
   {
     env: 'dev',
     destination: 'index.pug',
@@ -123,10 +207,14 @@ describe('norska > images', () => {
 /**
  * Create a global variable containing the test headers and the list of all
  * test cases, each with a unique id
- * @param {Array} items Array of test cases
+ * @param {Array} rawItems Array of test cases
  * @returns {object} Object with .headers and .raw
  */
-function initTestCases(items) {
+function initTestCases(rawItems) {
+  // Check if some tests are focused and use only those
+  const focusedItems = _.filter(rawItems, { focus: true });
+  const items = focusedItems.length ? focusedItems : rawItems;
+
   const headers = [];
   const raw = items;
   _.each(items, item => {
@@ -195,9 +283,9 @@ async function getTestResults(allTestCases, env) {
   const dataSiteFile = config.fromPath('_data/site.json');
   const dataSiteContent = { defaultUrl: 'http://here.com' };
   await writeJson(dataSiteContent, dataSiteFile);
-  // Write image
-  const imageFile = config.fromPath('foo.png');
-  await write('', imageFile);
+  // Write images
+  await write('', config.fromPath('foo.png'));
+  await write('', config.fromPath('subfolder/subimage.png'));
 
   // Build website
   const buildOutput = await captureOutput(async () => {
@@ -240,32 +328,3 @@ async function getTestResults(allTestCases, env) {
     .value();
   return testCasesAsObjects;
 }
-
-//    const testCases = [
-//    ];
-//    describe('in dev', () => {
-//      let testResults = null;
-//      beforeEach(async () => {
-//        jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-//        testResults = await getTestResults(testCases, 'dev');
-//      });
-//      it.each(testCases)('%s', async input => {
-//        expect(testResults).not.toHaveProperty('buildFailed', true);
-//        const result = testResults[input];
-//        expect(result.actual).toEqual(result.expectedDev);
-//      });
-//    });
-//    describe('in prod', () => {
-//      let testResults = null;
-//      beforeEach(async () => {
-//        jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-//        testResults = await getTestResults(testCases, 'prod');
-//      });
-//      it.each(testCases)('%s', async input => {
-//        expect(testResults).not.toHaveProperty('buildFailed', true);
-//        const result = testResults[input];
-//        expect(result.actual).toEqual(result.expectedProd);
-//      });
-//    });
-//  });
-//});

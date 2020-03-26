@@ -102,42 +102,46 @@ describe('norska-revv', () => {
     beforeEach(async () => {
       await write('foo', config.toPath('foo.txt'));
       module.add('foo.txt');
+      await write('foo', config.toPath('subfolder/foo.txt'));
+      module.add('subfolder/foo.txt');
       await module.fillManifest();
     });
-    it('should replace occurences of {revv: input} with revved path', async () => {
-      const input = config.toPath('index.html');
-      await write('<a href="{revv: foo.txt}">foo</a>', input);
-
-      await module.compile(input);
-
-      const actual = await read(input);
-
-      expect(actual).toEqual('<a href="foo.acbd18db4c.txt">foo</a>');
-    });
-    it('should replace all occurences', async () => {
-      const input = config.toPath('index.html');
-      await write(
-        '<a href="{revv: foo.txt}">foo</a><a href="{revv: foo.txt}">foo</a>',
-        input
-      );
-
-      await module.compile(input);
-
-      const actual = await read(input);
-
-      expect(actual).toEqual(
-        '<a href="foo.acbd18db4c.txt">foo</a><a href="foo.acbd18db4c.txt">foo</a>'
-      );
-    });
-    it('should work in deep nested files', async () => {
-      const input = config.toPath('./deep/nested/file/index.html');
-      await write('<a href="{revv: foo.txt}">foo</a>', input);
-
-      await module.compile(input);
-
-      const actual = await read(input);
-
-      expect(actual).toEqual('<a href="../../../foo.acbd18db4c.txt">foo</a>');
+    it.each([
+      // Destination | Input | Expected
+      ['index.html', '{revv: foo.txt}', 'foo.acbd18db4c.txt'],
+      [
+        'index.html',
+        '{revv: foo.txt}-{revv: foo.txt}',
+        'foo.acbd18db4c.txt-foo.acbd18db4c.txt',
+      ],
+      ['subfolder/index.html', '{revv: foo.txt}', '../foo.acbd18db4c.txt'],
+      [
+        'subfolder/index.html',
+        '{revv: subfolder/foo.txt}',
+        'foo.acbd18db4c.txt',
+      ],
+      [
+        'index.html',
+        '{revv: subfolder/foo.txt}',
+        'subfolder/foo.acbd18db4c.txt',
+      ],
+      [
+        'foo/index.html',
+        '{revv: subfolder/foo.txt}',
+        '../subfolder/foo.acbd18db4c.txt',
+      ],
+      ['subfolder/index.html', '{absoluteRevv: foo.txt}', 'foo.acbd18db4c.txt'],
+      [
+        'subfolder/index.html',
+        '{absoluteRevv: subfolder/foo.txt}',
+        'subfolder/foo.acbd18db4c.txt',
+      ],
+    ])('[%s] %s => %s', async (destination, input, expected) => {
+      const htmlFile = config.toPath(destination);
+      await write(input, htmlFile);
+      await module.compile(htmlFile);
+      const actual = await read(htmlFile);
+      expect(actual).toEqual(expected);
     });
   });
   describe('renameAssets', () => {

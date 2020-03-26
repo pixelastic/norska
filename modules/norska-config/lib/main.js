@@ -50,6 +50,30 @@ module.exports = {
     return path.resolve(this.to(), relativePath);
   },
   /**
+   * Returns a relative path between the source and the destination
+   * Simulates links href and img src attributes
+   * All input destination path are considered as relative to the root folder
+   * where the website is deployed, but will be converted to relative paths
+   * (using ../) if referenced from a file in a subfolder.
+   * Paths starting with ./ or ../ are always untouched
+   * @param {string} source Source file referencing the destination
+   * @param {string} rawTarget Target of the link/img tag
+   * @returns {string} Relative path from the source to the destination
+   **/
+  relativePath(source, rawTarget) {
+    const target = _.trimStart(rawTarget, '/');
+    const isRelative = _.startsWith(target, '.');
+    if (isRelative) {
+      return target;
+    }
+
+    const absoluteSourceFolder = path.dirname(path.resolve(source));
+    const absoluteTarget = path.resolve(target);
+    const relativeTarget = path.relative(absoluteSourceFolder, absoluteTarget);
+
+    return relativeTarget;
+  },
+  /**
    * Returns the default config values
    * @returns {object} Default config object
    **/

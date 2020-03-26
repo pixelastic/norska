@@ -95,21 +95,23 @@ module.exports = {
 
     const manifest = this.manifest();
     _.each(manifest, (revvedPath, basePath) => {
-      const baseFullPath = config.toPath(basePath);
-      const baseRelativePath = path.relative(
-        path.dirname(htmlPath),
-        baseFullPath
+      const absoluteRevvedPath = config.toPath(revvedPath);
+      const destinationFolder = path.dirname(htmlPath);
+      let relativeRevvedPath = path.relative(
+        destinationFolder,
+        absoluteRevvedPath
       );
-      const revvedRelativePath = _.replace(
-        baseRelativePath,
-        new RegExp(`${basePath}$`),
-        revvedPath
-      );
-
+      // Classic revv, relative to the page loading it
       content = _.replace(
         content,
         new RegExp(`{revv: ${basePath}}`, 'g'),
-        revvedRelativePath
+        relativeRevvedPath
+      );
+      // Absolute revv, from the root, for use in urls
+      content = _.replace(
+        content,
+        new RegExp(`{absoluteRevv: ${basePath}}`, 'g'),
+        revvedPath
       );
     });
 

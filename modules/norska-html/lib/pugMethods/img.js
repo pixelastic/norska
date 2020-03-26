@@ -1,10 +1,8 @@
 const _ = require('golgoth/lib/lodash');
 const helper = require('norska-helper');
+const config = require('norska-config');
 const pugRevv = require('./revv.js');
 const pugCloudinary = require('./cloudinary.js');
-// const path = require('path');
-// const config = require('norska-config');
-// const revv = require('norska-revv');
 
 /**
  * Transform a local or remote path to be used as an image
@@ -21,11 +19,15 @@ module.exports = function(filepath, context) {
     return pugCloudinary(filepath, {}, context);
   }
 
-  // Local images in dev, passed as-is
+  // Local images in dev, return a relative path to the image
+  // All paths are handled as relative to the root, except if they are
+  // explicitly local (starting with a .)
   if (isDev) {
-    return filepath;
+    return config.relativePath(context.destination, filepath);
   }
 
   // Local images in prod are revved and through Cloudinary
-  return pugCloudinary(pugRevv(filepath, context), {}, context);
+  const revvedPath = pugRevv(filepath, { isAbsolute: true }, context);
+  const cloudinaryPath = pugCloudinary(revvedPath, {}, context);
+  return cloudinaryPath;
 };
