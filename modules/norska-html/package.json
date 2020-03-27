@@ -3,7 +3,7 @@
   "dependencies": {
     "ensure-url-trailing-slash": "0.1.4",
     "firost": "1.5.0",
-    "golgoth": "1.1.1",
+    "golgoth": "1.2.0",
     "markdown-it": "10.0.0",
     "markdown-it-highlightjs": "3.1.0",
     "norska-config": "^0.7.3",

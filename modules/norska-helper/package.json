@@ -1,7 +1,7 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "golgoth": "1.1.1"
+    "golgoth": "1.2.0"
   },
   "description": "Set of common methods used by all helpers",
   "files": [

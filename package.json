@@ -3,9 +3,9 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "1.2.4",
+    "aberlaas": "1.3.0",
     "firost": "1.5.0",
-    "golgoth": "1.1.1",
+    "golgoth": "1.2.0",
     "lerna": "3.20.2"
   },
   "homepage": "https://github.com/pixelastic/norska",

@@ -4,7 +4,7 @@
     "@babel/core": "~7.9.0",
     "babel-loader": "8.1.0",
     "firost": "1.5.0",
-    "golgoth": "1.1.1",
+    "golgoth": "1.2.0",
     "norska-config": "^0.7.3",
     "norska-helper": "^0.7.0",
     "pug-loader": "^2.4.0",
