@@ -19,7 +19,7 @@ module.exports = async function index(req, res) {
   const { fileName } = req.params;
   const filepath = config.fromPath(`_data/${fileName}`);
   const data = await readJson(filepath);
-  data.push(newItem);
+  data.unshift(newItem);
   await writeJson(data, filepath);
 
   // res.render('debug', {
