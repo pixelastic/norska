@@ -1,5 +1,8 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
+  "engines": {
+    "node": ">=12.12.0"
+  },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.3.0",
     "autoprefixer": "9.7.6",
