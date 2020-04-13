@@ -1,4 +1,3 @@
-const firostError = require('firost/lib/error');
 const cloudinary = require('./index.js');
 
 /**
@@ -37,10 +36,9 @@ const cloudinary = require('./index.js');
  **/
 module.exports = function(userUrl, userOptions = {}) {
   if (!userUrl.startsWith('http')) {
-    throw firostError(
-      'CLOUDINARY_PROXY_NOT_URL',
-      `URL ${userUrl} is not valid`
-    );
+    const error = new Error(`URL ${userUrl} is not valid`);
+    error.code = 'CLOUDINARY_PROXY_NOT_URL';
+    throw error;
   }
   const bucketName = cloudinary.get('bucketName');
   const baseUrl = `https://res.cloudinary.com/${bucketName}/image/fetch/`;

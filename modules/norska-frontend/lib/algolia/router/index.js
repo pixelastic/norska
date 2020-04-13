@@ -1,4 +1,5 @@
 const helper = require('./helper.js');
+const credentials = require('../credentials.js');
 const { isEmpty, pick, merge, map } = require('lodash-es');
 /**
  * All filters of the current search are encoded in the URL hash
@@ -14,7 +15,7 @@ module.exports = {
    * @returns {string} Full url
    **/
   createURL({ routeState }) {
-    const indexName = helper.indexName();
+    const indexName = credentials.indexName();
     const currentUrl = helper.currentUrl();
     const parameters = routeState[indexName];
     if (isEmpty(parameters)) {
@@ -40,7 +41,7 @@ module.exports = {
    * @returns {object} Route state from the url
    **/
   parseURL({ location }) {
-    const indexName = helper.indexName();
+    const indexName = credentials.indexName();
     const hash = location.hash;
     if (!hash) {
       return { [indexName]: {} };

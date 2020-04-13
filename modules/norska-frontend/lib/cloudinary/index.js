@@ -1,5 +1,3 @@
-const firostError = require('firost/lib/error');
-
 module.exports = {
   config: {},
   /**
@@ -18,9 +16,10 @@ module.exports = {
     if (value) {
       return value;
     }
-    throw firostError(
-      'CLOUDINARY_MISSING_CONFIG',
+    const error = new Error(
       `You tried to pass an image through Cloudinary but you have no cloudinary.${key} defined in your norska.config.js file.`
     );
+    error.code = 'CLOUDINARY_MISSING_CONFIG';
+    throw error;
   },
 };

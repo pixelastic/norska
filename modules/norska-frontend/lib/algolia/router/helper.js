@@ -1,10 +1,3 @@
-/**
- * All filters of the current search are encoded in the URL hash
- * Simple filters like query and page are simple query:foo and page:42
- * Each filter is separated by a /
- * Refinement list are encoded as key:[value1,value2]
- * Ranges as key:{min,max}
- **/
 module.exports = {
   metaKeys: ['page', 'query'],
   filterKeys: ['refinementList', 'range'],
@@ -91,13 +84,6 @@ module.exports = {
         },
       };
     }
-  },
-  /**
-   * Return the Algolia index name defined in the global config
-   * @returns {string} Index name
-   **/
-  indexName() {
-    return window.CONFIG.indexName;
   },
   /**
    * Return the current url
