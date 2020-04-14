@@ -26,6 +26,7 @@
   "files": [
     "lib/*.js",
     "bin/",
+    "frontend/",
     "reset.css"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
