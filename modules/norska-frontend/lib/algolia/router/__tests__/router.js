@@ -1,10 +1,11 @@
 const module = require('../index.js');
 const helper = require('../helper.js');
+const credentials = require('../../credentials.js');
 
 describe('router', () => {
   beforeEach(async () => {
     jest.spyOn(helper, 'currentUrl').mockReturnValue('monsters.com/search/');
-    jest.spyOn(helper, 'indexName').mockReturnValue('indexName');
+    jest.spyOn(credentials, 'indexName').mockReturnValue('indexName');
   });
   it.each([
     // indexRouteState | location | options

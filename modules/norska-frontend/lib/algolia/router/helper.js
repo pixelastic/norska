@@ -1,3 +1,4 @@
+const credentials = require('../credentials.js');
 module.exports = {
   metaKeys: ['page', 'query'],
   filterKeys: ['refinementList', 'range'],
@@ -92,5 +93,12 @@ module.exports = {
   currentUrl() {
     const fullUrl = `${location.origin}${location.pathname}`;
     return fullUrl.replace(/index\.html$/, '');
+  },
+  /**
+   * Returns the index name
+   * @returns {string} Name of the main index
+   **/
+  indexName() {
+    return credentials.indexName();
   },
 };
