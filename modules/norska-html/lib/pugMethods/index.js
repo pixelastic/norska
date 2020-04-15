@@ -23,7 +23,9 @@ module.exports = function(data, destination) {
     },
     include: _.partialRight(pugInclude, context),
     img: _.partialRight(pugImg, context),
-    lazyload: _.partialRight(pugLazyload, context),
+    lazyload(url, options) {
+      return pugLazyload(url, options, context);
+    },
     markdown: pugMarkdown,
     remoteUrl: _.partialRight(pugRemoteUrl, context),
     revv(filepath, options) {

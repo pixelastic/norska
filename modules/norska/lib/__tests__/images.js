@@ -189,6 +189,61 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
+  // Lazyloading
+  // Local images in dev are displayed directly, using a spinner for
+  // a placeholder
+  {
+    env: 'dev',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("foo.png")
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected: '<img src="spinner.gif" data-src="foo.png"/>',
+  },
+  // When disabled, it directly loads the image
+  {
+    env: 'dev',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("foo.png", { disable: true })
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected: '<img src="foo.png" data-src="foo.png"/>',
+  },
+  // Local images in prod should go through cloudinary, as does the placeholder
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("foo.png")
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,h_50%,q_10,w_50%/http://here.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
+  },
+  // Remote images in dev should act as production image and go through
+  {
+    env: 'dev',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,h_50%,q_10,w_50%/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
+  },
+  // Remote images in prod should use cloudinary as well for the placeholder
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,h_50%,q_10,w_50%/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
+  },
+  // Disabled lazyloading in prod should use the cloudinary url direcly as
+  // a placeholder
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { disable: true })
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
+  },
 ]);
 
 describe('norska > images', () => {
@@ -219,8 +274,10 @@ function initTestCases(rawItems) {
   const raw = items;
   _.each(items, item => {
     const { env, destination, input, expected } = item;
-    const id = uuid();
+    const id = _.replace(uuid(), /-/g, '_');
     const testName = `[${env}:${destination}] ${input} => ${expected}`;
+
+    item.input = _.replace(item.input, /\{testId\}/g, id);
 
     headers.push([testName, id]);
     item.id = id;
