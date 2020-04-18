@@ -144,5 +144,13 @@ describe('norska-init', () => {
       expect(actual).toHaveProperty('scripts.cms');
       expect(actual).toHaveProperty('scripts.serve');
     });
+    it('should set the files key in package.json to an empty array', async () => {
+      await writeJson({}, config.rootPath('package.json'));
+      await module.run();
+
+      const actual = await readJson(config.rootPath('package.json'));
+
+      expect(actual).toHaveProperty('files', []);
+    });
   });
 });

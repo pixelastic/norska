@@ -37,6 +37,8 @@ module.exports = {
     progress.tick('Adding scripts');
     await this.addScripts();
 
+    await this.setPackageFiles();
+
     progress.success('norska project initialized');
   },
   /**
@@ -47,6 +49,19 @@ module.exports = {
    **/
   templatePath(relativePath = '') {
     return path.resolve(__dirname, '..', 'templates', relativePath);
+  },
+  /**
+   * Will set the files key of package.json to an empty array
+   * The files key define which keys should be released in a module. As a norska
+   * website will not be released as a module, we set the key to an empty array.
+   * This helps ESLint warn about require calls that might require a file not
+   * available
+   * */
+  async setPackageFiles() {
+    const packagePath = config.rootPath('package.json');
+    const currentPackage = await readJson(packagePath);
+    currentPackage.files = [];
+    await writeJson(currentPackage, packagePath);
   },
   /**
    * Add default scripts to the package.json scripts entry and copy scripts to
