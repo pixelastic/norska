@@ -6,7 +6,7 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
-    "aberlaas": "1.4.0",
+    "aberlaas": "1.4.2",
     "firost": "1.5.0",
     "golgoth": "1.2.0",
     "lerna": "3.20.2"
