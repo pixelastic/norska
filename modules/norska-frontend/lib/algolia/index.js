@@ -10,6 +10,7 @@ module.exports = {
   __client: null,
   __widgets: [],
   __transforms: {},
+  __onDisplay: null,
   /**
    * Init the search with credentials
    * @param {object} userCredentials object. Should include appId,
@@ -49,6 +50,16 @@ module.exports = {
     return this;
   },
   /**
+   * Define an optional method to call on each hit before displaying it
+   * Mostly useful for debugging
+   * @param {Function} onDisplay Method to call on each hit before display
+   * @returns {object} Algolia instance, for chaining
+   **/
+  onDisplay(onDisplay) {
+    this.__onDisplay = onDisplay;
+    return this;
+  },
+  /**
    * Checks if a given widget has a container available
    * @param {object} widget Widget definition
    * @returns {boolean} True if container is in the document
@@ -69,7 +80,7 @@ module.exports = {
       // Transforming hits before display
       if (isHitWidget) {
         widget.options.transformItems = items => {
-          return transformHits(items, this.__transforms);
+          return transformHits(items, this.__transforms, this.__onDisplay);
         };
       }
 

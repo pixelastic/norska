@@ -6,9 +6,12 @@ const highlight = require('./highlight.js');
  *  - edit exiting keys defined in transform
  * @param {Array} hits List of hits
  * @param {object} transforms Object containing one key per field to transform
+ * @param {Function} rawOnDisplay Method to call on the hit before displaying it
  * @returns {Array} Transformed list of items
  */
-module.exports = function(hits, transforms) {
+module.exports = function(hits, transforms, rawOnDisplay) {
+  const onDisplay = rawOnDisplay || (() => {});
+
   return hits.map((rawHit, index) => {
     const hit = {};
 
@@ -24,6 +27,8 @@ module.exports = function(hits, transforms) {
     Object.keys(transforms).forEach(key => {
       hit[key] = transforms[key](hit, index);
     });
+
+    onDisplay(hit);
 
     return hit;
   });

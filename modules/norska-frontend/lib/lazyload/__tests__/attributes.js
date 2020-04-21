@@ -1,34 +1,22 @@
 const module = require('../attributes');
+const placeholderize = require('../placeholderize');
+const proxy = require('../../cloudinary/proxy');
+jest.mock('../placeholderize');
+jest.mock('../../cloudinary/proxy');
 
 describe('norska-frontend > lazyload > attributes', () => {
-  it('should return src and dataSrc', async () => {
-    const input = 'https://www.example.com/foo.png';
-    const actual = module(input);
-
-    expect(actual).toHaveProperty('src', null);
-    expect(actual).toHaveProperty('dataSrc', input);
+  beforeEach(async () => {
+    placeholderize.mockReturnValue('__PLACEHOLDER__');
+    proxy.mockReturnValue('__PROXY__');
   });
-  it('should return style and dataBg', async () => {
-    const input = 'https://www.example.com/foo.png';
-    const actual = module(input);
-
-    expect(actual).toHaveProperty('style', null);
-    expect(actual).toHaveProperty('dataBg', input);
+  it('should return full and placeholder', async () => {
+    const actual = module('url');
+    expect(actual).toHaveProperty('full', '__PROXY__');
+    expect(actual).toHaveProperty('placeholder', '__PLACEHOLDER__');
   });
-  describe('disabled', () => {
-    it('should return src and dataSrc', async () => {
-      const input = 'https://www.example.com/foo.png';
-      const actual = module(input, { disable: true });
-
-      expect(actual).toHaveProperty('src', input);
-      expect(actual).toHaveProperty('dataSrc', null);
-    });
-    it('should return style and dataBg', async () => {
-      const input = 'https://www.example.com/foo.png';
-      const actual = module(input, { disable: true });
-
-      expect(actual).toHaveProperty('style', `background-image:url(${input})`);
-      expect(actual).toHaveProperty('dataBg', null);
-    });
+  it('should return both full if disabled', async () => {
+    const actual = module('url', { disable: true });
+    expect(actual).toHaveProperty('full', '__PROXY__');
+    expect(actual).toHaveProperty('placeholder', '__PROXY__');
   });
 });

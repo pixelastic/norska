@@ -1,7 +1,7 @@
+const proxy = require('../cloudinary/proxy.js');
+const placeholderize = require('./placeholderize.js');
 /**
- * Computes all HTML attributes needed to lazyload an image: src, dataSrc, style
- * and dataBg
- *
+ * Returns .full and .placeholder keys from any image url to use in lazyloading
  * @param {string} url Path to the image
  * @param {object} userOptions
  * - disable: Force loading if set to true
@@ -13,18 +13,20 @@ module.exports = function(url, userOptions = {}) {
     ...userOptions,
   };
 
-  let src = null;
-  let dataSrc = url;
-  let style = null;
-  let dataBg = url;
+  const isDisabled = options.disable;
 
-  // When disabled, we revert the urls
-  if (options.disable) {
-    src = url;
-    dataSrc = null;
-    style = `background-image:url(${url})`;
-    dataBg = null;
+  const fullUrl = proxy(url);
+
+  if (isDisabled) {
+    return {
+      full: fullUrl,
+      placeholder: fullUrl,
+    };
   }
 
-  return { src, dataSrc, style, dataBg };
+  const placeholderUrl = placeholderize(url);
+  return {
+    full: fullUrl,
+    placeholder: placeholderUrl,
+  };
 };

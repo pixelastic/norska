@@ -214,7 +214,7 @@ const testCases = initTestCases([
     input: `- const attrs_{testId} = lazyload("foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,h_50%,q_10,w_50%/http://here.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/http://here.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
   },
   // Remote images in dev should act as production image and go through
   {
@@ -223,7 +223,7 @@ const testCases = initTestCases([
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,h_50%,q_10,w_50%/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
   // Remote images in prod should use cloudinary as well for the placeholder
   {
@@ -232,7 +232,7 @@ const testCases = initTestCases([
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,h_50%,q_10,w_50%/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
   // Disabled lazyloading in prod should use the cloudinary url direcly as
   // a placeholder
