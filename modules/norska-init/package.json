@@ -6,7 +6,7 @@
   "dependencies": {
     "firost": "1.5.0",
     "golgoth": "1.2.0",
-    "norska-config": "^0.7.3"
+    "norska-config": "^0.8.0"
   },
   "description": "Initialize a new Norska project",
   "files": [
@@ -25,5 +25,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.7.4"
+  "version": "0.8.0"
 }
