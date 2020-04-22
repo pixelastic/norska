@@ -1,8 +1,5 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
-  "engines": {
-    "node": ">=12.12.0"
-  },
   "dependencies": {
     "golgoth": "1.2.0"
   },
