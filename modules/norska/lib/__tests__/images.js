@@ -88,6 +88,14 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
+  // Passing custom proxy attributes
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: 'img(src=cloudinary("http://there.com/foo.png", { width: 100 }))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png"/>',
+  },
   // Revv
   // Should ignore files in dev
   // Should revv files in prod
@@ -189,6 +197,14 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
+  // Passing custom proxy attributes
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: 'img(src=img("http://there.com/foo.png", { width: 100 }))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png"/>',
+  },
   // Lazyloading
   // Local images in dev are loading directly
   {
@@ -242,6 +258,25 @@ const testCases = initTestCases([
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
+  },
+  // Passing custom cloudinary attributes to the image
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { width: 100 })
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https://there.com/foo.png"/>',
+  },
+  // Passing custom cloudinary attributes to the placeholder
+  {
+    env: 'prod',
+    focus: true,
+    destination: 'index.pug',
+    input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { placeholder: { width: 100 } })
+    img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_100/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
 ]);
 

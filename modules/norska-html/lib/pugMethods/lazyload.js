@@ -23,8 +23,9 @@ function lazyload(userUrl, userOptions, context) {
   const isDev = !helper.isProduction();
   const isRemote = _.startsWith(userUrl, 'http');
   const isLocal = !isRemote;
+  const cloudinaryOptions = _.omit(options, ['disable', 'placeholder']);
 
-  const fullUrl = pugImg(userUrl, context);
+  const fullUrl = pugImg(userUrl, cloudinaryOptions, context);
 
   // Use full url as placeholder when disabled
   if (isDisabled) {
@@ -41,7 +42,11 @@ function lazyload(userUrl, userOptions, context) {
 
   // Local files must be made remote for placeholder generation
   const remoteUrl = isRemote ? userUrl : pugRemoteUrl(userUrl, context);
-  const placeholderUrl = frontendPlaceholderize(remoteUrl);
+  const placeholderCloudinaryOptions = _.get(options, 'placeholder', {});
+  const placeholderUrl = frontendPlaceholderize(
+    remoteUrl,
+    placeholderCloudinaryOptions
+  );
   return {
     full: fullUrl,
     placeholder: placeholderUrl,

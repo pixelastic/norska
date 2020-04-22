@@ -22,7 +22,9 @@ module.exports = function(data, destination) {
       return pugCloudinary(url, options, context);
     },
     include: _.partialRight(pugInclude, context),
-    img: _.partialRight(pugImg, context),
+    img(url, options) {
+      return pugImg(url, options, context);
+    },
     lazyload(url, options) {
       return pugLazyload(url, options, context);
     },
