@@ -3,8 +3,8 @@
   "dependencies": {
     "firost": "1.5.0",
     "golgoth": "1.2.0",
-    "norska-config": "^0.8.0",
-    "norska-helper": "^0.8.0",
+    "norska-config": "^0.8.1",
+    "norska-helper": "^0.8.1",
     "rev-hash": "^3.0.0"
   },
   "description": "Revving filenames after build",
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.8.0"
+  "version": "0.8.1"
 }
