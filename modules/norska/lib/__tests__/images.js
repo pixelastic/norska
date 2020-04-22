@@ -271,7 +271,6 @@ const testCases = initTestCases([
   // Passing custom cloudinary attributes to the placeholder
   {
     env: 'prod',
-    focus: true,
     destination: 'index.pug',
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { placeholder: { width: 100 } })
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
