@@ -190,14 +190,13 @@ const testCases = initTestCases([
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
   // Lazyloading
-  // Local images in dev are displayed directly, using a spinner for
-  // a placeholder
+  // Local images in dev are loading directly
   {
     env: 'dev',
     destination: 'index.pug',
     input: `- const attrs_{testId} = lazyload("foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
-    expected: '<img src="spinner.gif" data-src="foo.png"/>',
+    expected: '<img src="foo.png" data-src="foo.png"/>',
   },
   // When disabled, it directly loads the image
   {

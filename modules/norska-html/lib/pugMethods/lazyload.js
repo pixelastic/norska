@@ -31,11 +31,11 @@ function lazyload(userUrl, userOptions, context) {
     return { full: fullUrl, placeholder: fullUrl };
   }
 
-  // Use a static spinner for local placeholder in dev
+  // Don't lazyload anything in dev for local images
   if (isDev && isLocal) {
     return {
       full: fullUrl,
-      placeholder: 'spinner.gif',
+      placeholder: fullUrl,
     };
   }
 
@@ -46,18 +46,6 @@ function lazyload(userUrl, userOptions, context) {
     full: fullUrl,
     placeholder: placeholderUrl,
   };
-
-  // if (is
-  // return {
-  //   full: "ok",
-  //   placeholder: "place"
-  // }
-  // const cloudinaryOptions = _.omit(userOptions, ['disable']);
-  // const url = pugCloudinary(userUrl, cloudinaryOptions, context);
-  // // TODO: Automatically revv files when lazyloading them
-  // // TODO: Automatically set a blurred version of the file as a placeholder
-
-  // return lazyload.__frontendAttributes(url, userOptions);
 }
 lazyload.__frontendAttributes = frontendAttributes;
 module.exports = lazyload;
