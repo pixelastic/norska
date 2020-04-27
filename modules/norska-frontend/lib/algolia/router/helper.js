@@ -14,7 +14,7 @@ module.exports = {
     const isMeta = this.metaKeys.includes(key);
 
     if (isMeta) {
-      return `${key}:${value}`;
+      return `${key}:${encodeURIComponent(value)}`;
     }
 
     const isFilter = Array.isArray(value);
@@ -55,7 +55,7 @@ module.exports = {
     const isMeta = this.metaKeys.includes(key);
     if (isMeta) {
       return {
-        [key]: value,
+        [key]: decodeURIComponent(value),
       };
     }
 

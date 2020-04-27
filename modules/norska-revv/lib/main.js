@@ -101,17 +101,31 @@ module.exports = {
         destinationFolder,
         absoluteRevvedPath
       );
-      // Classic revv, relative to the page loading it
-      content = _.replace(
-        content,
-        new RegExp(`{revv: ${basePath}}`, 'g'),
-        relativeRevvedPath
-      );
-      // Absolute revv, from the root, for use in urls
-      content = _.replace(
-        content,
-        new RegExp(`{absoluteRevv: ${basePath}}`, 'g'),
-        revvedPath
+
+      // We need to decode revv and absoluteRevv placeholders
+      const revvPattern = `{revv: ${basePath}}`;
+      const absoluteRevvPattern = `{absoluteRevv: ${basePath}}`;
+      const replacements = [
+        { from: revvPattern, to: relativeRevvedPath },
+        { from: absoluteRevvPattern, to: revvedPath },
+      ];
+
+      content = _.reduce(
+        replacements,
+        function(result, item) {
+          return (
+            _.chain(result)
+              .replace(new RegExp(item.from, 'g'), item.to)
+              // We also need to replace urlencoded placeholders with urlencoded
+              // values (for example when they are in cloudinary links)
+              .replace(
+                new RegExp(encodeURIComponent(item.from), 'g'),
+                encodeURIComponent(item.to)
+              )
+              .value()
+          );
+        },
+        content
       );
     });
 
