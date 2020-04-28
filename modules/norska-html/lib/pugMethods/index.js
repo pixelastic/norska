@@ -6,6 +6,7 @@ const pugInclude = require('./include.js');
 const pugImg = require('./img.js');
 const pugCloudinary = require('./cloudinary.js');
 const pugLazyload = require('./lazyload.js');
+const pugMixinImgHelper = require('./mixinImgHelper.js');
 
 /**
  * Returns an object containing custom methods to pass to every pug file
@@ -33,6 +34,7 @@ module.exports = function(data, destination) {
     revv(filepath, options) {
       return pugRevv(filepath, options, context);
     },
+    mixinImgHelper: _.partialRight(pugMixinImgHelper, context),
     _,
   };
   // We re-add methods into context so it's correctly recursively passed to each

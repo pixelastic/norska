@@ -14,6 +14,7 @@ const write = require('firost/lib/write');
 const spinner = require('firost/lib/spinner');
 const glob = require('firost/lib/glob');
 const watch = require('firost/lib/watch');
+const read = require('firost/lib/read');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleWarn = require('firost/lib/consoleWarn');
 const consoleError = require('firost/lib/consoleError');
@@ -76,6 +77,46 @@ module.exports = {
       ...pugMethods(baseData, destination),
     };
   },
+  /**
+   * Returns the builtin pug mixins
+   * This use a cache on subsequent calls
+   * @returns {string} Pug code of the mixins
+   **/
+  async getMixins() {
+    // Read and concatenate all files in ./pugMixins
+    if (!this.__mixins) {
+      const mixinDir = path.resolve(__dirname, 'pugMixins');
+      const mixinFiles = await glob(`${mixinDir}/*.pug`);
+      const mixinContent = await pMap(mixinFiles, read);
+      this.__mixins = mixinContent.join('\n\n');
+    }
+    return this.__mixins;
+  },
+  /**
+   * Returns the pug string source from a path
+   * Automatically adds builtin mixins
+   *
+   * @param {string} filepath Filepath to the pug file
+   * @returns {string} Stringified version of the source
+   */
+  async getSource(filepath) {
+    const rawSource = await read(filepath);
+    const builtinMixins = await this.getMixins();
+    // If starts with extends, add the mixins on the second line
+    if (_.startsWith(rawSource, 'extends ')) {
+      const lines = rawSource.split('\n');
+      lines.splice(1, 0, builtinMixins);
+      return lines.join('\n');
+    }
+    // Add mixins at the very top
+    return `${builtinMixins}\n\n${rawSource}`;
+  },
+  /**
+   * Write an html to disk from a pug file
+   * @param {string} source Path to the source pug file
+   * @param {string} destination Path to the destination html file
+   * @param {object} pageData Data to pass to the page
+   **/
   async createPage(source, destination, pageData = {}) {
     const absoluteDestination = config.toPath(destination);
     const absoluteSource = config.fromPath(source);
@@ -84,7 +125,9 @@ module.exports = {
 
     let result;
     try {
-      const compiler = pug.compileFile(absoluteSource, {
+      const pugSource = await this.getSource(absoluteSource);
+
+      const compiler = pug.compile(pugSource, {
         filename: absoluteSource,
         basedir: config.from(),
       });
@@ -219,6 +262,7 @@ module.exports = {
    * Event emitter to emit/listen to events
    **/
   pulse: new EventEmitter(),
+  __mixins: null,
   __consoleError: consoleError,
   __consoleSuccess: consoleSuccess,
   __consoleWarn: consoleWarn,

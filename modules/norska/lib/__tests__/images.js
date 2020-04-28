@@ -27,7 +27,7 @@ const read = require('firost/lib/read');
 // all inputs generated and we extract the results into an object.
 // When the test is run, we use the id of the test to find the test result and
 // compare the actual with the expected
-const testCases = initTestCases([
+const testCasesCloudinary = [
   // Cloudinary
   // Should ignore local files in dev
   // Should convert local files to remote in prod
@@ -96,6 +96,8 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
+];
+const testCasesRevv = [
   // Revv
   // Should ignore files in dev
   // Should revv files in prod
@@ -137,6 +139,8 @@ const testCases = initTestCases([
     input: 'img(src=revv("./subimage.png"))',
     expected: '<img src="subimage.h4sh.png"/>',
   },
+];
+const testCasesImgMethod = [
   // Img
   // Should ignore local files in dev
   // Should revv and pass through cloudinary local files in prod
@@ -205,6 +209,8 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
+];
+const testCasesLazyload = [
   // Lazyloading
   // Local images in dev are loading directly
   {
@@ -277,6 +283,22 @@ const testCases = initTestCases([
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
+];
+const testCasesImgMixin = [
+  {
+    env: 'dev',
+    destination: 'index.pug',
+    input: '+img(src="https://there.com/foo.png")',
+    expected:
+      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+  },
+];
+const testCases = initTestCases([
+  ...testCasesCloudinary,
+  ...testCasesRevv,
+  ...testCasesImgMethod,
+  ...testCasesLazyload,
+  ...testCasesImgMixin,
 ]);
 
 describe('norska > images', () => {
