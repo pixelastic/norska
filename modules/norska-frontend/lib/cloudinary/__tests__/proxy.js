@@ -68,6 +68,7 @@ describe('norska-frontend > cloudinary > proxy', () => {
           { grayscale: true, quality: 90, height: 42 },
           'f_auto,e_grayscale,h_42,q_90',
         ],
+        [{ unknown: 42 }, 'f_auto'],
       ])('%s => %s', async (options, params) => {
         const input = 'http://www.example.com/foo.png';
         const expected = `https://res.cloudinary.com/bucket-foo/image/fetch/${params}/http%3A%2F%2Fwww.example.com%2Ffoo.png`;

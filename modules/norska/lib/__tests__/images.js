@@ -235,7 +235,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/http%3A%2F%2Fhere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Ffoo.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_0.33/http%3A%2F%2Fhere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Ffoo.h4sh.png"/>',
   },
   // Remote images in dev should act as production image and go through
   {
@@ -244,7 +244,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_0.33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
   // Remote images in prod should use cloudinary as well for the placeholder
   {
@@ -253,7 +253,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_0.33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
   // Disabled lazyloading in prod should use the cloudinary url direcly as
   // a placeholder
@@ -272,7 +272,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { width: 100 })
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
   // Passing custom cloudinary attributes to the placeholder
   {
@@ -281,7 +281,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { placeholder: { width: 100 } })
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
 ];
 const testCasesImgMixin = [
@@ -290,7 +290,7 @@ const testCasesImgMixin = [
     destination: 'index.pug',
     input: '+img(src="https://there.com/foo.png")',
     expected:
-      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_0.33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
   },
 ];
 const testCases = initTestCases([

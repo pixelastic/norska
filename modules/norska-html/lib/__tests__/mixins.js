@@ -6,7 +6,7 @@ const read = require('firost/lib/read');
 const frontendCloudinary = require('norska-frontend/lib/cloudinary');
 frontendCloudinary.init({ bucketName: 'bucket' });
 
-describe('norska-html', () => {
+describe('norska-html > mixins', () => {
   const tmpDirectory = './tmp/norska-html/mixins';
   beforeEach(async () => {
     await config.init({
@@ -35,15 +35,15 @@ describe('norska-html', () => {
       ['+img.foo', '<img class="lazyload foo"/>'],
       [
         '+img(src="https://there.com/foo.png")',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_0.33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={width: 100})',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,h_0.33,q_10,w_33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={placeholder: {blur:8000}})',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:8000,f_auto,h_0.5,q_10,w_0.5/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:8000,f_auto,h_0.33,q_10,w_0.33/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
       ],
     ])('%s', async (input, expected) => {
       const source = config.fromPath('source.pug');

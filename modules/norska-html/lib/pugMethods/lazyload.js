@@ -42,11 +42,7 @@ function lazyload(userUrl, userOptions, context) {
 
   // Local files must be made remote for placeholder generation
   const remoteUrl = isRemote ? userUrl : pugRemoteUrl(userUrl, context);
-  const placeholderCloudinaryOptions = _.get(options, 'placeholder', {});
-  const placeholderUrl = frontendPlaceholderize(
-    remoteUrl,
-    placeholderCloudinaryOptions
-  );
+  const placeholderUrl = frontendPlaceholderize(remoteUrl, options);
   return {
     full: fullUrl,
     placeholder: placeholderUrl,

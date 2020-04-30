@@ -64,13 +64,17 @@ module.exports = function(userUrl, userOptions = {}) {
     .sort()
     .map(key => {
       const prefix = availableOptions[key];
+      if (!prefix) {
+        return false;
+      }
       const value = options[key];
       // If the value is "true", we simply add the prefix
       if (value === true) {
         return prefix;
       }
       return `${prefix}${value}`;
-    });
+    })
+    .filter(Boolean);
   const optionsAsString = parsedOptions.length
     ? parsedOptions.join(',') + '/'
     : '';
