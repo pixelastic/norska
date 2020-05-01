@@ -5,8 +5,8 @@
     "autoprefixer": "9.7.6",
     "firost": "1.5.0",
     "golgoth": "1.2.0",
-    "norska-config": "^0.8.1",
-    "norska-helper": "^0.8.1",
+    "norska-config": "^0.9.0",
+    "norska-helper": "^0.9.0",
     "postcss": "7.0.27",
     "postcss-clean": "1.1.0",
     "postcss-import": "12.0.1",
@@ -32,5 +32,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.8.4"
+  "version": "0.9.0"
 }
