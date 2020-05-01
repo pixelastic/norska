@@ -290,7 +290,7 @@ const testCasesImgMixin = [
     destination: 'index.pug',
     input: '+img(src="https://there.com/foo.png")',
     expected:
-      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png" loading="lazy"/>',
   },
 ];
 const testCases = initTestCases([

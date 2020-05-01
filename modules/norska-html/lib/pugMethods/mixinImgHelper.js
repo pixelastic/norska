@@ -25,6 +25,7 @@ module.exports = function(attributes, context) {
     const lazyloadAttributes = pugLazyload(attributes.src, options, context);
     finalAttributes.src = lazyloadAttributes.placeholder;
     finalAttributes['data-src'] = lazyloadAttributes.full;
+    finalAttributes.loading = 'lazy';
   }
 
   return finalAttributes;

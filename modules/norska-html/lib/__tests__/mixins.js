@@ -35,15 +35,15 @@ describe('norska-html > mixins', () => {
       ['+img.foo', '<img class="lazyload foo"/>'],
       [
         '+img(src="https://there.com/foo.png")',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png" loading="lazy"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={width: 100})',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" loading="lazy"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={placeholder: {blur:8000}})',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:8000,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:8000,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png" loading="lazy"/>',
       ],
     ])('%s', async (input, expected) => {
       const source = config.fromPath('source.pug');
