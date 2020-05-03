@@ -1,12 +1,13 @@
 const _ = require('golgoth/lib/lodash');
+const pugCloudinary = require('./cloudinary.js');
+const pugImg = require('./img.js');
+const pugInclude = require('./include.js');
+const pugLazyload = require('./lazyload.js');
 const pugMarkdown = require('./markdown.js');
+const pugMixinImgHelper = require('./mixinImgHelper.js');
 const pugRemoteUrl = require('./remoteUrl.js');
 const pugRevv = require('./revv.js');
-const pugInclude = require('./include.js');
-const pugImg = require('./img.js');
-const pugCloudinary = require('./cloudinary.js');
-const pugLazyload = require('./lazyload.js');
-const pugMixinImgHelper = require('./mixinImgHelper.js');
+const pugScreenshot = require('./screenshot.js');
 
 /**
  * Returns an object containing custom methods to pass to every pug file
@@ -30,11 +31,14 @@ module.exports = function(data, destination) {
       return pugLazyload(url, options, context);
     },
     markdown: pugMarkdown,
+    mixinImgHelper: _.partialRight(pugMixinImgHelper, context),
     remoteUrl: _.partialRight(pugRemoteUrl, context),
     revv(filepath, options) {
       return pugRevv(filepath, options, context);
     },
-    mixinImgHelper: _.partialRight(pugMixinImgHelper, context),
+    screenshot() {
+      return pugScreenshot(context);
+    },
     _,
   };
   // We re-add methods into context so it's correctly recursively passed to each

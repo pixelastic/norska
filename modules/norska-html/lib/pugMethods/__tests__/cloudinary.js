@@ -17,7 +17,7 @@ describe('norska-html > pugMethods > cloudinary', () => {
       'dev',
       'http://there.com/foo.png',
       { width: 40 },
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_40/http%3A%2F%2Fthere.com%2Ffoo.png',
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_40/http://there.com/foo.png',
     ],
     ['dev', 'foo.png', { width: 40 }, 'foo.png'],
     ['dev', './foo.png', { width: 40 }, './foo.png'],
@@ -25,13 +25,13 @@ describe('norska-html > pugMethods > cloudinary', () => {
       'prod',
       'http://there.com/foo.png',
       { width: 40 },
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_40/http%3A%2F%2Fthere.com%2Ffoo.png',
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_40/http://there.com/foo.png',
     ],
     [
       'prod',
       'foo.png',
       { width: 40 },
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_40/http%3A%2F%2Fhere.com%2Ffoo.png',
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_40/http://here.com/foo.png',
     ],
   ])('[%s]: %s (%o) => %s', (env, input, options, expected) => {
     const isProduction = env === 'prod';

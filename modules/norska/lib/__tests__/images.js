@@ -43,7 +43,7 @@ const testCasesCloudinary = [
     destination: 'index.pug',
     input: 'img(src=cloudinary("foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.png"/>',
   },
   // Referencing a local image from a subfolder
   {
@@ -57,7 +57,7 @@ const testCasesCloudinary = [
     destination: 'subfolder/index.pug',
     input: 'img(src=cloudinary("subimage.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Fsubimage.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subimage.png"/>',
   },
   // Referencing an explicitly local image in a subfolder
   {
@@ -71,7 +71,7 @@ const testCasesCloudinary = [
     destination: 'subfolder/index.pug',
     input: 'img(src=cloudinary("./subimage.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subfolder/subimage.png"/>',
   },
   // Referencing an external image
   {
@@ -79,14 +79,14 @@ const testCasesCloudinary = [
     destination: 'index.pug',
     input: 'img(src=cloudinary("http://there.com/foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
   {
     env: 'prod',
     destination: 'index.pug',
     input: 'img(src=cloudinary("http://there.com/foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
   // Passing custom proxy attributes
   {
@@ -94,7 +94,7 @@ const testCasesCloudinary = [
     destination: 'index.pug',
     input: 'img(src=cloudinary("http://there.com/foo.png", { width: 100 }))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png"/>',
   },
 ];
 const testCasesRevv = [
@@ -156,7 +156,7 @@ const testCasesImgMethod = [
     destination: 'index.pug',
     input: 'img(src=img("foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Ffoo.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
   },
   // Referencing a top level image in a subfolder page
   {
@@ -170,7 +170,7 @@ const testCasesImgMethod = [
     destination: 'foo/index.pug',
     input: 'img(src=img("foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Ffoo.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
   },
   // Referencing a subfolder image in a subfolder page
   {
@@ -184,7 +184,7 @@ const testCasesImgMethod = [
     destination: 'subfolder/index.pug',
     input: 'img(src=img("./subimage.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subfolder/subimage.h4sh.png"/>',
   },
   // Referencing an external image
   {
@@ -192,14 +192,14 @@ const testCasesImgMethod = [
     destination: 'index.pug',
     input: 'img(src=img("http://there.com/foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
   {
     env: 'prod',
     destination: 'index.pug',
     input: 'img(src=img("http://there.com/foo.png"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://there.com/foo.png"/>',
   },
   // Passing custom proxy attributes
   {
@@ -207,7 +207,7 @@ const testCasesImgMethod = [
     destination: 'index.pug',
     input: 'img(src=img("http://there.com/foo.png", { width: 100 }))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png"/>',
   },
 ];
 const testCasesLazyload = [
@@ -235,7 +235,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http%3A%2F%2Fhere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http%3A%2F%2Fhere.com%2Ffoo.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
   },
   // Remote images in dev should act as production image and go through
   {
@@ -244,7 +244,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
   // Remote images in prod should use cloudinary as well for the placeholder
   {
@@ -253,7 +253,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
   // Disabled lazyloading in prod should use the cloudinary url direcly as
   // a placeholder
@@ -263,7 +263,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { disable: true })
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
   // Passing custom cloudinary attributes to the image
   {
@@ -272,7 +272,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { width: 100 })
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https://there.com/foo.png"/>',
   },
   // Passing custom cloudinary attributes to the placeholder
   {
@@ -281,7 +281,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { placeholder: { width: 100 } })
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png"/>',
   },
 ];
 const testCasesImgMixin = [
@@ -290,7 +290,7 @@ const testCasesImgMixin = [
     destination: 'index.pug',
     input: '+img(src="https://there.com/foo.png")',
     expected:
-      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https%3A%2F%2Fthere.com%2Ffoo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https%3A%2F%2Fthere.com%2Ffoo.png" loading="lazy"/>',
+      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" loading="lazy"/>',
   },
 ];
 const testCases = initTestCases([

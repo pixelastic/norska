@@ -30,7 +30,7 @@ describe('norska-frontend > cloudinary > proxy', () => {
       const actual = module(input);
 
       expect(actual).toEqual(
-        'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http%3A%2F%2Fwww.example.com%2Ffoo.png%3Fv%3D42'
+        'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http://www.example.com/foo.png%3Fv=42'
       );
     });
     it('should set the format to auto', async () => {
@@ -38,7 +38,7 @@ describe('norska-frontend > cloudinary > proxy', () => {
       const actual = module(input);
 
       expect(actual).toEqual(
-        'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http%3A%2F%2Fwww.example.com%2Ffoo.png'
+        'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http://www.example.com/foo.png'
       );
     });
     it('should throw an error if url is not remote', async () => {
@@ -71,7 +71,7 @@ describe('norska-frontend > cloudinary > proxy', () => {
         [{ unknown: 42 }, 'f_auto'],
       ])('%s => %s', async (options, params) => {
         const input = 'http://www.example.com/foo.png';
-        const expected = `https://res.cloudinary.com/bucket-foo/image/fetch/${params}/http%3A%2F%2Fwww.example.com%2Ffoo.png`;
+        const expected = `https://res.cloudinary.com/bucket-foo/image/fetch/${params}/http://www.example.com/foo.png`;
         const actual = module(input, options);
         expect(actual).toEqual(expected);
       });

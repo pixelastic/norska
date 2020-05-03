@@ -42,7 +42,7 @@ module.exports = function(userUrl, userOptions = {}) {
   }
   const bucketName = cloudinary.get('bucketName');
   const baseUrl = `https://res.cloudinary.com/${bucketName}/image/fetch/`;
-  const originUrl = encodeURIComponent(userUrl);
+  const originUrl = userUrl.replace('?', '%3F');
 
   const options = {
     format: 'auto', // We force to the best format available
