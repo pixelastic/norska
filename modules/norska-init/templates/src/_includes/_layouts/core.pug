@@ -6,7 +6,7 @@ block config
 - pageTitle = pageTitle || data.site.defaultTitle
 - pageTwitter = pageTwitter || data.site.defaultTwitter
 - pageUrl = pageUrl || data.site.defaultUrl
-- pageImage = pageImage || screenshot()
+- pageImage = `${pageUrl}${pageImage}` || screenshot()
 
 doctype html
 html(lang='en')
@@ -22,7 +22,7 @@ html(lang='en')
     meta(property='og:url', content=pageUrl)
     meta(property='og:title', content=pageTitle)
     meta(property='og:description', content=pageDescription)
-    meta(property='og:image', content=`${pageUrl}${pageImage}`)
+    meta(property='og:image', content!=pageImage)
     script!=tweaks.ensureUrlTrailingSlashSource
     link(rel="shortcut icon", href=`./favicon.png`)
     link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
