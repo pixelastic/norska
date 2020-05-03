@@ -14,8 +14,8 @@
     "norska-css": "^0.9.1",
     "norska-frontend": "^0.9.1",
     "norska-helper": "^0.9.0",
-    "norska-html": "^0.9.1",
-    "norska-init": "^0.9.2",
+    "norska-html": "^0.9.3",
+    "norska-init": "^0.9.3",
     "norska-js": "^0.9.0",
     "norska-revv": "^0.9.0"
   },
@@ -38,5 +38,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.2"
+  "version": "0.9.3"
 }
