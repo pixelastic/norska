@@ -6,7 +6,7 @@ block config
 - pageTitle = pageTitle || data.site.defaultTitle
 - pageTwitter = pageTwitter || data.site.defaultTwitter
 - pageUrl = pageUrl || data.site.defaultUrl
-- pageImage = `${pageUrl}${pageImage}` || screenshot()
+- pageImage = pageImage || screenshot()
 
 doctype html
 html(lang='en')
