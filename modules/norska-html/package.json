@@ -20,7 +20,7 @@
   "files": [
     "lib/*.js",
     "lib/pugMethods/*.js",
-    "lib/pugMixins/*.js"
+    "lib/pugMixins/*.pug"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
