@@ -12,9 +12,9 @@
     "norska-cms": "^0.9.6",
     "norska-config": "^0.9.0",
     "norska-css": "^0.9.6",
-    "norska-frontend": "^0.9.1",
+    "norska-frontend": "^0.9.8",
     "norska-helper": "^0.9.0",
-    "norska-html": "^0.9.7",
+    "norska-html": "^0.9.8",
     "norska-init": "^0.9.5",
     "norska-js": "^0.9.0",
     "norska-revv": "^0.9.0"
@@ -38,5 +38,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.7"
+  "version": "0.9.8"
 }
