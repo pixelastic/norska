@@ -235,7 +235,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("foo.png")
     img(src=attrs_{testId}.placeholder, data-src=attrs_{testId}.full)`,
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.h4sh.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png"/>',
   },
   // Remote images in dev should act as production image and go through
   {
@@ -291,6 +291,14 @@ const testCasesImgMixin = [
     input: '+img(src="https://there.com/foo.png")',
     expected:
       '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" loading="lazy"/>',
+  },
+  // local images should be revved in both placeholder and full
+  {
+    env: 'prod',
+    destination: 'bar/index.pug',
+    input: '+img(src="foo.png")',
+    expected:
+      '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.h4sh.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png" loading="lazy"/>',
   },
 ];
 const testCases = initTestCases([

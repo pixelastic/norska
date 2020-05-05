@@ -2,6 +2,7 @@ const _ = require('golgoth/lib/lodash');
 const helper = require('norska-helper');
 const frontendAttributes = require('norska-frontend/lib/lazyload/attributes');
 const frontendPlaceholderize = require('norska-frontend/lib/lazyload/placeholderize');
+const pugRevv = require('./revv.js');
 const pugImg = require('./img.js');
 const pugRemoteUrl = require('./remoteUrl.js');
 
@@ -27,6 +28,13 @@ function lazyload(userUrl, userOptions, context) {
 
   const fullUrl = pugImg(userUrl, cloudinaryOptions, context);
 
+  let originUrl = userUrl;
+  if (isLocal) {
+    const revvedUrl = pugRevv(userUrl, { isAbsolute: true }, context);
+    originUrl = pugRemoteUrl(revvedUrl, context);
+  }
+  const placeholderUrl = frontendPlaceholderize(originUrl, options);
+
   // Use full url as placeholder when disabled
   if (isDisabled) {
     return { full: fullUrl, placeholder: fullUrl };
@@ -41,8 +49,6 @@ function lazyload(userUrl, userOptions, context) {
   }
 
   // Local files must be made remote for placeholder generation
-  const remoteUrl = isRemote ? userUrl : pugRemoteUrl(userUrl, context);
-  const placeholderUrl = frontendPlaceholderize(remoteUrl, options);
   return {
     full: fullUrl,
     placeholder: placeholderUrl,
