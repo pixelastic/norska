@@ -12622,12 +12622,12 @@ table@^5.2.3, table@^5.4.6:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwind-config-norska@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/tailwind-config-norska/-/tailwind-config-norska-0.2.1.tgz#d4f5ecd9394eea233a3fc8387189928b5113d7d0"
-  integrity sha512-919joj1ih2gtv+uZcgqpe9kqf6saEoaaZGZ2wdii2k74sBWYfTIY9ZdAQh76ABgJT4aEoqPveI1FhJAEtFzQzQ==
+tailwind-config-norska@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/tailwind-config-norska/-/tailwind-config-norska-0.1.1.tgz#1366182d77b8cc1d53695c98d649fc7782cc4ce2"
+  integrity sha512-j08bwgUUTs+a/u5Jb+SPjjOsjGClcTNSzqT/6dXVhJULz0swel7wNWzc4BqvR/EK/qyKZ9twU+BkdyppD5wNyQ==
   dependencies:
-    golgoth "1.2.0"
+    golgoth "1.1.1"
     hex-rgb "4.1.0"
 
 tailwindcss@1.4.4:
