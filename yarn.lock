@@ -12622,10 +12622,10 @@ table@^5.2.3, table@^5.4.6:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwind-config-norska@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/tailwind-config-norska/-/tailwind-config-norska-0.2.0.tgz#f8e84d3f5f4bafebaf83224512be6d1ff27ef65e"
-  integrity sha512-Z9y9febGfSCFqDyutfG1XuRPwI3euooPi5DZ3euZ1DK0/4cXfmd5c03hPfkXLnSdZ162gI5NgdaCsEPt/dar6g==
+tailwind-config-norska@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/tailwind-config-norska/-/tailwind-config-norska-0.2.1.tgz#d4f5ecd9394eea233a3fc8387189928b5113d7d0"
+  integrity sha512-919joj1ih2gtv+uZcgqpe9kqf6saEoaaZGZ2wdii2k74sBWYfTIY9ZdAQh76ABgJT4aEoqPveI1FhJAEtFzQzQ==
   dependencies:
     golgoth "1.2.0"
     hex-rgb "4.1.0"
