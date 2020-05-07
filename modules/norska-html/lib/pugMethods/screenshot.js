@@ -29,5 +29,11 @@ module.exports = function(context) {
     .value();
   const microlinkUrl = `https://api.microlink.io/?${microlinkQueryString}`;
 
-  return pugCloudinary(microlinkUrl, { width: 800 }, context);
+  // If Cloudinary is configured, we pass the url through it, otherwise we stay
+  // with the direct microlink url
+  try {
+    return pugCloudinary(microlinkUrl, { width: 800 }, context);
+  } catch (_err) {
+    return microlinkUrl;
+  }
 };
