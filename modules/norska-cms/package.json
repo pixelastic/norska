@@ -9,7 +9,7 @@
     "multer": "1.4.2",
     "nodemon": "1.19.4",
     "norska-config": "^0.9.0",
-    "norska-css": "^0.9.9",
+    "norska-css": "^0.9.10",
     "norska-helper": "^0.9.0",
     "open": "6.4.0"
   },
@@ -33,5 +33,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.9"
+  "version": "0.9.10"
 }
