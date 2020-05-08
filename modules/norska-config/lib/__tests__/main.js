@@ -4,39 +4,17 @@ const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
 
 describe('norska-config', () => {
-  describe('rootDir', () => {
-    it('should return the current working directory', () => {
-      const expected = process.cwd();
-      const actual = module.rootDir();
-
-      expect(actual).toEqual(expected);
-    });
-  });
-  describe('rootPath', () => {
-    beforeEach(() => {
-      jest.spyOn(module, 'rootDir').mockReturnValue('/__root');
-    });
-    it('should return an absolute path from the host', () => {
-      const actual = module.rootPath('foo.txt');
-
-      expect(actual).toEqual('/__root/foo.txt');
-    });
-    it('should return the path to the host if no arguments passed', () => {
-      const actual = module.rootPath();
-
-      expect(actual).toEqual('/__root');
-    });
-    it('should keep the path is given as absolute', () => {
-      const actual = module.rootPath('/absolute/path');
-
-      expect(actual).toEqual('/absolute/path');
-    });
-  });
+  const tmpDirectory = path.resolve('./tmp/norska-config');
   describe('defaultConfig', () => {
     it('should set the default port', () => {
       const actual = module.defaultConfig();
 
       expect(actual).toHaveProperty('port');
+    });
+    it('should set the default root as the current folder', async () => {
+      const actual = module.defaultConfig();
+
+      expect(actual).toHaveProperty('root', process.cwd());
     });
     it('should set the default source folder', () => {
       const actual = module.defaultConfig();
@@ -70,122 +48,86 @@ describe('norska-config', () => {
   });
   describe('init', () => {
     it('should set __config with default values', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = {};
-      jest.spyOn(module, 'fileConfig').mockReturnValue({});
-      jest.spyOn(module, 'cliConfig').mockReturnValue({});
+      const defaultConfig = module.defaultConfig();
+      await module.init();
 
-      await module.init({}, modulesConfig);
-
-      expect(module).toHaveProperty('__config.key', 'foo');
+      expect(module).toHaveProperty('__config.root', defaultConfig.root);
+      expect(module).toHaveProperty('__config.port', defaultConfig.port);
     });
     it('module config should extend base config', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = { css: { key: 'bar' } };
-      jest.spyOn(module, 'fileConfig').mockReturnValue({});
-      jest.spyOn(module, 'cliConfig').mockReturnValue({});
+      await module.init({}, { foo: 'ok', hooks: { foo: 'ok' } });
 
-      await module.init({}, modulesConfig);
-
-      expect(module).toHaveProperty('__config.key', 'foo');
-      expect(module).toHaveProperty('__config.css.key', 'bar');
+      expect(module).toHaveProperty('__config.foo', 'ok');
+      expect(module).toHaveProperty('__config.hooks.foo', 'ok');
     });
     it('module config should be able to override default config', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = { key: 'bar' };
-      jest.spyOn(module, 'fileConfig').mockReturnValue({});
-      jest.spyOn(module, 'cliConfig').mockReturnValue({});
+      await module.init({}, { port: 'ok' });
 
-      await module.init({}, modulesConfig);
-
-      expect(module).toHaveProperty('__config.key', 'bar');
+      expect(module).toHaveProperty('__config.port', 'ok');
     });
     it('file config should overwrite default config', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = {};
-      jest.spyOn(module, 'fileConfig').mockReturnValue({ key: 'bar' });
-      jest.spyOn(module, 'cliConfig').mockReturnValue({});
+      jest.spyOn(module, 'fileConfig').mockReturnValue({ port: 'ok' });
 
-      await module.init({}, modulesConfig);
+      await module.init();
 
-      expect(module).toHaveProperty('__config.key', 'bar');
+      expect(module).toHaveProperty('__config.port', 'ok');
     });
     it('file config should be able to overwrite only leaves of module config', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = { css: { key: 'bar', name: 'qux' } };
-      jest.spyOn(module, 'fileConfig').mockReturnValue({ css: { key: 'baz' } });
-      jest.spyOn(module, 'cliConfig').mockReturnValue({});
+      const modulesConfig = { sub: { foo: 'nope', bar: 'ok' } };
+      jest.spyOn(module, 'fileConfig').mockReturnValue({ sub: { foo: 'ok' } });
 
       await module.init({}, modulesConfig);
 
-      expect(module).toHaveProperty('__config.css.key', 'baz');
-      expect(module).toHaveProperty('__config.css.name', 'qux');
+      expect(module).toHaveProperty('__config.sub.foo', 'ok');
     });
     it('CLI args should be able to overwrite any key', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = { key: 'bar' };
-      jest.spyOn(module, 'fileConfig').mockReturnValue({ key: 'baz' });
-      jest.spyOn(module, 'cliConfig').mockReturnValue({ key: 'qux' });
+      jest.spyOn(module, 'fileConfig').mockReturnValue({ port: 'nope' });
 
-      await module.init({}, modulesConfig);
+      await module.init({ port: 'ok' }, { port: 'nope' });
 
-      expect(module).toHaveProperty('__config.key', 'qux');
+      expect(module).toHaveProperty('__config.port', 'ok');
     });
     it('CLI args should be able to overwrite any deep key', async () => {
       jest
-        .spyOn(module, 'defaultConfig')
-        .mockReturnValue({ css: { key: 'foo', name: 'foo' } });
-      const modulesConfig = { css: { key: 'bar' } };
-      jest.spyOn(module, 'fileConfig').mockReturnValue({ css: { key: 'baz' } });
-      jest.spyOn(module, 'cliConfig').mockReturnValue({ css: { key: 'qux' } });
+        .spyOn(module, 'fileConfig')
+        .mockReturnValue({ one: { two: { foo: 'nope' } } });
 
-      await module.init({}, modulesConfig);
+      await module.init(
+        { one: { two: { foo: 'ok', bar: 'ok' } } },
+        { one: { two: { bar: 'nope' } } }
+      );
 
-      expect(module).toHaveProperty('__config.css.key', 'qux');
-      expect(module).toHaveProperty('__config.css.name', 'foo');
+      expect(module).toHaveProperty('__config.one.two.foo', 'ok');
+      expect(module).toHaveProperty('__config.one.two.bar', 'ok');
     });
     it('CLI args should be able to create nested objects', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({ key: 'foo' });
-      const modulesConfig = { key: 'bar' };
-      jest.spyOn(module, 'fileConfig').mockReturnValue({ key: 'baz' });
       jest
         .spyOn(module, 'cliConfig')
         .mockReturnValue({ css: { submodule: { key: 'qux' } } });
 
-      await module.init({}, modulesConfig);
+      await module.init();
 
       expect(module).toHaveProperty('__config.css.submodule.key', 'qux');
     });
-    it('from and to path should be absolute in the host by default', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({});
-      const modulesConfig = {};
-      jest.spyOn(module, 'fileConfig').mockReturnValue({});
-      jest
-        .spyOn(module, 'cliConfig')
-        .mockReturnValue({ from: './foo', to: './bar' });
-      jest.spyOn(module, 'rootDir').mockReturnValue('/host');
+    it('from and to should be relative to the root', async () => {
+      await module.init({ root: tmpDirectory, from: './foo', to: './bar' });
 
-      await module.init({}, modulesConfig);
-
-      expect(module).toHaveProperty('__config.from', '/host/foo');
-      expect(module).toHaveProperty('__config.to', '/host/bar');
+      expect(module).toHaveProperty('__config.from', `${tmpDirectory}/foo`);
+      expect(module).toHaveProperty('__config.to', `${tmpDirectory}/bar`);
     });
     it('from and to path should stay absolute if given as absolute', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({});
-      const modulesConfig = {};
-      jest.spyOn(module, 'fileConfig').mockReturnValue({});
-      jest
-        .spyOn(module, 'cliConfig')
-        .mockReturnValue({ from: '/absolute/foo', to: '/absolute/bar' });
-      jest.spyOn(module, 'rootDir').mockReturnValue('/host');
+      await module.init({
+        from: `${tmpDirectory}/custom-from`,
+        to: `${tmpDirectory}/custom-to`,
+      });
 
-      await module.init({}, modulesConfig);
-
-      expect(module).toHaveProperty('__config.from', '/absolute/foo');
-      expect(module).toHaveProperty('__config.to', '/absolute/bar');
+      expect(module).toHaveProperty(
+        '__config.from',
+        `${tmpDirectory}/custom-from`
+      );
+      expect(module).toHaveProperty('__config.to', `${tmpDirectory}/custom-to`);
     });
     it('Deep CLI args should only change deep keys, not whole object', async () => {
-      jest.spyOn(module, 'defaultConfig').mockReturnValue({});
       const modulesConfig = { deep: { foo: 'yes', bar: 'yes' } };
       jest.spyOn(module, 'fileConfig').mockReturnValue({});
       jest.spyOn(module, 'cliConfig').mockReturnValue({ deep: { foo: 'no' } });
@@ -248,18 +190,54 @@ describe('norska-config', () => {
       expect(module.pulse.emit).toHaveBeenCalledTimes(1);
     });
   });
-  describe('from', () => {
-    it('should return the current from key as an absolute path', () => {
-      module.__config = { from: 'foo' };
-      const actual = module.from();
-
-      expect(actual).toEqual(path.resolve('foo'));
+  describe('rootDir', () => {
+    it('should return the root dir', async () => {
+      await module.init({ root: tmpDirectory });
+      const actual = module.rootDir();
+      expect(actual).toEqual(tmpDirectory);
     });
-    it('should return the from key as an absolute path if already an absolute path', () => {
-      module.__config = { from: '/foo' };
-      const actual = module.from();
+    it('should return the current working directory by default', async () => {
+      await module.init();
 
-      expect(actual).toEqual('/foo');
+      const actual = module.rootDir();
+      expect(actual).toEqual(process.cwd());
+    });
+  });
+  describe('rootPath', () => {
+    beforeEach(() => {
+      jest.spyOn(module, 'rootDir').mockReturnValue('/__root');
+    });
+    it('should return an absolute path from the host', () => {
+      const actual = module.rootPath('foo.txt');
+
+      expect(actual).toEqual('/__root/foo.txt');
+    });
+    it('should return the path to the host if no arguments passed', () => {
+      const actual = module.rootPath();
+
+      expect(actual).toEqual('/__root');
+    });
+    it('should keep the path is given as absolute', () => {
+      const actual = module.rootPath('/absolute/path');
+
+      expect(actual).toEqual('/absolute/path');
+    });
+  });
+  describe('from', () => {
+    it('should be ./src in the default root', async () => {
+      await module.init();
+      const actual = module.from();
+      expect(actual).toEqual(path.resolve(process.cwd(), 'src'));
+    });
+    it('should be ./src in a custom root', async () => {
+      await module.init({ root: tmpDirectory });
+      const actual = module.from();
+      expect(actual).toEqual(path.resolve(tmpDirectory, 'src'));
+    });
+    it('should be custom path', async () => {
+      await module.init({ from: '/custom' });
+      const actual = module.from();
+      expect(actual).toEqual('/custom');
     });
   });
   describe('fromPath', () => {
@@ -278,17 +256,20 @@ describe('norska-config', () => {
     });
   });
   describe('to', () => {
-    it('should return the current to key as an absolute path', () => {
-      module.__config = { to: 'foo' };
+    it('should be ./dist in the default root', async () => {
+      await module.init();
       const actual = module.to();
-
-      expect(actual).toEqual(path.resolve('foo'));
+      expect(actual).toEqual(path.resolve(process.cwd(), 'dist'));
     });
-    it('should return the from key as an absolute path if already an absolute path', () => {
-      module.__config = { to: '/foo' };
+    it('should be ./dist in a custom root', async () => {
+      await module.init({ root: tmpDirectory });
       const actual = module.to();
-
-      expect(actual).toEqual('/foo');
+      expect(actual).toEqual(path.resolve(tmpDirectory, 'dist'));
+    });
+    it('should be custom path', async () => {
+      await module.init({ to: '/custom' });
+      const actual = module.to();
+      expect(actual).toEqual('/custom');
     });
   });
   describe('toPath', () => {
@@ -308,11 +289,11 @@ describe('norska-config', () => {
   });
   describe('fileConfig', () => {
     beforeEach(async () => {
-      jest.spyOn(module, 'rootDir').mockReturnValue('./tmp/norska-config');
+      jest.spyOn(module, 'rootDir').mockReturnValue(tmpDirectory);
       await emptyDir(module.rootPath());
     });
     it('should return {} if no config file', async () => {
-      const actual = await module.fileConfig();
+      const actual = await module.fileConfig('./bad-path');
 
       expect(actual).toEqual({});
     });
@@ -321,7 +302,7 @@ describe('norska-config', () => {
       const configPath = module.rootPath('norska.config.js');
       await write('// anything', configPath);
 
-      const actual = await module.fileConfig();
+      const actual = await module.fileConfig(module.rootDir());
 
       expect(actual).toHaveProperty('foo', 'bar');
       expect(module.__require).toHaveBeenCalledWith(configPath);

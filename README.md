@@ -19,8 +19,8 @@ website.
 ### Build
 
 Running `norska build` will convert all source files in `./src` into a static
-website in `./dist`. You can overwrite the default directories with the `--from`
-and `--to` options.
+website in `./dist`. You can overwrite the root directory with `--root`, or
+source and destination folders individually with `--from` and `--to`.
 
 All `./src/*.pug` files will be converted to HTML in `./dist`. Pug layouts can
 be defined in `./src/_layouts`.

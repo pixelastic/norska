@@ -9,7 +9,7 @@ module.exports = {
    * @returns {string} Absolute path to host dir
    **/
   rootDir() {
-    return process.cwd();
+    return this.get('root');
   },
   /**
    * Return an absolute path to a file at the root
@@ -79,8 +79,10 @@ module.exports = {
    **/
   defaultConfig() {
     const noop = () => {};
+    const root = process.cwd();
     return {
       port: 8083,
+      root,
       from: './src',
       to: './dist',
       runtime: {
@@ -95,10 +97,11 @@ module.exports = {
   /**
    * Return the config loaded from the root norska.config.js
    * This will require() the file, allowing the use of dynamic configuration
+   * @param {string} rootPath Path to the root
    * @returns {object} Config object
    **/
-  async fileConfig() {
-    const configFilePath = this.rootPath('norska.config.js');
+  async fileConfig(rootPath = '.') {
+    const configFilePath = path.resolve(rootPath, 'norska.config.js');
     if (!(await exists(configFilePath))) {
       return {};
     }
@@ -152,8 +155,12 @@ module.exports = {
    **/
   async init(cliArgs = {}, modulesConfig = {}) {
     const defaultConfig = this.defaultConfig();
-    const fileConfig = await this.fileConfig();
     const cliConfig = this.cliConfig(cliArgs);
+
+    // The norska.config.js is at the root, but the root can be changed by CLI
+    // arguments
+    const rootPath = defaultConfig.root || cliConfig.root;
+    const fileConfig = await this.fileConfig(rootPath);
 
     // Default config < module-specific config < norska.config.js < CLI args
     const finalConfig = _.merge(
@@ -164,9 +171,11 @@ module.exports = {
       cliConfig
     );
 
-    // from and to path are always absolute paths
-    finalConfig.from = this.rootPath(finalConfig.from);
-    finalConfig.to = this.rootPath(finalConfig.to);
+    // Force root as absolute
+    finalConfig.root = path.resolve(finalConfig.root);
+    // Force from and to as absolute, relative to the root
+    finalConfig.from = path.resolve(finalConfig.root, finalConfig.from);
+    finalConfig.to = path.resolve(finalConfig.root, finalConfig.to);
 
     this.__config = finalConfig;
   },
