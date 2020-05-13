@@ -7041,10 +7041,10 @@ inquirer@^6.2.0, inquirer@^6.2.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-instantsearch.js@4.4.1:
-  version "4.4.1"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.4.1.tgz#debbc77131bba35b6920fe0bfbcc65eb75484fd0"
-  integrity sha512-CphyvXNHYCkPYCUTPtjYA//AJ3yn29gX09KrcahxVfXbgxZDMUMcNnF0BnCAYjjVB9U49NXKOrZf6VZ8Z57EwA==
+instantsearch.js@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.5.0.tgz#6777df96ea2ccaa330dd3b6cfaee378be643e29f"
+  integrity sha512-i1z+tK8r0qVpEh7fRNqeX/BWUOdsfyIgsqL74CkVIRNUE6CMnAjz6MujtiBVtfyeimpHYzQESp0NxQ8ZRpk88g==
   dependencies:
     algoliasearch-helper "^3.1.1"
     classnames "^2.2.5"
