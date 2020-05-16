@@ -1,22 +1,45 @@
 const module = require('../attributes');
-const placeholderize = require('../placeholderize');
-const proxy = require('../../cloudinary/proxy');
-jest.mock('../placeholderize');
-jest.mock('../../cloudinary/proxy');
+const cloudinary = require('../../cloudinary/index.js');
 
 describe('norska-frontend > lazyload > attributes', () => {
   beforeEach(async () => {
-    placeholderize.mockReturnValue('__PLACEHOLDER__');
-    proxy.mockReturnValue('__PROXY__');
+    cloudinary.init({
+      bucketName: 'bucket',
+    });
   });
-  it('should return full and placeholder', async () => {
-    const actual = module('url');
-    expect(actual).toHaveProperty('full', '__PROXY__');
-    expect(actual).toHaveProperty('placeholder', '__PLACEHOLDER__');
-  });
-  it('should return both full if disabled', async () => {
-    const actual = module('url', { disable: true });
-    expect(actual).toHaveProperty('full', '__PROXY__');
-    expect(actual).toHaveProperty('placeholder', '__PROXY__');
+  it.each([
+    // description, input url, options, full, placeholder
+    [
+      'Proxy image and default placeholder',
+      'https://there.com/image.png',
+      {},
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
+      'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/image.png',
+    ],
+    [
+      'Disabling placeholder',
+      'https://there.com/image.png',
+      { disable: true },
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
+    ],
+    [
+      'Passing specific options to cloudinary, and cascading to the placeholder',
+      'https://there.com/image.png',
+      { width: 200 },
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_200/https://there.com/image.png',
+      'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_200/https://there.com/image.png',
+    ],
+    [
+      'Passing specific options to the placeholder',
+      'https://there.com/image.png',
+      { placeholder: { width: 200 } },
+      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
+      'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_200/https://there.com/image.png',
+    ],
+  ])('%s', async (_description, input, options, full, placeholder) => {
+    const actual = module(input, options);
+    expect(actual).toHaveProperty('full', full);
+    expect(actual).toHaveProperty('placeholder', placeholder);
   });
 });

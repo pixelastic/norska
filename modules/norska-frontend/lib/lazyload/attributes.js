@@ -10,12 +10,14 @@ const placeholderize = require('./placeholderize.js');
 module.exports = function(url, userOptions = {}) {
   const options = {
     disable: false,
+    placeholder: {},
     ...userOptions,
   };
 
   const isDisabled = options.disable;
+  delete options.disable;
 
-  const fullUrl = proxy(url);
+  const fullUrl = proxy(url, options);
 
   if (isDisabled) {
     return {
@@ -24,7 +26,7 @@ module.exports = function(url, userOptions = {}) {
     };
   }
 
-  const placeholderUrl = placeholderize(url);
+  const placeholderUrl = placeholderize(url, options);
   return {
     full: fullUrl,
     placeholder: placeholderUrl,

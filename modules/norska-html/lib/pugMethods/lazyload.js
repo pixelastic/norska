@@ -1,6 +1,5 @@
 const _ = require('golgoth/lib/lodash');
 const helper = require('norska-helper');
-const frontendAttributes = require('norska-frontend/lib/lazyload/attributes');
 const frontendPlaceholderize = require('norska-frontend/lib/lazyload/placeholderize');
 const pugRevv = require('./revv.js');
 const pugImg = require('./img.js');
@@ -54,5 +53,4 @@ function lazyload(userUrl, userOptions, context) {
     placeholder: placeholderUrl,
   };
 }
-lazyload.__frontendAttributes = frontendAttributes;
 module.exports = lazyload;
