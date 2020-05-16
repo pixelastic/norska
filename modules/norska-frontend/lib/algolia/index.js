@@ -1,11 +1,11 @@
 const algolia = require('algoliasearch/lite');
 const instantsearch = require('instantsearch.js').default;
-const { history } = require('instantsearch.js/es/lib/routers');
 const router = require('./router');
 const credentials = require('./credentials');
 const transformHits = require('./transformHits');
 const { filter } = require('lodash-es');
 const hitsWidget = require('./widgets').hits;
+const configureWidget = require('./widgets').configure;
 
 module.exports = {
   __client: null,
@@ -26,7 +26,7 @@ module.exports = {
       indexName,
       searchClient: algolia(appId, apiKey),
       routing: {
-        router: history(router),
+        router: instantsearch.routers.history(router),
       },
     });
 
@@ -62,12 +62,20 @@ module.exports = {
   },
   /**
    * Checks if a given widget has a container available
+   * Always returns true for configure widget as it does not require a container
    * @param {object} widget Widget definition
    * @returns {boolean} True if container is in the document
    **/
   hasContainer(widget) {
+    if (this.isConfigureWidget(widget)) {
+      return true;
+    }
+    if (!widget.options || !widget.options.container) {
+      return false;
+    }
+
     const containerSelector = widget.options.container;
-    const hasContainer = document.querySelector(containerSelector);
+    const hasContainer = this.__documentQuerySelector(containerSelector);
     return hasContainer;
   },
   /**
@@ -90,5 +98,16 @@ module.exports = {
 
     this.__client.addWidgets(widgets);
     this.__client.start();
+  },
+  /**
+   * Checks if the given widget is a configure widget
+   * @param {object} widget Widget definition
+   * @returns {boolean} true if configure widget, false otherwise
+   **/
+  isConfigureWidget(widget) {
+    return widget.type === configureWidget;
+  },
+  __documentQuerySelector(selector) {
+    return document.querySelector(selector);
   },
 };
