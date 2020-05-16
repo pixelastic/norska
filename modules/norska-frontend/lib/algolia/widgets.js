@@ -1,1 +1,1 @@
-module.exports = require('instantsearch.js').default.widgets;
+module.exports = require('instantsearch.js/cjs/widgets');

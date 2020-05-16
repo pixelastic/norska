@@ -1,5 +1,5 @@
 const algolia = require('algoliasearch/lite');
-const instantsearch = require('instantsearch.js').default;
+const instantsearch = require('instantsearch.js/cjs').default;
 const router = require('./router');
 const credentials = require('./credentials');
 const transformHits = require('./transformHits');
@@ -38,7 +38,7 @@ module.exports = {
    * @returns {object} Algolia instance, for chaining
    **/
   setWidgets(widgets) {
-    this.__widgets = filter(widgets, this.hasContainer);
+    this.__widgets = filter(widgets, this.hasContainer.bind(this));
     return this;
   },
   /**
