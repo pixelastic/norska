@@ -3,7 +3,7 @@
   "dependencies": {
     "firost": "1.5.0",
     "golgoth": "1.2.0",
-    "norska-config": "^0.9.0",
+    "norska-config": "^0.9.11",
     "norska-helper": "^0.9.0",
     "rev-hash": "^3.0.0"
   },
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.0"
+  "version": "0.9.11"
 }
