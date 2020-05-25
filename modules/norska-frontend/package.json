@@ -3,7 +3,7 @@
   "dependencies": {
     "algoliasearch": "4.2.0",
     "instantsearch.js": "4.5.0",
-    "lazysizes": "5.2.0",
+    "lazysizes": "5.2.1",
     "lodash-es": "4.17.15"
   },
   "description": "Frontend helpers to be used in live website",
