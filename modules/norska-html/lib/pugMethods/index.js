@@ -36,7 +36,9 @@ module.exports = function(data, destination) {
     revv(filepath, options) {
       return pugRevv(filepath, options, context);
     },
-    screenshot: _.partialRight(pugScreenshot, context),
+    screenshot(url) {
+      return pugScreenshot(url, context);
+    },
     _,
   };
   // We re-add methods into context so it's correctly recursively passed to each

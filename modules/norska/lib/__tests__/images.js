@@ -310,12 +310,39 @@ const testCasesImgMixin = [
       '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.h4sh.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png" loading="lazy"/>',
   },
 ];
+const testCasesScreenshot = [
+  // Use current page as default
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: 'img(src=screenshot())',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;screenshot=true&amp;url=http://here.com/index.html"/>',
+  },
+  // Works in subfolders
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'img(src=screenshot())',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;screenshot=true&amp;url=http://here.com/subfolder/index.html"/>',
+  },
+  // Allow passing custom url
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input: 'img(src=screenshot("https://there.com/"))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;screenshot=true&amp;url=https://there.com/"/>',
+  },
+];
 const testCases = initTestCases([
   ...testCasesCloudinary,
   ...testCasesRevv,
   ...testCasesImgMethod,
   ...testCasesLazyload,
   ...testCasesImgMixin,
+  ...testCasesScreenshot,
 ]);
 
 describe('norska > images', () => {
