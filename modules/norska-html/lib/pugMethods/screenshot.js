@@ -4,14 +4,18 @@ const pugCloudinary = require('./cloudinary');
 /**
  * Returns the url of a screenshot of the current page
  *
+ * @param {string} userUrl Url to take a screenshot of. Default to current page
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Final url of the image
  */
-module.exports = function(context) {
-  // Get calling url
-  const defaultUrl = _.get(context, 'data.data.site.defaultUrl');
-  const urlHere = _.get(context, 'data.url.here');
-  const fullUrl = `${defaultUrl}${urlHere}`;
+module.exports = function(userUrl, context) {
+  let fullUrl = userUrl;
+  if (!fullUrl) {
+    // Get calling url
+    const defaultUrl = _.get(context, 'data.data.site.defaultUrl');
+    const urlHere = _.get(context, 'data.url.here');
+    fullUrl = `${defaultUrl}${urlHere}`;
+  }
 
   // Build microlink screenshot link
   const microlinkOptions = {
