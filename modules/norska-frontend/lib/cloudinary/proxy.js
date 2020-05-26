@@ -35,7 +35,15 @@ const cloudinary = require('./index.js');
  *  @returns {string} Full url with transforms applied
  **/
 module.exports = function(userUrl, userOptions = {}) {
-  if (!userUrl.startsWith('http')) {
+  // Do not modify urls that are already from Cloudinary
+  const isAlreadyCloudinary = userUrl.startsWith('https://res.cloudinary.com/');
+  if (isAlreadyCloudinary) {
+    return userUrl;
+  }
+
+  // Throw an error if not a remote url
+  const isRemote = userUrl.startsWith('http');
+  if (!isRemote) {
     const error = new Error(`URL ${userUrl} is not valid`);
     error.code = 'CLOUDINARY_PROXY_NOT_URL';
     throw error;

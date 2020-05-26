@@ -53,6 +53,13 @@ describe('norska-frontend > cloudinary > proxy', () => {
 
       expect(actual).toHaveProperty('code', 'CLOUDINARY_PROXY_NOT_URL');
     });
+    it('should not change the url if already from cloudinary', async () => {
+      const input =
+        'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http://www.example.com/foo.png';
+      const actual = module(input);
+
+      expect(actual).toEqual(input);
+    });
     describe('transforms', () => {
       it.each([
         // Object | String

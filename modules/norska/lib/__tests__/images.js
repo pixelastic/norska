@@ -96,6 +96,15 @@ const testCasesCloudinary = [
     expected:
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png"/>',
   },
+  // Should ignore urls that are already proxied through Cloudinary
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input:
+      'img(src=cloudinary("https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png", { width: 300 }))',
+    expected:
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/http://there.com/foo.png"/>',
+  },
 ];
 const testCasesRevv = [
   // Revv
