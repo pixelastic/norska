@@ -8,7 +8,7 @@
     "markdown-it-highlightjs": "3.1.0",
     "norska-config": "^0.9.11",
     "norska-data": "^0.9.11",
-    "norska-frontend": "^0.9.12",
+    "norska-frontend": "^0.9.13",
     "norska-helper": "^0.9.0",
     "norska-revv": "^0.9.11",
     "pug": "2.0.4"
@@ -34,5 +34,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.12"
+  "version": "0.9.13"
 }
