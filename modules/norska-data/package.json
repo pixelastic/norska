@@ -3,7 +3,7 @@
   "dependencies": {
     "firost": "1.5.0",
     "golgoth": "1.2.0",
-    "norska-config": "^0.9.11"
+    "norska-config": "^0.9.15"
   },
   "description": "Read data stored in ./src/_data",
   "files": [
@@ -21,5 +21,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.11"
+  "version": "0.9.15"
 }
