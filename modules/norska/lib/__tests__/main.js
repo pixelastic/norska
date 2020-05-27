@@ -200,6 +200,12 @@ describe('norska', () => {
     });
   });
   describe('serve', () => {
+    const defaultConfig = {
+      from: './tmp/norska/src',
+      to: './tmp/norska/dist',
+      port: 1234,
+      assets: assets.defaultConfig(),
+    };
     beforeEach(async () => {
       jest.spyOn(module, 'build').mockReturnValue();
       jest.spyOn(html, 'watch').mockReturnValue();
@@ -207,12 +213,7 @@ describe('norska', () => {
       jest.spyOn(js, 'watch').mockReturnValue();
       jest.spyOn(assets, 'watch').mockReturnValue();
       jest.spyOn(liveServer, 'start').mockReturnValue();
-      await config.init({
-        from: './tmp/norska/src',
-        to: './tmp/norska/dist',
-        port: 1234,
-        assets: assets.defaultConfig(),
-      });
+      await config.init(defaultConfig);
     });
     it('should build the website', async () => {
       await module.serve();
@@ -236,6 +237,20 @@ describe('norska', () => {
         expect.objectContaining({
           root: config.to(),
           port: 1234,
+          open: true,
+        })
+      );
+    });
+    it('should prevent opening the browser if --no-open passed', async () => {
+      const specificConfig = {
+        ...defaultConfig,
+        open: false,
+      };
+      await config.init(specificConfig);
+      await module.serve();
+      expect(liveServer.start).toHaveBeenCalledWith(
+        expect.objectContaining({
+          open: false,
         })
       );
     });

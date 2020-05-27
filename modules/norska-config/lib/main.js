@@ -81,9 +81,10 @@ module.exports = {
     const noop = () => {};
     const root = process.cwd();
     return {
+      from: './src',
+      open: true,
       port: 8083,
       root,
-      from: './src',
       to: './dist',
       runtime: {
         jsFiles: [],

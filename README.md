@@ -45,6 +45,9 @@ Running `norska serve` will build everything the same way but will also open a
 live-server of the `./dist` folder on [http://localhost:8083][1] (use `--port`
 to change the port).
 
+By default, it will also open your browser to local website, but you can disable
+it by passing `--no-open`.
+
 ## Configuration
 
 You can configure aspects of norska through the `norska.config.js` file. If the

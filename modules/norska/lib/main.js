@@ -111,6 +111,7 @@ module.exports = {
     liveServer.start({
       root: config.to(),
       port: config.get('port'),
+      open: config.get('open'),
     });
   },
   /**
