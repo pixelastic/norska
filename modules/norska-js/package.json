@@ -1,7 +1,7 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "@babel/core": "~7.9.0",
+    "@babel/core": "~7.10.0",
     "babel-loader": "8.1.0",
     "firost": "1.5.0",
     "golgoth": "1.2.0",
