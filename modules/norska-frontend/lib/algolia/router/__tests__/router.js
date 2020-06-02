@@ -5,46 +5,54 @@ const credentials = require('../../credentials.js');
 describe('router', () => {
   beforeEach(async () => {
     jest.spyOn(helper, 'currentUrl').mockReturnValue('monsters.com/search/');
-    jest.spyOn(credentials, 'indexName').mockReturnValue('indexName');
+    jest.spyOn(credentials, 'indexName').mockReturnValue('baseIndex');
   });
   const testCases = [
-    // indexRouteState | location | options
-    [{}, ''],
-    [{ query: 'foo' }, '#query:foo'],
-    [{ query: 'foo bar' }, '#query:foo%20bar'],
-    [{ page: '12' }, '#page:12'],
-    [{ query: 'foo', page: '12' }, '#page:12/query:foo'],
-    [{ refinementList: { type: ['bar', 'foo'] } }, '#type:[bar,foo]'],
+    // locationHash | routeState
+    ['', { baseIndex: {} }],
+    ['#query:foo', { baseIndex: { query: 'foo' } }],
+    ['#query:foo%20bar', { baseIndex: { query: 'foo bar' } }],
+    ['#page:12', { baseIndex: { page: '12' } }],
+    ['#page:12/query:foo', { baseIndex: { query: 'foo', page: '12' } }],
     [
-      { refinementList: { type: ['Chaotic Good', 'Loyal Neutral'] } },
+      '#type:[bar,foo]',
+      { baseIndex: { refinementList: { type: ['bar', 'foo'] } } },
+    ],
+    [
       '#type:[Chaotic%20Good,Loyal%20Neutral]',
+      {
+        baseIndex: {
+          refinementList: { type: ['Chaotic Good', 'Loyal Neutral'] },
+        },
+      },
     ],
     [
-      { refinementList: { type: ['bar', 'foo'], tag: ['bar', 'baz'] } },
       '#tag:[bar,baz]/type:[bar,foo]',
+      {
+        baseIndex: {
+          refinementList: { type: ['bar', 'foo'], tag: ['bar', 'baz'] },
+        },
+      },
     ],
-    [{ range: { price: '0:1200' } }, '#price:{0,1200}'],
-    [{ range: { price: '0:' } }, '#price:{0,}'],
-    [{ range: { price: ':1200' } }, '#price:{,1200}'],
+    ['#price:{0,1200}', { baseIndex: { range: { price: '0:1200' } } }],
+    ['#price:{0,}', { baseIndex: { range: { price: '0:' } } }],
+    ['#price:{,1200}', { baseIndex: { range: { price: ':1200' } } }],
+    [
+      '#query:foo/sortBy:popularity',
+      { baseIndex_popularity: { query: 'foo' } },
+    ],
+    ['#index:other_index/query:foo', { other_index: { query: 'foo' } }],
   ];
-
+  it.each(testCases)("parseURL('%s')", async (locationHash, routeState) => {
+    const actualIndexRouteState = module.parseURL({
+      location: { hash: locationHash },
+    });
+    expect(actualIndexRouteState).toEqual(expect.objectContaining(routeState));
+  });
   it.each(testCases)(
-    "%s == parseURL('%s')",
-    async (indexRouteState, locationHash) => {
-      const actualIndexRouteState = module.parseURL({
-        location: { hash: locationHash },
-      });
-      expect(actualIndexRouteState).toEqual({
-        indexName: expect.objectContaining(indexRouteState),
-      });
-    }
-  );
-  it.each(testCases)(
-    'createURL(%s) == %s',
-    async (indexRouteState, locationHash) => {
-      const actualLocation = module.createURL({
-        routeState: { indexName: indexRouteState },
-      });
+    "createURL({...}) == '%s'",
+    async (locationHash, routeState) => {
+      const actualLocation = module.createURL({ routeState });
       expect(actualLocation).toEqual(`monsters.com/search/${locationHash}`);
     }
   );

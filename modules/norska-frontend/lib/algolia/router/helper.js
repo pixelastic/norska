@@ -1,6 +1,7 @@
 const credentials = require('../credentials.js');
 module.exports = {
   metaKeys: ['page', 'query'],
+  indexKeys: ['sortBy', 'index'],
   filterKeys: ['refinementList', 'range'],
   rangePattern: /^{(.*)}/,
   refinementListPattern: /^\[(.*)\]/,
@@ -12,8 +13,9 @@ module.exports = {
    **/
   keyValueToString(value, key) {
     const isMeta = this.metaKeys.includes(key);
+    const isIndex = this.indexKeys.includes(key);
 
-    if (isMeta) {
+    if (isMeta || isIndex) {
       return `${key}:${encodeURIComponent(value)}`;
     }
 
@@ -44,6 +46,12 @@ module.exports = {
     const [rawKey, rawValue] = input.split(':');
     let key = rawKey;
     let value = rawValue;
+
+    // Stop if a filter than changes the index
+    const isIndex = this.indexKeys.includes(key);
+    if (isIndex) {
+      return {};
+    }
 
     // Pages must be converted to number
     const isPage = key === 'page';
@@ -87,6 +95,31 @@ module.exports = {
     }
   },
   /**
+   * Return the name of the index base on the location hash
+   * Default to base index, unless index: is set, or sortBy: is set
+   * @param {string} locationHash location hash to decode
+   * @returns {string} name of the index
+   */
+  indexNameFromLocationHash(locationHash) {
+    const stringFilters = locationHash.replace(/^#/, '').split('/');
+    const filters = {};
+    stringFilters.forEach(filter => {
+      const [key, value] = filter.split(':');
+      filters[key] = value;
+    });
+
+    const baseIndex = this.indexName();
+    const sortByKey = filters.sortBy;
+    const indexKey = filters.index;
+    if (sortByKey) {
+      return `${baseIndex}_${sortByKey}`;
+    }
+    if (indexKey) {
+      return indexKey;
+    }
+    return baseIndex;
+  },
+  /**
    * Return the current url
    * @returns {string} Current url, without query string nor hash
    **/
@@ -100,5 +133,25 @@ module.exports = {
    **/
   indexName() {
     return credentials.indexName();
+  },
+  /**
+   * Checks if a given index name seems to be a replica
+   * Replicas start with the base index name as prefix
+   * @param {string} indexName name of the index to test
+   * @returns {boolean} true if seems like a replica
+   **/
+  isReplica(indexName) {
+    const baseIndexName = this.indexName();
+    return indexName.startsWith(baseIndexName);
+  },
+  /**
+   * Return the short replica name (minus the base index prefix)
+   * @param {string} indexName name of the replica index
+   * @returns {string} short name of the replica
+   **/
+  replicaShortname(indexName) {
+    const baseIndexName = this.indexName();
+    const regexp = new RegExp(`^${baseIndexName}_`);
+    return indexName.replace(regexp, '');
   },
 };
