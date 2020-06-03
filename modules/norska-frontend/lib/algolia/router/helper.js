@@ -100,7 +100,7 @@ module.exports = {
    * @param {string} locationHash location hash to decode
    * @returns {string} name of the index
    */
-  indexNameFromLocationHash(locationHash) {
+  sortByIndexFromLocationHash(locationHash) {
     const stringFilters = locationHash.replace(/^#/, '').split('/');
     const filters = {};
     stringFilters.forEach(filter => {
@@ -117,7 +117,7 @@ module.exports = {
     if (indexKey) {
       return indexKey;
     }
-    return baseIndex;
+    return null;
   },
   /**
    * Return the current url
@@ -155,3 +155,4 @@ module.exports = {
     return indexName.replace(regexp, '');
   },
 };
+

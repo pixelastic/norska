@@ -14,7 +14,7 @@ module.exports = {
    * @returns {string} Full url
    **/
   createURL({ routeState }) {
-    const indexName = Object.keys(routeState)[0];
+    const indexName = helper.indexName();
     const currentUrl = helper.currentUrl();
     const parameters = routeState[indexName];
     if (isEmpty(parameters)) {
@@ -29,13 +29,14 @@ module.exports = {
     const deepFilters = merge(...filterValues);
 
     // Any index-level filter (sortBy/index)
+    const sortByIndex = parameters.sortBy;
     let indexFilters = {};
-    if (indexName !== helper.indexName()) {
-      const isReplica = helper.isReplica(indexName);
+    if (sortByIndex) {
+      const isReplica = helper.isReplica(sortByIndex);
       const filterKey = isReplica ? 'sortBy' : 'index';
       const filterValue = isReplica
-        ? helper.replicaShortname(indexName)
-        : indexName;
+        ? helper.replicaShortname(sortByIndex)
+        : sortByIndex;
       indexFilters[filterKey] = filterValue;
     }
 
@@ -52,20 +53,25 @@ module.exports = {
    **/
   parseURL({ location }) {
     const hash = location.hash;
+    const indexName = helper.indexName();
     if (!hash) {
-      const baseIndexName = helper.indexName();
-      return { [baseIndexName]: {} };
+      return { [indexName]: {} };
     }
 
     const stringFilters = hash.replace(/^#/, '').split('/');
-    const indexName = helper.indexNameFromLocationHash(hash);
     const allFilters = stringFilters.map(filter => {
       return helper.stringToFilterObject(filter);
     });
     const routeState = merge(...allFilters);
+
+    const sortByIndex = helper.sortByIndexFromLocationHash(hash);
+    if (sortByIndex) {
+      routeState.sortBy = sortByIndex;
+    }
 
     return {
       [indexName]: routeState,
     };
   },
 };
+

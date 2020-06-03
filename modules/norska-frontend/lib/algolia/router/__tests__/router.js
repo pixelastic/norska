@@ -39,9 +39,12 @@ describe('router', () => {
     ['#price:{,1200}', { baseIndex: { range: { price: ':1200' } } }],
     [
       '#query:foo/sortBy:popularity',
-      { baseIndex_popularity: { query: 'foo' } },
+      { baseIndex: { query: 'foo', sortBy: 'baseIndex_popularity' } },
     ],
-    ['#index:other_index/query:foo', { other_index: { query: 'foo' } }],
+    [
+      '#index:other_index/query:foo',
+      { baseIndex: { query: 'foo', sortBy: 'other_index' } },
+    ],
   ];
   it.each(testCases)("parseURL('%s')", async (locationHash, routeState) => {
     const actualIndexRouteState = module.parseURL({
