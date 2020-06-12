@@ -15,7 +15,7 @@
   },
   "description": "Convert .pug files to .html files",
   "devDependencies": {
-    "p-event": "4.1.0"
+    "p-event": "4.2.0"
   },
   "files": [
     "lib/*.js",
