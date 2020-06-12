@@ -9,7 +9,7 @@
     "live-server": "1.2.1",
     "minimist": "1.2.5",
     "norska-assets": "^0.9.16",
-    "norska-cloudinary": "^0.9.16",
+    "norska-cloudinary": "^0.9.0",
     "norska-cms": "^0.9.16",
     "norska-config": "^0.9.16",
     "norska-css": "^0.9.16",
