@@ -12,7 +12,7 @@
   },
   "description": "Compile .js files through Webpack",
   "devDependencies": {
-    "p-event": "4.1.0"
+    "p-event": "4.2.0"
   },
   "files": [
     "lib/*.js"
