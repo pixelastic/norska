@@ -1,1 +1,1 @@
-module.exports = require('norska-frontend/lib/cloudinary');
+module.exports = require('norska-cloudinary/lib/frontend');

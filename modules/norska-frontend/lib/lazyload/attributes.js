@@ -1,4 +1,4 @@
-const proxy = require('../cloudinary/proxy.js');
+const proxy = require('norska-cloudinary/lib/frontend/proxy');
 const placeholderize = require('./placeholderize.js');
 /**
  * Returns .full and .placeholder keys from any image url to use in lazyloading

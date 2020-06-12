@@ -9,6 +9,7 @@
     "norska-config": "^0.9.16",
     "norska-data": "^0.9.16",
     "norska-frontend": "^0.9.17",
+    "norska-cloudinary": "^0.9.0",
     "norska-helper": "^0.9.0",
     "norska-revv": "^0.9.16",
     "pug": "2.0.4"

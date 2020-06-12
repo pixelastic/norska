@@ -1,4 +1,4 @@
-const proxy = require('../cloudinary/proxy');
+const proxy = require('norska-cloudinary/lib/frontend/proxy');
 
 /**
  * Returns a placeholder version of an image, to be used for lazyloading

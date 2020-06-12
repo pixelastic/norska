@@ -1,5 +1,5 @@
 const module = require('../placeholderize');
-const cloudinary = require('../../cloudinary/index');
+const cloudinary = require('norska-cloudinary/lib/frontend');
 
 describe('norska-frontend > lazyload > placeholderize', () => {
   beforeEach(async () => {

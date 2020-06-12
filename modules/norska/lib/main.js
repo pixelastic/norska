@@ -50,6 +50,7 @@ module.exports = {
   async initConfig(cliArgs) {
     const modulesConfig = {
       assets: require('norska-assets/lib/config'),
+      cloudinary: require('norska-cloudinary/lib/config'),
       cms: require('norska-cms/lib/config'),
       css: require('norska-css/lib/config'),
       js: require('norska-js/lib/config'),

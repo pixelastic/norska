@@ -1,8 +1,8 @@
-const frontendProxy = require('norska-frontend/lib/cloudinary/proxy');
-const pugRemoteUrl = require('./remoteUrl.js');
+const frontendProxy = require('../frontend/proxy.js');
+const pugRemoteUrl = require('norska-html/lib/pugMethods/remoteUrl');
 const helper = require('norska-helper');
 
-const frontendCloudinary = require('norska-frontend/lib/cloudinary');
+const frontendCloudinary = require('../frontend');
 const config = require('norska-config');
 frontendCloudinary.init(config.get('cloudinary'));
 
