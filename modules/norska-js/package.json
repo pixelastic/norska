@@ -29,5 +29,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.16"
+  "version": "0.9.18"
 }

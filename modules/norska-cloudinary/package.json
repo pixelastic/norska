@@ -3,7 +3,7 @@
   "dependencies": {
     "norska-config": "^0.9.16",
     "norska-helper": "^0.9.0",
-    "norska-html": "^0.9.17"
+    "norska-html": "^0.9.18"
   },
   "description": "Pass images through Cloudinary",
   "files": [
@@ -26,7 +26,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.9.0",
+  "version": "0.9.18",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
