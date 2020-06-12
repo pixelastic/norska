@@ -155,4 +155,3 @@ module.exports = {
     return indexName.replace(regexp, '');
   },
 };
-
