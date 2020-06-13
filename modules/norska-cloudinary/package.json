@@ -2,13 +2,10 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "norska-config": "^0.9.16",
-    "norska-helper": "^0.9.0",
-    "norska-html": "^0.9.18"
+    "norska-helper": "^0.9.0"
   },
   "description": "Pass images through Cloudinary",
   "files": [
-    "lib/frontend/*.js",
-    "lib/pug/*.js",
     "lib/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",

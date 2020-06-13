@@ -1,5 +1,5 @@
 const module = require('../attributes');
-const cloudinary = require('norska-cloudinary/lib/frontend');
+const cloudinary = require('norska-cloudinary');
 
 describe('norska-frontend > lazyload > attributes', () => {
   beforeEach(async () => {

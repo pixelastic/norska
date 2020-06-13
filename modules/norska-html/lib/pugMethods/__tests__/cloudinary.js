@@ -1,8 +1,8 @@
-const module = require('../index.js');
-const frontend = require('../../frontend');
+const module = require('../cloudinary.js');
+const cloudinary = require('norska-cloudinary');
 const helper = require('norska-helper');
 
-describe('norska-cloudinary > pug', () => {
+describe('norska-html > pugMethods > cloudinary', () => {
   const context = {
     data: {
       data: { site: { defaultUrl: 'http://here.com' } },
@@ -10,7 +10,7 @@ describe('norska-cloudinary > pug', () => {
     destination: 'index.html',
   };
   beforeEach(async () => {
-    frontend.init({ bucketName: 'bucket' });
+    cloudinary.init({ bucketName: 'bucket' });
   });
   it.each([
     [

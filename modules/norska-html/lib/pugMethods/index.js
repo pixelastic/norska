@@ -1,5 +1,5 @@
 const _ = require('golgoth/lib/lodash');
-const pugCloudinary = require('norska-cloudinary/lib/pug');
+const pugCloudinary = require('./cloudinary.js');
 const pugImg = require('./img.js');
 const pugInclude = require('./include.js');
 const pugLazyload = require('./lazyload.js');

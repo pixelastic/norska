@@ -1,19 +1,39 @@
 const module = require('../proxy');
-const cloudinary = require('../index');
+const cloudinary = require('../main');
 
-describe('norska-frontend > cloudinary > proxy', () => {
-  it('should throw an error if no bucketName defined', async () => {
-    let actual;
-    const input = 'http://www.example.com/foo.png';
-    try {
-      module(input);
-    } catch (err) {
-      actual = err;
-    }
+describe('norska-cloudinary > proxy', () => {
+  describe('when disabled', () => {
+    beforeEach(async () => {
+      cloudinary.init({ enable: false });
+    });
+    it('should return the same url', async () => {
+      const input = 'http://www.example.com/foo.png';
+      const actual = module(input);
 
-    expect(actual).toHaveProperty('code', 'CLOUDINARY_MISSING_CONFIG');
+      expect(actual).toEqual(input);
+    });
   });
-  describe('with config', () => {
+  describe('with no bucketName defined', () => {
+    beforeEach(async () => {
+      cloudinary.init({ bucketName: null });
+      jest.spyOn(module, '__consoleWarn').mockImplementation();
+    });
+    it('should return the same url', async () => {
+      const input = 'http://www.example.com/foo.png';
+      const actual = module(input);
+
+      expect(actual).toEqual(input);
+    });
+    it('should issue a warning', async () => {
+      const input = 'http://www.example.com/foo.png';
+      const actual = module(input);
+
+      expect(module.__consoleWarn).toHaveBeenCalled();
+
+      expect(actual).toEqual(input);
+    });
+  });
+  describe('with valid config', () => {
     beforeEach(async () => {
       cloudinary.init({ bucketName: 'bucket-foo' });
     });

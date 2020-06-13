@@ -1,5 +1,5 @@
 const _ = require('golgoth/lib/lodash');
-const pugCloudinary = require('norska-cloudinary/lib/pug');
+const pugCloudinary = require('./cloudinary');
 
 /**
  * Returns the url of a screenshot of the current page

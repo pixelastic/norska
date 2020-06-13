@@ -68,6 +68,8 @@ module.exports = {
    * Build the website, compiling all files in .from()
    **/
   async build() {
+    // config.sanityCheck();
+
     if (helper.isProduction()) {
       await remove(config.to());
     }

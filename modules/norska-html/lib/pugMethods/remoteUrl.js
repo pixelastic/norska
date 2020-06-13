@@ -9,7 +9,7 @@ const path = require('path');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Final url
  */
-function remoteUrl(rawPath, context = {}) {
+module.exports = function(rawPath, context = {}) {
   const rawDefaultUrl = _.get(context, 'data.data.site.defaultUrl');
   const defaultUrl = _.trimEnd(rawDefaultUrl, '/');
   let targetPath = _.trimStart(rawPath, '/');
@@ -22,6 +22,4 @@ function remoteUrl(rawPath, context = {}) {
   }
 
   return `${defaultUrl}/${targetPath}`;
-}
-
-module.exports = remoteUrl;
+};

@@ -1,4 +1,4 @@
-const proxy = require('norska-cloudinary/lib/frontend/proxy');
+const cloudinary = require('norska-cloudinary');
 
 /**
  * Returns a placeholder version of an image, to be used for lazyloading
@@ -17,5 +17,5 @@ module.exports = function(url, userOptions = {}) {
     quality: 'auto:low',
     ...placeholderOptions,
   };
-  return proxy(url, options);
+  return cloudinary.proxy(url, options);
 };

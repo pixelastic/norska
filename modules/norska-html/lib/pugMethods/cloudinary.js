@@ -1,10 +1,7 @@
-const frontendProxy = require('../frontend/proxy.js');
-const pugRemoteUrl = require('norska-html/lib/pugMethods/remoteUrl');
-const helper = require('norska-helper');
-
-const frontendCloudinary = require('../frontend');
+const cloudinary = require('norska-cloudinary');
 const config = require('norska-config');
-frontendCloudinary.init(config.get('cloudinary'));
+const helper = require('norska-helper');
+const pugRemoteUrl = require('./remoteUrl.js');
 
 /**
  * Pass a local or remote url through the Cloudinary proxy
@@ -15,13 +12,13 @@ frontendCloudinary.init(config.get('cloudinary'));
  *
  * @returns {string} Final url
  **/
-function cloudinary(userUrl, userOptions, context = {}) {
+function pugCloudinary(userUrl, userOptions, context = {}) {
   const isRemote = userUrl.startsWith('http');
   const isProduction = helper.isProduction();
 
   // Pass remote urls to Cloudinary
   if (isRemote) {
-    return cloudinary.__frontendProxy(userUrl, userOptions);
+    return cloudinary.proxy(userUrl, userOptions);
   }
 
   // Don't touch local urls in dev
@@ -30,11 +27,8 @@ function cloudinary(userUrl, userOptions, context = {}) {
   }
 
   // Transform local path to remote urls in prod
-  const remoteUrl = cloudinary.__remoteUrl(userUrl, context);
-  return cloudinary.__frontendProxy(remoteUrl, userOptions);
+  const remoteUrl = pugRemoteUrl(userUrl, context);
+  return cloudinary.proxy(remoteUrl, userOptions);
 }
 
-cloudinary.__frontendProxy = frontendProxy;
-cloudinary.__remoteUrl = pugRemoteUrl;
-
-module.exports = cloudinary;
+module.exports = pugCloudinary;

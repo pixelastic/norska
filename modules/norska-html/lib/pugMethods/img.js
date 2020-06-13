@@ -2,7 +2,7 @@ const _ = require('golgoth/lib/lodash');
 const helper = require('norska-helper');
 const config = require('norska-config');
 const pugRevv = require('./revv.js');
-const pugCloudinary = require('norska-cloudinary/lib/pug');
+const pugCloudinary = require('./cloudinary.js');
 
 /**
  * Transform a local or remote path to be used as an image

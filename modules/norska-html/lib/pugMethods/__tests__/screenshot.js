@@ -1,5 +1,5 @@
 const module = require('../screenshot.js');
-const cloudinary = require('norska-cloudinary/lib/frontend');
+const cloudinary = require('norska-cloudinary');
 
 describe('norska-html > pugMethods > screenshot', () => {
   const context = {

@@ -1,4 +1,4 @@
-const cloudinary = require('./index.js');
+const cloudinary = require('./main.js');
 
 /**
  * Pass an image url through the Cloudinary proxy
@@ -34,10 +34,20 @@ const cloudinary = require('./index.js');
  *
  *  @returns {string} Full url with transforms applied
  **/
-module.exports = function(userUrl, userOptions = {}) {
-  // Do not modify urls that are already from Cloudinary
+const proxy = function(userUrl, userOptions = {}) {
+  // Fail fast and do nothing if:
+  // - Module is disabled
+  // - bucketName is not defined
+  // - url is already a cloudinary one
+  const isDisabled = !cloudinary.config.enable;
+  const hasNoBucketName = !cloudinary.config.bucketName;
   const isAlreadyCloudinary = userUrl.startsWith('https://res.cloudinary.com/');
-  if (isAlreadyCloudinary) {
+  if (!isDisabled && hasNoBucketName) {
+    proxy.__consoleWarn(
+      'You tried to pass an image through Cloudinary but have no bucketName defined'
+    );
+  }
+  if (isDisabled || hasNoBucketName || isAlreadyCloudinary) {
     return userUrl;
   }
 
@@ -48,7 +58,7 @@ module.exports = function(userUrl, userOptions = {}) {
     error.code = 'CLOUDINARY_PROXY_NOT_URL';
     throw error;
   }
-  const bucketName = cloudinary.get('bucketName');
+  const bucketName = cloudinary.config.bucketName;
   const baseUrl = `https://res.cloudinary.com/${bucketName}/image/fetch/`;
   const originUrl = userUrl.replace('?', '%3F');
 
@@ -89,3 +99,5 @@ module.exports = function(userUrl, userOptions = {}) {
 
   return `${baseUrl}${optionsAsString}${originUrl}`;
 };
+proxy.__consoleWarn = console.warn;
+module.exports = proxy;

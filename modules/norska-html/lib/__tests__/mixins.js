@@ -3,8 +3,8 @@ const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
 const read = require('firost/lib/read');
-const frontendCloudinary = require('norska-cloudinary/lib/frontend');
-frontendCloudinary.init({ bucketName: 'bucket' });
+const cloudinary = require('norska-cloudinary');
+cloudinary.init({ bucketName: 'bucket' });
 
 describe('norska-html > mixins', () => {
   const tmpDirectory = './tmp/norska-html/mixins';
