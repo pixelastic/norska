@@ -34,7 +34,7 @@ const cloudinary = require('./main.js');
  *
  *  @returns {string} Full url with transforms applied
  **/
-const proxy = function(userUrl, userOptions = {}) {
+module.exports = function(userUrl, userOptions = {}) {
   // Fail fast and do nothing if:
   // - Module is disabled
   // - bucketName is not defined
@@ -42,11 +42,6 @@ const proxy = function(userUrl, userOptions = {}) {
   const isDisabled = !cloudinary.config.enable;
   const hasNoBucketName = !cloudinary.config.bucketName;
   const isAlreadyCloudinary = userUrl.startsWith('https://res.cloudinary.com/');
-  if (!isDisabled && hasNoBucketName) {
-    proxy.__consoleWarn(
-      'You tried to pass an image through Cloudinary but have no bucketName defined'
-    );
-  }
   if (isDisabled || hasNoBucketName || isAlreadyCloudinary) {
     return userUrl;
   }
@@ -99,5 +94,3 @@ const proxy = function(userUrl, userOptions = {}) {
 
   return `${baseUrl}${optionsAsString}${originUrl}`;
 };
-proxy.__consoleWarn = console.warn;
-module.exports = proxy;

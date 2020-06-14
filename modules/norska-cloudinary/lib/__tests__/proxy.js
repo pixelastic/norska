@@ -14,21 +14,9 @@ describe('norska-cloudinary > proxy', () => {
     });
   });
   describe('with no bucketName defined', () => {
-    beforeEach(async () => {
-      cloudinary.init({ bucketName: null });
-      jest.spyOn(module, '__consoleWarn').mockImplementation();
-    });
     it('should return the same url', async () => {
       const input = 'http://www.example.com/foo.png';
       const actual = module(input);
-
-      expect(actual).toEqual(input);
-    });
-    it('should issue a warning', async () => {
-      const input = 'http://www.example.com/foo.png';
-      const actual = module(input);
-
-      expect(module.__consoleWarn).toHaveBeenCalled();
 
       expect(actual).toEqual(input);
     });

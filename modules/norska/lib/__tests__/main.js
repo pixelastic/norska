@@ -133,6 +133,7 @@ describe('norska', () => {
   describe('build', () => {
     const tmpDirectory = './tmp/norska/main';
     beforeEach(async () => {
+      jest.spyOn(config, 'sanityCheck').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
@@ -197,6 +198,10 @@ describe('norska', () => {
         expect.stringContaining('error message')
       );
       expect(module.__exit).toHaveBeenCalledWith(1);
+    });
+    it('should perform a sanity check', async () => {
+      await module.build();
+      expect(config.sanityCheck).toHaveBeenCalled();
     });
   });
   describe('serve', () => {
