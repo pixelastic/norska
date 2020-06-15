@@ -2627,10 +2627,10 @@ abbrev@1:
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@1.4.3:
-  version "1.4.3"
-  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.4.3.tgz#2b4c62c0462c70daac0db88bd0beceff7f7f5286"
-  integrity sha512-GUetlBikpANROL9IKc7MrnhbWUnXiveFQ80mSlV9Zzc8ALlAKFWkGi69CDhTTSGRfU6U9UigA5jucKFBMwWJhg==
+aberlaas@1.4.4:
+  version "1.4.4"
+  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.4.4.tgz#4dd787249642dd2491013e3d18a1c26d11679f2b"
+  integrity sha512-PiyBGO/111JAq6Asbk00fWLnlVBsBLlnpX1j0vgDq1PqrBSJxpRWoHVe0zqsM8t7PeSJmzzycAiWjZ25O81G6A==
   dependencies:
     "@babel/cli" "7.8.4"
     "@babel/core" "7.9.0"
