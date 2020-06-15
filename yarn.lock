@@ -2314,6 +2314,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/googlemaps@^3.39.6":
+  version "3.39.7"
+  resolved "https://registry.npmjs.org/@types/googlemaps/-/googlemaps-3.39.7.tgz#70c1af22839976cfd462858c882b54f3006f0b08"
+  integrity sha512-U8ZjnjfGiZXzun8jIDOZ/5Gt5Ky07B9pBhFbgzten1S364bnuueFsCt5e5V7Wn55o26NkLWgc6becL+j401bRw==
+
 "@types/http-cache-semantics@*":
   version "4.0.0"
   resolved "https://registry.npmjs.org/@types/http-cache-semantics/-/http-cache-semantics-4.0.0.tgz#9140779736aa2655635ee756e2467d787cfe8a2a"
@@ -7195,11 +7200,12 @@ inquirer@^6.2.0, inquirer@^6.2.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-instantsearch.js@4.6.0:
-  version "4.6.0"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.6.0.tgz#197c8c5ab8168069bc420f620183be8fd6c7a297"
-  integrity sha512-ALxHMxdNKOCC3UfXkGzF1orWv4aaocHwvPQACnASudGl05uzl1W+OantayTPtMvaBrufapBb99QsNhTm3YZyRw==
+instantsearch.js@4.7.0:
+  version "4.7.0"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.7.0.tgz#4062b98daf7278e51028d1453dc5d629cb708702"
+  integrity sha512-OkTcyHLcSu6eymWmVXsu2Tt0GRtkoRQXM+SCxj+nyvBY3y3hmGDjcb8bzkrACrhfR8SDbpEUiBGI1IUHjtvOGA==
   dependencies:
+    "@types/googlemaps" "^3.39.6"
     algoliasearch-helper "^3.1.1"
     classnames "^2.2.5"
     events "^1.1.0"
