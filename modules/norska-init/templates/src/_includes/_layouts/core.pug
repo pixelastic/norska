@@ -24,7 +24,7 @@ html(lang='en')
     meta(property='og:description', content=pageDescription)
     meta(property='og:image', content!=pageImage)
     script!=tweaks.ensureUrlTrailingSlashSource
-    link(rel="shortcut icon", href=`${url.pathToRoot}/favicon.png`)
+    link(rel="shortcut icon", href=`${url.pathToRoot}favicon.png`)
     link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
     body.arial
       include /_includes/header
