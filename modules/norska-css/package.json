@@ -3,7 +3,7 @@
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.3.0",
     "autoprefixer": "9.8.1",
-    "firost": "1.5.1",
+    "firost": "1.6.0",
     "golgoth": "1.2.0",
     "norska-config": "^0.9.19",
     "norska-helper": "^0.9.0",
