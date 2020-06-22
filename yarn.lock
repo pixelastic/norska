@@ -2634,10 +2634,10 @@ abbrev@1:
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@1.6.2:
-  version "1.6.2"
-  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.6.2.tgz#d1be22228b8ab7ab0486a545d4410cbed5f47cfa"
-  integrity sha512-XiqYhtaMZ6SYi3kc2TM0g2ia5WW8ik/gQTrXcUddq8RbZbY3z3lsTRA1Otg1KkjLdZJLTytZD3SuwBCOu2UP9A==
+aberlaas@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.7.0.tgz#559dc280edf51588da72d74e2f2da4e5ceca1c7d"
+  integrity sha512-HiN2YE//hb4+XO99JdgyUzFpUQHM9Hu4DmFNjDlNGCrDDqZ50ebizmDVWTScBbQW4cF1k5PUEYH0n7Zx/JXshw==
   dependencies:
     "@babel/cli" "7.8.4"
     "@babel/core" "7.9.0"
@@ -2657,7 +2657,7 @@ aberlaas@1.6.2:
     eslint-plugin-jsdoc "21.0.0"
     eslint-plugin-node "11.1.0"
     eslint-plugin-prettier "3.1.3"
-    firost "1.6.0"
+    firost "1.7.0"
     golgoth "1.2.0"
     husky "4.2.5"
     jasmine-fail-fast "2.0.1"
@@ -5890,10 +5890,10 @@ find-versions@^3.2.0:
   dependencies:
     semver-regex "^2.0.0"
 
-firost@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-1.6.0.tgz#c17d06af92f4495f4e8e4bc92077cb136fae89c0"
-  integrity sha512-pqX8t7AFcKcGKLfsYNOX/gO2oFhfRAuzjmNuwyfleuXn3NRSeEgtOcxCE9mii6EnlGkaLaJVkh6/XGIweHQ3BA==
+firost@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/firost/-/firost-1.7.0.tgz#61a14f18f1a60f250b35122305050969e571e152"
+  integrity sha512-FWjk+9I41+44ECLwrWt+mgNG4bSBqx0CExbXbEF6suaMNOb9rWTTZq4yOJSnIB7hnlPWoyBEOxFCSPkBEHnILw==
   dependencies:
     callsite "1.0.0"
     chokidar "3.4.0"
@@ -5910,6 +5910,7 @@ firost@1.6.0:
     ora "4.0.4"
     shelljs "0.8.4"
     tempy "0.5.0"
+    untildify "4.0.0"
     which "2.0.2"
 
 flat-cache@^2.0.1:
@@ -13096,6 +13097,11 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
+
+untildify@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/untildify/-/untildify-4.0.0.tgz#2bc947b953652487e4600949fb091e3ae8cd919b"
+  integrity sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==
 
 unzip-response@^2.0.1:
   version "2.0.1"
