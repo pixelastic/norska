@@ -14,3 +14,6 @@ npm-debug.log
 yalc.lock
 yarn-error.log
 *~
+
+# Local Netlify folder
+.netlify

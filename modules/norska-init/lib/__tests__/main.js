@@ -11,7 +11,7 @@ describe('norska-init', () => {
   beforeEach(async () => {
     jest
       .spyOn(config, 'rootDir')
-      .mockReturnValue(path.resolve('./tmp/norska-init'));
+      .mockReturnValue(path.resolve('./tmp/norska-init/main'));
     jest
       .spyOn(module, '__spinner')
       .mockReturnValue({ tick: jest.fn(), success: jest.fn() });
@@ -21,7 +21,7 @@ describe('norska-init', () => {
       js: { input: 'js/script.js' },
       css: { input: 'css/style.css' },
     });
-    await emptyDir('./tmp/norska-init');
+    await emptyDir(config.rootDir());
   });
   describe('templatePath', () => {
     it('should return the path to the template directory', () => {
@@ -83,6 +83,7 @@ describe('norska-init', () => {
   describe('run', () => {
     beforeEach(async () => {
       await writeJson({}, config.rootPath('package.json'));
+      jest.spyOn(module, 'enableNetlify').mockReturnValue();
     });
     it('should create norska.config.js in the root', async () => {
       await module.run();
@@ -151,6 +152,12 @@ describe('norska-init', () => {
       const actual = await readJson(config.rootPath('package.json'));
 
       expect(actual).toHaveProperty('files', []);
+    });
+    it('should enable netlify', async () => {
+      await writeJson({}, config.rootPath('package.json'));
+      await module.run();
+
+      expect(module.enableNetlify).toHaveBeenCalled();
     });
   });
 });

@@ -9,6 +9,7 @@ const glob = require('firost/lib/glob');
 const readJson = require('firost/lib/readJson');
 const spinner = require('firost/lib/spinner');
 const writeJson = require('firost/lib/writeJson');
+const netlify = require('./netlify.js');
 
 module.exports = {
   /**
@@ -24,7 +25,7 @@ module.exports = {
     const templatePrefix = this.templatePath();
     const rootPrefix = config.rootDir();
 
-    progress.tick('Scaffolding ./src');
+    progress.tick('initializing new project');
     await pMap(files, async source => {
       const destination = _.replace(source, templatePrefix, rootPrefix);
       if (await exist(destination)) {
@@ -34,12 +35,12 @@ module.exports = {
       await copy(source, destination);
     });
 
-    progress.tick('Adding scripts');
     await this.addScripts();
 
     await this.setPackageFiles();
-
     progress.success('norska project initialized');
+
+    await this.enableNetlify();
   },
   /**
    * Returns an absolute path to the templates stored in this module.
@@ -96,6 +97,9 @@ module.exports = {
     });
 
     await writeJson(currentPackage, packagePath);
+  },
+  async enableNetlify() {
+    await netlify.enable();
   },
   __spinner: spinner,
 };
