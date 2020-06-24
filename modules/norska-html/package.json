@@ -4,7 +4,7 @@
     "ensure-url-trailing-slash": "0.1.4",
     "firost": "1.7.0",
     "golgoth": "1.2.0",
-    "markdown-it": "10.0.0",
+    "markdown-it": "11.0.0",
     "markdown-it-highlightjs": "3.1.0",
     "norska-cloudinary": "^0.10.0",
     "norska-config": "^0.10.0",
@@ -12,7 +12,7 @@
     "norska-frontend": "^0.10.0",
     "norska-helper": "^0.10.0",
     "norska-revv": "^0.10.0",
-    "pug": "2.0.4"
+    "pug": "3.0.0"
   },
   "description": "Convert .pug files to .html files",
   "devDependencies": {
