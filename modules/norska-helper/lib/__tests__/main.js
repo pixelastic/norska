@@ -1,25 +1,25 @@
-const module = require('../main');
+const current = require('../main');
 
 describe('norska-helper', () => {
   describe('isProduction', () => {
     it('should return true if current env is prod', () => {
-      jest.spyOn(module, 'currentEnvironment').mockReturnValue('prod');
+      jest.spyOn(current, 'currentEnvironment').mockReturnValue('prod');
 
-      const actual = module.isProduction();
+      const actual = current.isProduction();
 
       expect(actual).toEqual(true);
     });
     it('should return true if current env is production', () => {
-      jest.spyOn(module, 'currentEnvironment').mockReturnValue('production');
+      jest.spyOn(current, 'currentEnvironment').mockReturnValue('production');
 
-      const actual = module.isProduction();
+      const actual = current.isProduction();
 
       expect(actual).toEqual(true);
     });
     it('should return false otherwise', () => {
-      jest.spyOn(module, 'currentEnvironment').mockReturnValue('dev');
+      jest.spyOn(current, 'currentEnvironment').mockReturnValue('dev');
 
-      const actual = module.isProduction();
+      const actual = current.isProduction();
 
       expect(actual).toEqual(false);
     });

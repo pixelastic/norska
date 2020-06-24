@@ -1,4 +1,4 @@
-const module = require('../submit');
+const current = require('../submit');
 const path = require('path');
 const cms = require('../../main.js');
 const config = require('norska-config');
@@ -28,7 +28,7 @@ describe('helpers/submit', () => {
           },
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('foo', 'bar');
       });
@@ -43,7 +43,7 @@ describe('helpers/submit', () => {
           files: [],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', 'foo');
       });
@@ -63,7 +63,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual.screenshot).toMatch(/uuid.png$/);
       });
@@ -82,7 +82,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual.screenshot).toMatch(
           new RegExp(`^${uploadPathRelative}/`)
@@ -104,7 +104,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const data = await module.getDataFromRequest(input);
+        const data = await current.getDataFromRequest(input);
 
         const actual = await read(config.fromPath(data.screenshot));
 
@@ -128,7 +128,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        await module.getDataFromRequest(input);
+        await current.getDataFromRequest(input);
 
         const actual = await exist(`${uploadPath}/old.png`);
 
@@ -151,7 +151,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', 'assets/uuid.png');
       });
@@ -172,7 +172,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty(
           'screenshot',
@@ -197,7 +197,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', 'assets/fooBar/uuid.png');
       });
@@ -219,7 +219,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty(
           'screenshot',
@@ -238,7 +238,7 @@ describe('helpers/submit', () => {
           files: [],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', null);
         expect(await exist(`${uploadPath}/old.png`)).toEqual(false);
@@ -262,7 +262,7 @@ describe('helpers/submit', () => {
           ],
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('screenshot', null);
         expect(await exist(`${uploadPath}/old.png`)).toEqual(false);
@@ -277,7 +277,7 @@ describe('helpers/submit', () => {
           },
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('isOk', false);
       });
@@ -289,7 +289,7 @@ describe('helpers/submit', () => {
           },
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('isOk', true);
       });
@@ -301,7 +301,7 @@ describe('helpers/submit', () => {
           },
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual).toHaveProperty('isOk', true);
       });
@@ -316,7 +316,7 @@ describe('helpers/submit', () => {
           },
         };
 
-        const actual = await module.getDataFromRequest(input);
+        const actual = await current.getDataFromRequest(input);
 
         expect(actual[0]).toEqual({ name: 'foo', description: 'foooooooo' });
         expect(actual[1]).toEqual({ name: 'bar', description: 'baaaaaar' });
@@ -347,7 +347,7 @@ describe('helpers/submit', () => {
             ],
           };
 
-          const data = await module.getDataFromRequest(input);
+          const data = await current.getDataFromRequest(input);
 
           const uploadOne = await read(config.fromPath(data[0].screenshot));
           const uploadTwo = await read(config.fromPath(data[1].screenshot));

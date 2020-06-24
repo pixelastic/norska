@@ -13,7 +13,7 @@ module.exports = {
    * viewport
    **/
   enableBackgroundImageLoading() {
-    document.addEventListener('lazybeforeunveil', function(event) {
+    document.addEventListener('lazybeforeunveil', function (event) {
       const element = event.target;
       const background = element.getAttribute('data-bg');
       if (!background) {

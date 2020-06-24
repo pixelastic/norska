@@ -13,11 +13,7 @@ module.exports = {
    * @returns {boolean} True if data cached, false otherwise
    **/
   hasCache() {
-    return !_.chain(this)
-      .get('__cache')
-      .keys()
-      .isEmpty()
-      .value();
+    return !_.chain(this).get('__cache').keys().isEmpty().value();
   },
   /**
    * Return the current cache
@@ -40,7 +36,7 @@ module.exports = {
   async updateCache() {
     this.__cache = {};
     const files = await glob(config.fromPath('_data/**/*.{js,json}'));
-    await pMap(files, async filepath => {
+    await pMap(files, async (filepath) => {
       const value = await this.read(filepath);
       const key = await this.key(filepath);
       _.set(this.__cache, key, value);

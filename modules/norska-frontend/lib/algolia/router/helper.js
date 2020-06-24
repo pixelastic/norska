@@ -71,10 +71,7 @@ module.exports = {
     const isFilter = this.refinementListPattern.test(value);
     if (isFilter) {
       const capture = this.refinementListPattern.exec(value);
-      value = capture[1]
-        .split(',')
-        .map(decodeURIComponent)
-        .sort();
+      value = capture[1].split(',').map(decodeURIComponent).sort();
       return {
         refinementList: {
           [key]: value,
@@ -103,7 +100,7 @@ module.exports = {
   sortByIndexFromLocationHash(locationHash) {
     const stringFilters = locationHash.replace(/^#/, '').split('/');
     const filters = {};
-    stringFilters.forEach(filter => {
+    stringFilters.forEach((filter) => {
       const [key, value] = filter.split(':');
       filters[key] = value;
     });

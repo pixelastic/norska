@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
@@ -21,7 +21,7 @@ describe('norska-html > mixins', () => {
       const output = config.toPath('output.html');
       await write('+test_dummy', input);
 
-      await module.createPage(input, output);
+      await current.createPage(input, output);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>dummy</p>');
@@ -50,7 +50,7 @@ describe('norska-html > mixins', () => {
       const destination = config.toPath('destination.html');
       await write(input, source);
 
-      await module.createPage(source, destination);
+      await current.createPage(source, destination);
 
       const actual = await read(destination);
       expect(actual).toEqual(expected);

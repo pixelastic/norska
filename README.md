@@ -1,6 +1,6 @@
 # 🏔️ norska
 
-Custom SSG using Pug, Babel, Webpack, PostCSS and Tailwind.
+Custom SSG using Pug, Webpack, PostCSS and Tailwind.
 
 This project grew from a bunch of scripts to convert/compile file formats to
 build a static website. The scripts are short enough so I can tweak them faster
@@ -34,7 +34,7 @@ with a custom config. All CSS classes not actually used in the final HTML will
 be discarded (except for those starting with `ais-` or `js-`).
 
 `./src/script.js` is the JavaScript entrypoint. It will be compiled through
-Babel and Webpack to produce one file.
+Webpack to produce one file.
 
 Static assets are copied from source to destination without any transformation,
 and keeping the same directory structure.
@@ -106,7 +106,7 @@ images below the fold.
 Norska, like all static website generators, have to deal with a multitude of
 filetypes, convertings them from their source format to the ready-to-be-deployed
 destination. `.md` and `.pug` files must be converted to `.html`, `.css` must be
-passed through postcss, `.js` through Babel, etc.
+passed through postcss, `.js` through webpack, etc.
 
 Each of these converters need their own dependencies. The classical approach
 would have been to add all the needed dependencies to the main `package.json`

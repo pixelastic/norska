@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const data = require('norska-data');
 const pEvent = require('p-event');
@@ -22,12 +22,12 @@ describe('norska-html', () => {
   });
   describe('watch', () => {
     beforeEach(async () => {
-      jest.spyOn(module, '__consoleWarn').mockReturnValue();
-      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
+      jest.spyOn(current, '__consoleWarn').mockReturnValue();
+      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
       await mkdirp(config.from());
       data.clearCache();
       jest
-        .spyOn(module, '__spinner')
+        .spyOn(current, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
     });
     afterEach(async () => {
@@ -36,7 +36,7 @@ describe('norska-html', () => {
     describe('individual files', () => {
       it('should recompile individual pug files when changed', async () => {
         await write('p foo', config.fromPath('index.pug'));
-        await module.watch();
+        await current.watch();
         await write('p bar', config.fromPath('index.pug'));
 
         await waitForWatchers();
@@ -44,7 +44,7 @@ describe('norska-html', () => {
         expect(actual).toEqual('<p>bar</p>');
       });
       it('should compile individual pug files when created', async () => {
-        await module.watch();
+        await current.watch();
         await write('p foo', config.fromPath('index.pug'));
 
         await waitForWatchers();
@@ -56,7 +56,7 @@ describe('norska-html', () => {
       describe('json', () => {
         it('should run everything when files in _data/ are created', async () => {
           await write('p=data.foo.bar', config.fromPath('index.pug'));
-          await module.watch();
+          await current.watch();
           await writeJson({ bar: 'baz' }, config.fromPath('_data/foo.json'));
 
           await waitForWatchers();
@@ -66,7 +66,7 @@ describe('norska-html', () => {
         it('should run everything when files in _data/ are modified', async () => {
           await writeJson({ bar: 'baz' }, config.fromPath('_data/foo.json'));
           await write('p=data.foo.bar', config.fromPath('index.pug'));
-          await module.watch();
+          await current.watch();
           await writeJson({ bar: 'quxx' }, config.fromPath('_data/foo.json'));
 
           await waitForWatchers();
@@ -81,7 +81,7 @@ describe('norska-html', () => {
             `p=data['${uniqueId}'].bar`,
             config.fromPath('index.pug')
           );
-          await module.watch();
+          await current.watch();
           await write(
             'module.exports = { bar: "baz" }',
             config.fromPath(`_data/${uniqueId}.js`)
@@ -102,7 +102,7 @@ describe('norska-html', () => {
             `p=data['${uniqueId}'].bar`,
             config.fromPath('index.pug')
           );
-          await module.watch();
+          await current.watch();
           await write(
             'module.exports = { bar: "quxx" }',
             config.fromPath(`_data/${uniqueId}.js`)
@@ -121,7 +121,7 @@ describe('norska-html', () => {
             'extends /_includes/layout',
             config.fromPath('index.pug')
           );
-          await module.watch();
+          await current.watch();
           await write('p foo', config.fromPath('_includes/layout.pug'));
 
           await waitForWatchers();
@@ -134,7 +134,7 @@ describe('norska-html', () => {
             config.fromPath('index.pug')
           );
           await write('p foo', config.fromPath('_includes/layout.pug'));
-          await module.watch();
+          await current.watch();
           await write('p bar', config.fromPath('_includes/layout.pug'));
 
           await waitForWatchers();
@@ -148,7 +148,7 @@ describe('norska-html', () => {
             'include /_includes/include.txt',
             config.fromPath('index.pug')
           );
-          await module.watch();
+          await current.watch();
           await write('foo', config.fromPath('_includes/include.txt'));
 
           await waitForWatchers();
@@ -161,7 +161,7 @@ describe('norska-html', () => {
             config.fromPath('index.pug')
           );
           await write('foo', config.fromPath('_includes/include.txt'));
-          await module.watch();
+          await current.watch();
           await write('bar', config.fromPath('_includes/include.txt'));
 
           await waitForWatchers();
@@ -176,25 +176,25 @@ describe('norska-html', () => {
       });
       it('should run everything whenever the runtime.jsFiles is updated', async () => {
         await write('p=runtime.jsFiles', config.fromPath('index.pug'));
-        await module.watch();
+        await current.watch();
         config.set('runtime.jsFiles', ['anything.js']);
 
-        await pEvent(module.pulse, 'run');
+        await pEvent(current.pulse, 'run');
         const actual = await read(config.toPath('index.html'));
         expect(actual).toEqual('<p>anything.js</p>');
       });
     });
     describe('compilation errors', () => {
       beforeEach(() => {
-        jest.spyOn(module, '__consoleError').mockReturnValue();
+        jest.spyOn(current, '__consoleError').mockReturnValue();
       });
       it('should display the errors', async () => {
-        await module.watch();
+        await current.watch();
         await write('p.invalid:syntax foo', config.fromPath('error.pug'));
 
         await waitForWatchers();
 
-        expect(module.__consoleError).toHaveBeenCalledWith(
+        expect(current.__consoleError).toHaveBeenCalledWith(
           expect.stringMatching('Unexpected token')
         );
       });

@@ -15,7 +15,7 @@ module.exports = async function index(req, res) {
     `${dataFolder}/**/*.json`,
     `!${dataFolder}/**/*.schema.json`,
   ]);
-  dataFiles = _.map(dataFiles, dataFile => {
+  dataFiles = _.map(dataFiles, (dataFile) => {
     return path.relative(dataFolder, dataFile);
   });
   res.render('index', { files: dataFiles });

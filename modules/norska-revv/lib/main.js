@@ -81,7 +81,7 @@ module.exports = {
    **/
   async fillManifest() {
     const manifest = this.manifest();
-    await pMap(_.keys(manifest), async asset => {
+    await pMap(_.keys(manifest), async (asset) => {
       manifest[asset] = await this.revvPath(asset);
     });
     this.manifest(manifest);
@@ -112,7 +112,7 @@ module.exports = {
 
       content = _.reduce(
         replacements,
-        function(result, item) {
+        function (result, item) {
           return (
             _.chain(result)
               .replace(new RegExp(item.from, 'g'), item.to)
@@ -140,7 +140,7 @@ module.exports = {
     const assets = _.map(this.manifest(), (revvedPath, basePath) => {
       return { revvedPath, basePath };
     });
-    await pMap(assets, async asset => {
+    await pMap(assets, async (asset) => {
       const basePath = config.toPath(asset.basePath);
       const revvedPath = config.toPath(asset.revvedPath);
       await copy(basePath, revvedPath);
@@ -162,7 +162,7 @@ module.exports = {
       await this.fillManifest();
       const htmlFiles = await glob(config.toPath('**/*.html'));
 
-      await pMap(htmlFiles, async filepath => {
+      await pMap(htmlFiles, async (filepath) => {
         await this.compile(filepath);
       });
 

@@ -1,8 +1,8 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "1.7.0",
-    "golgoth": "1.2.0",
+    "firost": "1.7.1",
+    "golgoth": "1.3.0",
     "norska-config": "^0.10.0"
   },
   "description": "Read data stored in ./src/_data",

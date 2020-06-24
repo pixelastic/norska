@@ -1,4 +1,4 @@
-const module = require('../form');
+const current = require('../form');
 const emptyDir = require('firost/lib/emptyDir');
 const writeJson = require('firost/lib/writeJson');
 const _ = require('golgoth/lib/lodash');
@@ -10,8 +10,8 @@ describe('helpers/form', () => {
     it('should set value from data to each field schema', async () => {
       const data = { title: 'foo' };
 
-      const schema = module.guessSchema(data);
-      const actual = module.getFields(data, schema);
+      const schema = current.guessSchema(data);
+      const actual = current.getFields(data, schema);
 
       expect(actual).toContainEqual(
         objectWith({ name: 'title', value: 'foo' })
@@ -21,24 +21,24 @@ describe('helpers/form', () => {
       it('should return an array', () => {
         const data = [{ title: 'alpha', isAwesome: false }];
 
-        const schema = module.guessSchema(data);
-        const actual = module.getFields(data, schema);
+        const schema = current.guessSchema(data);
+        const actual = current.getFields(data, schema);
 
         expect(_.isArray(actual)).toEqual(true);
       });
       it('first element should be a list', () => {
         const data = [{ title: 'alpha', isAwesome: false }];
 
-        const schema = module.guessSchema(data);
-        const actual = module.getFields(data, schema);
+        const schema = current.guessSchema(data);
+        const actual = current.getFields(data, schema);
 
         expect(actual[0]).toHaveProperty('type', 'list');
       });
       it('should set value to each item field', () => {
         const data = [{ title: 'alpha', isAwesome: false }];
 
-        const schema = module.guessSchema(data);
-        const actual = module.getFields(data, schema);
+        const schema = current.guessSchema(data);
+        const actual = current.getFields(data, schema);
         const item = actual[0].items[0];
         const fields = item.fields;
 
@@ -48,11 +48,11 @@ describe('helpers/form', () => {
       it('should set a displayName to each field based on the top-level displayKey', () => {
         const data = [{ title: 'alpha', isAwesome: false }];
         const schema = {
-          ...module.guessSchema(data),
+          ...current.guessSchema(data),
           displayKey: 'title',
         };
 
-        const actual = module.getFields(data, schema);
+        const actual = current.getFields(data, schema);
         const item = actual[0].items[0];
 
         expect(item).toHaveProperty('displayName', 'Alpha');
@@ -63,8 +63,8 @@ describe('helpers/form', () => {
           { title: 'beta', isAwesome: true },
         ];
 
-        const schema = module.guessSchema(data);
-        const actual = module.getFields(data, schema);
+        const schema = current.guessSchema(data);
+        const actual = current.getFields(data, schema);
         const firstItem = actual[0].items[0];
         const secondItem = actual[0].items[1];
 
@@ -88,7 +88,7 @@ describe('helpers/form', () => {
       const readFileSchema = false;
       const guessedFileSchema = 'guessed schema';
 
-      const actual = module.reconcileFileSchema(
+      const actual = current.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -99,8 +99,8 @@ describe('helpers/form', () => {
       const readFileSchema = [{ name: 'name', type: 'textarea' }];
       const data = { name: 'foo' };
 
-      const guessedFileSchema = module.guessSchema(data);
-      const actual = module.reconcileFileSchema(
+      const guessedFileSchema = current.guessSchema(data);
+      const actual = current.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -111,8 +111,8 @@ describe('helpers/form', () => {
       const readFileSchema = [{ name: 'name', type: 'textarea' }];
       const data = { name: 'foo' };
 
-      const guessedFileSchema = module.guessSchema(data);
-      const actual = module.reconcileFileSchema(
+      const guessedFileSchema = current.guessSchema(data);
+      const actual = current.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -126,9 +126,9 @@ describe('helpers/form', () => {
         { name: 'baz' },
       ];
       const data = { baz: true, foo: true, bar: false };
-      const guessedFileSchema = module.guessSchema(data);
+      const guessedFileSchema = current.guessSchema(data);
 
-      const actual = module.reconcileFileSchema(
+      const actual = current.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -141,8 +141,8 @@ describe('helpers/form', () => {
       const data = { baz: true, foo: true, bar: false };
       const readFileSchema = [{ name: 'foo' }];
 
-      const guessedFileSchema = module.guessSchema(data);
-      const actual = module.reconcileFileSchema(
+      const guessedFileSchema = current.guessSchema(data);
+      const actual = current.reconcileFileSchema(
         readFileSchema,
         guessedFileSchema
       );
@@ -156,8 +156,8 @@ describe('helpers/form', () => {
         const data = { title: 'foo' };
         const readFileSchema = [{ name: 'title' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -170,8 +170,8 @@ describe('helpers/form', () => {
         const data = { title: 'foo' };
         const readFileSchema = [{ name: 'title', displayName: 'Custom' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -184,8 +184,8 @@ describe('helpers/form', () => {
         const data = { description: 'foo' };
         const readFileSchema = [{ name: 'title' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -198,8 +198,8 @@ describe('helpers/form', () => {
         const data = { description: 'foo' };
         const readFileSchema = [{ name: 'title' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -214,8 +214,8 @@ describe('helpers/form', () => {
         const readFileSchema = { type: 'list' };
         const data = [{ title: 'foo' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -227,8 +227,8 @@ describe('helpers/form', () => {
         const readFileSchema = { type: 'list', customProperty: 'foo' };
         const data = [{ title: 'foo' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -242,8 +242,8 @@ describe('helpers/form', () => {
         };
         const data = [{ title: 'foo' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -264,8 +264,8 @@ describe('helpers/form', () => {
         };
         const data = [{ description: 'foo', url: 'foo', title: 'foo' }];
 
-        const guessedFileSchema = module.guessSchema(data);
-        const actual = module.reconcileFileSchema(
+        const guessedFileSchema = current.guessSchema(data);
+        const actual = current.reconcileFileSchema(
           readFileSchema,
           guessedFileSchema
         );
@@ -281,7 +281,7 @@ describe('helpers/form', () => {
     it('should aggregate guessFieldSchema on each field', async () => {
       const data = { foo: 'bar', isAwesome: true };
 
-      const actual = module.guessSchema(data);
+      const actual = current.guessSchema(data);
 
       expect(actual[0]).toEqual(objectWith({ name: 'foo', type: 'text' }));
       expect(actual[1]).toEqual(
@@ -292,14 +292,14 @@ describe('helpers/form', () => {
       it('should return a list type', async () => {
         const data = [];
 
-        const actual = module.guessSchema(data);
+        const actual = current.guessSchema(data);
 
         expect(actual).toHaveProperty('type', 'list');
       });
       it('should set an array of objects for items', async () => {
         const data = [{ name: 'foo', isAwesome: true }];
 
-        const actual = module.guessSchema(data);
+        const actual = current.guessSchema(data);
 
         expect(_.isArray(actual.items)).toEqual(true);
         expect(_.isPlainObject(actual.items[0])).toEqual(true);
@@ -307,7 +307,7 @@ describe('helpers/form', () => {
       it('each item should have a .field key as an array of objects', async () => {
         const data = [{ name: 'foo', isAwesome: true }];
 
-        const actual = module.guessSchema(data);
+        const actual = current.guessSchema(data);
         const items = actual.items;
 
         expect(_.isArray(items)).toEqual(true);
@@ -316,7 +316,7 @@ describe('helpers/form', () => {
       it('should aggregate guessFieldSchema on each field of each item', async () => {
         const data = [{ name: 'foo', isAwesome: true }];
 
-        const actual = module.guessSchema(data);
+        const actual = current.guessSchema(data);
         const fields = actual.items[0].fields;
 
         expect(fields).toContainEqual(objectWith({ name: 'name' }));
@@ -329,54 +329,54 @@ describe('helpers/form', () => {
       await emptyDir(tmpDirectory);
     });
     it('should return false if no schema exist for the file', async () => {
-      const actual = await module.readFileSchema('nope');
+      const actual = await current.readFileSchema('nope');
       expect(actual).toEqual(false);
     });
     it('should return the schema if found', async () => {
       await writeJson({ foo: 'bar' }, `${tmpDirectory}/foo.schema.json`);
-      const actual = await module.readFileSchema(`${tmpDirectory}/foo.json`);
+      const actual = await current.readFileSchema(`${tmpDirectory}/foo.json`);
       expect(actual).toEqual({ foo: 'bar' });
     });
   });
 
   describe('guessFieldSchema', () => {
     it('should include the specified name', () => {
-      const actual = module.guessFieldSchema('name', 'foo');
+      const actual = current.guessFieldSchema('name', 'foo');
       const expected = objectWith({ name: 'name' });
       expect(actual).toEqual(expected);
     });
     it('should guess the type', () => {
-      jest.spyOn(module, 'guessFieldType').mockReturnValue('baz');
-      const actual = module.guessFieldSchema('name', 'foo');
+      jest.spyOn(current, 'guessFieldType').mockReturnValue('baz');
+      const actual = current.guessFieldSchema('name', 'foo');
       const expected = objectWith({ type: 'baz' });
       expect(actual).toEqual(expected);
     });
   });
   describe('guessDisplayName', () => {
     it('should return a capitalized version of the name', () => {
-      const actual = module.guessDisplayName('foo');
+      const actual = current.guessDisplayName('foo');
       expect(actual).toEqual('Foo');
     });
     it('should remove any trailing []', () => {
-      const actual = module.guessDisplayName('foo[]');
+      const actual = current.guessDisplayName('foo[]');
       expect(actual).toEqual('Foo');
     });
     it('should separate words of camelcase', () => {
-      const actual = module.guessDisplayName('bestMovies');
+      const actual = current.guessDisplayName('bestMovies');
       expect(actual).toEqual('Best movies');
     });
     it('should add question mark to isXXX', () => {
-      const actual = module.guessDisplayName('isAwesome');
+      const actual = current.guessDisplayName('isAwesome');
       expect(actual).toEqual('Is awesome?');
     });
     it('should add question mark to hasXXX', () => {
-      const actual = module.guessDisplayName('hasAwesomeness');
+      const actual = current.guessDisplayName('hasAwesomeness');
       expect(actual).toEqual('Has awesomeness?');
     });
   });
   describe('guessFieldType', () => {
     it('should return textarea if has long text', () => {
-      const actual = module.guessFieldType(
+      const actual = current.guessFieldType(
         'foo',
         'This is a very long text that should ideally trigger a textarea because it is over the threshold'
       );
@@ -384,22 +384,22 @@ describe('helpers/form', () => {
       expect(actual).toEqual('textarea');
     });
     it('should return list if an array', () => {
-      const actual = module.guessFieldType('foo', ['bar', 'baz']);
+      const actual = current.guessFieldType('foo', ['bar', 'baz']);
 
       expect(actual).toEqual('list');
     });
     it('should return checkbox for false', () => {
-      const actual = module.guessFieldType('isAwesome', false);
+      const actual = current.guessFieldType('isAwesome', false);
 
       expect(actual).toEqual('checkbox');
     });
     it('should return checkbox for true', () => {
-      const actual = module.guessFieldType('isAwesome', true);
+      const actual = current.guessFieldType('isAwesome', true);
 
       expect(actual).toEqual('checkbox');
     });
     it('should return text by default', () => {
-      const actual = module.guessFieldType();
+      const actual = current.guessFieldType();
 
       expect(actual).toEqual('text');
     });

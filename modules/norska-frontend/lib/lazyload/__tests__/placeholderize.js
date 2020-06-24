@@ -1,4 +1,4 @@
-const module = require('../placeholderize');
+const current = require('../placeholderize');
 const cloudinary = require('norska-cloudinary');
 
 describe('norska-frontend > lazyload > placeholderize', () => {
@@ -16,7 +16,7 @@ describe('norska-frontend > lazyload > placeholderize', () => {
   ])('%s => %s', async (options, params) => {
     const input = 'http://www.example.com/foo.png';
     const expected = `https://res.cloudinary.com/bucket-foo/image/fetch/${params}/http://www.example.com/foo.png`;
-    const actual = module(input, options);
+    const actual = current(input, options);
     expect(actual).toEqual(expected);
   });
 });

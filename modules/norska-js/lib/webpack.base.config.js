@@ -32,12 +32,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        enforce: 'pre',
-        use: { loader: 'babel-loader' },
-      },
-      {
         test: /\.pug$/,
         use: { loader: 'pug-loader' },
       },

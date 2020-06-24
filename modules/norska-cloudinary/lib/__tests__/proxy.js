@@ -1,4 +1,4 @@
-const module = require('../proxy');
+const current = require('../proxy');
 const cloudinary = require('../main');
 
 describe('norska-cloudinary > proxy', () => {
@@ -8,7 +8,7 @@ describe('norska-cloudinary > proxy', () => {
     });
     it('should return the same url', async () => {
       const input = 'http://www.example.com/foo.png';
-      const actual = module(input);
+      const actual = current(input);
 
       expect(actual).toEqual(input);
     });
@@ -16,7 +16,7 @@ describe('norska-cloudinary > proxy', () => {
   describe('with no bucketName defined', () => {
     it('should return the same url', async () => {
       const input = 'http://www.example.com/foo.png';
-      const actual = module(input);
+      const actual = current(input);
 
       expect(actual).toEqual(input);
     });
@@ -27,7 +27,7 @@ describe('norska-cloudinary > proxy', () => {
     });
     it('should pass the url through Cloudinary', async () => {
       const input = 'http://www.example.com/foo.png';
-      const actual = module(input);
+      const actual = current(input);
 
       expect(actual).toStartWith(
         'https://res.cloudinary.com/bucket-foo/image/fetch/'
@@ -35,7 +35,7 @@ describe('norska-cloudinary > proxy', () => {
     });
     it('should encode query string', async () => {
       const input = 'http://www.example.com/foo.png?v=42';
-      const actual = module(input);
+      const actual = current(input);
 
       expect(actual).toEqual(
         'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http://www.example.com/foo.png%3Fv=42'
@@ -43,7 +43,7 @@ describe('norska-cloudinary > proxy', () => {
     });
     it('should set the format to auto', async () => {
       const input = 'http://www.example.com/foo.png';
-      const actual = module(input);
+      const actual = current(input);
 
       expect(actual).toEqual(
         'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http://www.example.com/foo.png'
@@ -54,7 +54,7 @@ describe('norska-cloudinary > proxy', () => {
       let actual;
 
       try {
-        module(input);
+        current(input);
       } catch (err) {
         actual = err;
       }
@@ -64,7 +64,7 @@ describe('norska-cloudinary > proxy', () => {
     it('should not change the url if already from cloudinary', async () => {
       const input =
         'https://res.cloudinary.com/bucket-foo/image/fetch/f_auto/http://www.example.com/foo.png';
-      const actual = module(input);
+      const actual = current(input);
 
       expect(actual).toEqual(input);
     });
@@ -87,7 +87,7 @@ describe('norska-cloudinary > proxy', () => {
       ])('%s => %s', async (options, params) => {
         const input = 'http://www.example.com/foo.png';
         const expected = `https://res.cloudinary.com/bucket-foo/image/fetch/${params}/http://www.example.com/foo.png`;
-        const actual = module(input, options);
+        const actual = current(input, options);
         expect(actual).toEqual(expected);
       });
     });

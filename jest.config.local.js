@@ -15,7 +15,7 @@ const moduleToTest = path.basename(fullpath);
 // one we want to test
 const allModules = fs.readdirSync(modulesDirectory);
 let ignorePatterns = [];
-allModules.forEach(moduleName => {
+allModules.forEach((moduleName) => {
   if (moduleName === moduleToTest) {
     return;
   }

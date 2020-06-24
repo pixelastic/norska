@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const objectWith = expect.objectContaining;
@@ -18,14 +18,14 @@ describe('norska-cms', () => {
     let mockCreateServer = jest.fn();
     let mockWatch = jest.fn();
     beforeEach(() => {
-      jest.spyOn(module, '__livereload').mockReturnValue({
+      jest.spyOn(current, '__livereload').mockReturnValue({
         createServer: mockCreateServer,
       });
       mockCreateServer.mockReturnValue({ watch: mockWatch });
     });
     describe('browser reload', () => {
       it('should watch for changes in images', async () => {
-        await module.startLivereload();
+        await current.startLivereload();
         const expected = objectWith({
           exts: arrayWith(['jpg', 'gif', 'png', 'svg', 'ico']),
         });
@@ -33,7 +33,7 @@ describe('norska-cms', () => {
         expect(mockCreateServer).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in js files', async () => {
-        await module.startLivereload();
+        await current.startLivereload();
         const expected = objectWith({
           exts: arrayWith(['js']),
         });
@@ -41,7 +41,7 @@ describe('norska-cms', () => {
         expect(mockCreateServer).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in json files', async () => {
-        await module.startLivereload();
+        await current.startLivereload();
         const expected = objectWith({
           exts: arrayWith(['json']),
         });
@@ -49,7 +49,7 @@ describe('norska-cms', () => {
         expect(mockCreateServer).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in page files', async () => {
-        await module.startLivereload();
+        await current.startLivereload();
         const expected = objectWith({
           exts: arrayWith(['html', 'pug']),
         });
@@ -57,29 +57,29 @@ describe('norska-cms', () => {
         expect(mockCreateServer).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in views folder', async () => {
-        jest.spyOn(module, 'viewsPath').mockReturnValue('foo');
-        await module.startLivereload();
+        jest.spyOn(current, 'viewsPath').mockReturnValue('foo');
+        await current.startLivereload();
         const expected = arrayWith(['foo']);
 
         expect(mockWatch).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in pages folder', async () => {
-        jest.spyOn(module, 'pagesPath').mockReturnValue('foo');
-        await module.startLivereload();
+        jest.spyOn(current, 'pagesPath').mockReturnValue('foo');
+        await current.startLivereload();
         const expected = arrayWith(['foo']);
 
         expect(mockWatch).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in static folder', async () => {
-        jest.spyOn(module, 'staticPath').mockReturnValue('foo');
-        await module.startLivereload();
+        jest.spyOn(current, 'staticPath').mockReturnValue('foo');
+        await current.startLivereload();
         const expected = arrayWith(['foo']);
 
         expect(mockWatch).toHaveBeenCalledWith(expected);
       });
       it('should watch for changes in _data folder', async () => {
-        jest.spyOn(module, 'dataPath').mockReturnValue('foo');
-        await module.startLivereload();
+        jest.spyOn(current, 'dataPath').mockReturnValue('foo');
+        await current.startLivereload();
         const expected = arrayWith(['foo']);
 
         expect(mockWatch).toHaveBeenCalledWith(expected);
@@ -88,7 +88,7 @@ describe('norska-cms', () => {
         // With no delay, the browser restarts the page as soon as the CMS
         // updates a file on disk, not allowing us to properly redirect users
         // where we want
-        await module.startLivereload();
+        await current.startLivereload();
         const expected = objectWith({ delay: anything });
 
         expect(mockCreateServer).toHaveBeenCalledWith(expected);
@@ -97,26 +97,26 @@ describe('norska-cms', () => {
   });
   describe('page', () => {
     beforeEach(() => {
-      jest.spyOn(module, 'pagesPath').mockReturnValue('/tmp/pages');
-      jest.spyOn(module, '__require').mockReturnValue(jest.fn);
+      jest.spyOn(current, 'pagesPath').mockReturnValue('/tmp/pages');
+      jest.spyOn(current, '__require').mockReturnValue(jest.fn);
     });
     it('should return a function', async () => {
-      const actual = module.page('foo');
+      const actual = current.page('foo');
 
       expect(typeof actual).toBe('function');
     });
     it('that force requires the specified page when called', async () => {
-      module.page('foo')();
+      current.page('foo')();
 
-      expect(module.__require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
+      expect(current.__require).toHaveBeenCalledWith('/tmp/pages/foo.js', {
         forceReload: true,
       });
     });
     it('that applies passed arguments to required function', async () => {
       const mockMethod = jest.fn();
-      jest.spyOn(module, '__require').mockReturnValue(mockMethod);
+      jest.spyOn(current, '__require').mockReturnValue(mockMethod);
 
-      module.page('foo')('bar', 'baz');
+      current.page('foo')('bar', 'baz');
 
       expect(mockMethod).toHaveBeenCalledWith('bar', 'baz');
     });

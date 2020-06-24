@@ -12,7 +12,7 @@ const pugCloudinary = require('./cloudinary.js');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Final url
  */
-module.exports = function(filepath, options = {}, context) {
+module.exports = function (filepath, options = {}, context) {
   const isRemote = _.startsWith(filepath, 'http');
   const isDev = !helper.isProduction();
 

@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
@@ -12,46 +12,46 @@ describe('norska-data', () => {
       to: './tmp/norska-data/dist',
     });
     await emptyDir('./tmp/norska-data');
-    module.__cache = {};
+    current.__cache = {};
   });
   describe('hasCache', () => {
     it('should return false on first run', async () => {
-      const actual = module.hasCache();
+      const actual = current.hasCache();
 
       expect(actual).toEqual(false);
     });
     it('should return true if something inside', async () => {
-      module.__cache = { foo: 'bar' };
+      current.__cache = { foo: 'bar' };
 
-      const actual = module.hasCache();
+      const actual = current.hasCache();
 
       expect(actual).toEqual(true);
     });
   });
   describe('getAll', () => {
     it('should return the current cache', async () => {
-      module.__cache = { foo: 'bar' };
+      current.__cache = { foo: 'bar' };
 
-      const actual = module.getAll();
+      const actual = current.getAll();
 
       expect(actual).toHaveProperty('foo', 'bar');
     });
   });
   describe('init', () => {
     it('should fill the cache on first call', async () => {
-      jest.spyOn(module, 'updateCache').mockReturnValue();
+      jest.spyOn(current, 'updateCache').mockReturnValue();
 
-      await module.init();
+      await current.init();
 
-      expect(module.updateCache).toHaveBeenCalled();
+      expect(current.updateCache).toHaveBeenCalled();
     });
     it('should not do anything if cache already set', async () => {
-      jest.spyOn(module, 'updateCache').mockReturnValue();
-      module.__cache = { foo: 'bar' };
+      jest.spyOn(current, 'updateCache').mockReturnValue();
+      current.__cache = { foo: 'bar' };
 
-      await module.init();
+      await current.init();
 
-      expect(module.updateCache).not.toHaveBeenCalled();
+      expect(current.updateCache).not.toHaveBeenCalled();
     });
   });
   describe('read', () => {
@@ -60,7 +60,7 @@ describe('norska-data', () => {
         const input = config.fromPath('_data/foo.json');
         await writeJson({ foo: 'bar' }, input);
 
-        const actual = await module.read(input);
+        const actual = await current.read(input);
 
         expect(actual).toHaveProperty('foo', 'bar');
       });
@@ -76,7 +76,7 @@ describe('norska-data', () => {
         const input = config.fromPath(`_data/${uuid()}.js`);
         await write('module.exports = { foo: "bar" }', input);
 
-        const actual = await module.read(input);
+        const actual = await current.read(input);
 
         expect(actual).toHaveProperty('foo', 'bar');
       });
@@ -84,7 +84,7 @@ describe('norska-data', () => {
         const input = config.fromPath(`_data/${uuid()}.js`);
         await write('module.exports = "bar"', input);
 
-        const actual = await module.read(input);
+        const actual = await current.read(input);
 
         expect(actual).toEqual('bar');
       });
@@ -92,7 +92,7 @@ describe('norska-data', () => {
         const input = config.fromPath(`_data/${uuid()}.js`);
         await write('module.exports = 42', input);
 
-        const actual = await module.read(input);
+        const actual = await current.read(input);
 
         expect(actual).toEqual(42);
       });
@@ -100,7 +100,7 @@ describe('norska-data', () => {
         const input = config.fromPath(`_data/${uuid()}.js`);
         await write('module.exports = function() { return 42 }', input);
 
-        const actual = await module.read(input);
+        const actual = await current.read(input);
 
         expect(actual).toEqual(42);
       });
@@ -110,21 +110,21 @@ describe('norska-data', () => {
     it('foo.json', () => {
       const input = config.fromPath('_data/foo.json');
 
-      const actual = module.key(input);
+      const actual = current.key(input);
 
       expect(actual).toEqual('foo');
     });
     it('subdir/foo.json', () => {
       const input = config.fromPath('_data/subdir/foo.json');
 
-      const actual = module.key(input);
+      const actual = current.key(input);
 
       expect(actual).toEqual('subdir.foo');
     });
     it('subdir/deep/foo.json', () => {
       const input = config.fromPath('_data/subdir/deep/foo.json');
 
-      const actual = module.key(input);
+      const actual = current.key(input);
 
       expect(actual).toEqual('subdir.deep.foo');
     });
@@ -139,8 +139,8 @@ describe('norska-data', () => {
         config.fromPath(`_data/${jsId}.js`)
       );
 
-      await module.updateCache();
-      const actual = module.getAll();
+      await current.updateCache();
+      const actual = current.getAll();
 
       expect(actual).toHaveProperty(`${jsonId}.name`, 'foo');
       expect(actual).toHaveProperty(`${jsId}.name`, 'bar');

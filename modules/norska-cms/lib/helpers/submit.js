@@ -19,7 +19,7 @@ module.exports = {
     // uploads individually
     if (data.__isList) {
       const list = this.zipList(data);
-      return await pMap(list, async item => {
+      return await pMap(list, async (item) => {
         return await this.normalizeSpecialFields(item, req.files);
       });
     }
@@ -45,7 +45,7 @@ module.exports = {
    * @returns {object} Normalized data
    **/
   async normalizeCheckboxes(data) {
-    const checkboxKeys = _.filter(_.keys(data), key => {
+    const checkboxKeys = _.filter(_.keys(data), (key) => {
       return _.has(data[key], 'isCheckbox');
     });
     return _.transform(
@@ -77,7 +77,7 @@ module.exports = {
    **/
   async normalizeUploads(data, files) {
     // Finding all fields that are uploads
-    const uploadKeys = _.filter(_.keys(data), key => {
+    const uploadKeys = _.filter(_.keys(data), (key) => {
       return _.get(data, `${key}.uploadKey`);
     });
     // Stop early if no fields are upload fields
@@ -87,7 +87,7 @@ module.exports = {
 
     // Get matching upload information from the files array and add it to the
     // main data
-    await pMap(uploadKeys, async fieldName => {
+    await pMap(uploadKeys, async (fieldName) => {
       const previousValue = _.get(data, `${fieldName}.previousValue`);
 
       // Reseting the value if the file is marked for deletion

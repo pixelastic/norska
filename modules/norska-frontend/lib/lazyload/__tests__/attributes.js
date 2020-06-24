@@ -1,4 +1,4 @@
-const module = require('../attributes');
+const current = require('../attributes');
 const cloudinary = require('norska-cloudinary');
 
 describe('norska-frontend > lazyload > attributes', () => {
@@ -38,7 +38,7 @@ describe('norska-frontend > lazyload > attributes', () => {
       'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_200/https://there.com/image.png',
     ],
   ])('%s', async (_description, input, options, full, placeholder) => {
-    const actual = module(input, options);
+    const actual = current(input, options);
     expect(actual).toHaveProperty('full', full);
     expect(actual).toHaveProperty('placeholder', placeholder);
   });

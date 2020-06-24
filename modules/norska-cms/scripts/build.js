@@ -1,6 +1,6 @@
 const norskaCms = require('../lib/main.js');
 
-(async function() {
+(async function () {
   try {
     await norskaCms.generateCssFile();
     console.info('CSS file regenerated');

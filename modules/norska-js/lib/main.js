@@ -89,7 +89,7 @@ module.exports = {
   getEntrypointsFromStats(stats) {
     return _.chain(stats.toJson())
       .get('entrypoints.main.assets')
-      .filter(item => {
+      .filter((item) => {
         return _.endsWith(item, '.js');
       })
       .value();
@@ -99,7 +99,7 @@ module.exports = {
       .get('errors')
       .nth(0)
       .split('\n')
-      .reject(line => {
+      .reject((line) => {
         return (
           _.startsWith(line, 'Module build failed') ||
           _.startsWith(line, '    at ')

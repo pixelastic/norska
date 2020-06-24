@@ -5,7 +5,7 @@ const pMap = require('golgoth/lib/pMap');
 // Those modules will be updated to the latest available version
 const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
 
-(async function() {
+(async function () {
   // Allow specifying which dep to update
   const inputDependencies = _.slice(process.argv, 2);
   const dependenciesToUpdate = _.isEmpty(inputDependencies)
@@ -45,7 +45,7 @@ const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
   }
 
   // Update all those package.json with the new versions
-  await pMap(filepaths, async filepath => {
+  await pMap(filepaths, async (filepath) => {
     const packageJson = await firost.readJson(filepath);
     packageJson.dependencies = updateDependencies(
       packageJson.dependencies,

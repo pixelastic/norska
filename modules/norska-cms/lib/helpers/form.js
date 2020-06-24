@@ -31,7 +31,7 @@ module.exports = {
         let fields = this.getFields(itemData, itemSchema.fields);
 
         // Update each fields to add [] to the value
-        fields = _.map(fields, field => {
+        fields = _.map(fields, (field) => {
           return {
             ...field,
             name: `${field.name}[${itemIndex}]`,
@@ -61,7 +61,7 @@ module.exports = {
     }
 
     // Merge object schema with data
-    return _.map(schema, field => {
+    return _.map(schema, (field) => {
       return {
         ...field,
         value: data[field.name],
@@ -82,7 +82,7 @@ module.exports = {
     // If schema is a list, merging with the guessed schema is different process
     if (readFileSchema.type === 'list') {
       const defaultItemSchema = readFileSchema.itemSchema;
-      const items = _.map(guessedFileSchema.items, guessedItem => {
+      const items = _.map(guessedFileSchema.items, (guessedItem) => {
         const fields = this.reconcileFileSchema(
           defaultItemSchema,
           guessedItem.fields
@@ -121,7 +121,7 @@ module.exports = {
 
     // We might have guessed fields that are not part defined in the schema, so
     // we add it at the end
-    _.each(guessedFileSchema, guessedFieldSchema => {
+    _.each(guessedFileSchema, (guessedFieldSchema) => {
       const fieldName = guessedFieldSchema.name;
       // If we already have it, we skip
       if (_.find(fileSchema, { name: fieldName })) {
@@ -132,7 +132,7 @@ module.exports = {
     });
 
     // We add displayName to all fields
-    fileSchema = _.map(fileSchema, item => {
+    fileSchema = _.map(fileSchema, (item) => {
       return {
         displayName: this.guessDisplayName(item.name),
         ...item,
@@ -149,7 +149,7 @@ module.exports = {
   guessSchema(data) {
     // If data is an array, we need to guess its inner item fields
     if (_.isArray(data)) {
-      const items = _.map(data, item => {
+      const items = _.map(data, (item) => {
         return {
           fields: this.guessSchema(item),
         };
@@ -200,7 +200,7 @@ module.exports = {
       .replace(/\[\]$/g, '')
       .lowerCase()
       .capitalize()
-      .thru(value => {
+      .thru((value) => {
         const startsWithHas = _.startsWith(value, 'Has ');
         const startsWithIs = _.startsWith(value, 'Is ');
         return startsWithHas || startsWithIs ? `${value}?` : value;

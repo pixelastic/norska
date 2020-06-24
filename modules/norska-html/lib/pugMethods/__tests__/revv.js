@@ -1,4 +1,4 @@
-const module = require('../revv.js');
+const current = require('../revv.js');
 const helper = require('norska-helper');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
@@ -32,7 +32,7 @@ describe('norska-html > pugMethods > revv', () => {
     it('should return the input', () => {
       mockContext.destination = 'index.pug';
 
-      const actual = module('foo.png', {}, mockContext);
+      const actual = current('foo.png', {}, mockContext);
 
       expect(actual).toEqual('foo.png');
     });
@@ -59,7 +59,7 @@ describe('norska-html > pugMethods > revv', () => {
       ['private/index.html', '/foo.png', null, '{revv: foo.png}'],
     ])('%s: %s => %s', (destination, input, options, expected) => {
       mockContext.destination = config.toPath(destination);
-      const actual = module(input, options, mockContext);
+      const actual = current(input, options, mockContext);
       expect(actual).toEqual(expected);
     });
   });

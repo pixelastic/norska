@@ -83,12 +83,12 @@ module.exports = {
    **/
   start() {
     // Finding the hits record and enhancing the results
-    const widgets = this.__widgets.map(widget => {
+    const widgets = this.__widgets.map((widget) => {
       const isHitWidget = widget.type === hitsWidget;
 
       // Transforming hits before display
       if (isHitWidget) {
-        widget.options.transformItems = items => {
+        widget.options.transformItems = (items) => {
           return transformHits(items, this.__transforms, this.__onDisplay);
         };
       }

@@ -35,7 +35,7 @@ module.exports = {
    * @returns {Array} List of all absolute glob patterns
    **/
   globs() {
-    return _.map(config.get('assets.files'), filepath => {
+    return _.map(config.get('assets.files'), (filepath) => {
       return config.fromPath(filepath);
     });
   },
@@ -51,7 +51,7 @@ module.exports = {
 
     await pMap(
       inputFiles,
-      async filepath => {
+      async (filepath) => {
         const relativePath = path.relative(config.from(), filepath);
         progress.tick(`Copying ${relativePath}`);
         await this.compile(filepath);

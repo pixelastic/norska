@@ -8,7 +8,7 @@ const cloudinary = require('norska-cloudinary');
  * .placeholder key for placeholder specific arguments
  * @returns {string} Placeholder version of the image
  **/
-module.exports = function(url, userOptions = {}) {
+module.exports = function (url, userOptions = {}) {
   const placeholderOptions = userOptions.placeholder || {};
 
   const options = {

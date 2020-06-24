@@ -1,4 +1,4 @@
-const module = require('../cloudinary.js');
+const current = require('../cloudinary.js');
 const cloudinary = require('norska-cloudinary');
 const helper = require('norska-helper');
 
@@ -36,7 +36,7 @@ describe('norska-html > pugMethods > cloudinary', () => {
   ])('[%s]: %s (%o) => %s', (env, input, options, expected) => {
     const isProduction = env === 'prod';
     jest.spyOn(helper, 'isProduction').mockReturnValue(isProduction);
-    const actual = module(input, options, context);
+    const actual = current(input, options, context);
     expect(actual).toEqual(expected);
   });
 });

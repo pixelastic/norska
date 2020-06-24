@@ -1,4 +1,4 @@
-const module = require('../remoteUrl.js');
+const current = require('../remoteUrl.js');
 const config = require('norska-config');
 
 describe('norska-html > pugMethods > remoteUrl', () => {
@@ -66,7 +66,7 @@ describe('norska-html > pugMethods > remoteUrl', () => {
     '[%s] %s + %s',
     (destination, baseUrl, target, expected) => {
       const context = getContext(baseUrl, destination);
-      const actual = module(target, context);
+      const actual = current(target, context);
       expect(actual).toEqual(expected);
     }
   );

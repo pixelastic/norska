@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const data = require('norska-data');
 const emptyDir = require('firost/lib/emptyDir');
@@ -20,19 +20,19 @@ describe('norska-html', () => {
   describe('pugFilesPattern', () => {
     it('should find pug file in source', async () => {
       await write('dummy', config.fromPath('index.pug'));
-      const actual = await glob(await module.pugFilesPattern());
+      const actual = await glob(await current.pugFilesPattern());
 
       expect(actual).toContain(config.fromPath('index.pug'));
     });
     it('should find pug file in sub directory of source', async () => {
       await write('dummy', config.fromPath('subdir/index.pug'));
-      const actual = await glob(await module.pugFilesPattern());
+      const actual = await glob(await current.pugFilesPattern());
 
       expect(actual).toContain(config.fromPath('subdir/index.pug'));
     });
     it('should not find files in _directories', async () => {
       await write('dummy', config.fromPath('_subdir/index.pug'));
-      const actual = await glob(await module.pugFilesPattern());
+      const actual = await glob(await current.pugFilesPattern());
 
       expect(actual).not.toContain(config.fromPath('_subdir/index.pug'));
     });
@@ -46,7 +46,7 @@ describe('norska-html', () => {
       const output = config.toPath('output.html');
       await write('p foo', input);
 
-      await module.createPage(input, output);
+      await current.createPage(input, output);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>foo</p>');
@@ -58,7 +58,7 @@ describe('norska-html', () => {
       await write('p=data.foo.bar', input);
       await writeJson({ bar: 'baz' }, dataPath);
 
-      await module.createPage(input, output);
+      await current.createPage(input, output);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>baz</p>');
@@ -70,7 +70,7 @@ describe('norska-html', () => {
       await write('p=data.foo.bar', input);
       await writeJson({ bar: 'baz' }, dataPath);
 
-      await module.createPage(input, output, { foo: { bar: 'quux' } });
+      await current.createPage(input, output, { foo: { bar: 'quux' } });
 
       const actual = await read(output);
       expect(actual).toEqual('<p>quux</p>');
@@ -79,25 +79,25 @@ describe('norska-html', () => {
   describe('getDestinationPath', () => {
     it('index.pug', async () => {
       const expected = 'index.html';
-      const actual = module.getDestinationPath(testName);
+      const actual = current.getDestinationPath(testName);
 
       expect(actual).toEqual(expected);
     });
     it('foo.pug', async () => {
       const expected = 'foo/index.html';
-      const actual = module.getDestinationPath(testName);
+      const actual = current.getDestinationPath(testName);
 
       expect(actual).toEqual(expected);
     });
     it('foo/index.pug', async () => {
       const expected = 'foo/index.html';
-      const actual = module.getDestinationPath(testName);
+      const actual = current.getDestinationPath(testName);
 
       expect(actual).toEqual(expected);
     });
     it('foo/bar.pug', async () => {
       const expected = 'foo/bar/index.html';
-      const actual = module.getDestinationPath(testName);
+      const actual = current.getDestinationPath(testName);
 
       expect(actual).toEqual(expected);
     });
@@ -105,14 +105,14 @@ describe('norska-html', () => {
   describe('run', () => {
     beforeEach(async () => {
       jest
-        .spyOn(module, '__spinner')
+        .spyOn(current, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {}, info() {} });
     });
     describe('excluded files', () => {
       it('folder starting with _ should not be processed', async () => {
         await write('p foo', config.fromPath('_foo/index.pug'));
 
-        await module.run();
+        await current.run();
 
         const actual = await exist(config.toPath('_foo/index.html'));
         expect(actual).toEqual(false);
@@ -125,7 +125,7 @@ describe('norska-html', () => {
 
         let actual = null;
         try {
-          await module.run();
+          await current.run();
         } catch (error) {
           actual = error;
         }

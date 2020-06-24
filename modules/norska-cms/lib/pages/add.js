@@ -21,7 +21,7 @@ module.exports = async function index(req, res) {
     .get('items')
     .first()
     .get('fields')
-    .map(item => {
+    .map((item) => {
       item.value = null;
       item.name = item.name.replace('[0]', '');
       return item;

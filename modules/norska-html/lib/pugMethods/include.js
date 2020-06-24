@@ -11,7 +11,7 @@ const pug = require('pug');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Content to include
  **/
-module.exports = function(filepath, context) {
+module.exports = function (filepath, context) {
   const input = config.fromPath(filepath);
   if (!fs.existsSync(input)) {
     return `ERROR: ${input} does not exist`;

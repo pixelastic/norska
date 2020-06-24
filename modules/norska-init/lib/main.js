@@ -26,7 +26,7 @@ module.exports = {
     const rootPrefix = config.rootDir();
 
     progress.tick('initializing new project');
-    await pMap(files, async source => {
+    await pMap(files, async (source) => {
       const destination = _.replace(source, templatePrefix, rootPrefix);
       if (await exist(destination)) {
         return;
@@ -80,7 +80,7 @@ module.exports = {
       { name: 'serve', filepath: 'scripts/serve' },
     ];
 
-    await pMapSeries(newScripts, async script => {
+    await pMapSeries(newScripts, async (script) => {
       const { name, filepath } = script;
 
       // Update package.json

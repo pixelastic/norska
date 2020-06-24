@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const exists = require('firost/lib/exists');
@@ -20,7 +20,7 @@ describe('norska-assets', () => {
           files: ['**/*.foo', '**/*.bar'],
         },
       });
-      const actual = module.globs();
+      const actual = current.globs();
 
       expect(actual).toEqual([
         config.fromPath('**/*.foo'),
@@ -33,7 +33,7 @@ describe('norska-assets', () => {
       await config.init({
         from: './tmp/norska-assets/src',
         to: './tmp/norska-assets/dist',
-        assets: module.defaultConfig(),
+        assets: current.defaultConfig(),
       });
       await emptyDir('./tmp/norska-assets');
     });
@@ -43,7 +43,7 @@ describe('norska-assets', () => {
       const input = config.fromPath(filename);
       const output = config.toPath(filename);
       await write('dummy', input);
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await isFile(output);
       expect(actual).toEqual(true);
@@ -54,7 +54,7 @@ describe('norska-assets', () => {
       const input = config.fromPath(filename);
       const output = config.toPath(filename);
       await write('dummy', input);
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await isFile(output);
       expect(actual).toEqual(true);
@@ -65,11 +65,11 @@ describe('norska-assets', () => {
       await config.init({
         from: './tmp/norska-assets/src',
         to: './tmp/norska-assets/dist',
-        assets: module.defaultConfig(),
+        assets: current.defaultConfig(),
       });
       await emptyDir('./tmp/norska-assets');
       jest
-        .spyOn(module, '__spinner')
+        .spyOn(current, '__spinner')
         .mockReturnValue({ text() {}, tick() {}, success() {}, failure() {} });
     });
     describe('images', () => {
@@ -77,7 +77,7 @@ describe('norska-assets', () => {
         const filepath = 'images/foo.gif';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -86,7 +86,7 @@ describe('norska-assets', () => {
         const filepath = 'images/foo.jpg';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -95,7 +95,7 @@ describe('norska-assets', () => {
         const filepath = 'images/foo.png';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -104,7 +104,7 @@ describe('norska-assets', () => {
         const filepath = 'images/foo.svg';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -113,7 +113,7 @@ describe('norska-assets', () => {
         const filepath = 'images/foo.ico';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -124,7 +124,7 @@ describe('norska-assets', () => {
         const filepath = 'fonts/foo.eot';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -133,7 +133,7 @@ describe('norska-assets', () => {
         const filepath = 'fonts/foo.otf';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -142,7 +142,7 @@ describe('norska-assets', () => {
         const filepath = 'fonts/foo.ttf';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -151,7 +151,7 @@ describe('norska-assets', () => {
         const filepath = 'fonts/foo.woff';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -162,7 +162,7 @@ describe('norska-assets', () => {
         const filepath = 'documents/foo.pdf';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -173,7 +173,7 @@ describe('norska-assets', () => {
         const filepath = '_redirects';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -182,7 +182,7 @@ describe('norska-assets', () => {
         const filepath = '_headers';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -191,7 +191,7 @@ describe('norska-assets', () => {
         const filepath = 'netlify.toml';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -202,7 +202,7 @@ describe('norska-assets', () => {
         const filepath = 'foo.weird';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(false);
@@ -211,7 +211,7 @@ describe('norska-assets', () => {
         const filepath = 'index.html';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -220,7 +220,7 @@ describe('norska-assets', () => {
         const filepath = 'robots.txt';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
         const actual = await isFile(config.toPath(filepath));
         expect(actual).toEqual(true);
@@ -231,9 +231,9 @@ describe('norska-assets', () => {
         const filepath = './subdir/foo.gif';
 
         await write('foo', config.fromPath(filepath));
-        await module.run();
+        await current.run();
 
-        expect(module.__spinner).toHaveBeenCalledWith(1);
+        expect(current.__spinner).toHaveBeenCalledWith(1);
       });
     });
   });
@@ -242,7 +242,7 @@ describe('norska-assets', () => {
       await config.init({
         from: './tmp/norska-assets/src',
         to: './tmp/norska-assets/dist',
-        assets: module.defaultConfig(),
+        assets: current.defaultConfig(),
       });
       await emptyDir('./tmp/norska-assets');
       await mkdirp(config.from());
@@ -252,14 +252,14 @@ describe('norska-assets', () => {
     });
     it('should not copy files initially', async () => {
       await write('foo', config.fromPath('foo.jpg'));
-      await module.watch();
+      await current.watch();
 
       const actual = await exists(config.toPath('foo.jpg'));
       expect(actual).toEqual(false);
     });
     it('should update files modified', async () => {
       await write('foo', config.fromPath('foo.jpg'));
-      await module.watch();
+      await current.watch();
 
       await write('bar', config.fromPath('foo.jpg'));
       await waitForWatchers();
@@ -269,7 +269,7 @@ describe('norska-assets', () => {
       expect(actual).toEqual('bar');
     });
     it('should copy files added', async () => {
-      await module.watch();
+      await current.watch();
 
       await write('foo', config.fromPath('foo.jpg'));
       await waitForWatchers();
@@ -278,7 +278,7 @@ describe('norska-assets', () => {
       expect(actual).toEqual('foo');
     });
     it('should copy files added in subfolder', async () => {
-      await module.watch();
+      await current.watch();
 
       await write('foo', config.fromPath('./images/foo.jpg'));
       await waitForWatchers();
@@ -287,7 +287,7 @@ describe('norska-assets', () => {
       expect(actual).toEqual('foo');
     });
     it('should delete files deleted', async () => {
-      await module.watch();
+      await current.watch();
 
       await write('foo', config.fromPath('foo.jpg'));
       await waitForWatchers();

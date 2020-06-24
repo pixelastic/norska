@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const data = require('norska-data');
 const helper = require('norska-helper');
@@ -16,7 +16,7 @@ describe('norska-html > compile', () => {
       to: `${tmpDirectory}/dist`,
     });
     await emptyDir(tmpDirectory);
-    jest.spyOn(module, '__consoleWarn').mockReturnValue();
+    jest.spyOn(current, '__consoleWarn').mockReturnValue();
     data.clearCache();
   });
   describe('simple files', () => {
@@ -25,7 +25,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p foo', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>foo</p>');
@@ -35,7 +35,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('foo/index.html');
       await write('p foo', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>foo</p>');
@@ -45,7 +45,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('subdir/deep/index.html');
       await write('p foo', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>foo</p>');
@@ -57,7 +57,7 @@ describe('norska-html > compile', () => {
       await write('p=data.foo.bar', input);
       await writeJson({ bar: 'baz' }, dataFile);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>baz</p>');
@@ -65,9 +65,9 @@ describe('norska-html > compile', () => {
     it('should fail if file is not in the source folder', async () => {
       const input = '/nope/nope.pug';
 
-      const actual = await module.compile(input);
+      const actual = await current.compile(input);
       expect(actual).toEqual(false);
-      expect(module.__consoleWarn).toHaveBeenCalled();
+      expect(current.__consoleWarn).toHaveBeenCalled();
     });
   });
   describe('urls', () => {
@@ -76,7 +76,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=url.here', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>/index.html</p>');
@@ -86,7 +86,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('deep/down/index.html');
       await write('p=url.here', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>/deep/down/index.html</p>');
@@ -98,7 +98,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=url.base', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual(`<p>http://127.0.0.1:${port}</p>`);
@@ -111,7 +111,7 @@ describe('norska-html > compile', () => {
       await write('p=url.base', input);
       await writeJson({ url: 'http://www.prod.com/' }, dataFile);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>http://www.prod.com/</p>');
@@ -121,7 +121,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('deep/down/index.html');
       await write('p=url.pathToRoot', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>../../</p>');
@@ -131,7 +131,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=url.pathToRoot', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>./</p>');
@@ -144,7 +144,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=runtime.jsFiles', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>script.js,vendors.js</p>');
@@ -154,7 +154,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=runtime.jsFiles', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p></p>');
@@ -169,7 +169,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('extends _includes/layout', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>layout</p>');
@@ -179,7 +179,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('extends /_includes/layout', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>layout</p>');
@@ -189,7 +189,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('deep/index.html');
       await write('extends ../_includes/layout', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>layout</p>');
@@ -199,7 +199,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('deep/index.html');
       await write('extends /_includes/layout', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>layout</p>');
@@ -212,7 +212,7 @@ describe('norska-html > compile', () => {
 
       let actual = null;
       try {
-        await module.compile(input);
+        await current.compile(input);
       } catch (error) {
         actual = error;
       }
@@ -229,7 +229,7 @@ describe('norska-html > compile', () => {
 
       let actual = null;
       try {
-        await module.compile(input);
+        await current.compile(input);
       } catch (error) {
         actual = error;
       }
@@ -247,7 +247,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=_.keys({foo: "bar"})', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<p>foo</p>');
@@ -257,7 +257,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('div !{markdown("# foo")}', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toEqual('<div><h1>foo</h1></div>');
@@ -269,7 +269,7 @@ describe('norska-html > compile', () => {
         await write('p=include("include.txt")', input);
         await write('foo', config.fromPath('include.txt'));
 
-        await module.compile(input);
+        await current.compile(input);
 
         const actual = await read(output);
         expect(actual).toEqual('<p>foo</p>');
@@ -279,7 +279,7 @@ describe('norska-html > compile', () => {
         const output = config.toPath('index.html');
         await write('p=include("include.txt")', input);
 
-        await module.compile(input);
+        await current.compile(input);
 
         const actual = await read(output);
         expect(actual).toMatch(new RegExp('<p>ERROR: (.*)</p>'));
@@ -291,7 +291,7 @@ describe('norska-html > compile', () => {
           await write('p !{include("include.pug")}', input);
           await write('strong.bg-red foo', config.fromPath('include.pug'));
 
-          await module.compile(input);
+          await current.compile(input);
 
           const actual = await read(output);
           expect(actual).toEqual('<p><strong class="bg-red">foo</strong></p>');
@@ -305,7 +305,7 @@ describe('norska-html > compile', () => {
             config.fromPath('include.pug')
           );
 
-          await module.compile(input);
+          await current.compile(input);
 
           const actual = await read(output);
           expect(actual).toEqual('<p><strong>foo</strong></p>');
@@ -317,7 +317,7 @@ describe('norska-html > compile', () => {
           await write('strong=data.foo.bar', config.fromPath('include.pug'));
           await writeJson({ bar: 'baz' }, config.fromPath('_data/foo.json'));
 
-          await module.compile(input);
+          await current.compile(input);
 
           const actual = await read(output);
           expect(actual).toEqual('<p><strong>baz</strong></p>');
@@ -332,7 +332,7 @@ describe('norska-html > compile', () => {
           );
           await write('strong foo', config.fromPath('include2.pug'));
 
-          await module.compile(input);
+          await current.compile(input);
 
           const actual = await read(output);
           expect(actual).toEqual('<p><span><strong>foo</strong></span></p>');
@@ -347,7 +347,7 @@ describe('norska-html > compile', () => {
         const input = config.fromPath('index.pug');
         await write('a(href=revv("foo.txt")) foo', input);
 
-        await module.compile(input);
+        await current.compile(input);
 
         const actual = revv.manifest();
         expect(actual).toHaveProperty(['foo.txt'], null);
@@ -357,7 +357,7 @@ describe('norska-html > compile', () => {
         const output = config.toPath('index.html');
         await write('a(href=revv("foo.txt")) foo', input);
 
-        await module.compile(input);
+        await current.compile(input);
 
         const actual = await read(output);
         expect(actual).toEqual('<a href="{revv: foo.txt}">foo</a>');
@@ -369,7 +369,7 @@ describe('norska-html > compile', () => {
         const output = config.toPath('index.html');
         await write('a(href=revv("foo.txt")) foo', input);
 
-        await module.compile(input);
+        await current.compile(input);
 
         const actual = await read(output);
         expect(actual).toEqual('<a href="foo.txt">foo</a>');
@@ -382,7 +382,7 @@ describe('norska-html > compile', () => {
       const output = config.toPath('index.html');
       await write('p=tweaks.ensureUrlTrailingSlashSource', input);
 
-      await module.compile(input);
+      await current.compile(input);
 
       const actual = await read(output);
       expect(actual).toStartWith('<p>(function(){');

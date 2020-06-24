@@ -11,6 +11,6 @@ const markdown = markdownIt({
  * @param {string} input Markdown string to parse
  * @returns {string} HTML string
  **/
-module.exports = function(input) {
+module.exports = function (input) {
   return _.trim(markdown.render(input));
 };

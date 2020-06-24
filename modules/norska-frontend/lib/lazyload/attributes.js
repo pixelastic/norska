@@ -7,7 +7,7 @@ const placeholderize = require('./placeholderize.js');
  * - disable: Force loading if set to true
  * @returns {object} Attribute object
  */
-module.exports = function(url, userOptions = {}) {
+module.exports = function (url, userOptions = {}) {
   const options = {
     disable: false,
     placeholder: {},

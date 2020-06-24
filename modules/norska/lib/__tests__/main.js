@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const helper = require('norska-helper');
 const assets = require('norska-assets');
 const js = require('norska-js');
@@ -16,43 +16,43 @@ const firostError = require('firost/lib/error');
 describe('norska', () => {
   describe('initConfig', () => {
     it('should pass the cliArgs to the config.init script', async () => {
-      jest.spyOn(module, '__configInit');
+      jest.spyOn(current, '__configInit');
       const input = { _: [], foo: 'bar' };
 
-      await module.initConfig(input);
+      await current.initConfig(input);
 
-      expect(module.__configInit).toHaveBeenCalledWith(
+      expect(current.__configInit).toHaveBeenCalledWith(
         input,
         expect.anything()
       );
     });
     describe('default configs', () => {
       it('assets', async () => {
-        await module.initConfig({});
+        await current.initConfig({});
         const actual = config.get(testName);
 
         expect(actual).toHaveProperty('files');
       });
       it('cms', async () => {
-        await module.initConfig({});
+        await current.initConfig({});
         const actual = config.get(testName);
 
         expect(actual).toHaveProperty('port');
       });
       it('css', async () => {
-        await module.initConfig({});
+        await current.initConfig({});
         const actual = config.get(testName);
 
         expect(actual).toHaveProperty('input');
       });
       it('revv', async () => {
-        await module.initConfig({});
+        await current.initConfig({});
         const actual = config.get(testName);
 
         expect(actual).toHaveProperty('hashingMethod');
       });
       it('js', async () => {
-        await module.initConfig({});
+        await current.initConfig({});
         const actual = config.get(testName);
 
         expect(actual).toHaveProperty('input');
@@ -61,69 +61,69 @@ describe('norska', () => {
     });
   });
   describe('init', () => {
-    it('should defer to the norska-init module', async () => {
+    it('should defer to the norska-init current', async () => {
       jest.spyOn(init, 'run').mockReturnValue();
 
-      await module.init();
+      await current.init();
 
       expect(init.run).toHaveBeenCalled();
     });
   });
   describe('run', () => {
     beforeEach(() => {
-      jest.spyOn(module, '__exit').mockReturnValue();
-      jest.spyOn(module, '__consoleError').mockReturnValue();
-      jest.spyOn(module, 'build').mockReturnValue();
-      jest.spyOn(module, 'init').mockReturnValue();
-      jest.spyOn(module, 'serve').mockReturnValue();
-      // jest.spyOn(module, 'screenshot').mockReturnValue();
-      jest.spyOn(module, 'initConfig').mockReturnValue();
+      jest.spyOn(current, '__exit').mockReturnValue();
+      jest.spyOn(current, '__consoleError').mockReturnValue();
+      jest.spyOn(current, 'build').mockReturnValue();
+      jest.spyOn(current, 'init').mockReturnValue();
+      jest.spyOn(current, 'serve').mockReturnValue();
+      // jest.spyOn(current, 'screenshot').mockReturnValue();
+      jest.spyOn(current, 'initConfig').mockReturnValue();
     });
     it('should allow running the build command', async () => {
       const input = { _: ['build'] };
-      jest.spyOn(module, 'build').mockReturnValue();
+      jest.spyOn(current, 'build').mockReturnValue();
 
-      await module.run(input);
+      await current.run(input);
 
-      expect(module.build).toHaveBeenCalled();
+      expect(current.build).toHaveBeenCalled();
     });
     it('should allow running the init command', async () => {
       const input = { _: ['init'] };
 
-      await module.run(input);
+      await current.run(input);
 
-      expect(module.init).toHaveBeenCalled();
+      expect(current.init).toHaveBeenCalled();
     });
     it('should allow running the serve command', async () => {
       const input = { _: ['serve'] };
 
-      await module.run(input);
+      await current.run(input);
 
-      expect(module.serve).toHaveBeenCalled();
+      expect(current.serve).toHaveBeenCalled();
     });
     it('should run the build command by default', async () => {
       const input = { _: [] };
 
-      await module.run(input);
+      await current.run(input);
 
-      expect(module.build).toHaveBeenCalled();
+      expect(current.build).toHaveBeenCalled();
     });
     it('should exit if the command is not allowed', async () => {
       const input = { _: ['nope'] };
 
-      await module.run(input);
+      await current.run(input);
 
-      expect(module.__exit).toHaveBeenCalledWith(1);
-      expect(module.__consoleError).toHaveBeenCalledWith(
+      expect(current.__exit).toHaveBeenCalledWith(1);
+      expect(current.__consoleError).toHaveBeenCalledWith(
         expect.stringMatching('Unknown command')
       );
     });
     it('should init the config with the passed args', async () => {
       const input = { _: ['build', 'foo', 'bar'], foo: 'bar', bar: 'baz' };
 
-      await module.run(input);
+      await current.run(input);
 
-      expect(module.initConfig).toHaveBeenCalledWith({
+      expect(current.initConfig).toHaveBeenCalledWith({
         _: ['foo', 'bar'],
         foo: 'bar',
         bar: 'baz',
@@ -141,8 +141,8 @@ describe('norska', () => {
       await emptyDir(tmpDirectory);
     });
     beforeEach(async () => {
-      jest.spyOn(module, '__exit').mockReturnValue();
-      jest.spyOn(module, '__consoleError').mockReturnValue();
+      jest.spyOn(current, '__exit').mockReturnValue();
+      jest.spyOn(current, '__consoleError').mockReturnValue();
       jest.spyOn(js, 'run').mockReturnValue();
       jest.spyOn(html, 'run').mockReturnValue();
       jest.spyOn(css, 'run').mockReturnValue();
@@ -167,12 +167,12 @@ describe('norska', () => {
         stack.push('revv');
       });
 
-      await module.build();
+      await current.build();
 
       expect(stack).toEqual(['js', 'html', 'css', 'assets', 'revv']);
     });
     it('should create the destination directory', async () => {
-      await module.build();
+      await current.build();
 
       expect(await exist(config.to())).toEqual(true);
     });
@@ -180,7 +180,7 @@ describe('norska', () => {
       await write('foo', config.toPath('something.js'));
       jest.spyOn(helper, 'isProduction').mockReturnValue(true);
 
-      await module.build();
+      await current.build();
 
       expect(await exist(config.toPath('something.js'))).toEqual(false);
     });
@@ -189,18 +189,18 @@ describe('norska', () => {
         throw firostError('ERROR_CODE', 'error message');
       });
 
-      await module.build();
+      await current.build();
 
-      expect(module.__consoleError).toHaveBeenCalledWith(
+      expect(current.__consoleError).toHaveBeenCalledWith(
         expect.stringContaining('ERROR_CODE')
       );
-      expect(module.__consoleError).toHaveBeenCalledWith(
+      expect(current.__consoleError).toHaveBeenCalledWith(
         expect.stringContaining('error message')
       );
-      expect(module.__exit).toHaveBeenCalledWith(1);
+      expect(current.__exit).toHaveBeenCalledWith(1);
     });
     it('should perform a sanity check', async () => {
-      await module.build();
+      await current.build();
       expect(config.sanityCheck).toHaveBeenCalled();
     });
   });
@@ -212,7 +212,7 @@ describe('norska', () => {
       assets: assets.defaultConfig(),
     };
     beforeEach(async () => {
-      jest.spyOn(module, 'build').mockReturnValue();
+      jest.spyOn(current, 'build').mockReturnValue();
       jest.spyOn(html, 'watch').mockReturnValue();
       jest.spyOn(css, 'watch').mockReturnValue();
       jest.spyOn(js, 'watch').mockReturnValue();
@@ -221,23 +221,23 @@ describe('norska', () => {
       await config.init(defaultConfig);
     });
     it('should build the website', async () => {
-      await module.serve();
-      expect(module.build).toHaveBeenCalled();
+      await current.serve();
+      expect(current.build).toHaveBeenCalled();
     });
     it('should watch for changes on html files', async () => {
-      await module.serve();
+      await current.serve();
       expect(html.watch).toHaveBeenCalled();
     });
     it('should watch for changes on css files', async () => {
-      await module.serve();
+      await current.serve();
       expect(css.watch).toHaveBeenCalled();
     });
     it('should watch for changes on js files', async () => {
-      await module.serve();
+      await current.serve();
       expect(js.watch).toHaveBeenCalled();
     });
     it('should start a live server in the dist folder', async () => {
-      await module.serve();
+      await current.serve();
       expect(liveServer.start).toHaveBeenCalledWith(
         expect.objectContaining({
           root: config.to(),
@@ -252,7 +252,7 @@ describe('norska', () => {
         open: false,
       };
       await config.init(specificConfig);
-      await module.serve();
+      await current.serve();
       expect(liveServer.start).toHaveBeenCalledWith(
         expect.objectContaining({
           open: false,
@@ -261,14 +261,14 @@ describe('norska', () => {
     });
     it('should build before running the live server', async () => {
       const callStack = [];
-      jest.spyOn(module, 'build').mockImplementation(() => {
+      jest.spyOn(current, 'build').mockImplementation(() => {
         callStack.push('build');
       });
       jest.spyOn(liveServer, 'start').mockImplementation(() => {
         callStack.push('serve');
       });
 
-      await module.serve();
+      await current.serve();
       expect(callStack).toEqual(['build', 'serve']);
     });
   });

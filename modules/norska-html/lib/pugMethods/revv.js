@@ -15,7 +15,7 @@ const pugRemoteUrl = require('./remoteUrl.js');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} {revv: path} placeholder
  */
-module.exports = function(filepath, userOptions = {}, context) {
+module.exports = function (filepath, userOptions = {}, context) {
   if (!helper.isProduction()) {
     return config.relativePath(context.destination, filepath);
   }

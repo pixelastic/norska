@@ -11,8 +11,28 @@ module.exports = {
   /**
    * Create a full url from a routeState
    * @param {object} {routeState} Object containing all the filters
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState} .routeState
+   * @param {routeState}.routeState
    * @returns {string} Full url
-   **/
+   */
   createURL({ routeState }) {
     const indexName = helper.indexName();
     const currentUrl = helper.currentUrl();
@@ -49,8 +69,28 @@ module.exports = {
   /**
    * Parse a full url to a routeState
    * @param {object} {location} Page location object
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location} .location
+   * @param {location}.location
    * @returns {object} Route state from the url
-   **/
+   */
   parseURL({ location }) {
     const hash = location.hash;
     const indexName = helper.indexName();
@@ -59,7 +99,7 @@ module.exports = {
     }
 
     const stringFilters = hash.replace(/^#/, '').split('/');
-    const allFilters = stringFilters.map(filter => {
+    const allFilters = stringFilters.map((filter) => {
       return helper.stringToFilterObject(filter);
     });
     const routeState = merge(...allFilters);

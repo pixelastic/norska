@@ -34,7 +34,7 @@ const cloudinary = require('./main.js');
  *
  *  @returns {string} Full url with transforms applied
  **/
-module.exports = function(userUrl, userOptions = {}) {
+module.exports = function (userUrl, userOptions = {}) {
   // Fail fast and do nothing if:
   // - Module is disabled
   // - bucketName is not defined
@@ -75,7 +75,7 @@ module.exports = function(userUrl, userOptions = {}) {
 
   const parsedOptions = Object.keys(options)
     .sort()
-    .map(key => {
+    .map((key) => {
       const prefix = availableOptions[key];
       if (!prefix) {
         return false;

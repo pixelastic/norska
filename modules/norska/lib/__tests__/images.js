@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const pProps = require('golgoth/lib/pProps');
 const _ = require('golgoth/lib/lodash');
 const uuid = require('firost/lib/uuid');
@@ -347,7 +347,7 @@ const testCases = initTestCases([
 
 describe('norska > images', () => {
   beforeAll(async () => {
-    jest.spyOn(module, '__exit').mockReturnValue();
+    jest.spyOn(current, '__exit').mockReturnValue();
     const devResults = await getTestResults(testCases.raw, 'dev');
     const prodResults = await getTestResults(testCases.raw, 'prod');
     testCases.results = { ...devResults, ...prodResults };
@@ -371,7 +371,7 @@ function initTestCases(rawItems) {
 
   const headers = [];
   const raw = items;
-  _.each(items, item => {
+  _.each(items, (item) => {
     const { env, destination, input, expected } = item;
     const id = _.replace(uuid(), /-/g, '_');
     const testName = `[${env}:${destination}] ${input} => ${expected}`;
@@ -394,7 +394,7 @@ function initTestCases(rawItems) {
 async function getTestResults(allTestCases, env) {
   // Setup config
   const tmpDirectory = `./tmp/norska/images/${env}`;
-  await module.initConfig({
+  await current.initConfig({
     from: `${tmpDirectory}/src`,
     to: `${tmpDirectory}/dist`,
     cloudinary: {
@@ -446,14 +446,14 @@ async function getTestResults(allTestCases, env) {
   // Build website
   const buildOutput = await captureOutput(async () => {
     await emptyDir(config.to());
-    await module.build();
+    await current.build();
   });
   // Display console.log we could have used in debugging
   if (buildOutput.stdout.length) {
     consoleInfo(buildOutput.stdout.join('\n'));
   }
   // Check if build failed
-  const buildFailed = module.__exit.mock.calls.length;
+  const buildFailed = current.__exit.mock.calls.length;
   if (buildFailed) {
     throw new Error(`Test build in ${env} failed`);
   }
@@ -465,7 +465,7 @@ async function getTestResults(allTestCases, env) {
     const actuals = _.chain(htmlContent)
       .split('/>')
       .compact()
-      .map(item => `${item}/>`)
+      .map((item) => `${item}/>`)
       .value();
     testCase.actuals = actuals;
   });

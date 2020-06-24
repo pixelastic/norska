@@ -203,7 +203,7 @@ module.exports = {
     try {
       const pugFilesPattern = await this.pugFilesPattern();
       const pugFiles = await glob(pugFilesPattern);
-      await pMap(pugFiles, async filepath => {
+      await pMap(pugFiles, async (filepath) => {
         await this.compile(filepath);
       });
     } catch (error) {
@@ -228,7 +228,7 @@ module.exports = {
 
     // Reload a given pug file whenever it is changed
     const pugFilesPattern = await this.pugFilesPattern();
-    await watch(pugFilesPattern, async filepath => {
+    await watch(pugFilesPattern, async (filepath) => {
       try {
         const timer = timeSpan();
         const relativePath = path.relative(config.from(), filepath);
@@ -255,7 +255,7 @@ module.exports = {
     });
 
     // Rebuild everything whenever the list of jsFiles to include changes
-    config.pulse.on('set', async key => {
+    config.pulse.on('set', async (key) => {
       if (key !== 'runtime.jsFiles') {
         return;
       }

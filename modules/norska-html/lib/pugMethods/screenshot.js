@@ -8,7 +8,7 @@ const pugCloudinary = require('./cloudinary');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Final url of the image
  */
-module.exports = function(userUrl, context) {
+module.exports = function (userUrl, context) {
   let fullUrl = userUrl;
   if (!fullUrl) {
     // Get calling url

@@ -26,7 +26,7 @@ module.exports = function highlight(item, key) {
   // Recursively highlight all subkeys of objects
   if (!highlightValue.matchLevel) {
     const subItem = {};
-    Object.keys(item[key]).forEach(subKey => {
+    Object.keys(item[key]).forEach((subKey) => {
       subItem[subKey] = highlight(item, `${key}.${subKey}`);
     });
     return subItem;

@@ -13,7 +13,7 @@ const pugLazyload = require('./lazyload');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {object} Formated HTML attributes to display in the img tag
  */
-module.exports = function(attributes, context) {
+module.exports = function (attributes, context) {
   // options key is for lazyloading
   const options = attributes.options || {};
   delete attributes.options;

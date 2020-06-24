@@ -1,4 +1,4 @@
-const module = require('../main');
+const current = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
 const emptyDir = require('firost/lib/emptyDir');
@@ -14,20 +14,20 @@ describe('norska-css', () => {
   const tmpDirectory = './tmp/norska-css/slow';
   describe('compile', () => {
     beforeEach(async () => {
-      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
+      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
-        css: module.defaultConfig(),
+        css: current.defaultConfig(),
       });
       await emptyDir(tmpDirectory);
     });
     it('should call the compiler with the raw content', async () => {
       await write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
-      jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
+      jest.spyOn(current, 'getCompiler').mockReturnValue(mockCompiler);
 
-      await module.compile('style.css');
+      await current.compile('style.css');
 
       expect(mockCompiler).toHaveBeenCalledWith(
         '/* css content */',
@@ -37,9 +37,9 @@ describe('norska-css', () => {
     it('should call the compiler with from as the source', async () => {
       await write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn();
-      jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
+      jest.spyOn(current, 'getCompiler').mockReturnValue(mockCompiler);
 
-      await module.compile('style.css');
+      await current.compile('style.css');
 
       expect(mockCompiler).toHaveBeenCalledWith(
         expect.anything(),
@@ -47,16 +47,16 @@ describe('norska-css', () => {
       );
     });
     it('should write the .css key result to file', async () => {
-      jest.spyOn(module, '__write');
+      jest.spyOn(current, '__write');
       await write('/* css content */', config.fromPath('style.css'));
       const mockCompiler = jest.fn().mockImplementation(async () => {
         return { css: '/* compiled content */' };
       });
-      jest.spyOn(module, 'getCompiler').mockReturnValue(mockCompiler);
+      jest.spyOn(current, 'getCompiler').mockReturnValue(mockCompiler);
 
-      await module.compile('style.css');
+      await current.compile('style.css');
 
-      expect(module.__write).toHaveBeenCalledWith(
+      expect(current.__write).toHaveBeenCalledWith(
         '/* compiled content */',
         config.toPath('style.css')
       );
@@ -67,7 +67,7 @@ describe('norska-css', () => {
 
         let actual;
         try {
-          await module.compile(input);
+          await current.compile(input);
         } catch (error) {
           actual = error;
         }
@@ -83,7 +83,7 @@ describe('norska-css', () => {
 
         let actual;
         try {
-          await module.compile('style.css');
+          await current.compile('style.css');
         } catch (error) {
           actual = error;
         }
@@ -98,21 +98,21 @@ describe('norska-css', () => {
   });
   describe('run', () => {
     beforeEach(async () => {
-      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
+      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
       jest
-        .spyOn(module, '__spinner')
+        .spyOn(current, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {} });
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
-        css: module.defaultConfig(),
+        css: current.defaultConfig(),
       });
       await emptyDir(tmpDirectory);
     });
 
     it('should compile basic CSS', async () => {
       await write('.class { color: red; }', config.fromPath('style.css'));
-      await module.run();
+      await current.run();
 
       const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
@@ -126,14 +126,14 @@ describe('norska-css', () => {
         'b { color: blue; }',
         config.fromPath('_styles/imported.css')
       );
-      await module.run();
+      await current.run();
 
       const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
     });
     it('should flatten nested syntax', async () => {
       await write('.class { a { color: red; } }', config.fromPath('style.css'));
-      await module.run();
+      await current.run();
 
       const actual = await read(config.toPath('style.css'));
       expect(actual).toMatchSnapshot();
@@ -174,7 +174,7 @@ describe('norska-css', () => {
           config.fromPath('style.css')
         );
 
-        await module.run();
+        await current.run();
 
         const actual = await read(config.toPath('style.css'));
         expect(actual).toMatchSnapshot();
@@ -183,11 +183,11 @@ describe('norska-css', () => {
   });
   describe('watch', () => {
     beforeEach(async () => {
-      jest.spyOn(module, '__consoleSuccess').mockReturnValue();
+      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
-        css: module.defaultConfig(),
+        css: current.defaultConfig(),
       });
       await emptyDir(tmpDirectory);
       await mkdirp(config.from());
@@ -196,7 +196,7 @@ describe('norska-css', () => {
       await unwatchAll();
     });
     it('should compile the input file when it is created', async () => {
-      await module.watch();
+      await current.watch();
 
       await write(
         'body { background-color: red; }',
@@ -209,7 +209,7 @@ describe('norska-css', () => {
     });
     it('should recompile the input file whenever it is changed', async () => {
       await write('body {}', config.fromPath('style.css'));
-      await module.watch();
+      await current.watch();
       await write(
         'body { background-color: red; }',
         config.fromPath('./style.css')
@@ -229,7 +229,7 @@ describe('norska-css', () => {
         'b { color: blue; }',
         config.fromPath('_styles/imported.css')
       );
-      await module.watch();
+      await current.watch();
 
       await write('b { color: red; }', config.fromPath('_styles/imported.css'));
 
@@ -239,28 +239,28 @@ describe('norska-css', () => {
     });
     it('should recompile the input file whenever the tailwind.config.js file is changed', async () => {
       jest.spyOn(config, 'rootDir').mockReturnValue(tmpDirectory);
-      jest.spyOn(module, 'compile').mockReturnValue();
+      jest.spyOn(current, 'compile').mockReturnValue();
       await write('body {}', config.fromPath('style.css'));
       await write('// foo', config.rootPath('tailwind.config.js'));
-      await module.watch();
+      await current.watch();
 
       await write('// bar', config.rootPath('tailwind.config.js'));
 
       await waitForWatchers();
-      expect(module.compile).toHaveBeenCalled();
+      expect(current.compile).toHaveBeenCalled();
     });
     describe('compilation errors', () => {
       beforeEach(() => {
-        jest.spyOn(module, '__consoleError').mockReturnValue();
+        jest.spyOn(current, '__consoleError').mockReturnValue();
       });
       it('should display compilation errors', async () => {
-        await module.watch();
+        await current.watch();
 
         await write('body { ', config.fromPath('style.css'));
 
         await waitForWatchers();
 
-        expect(module.__consoleError).toHaveBeenCalledWith(
+        expect(current.__consoleError).toHaveBeenCalledWith(
           expect.stringContaining('Unclosed block')
         );
       });

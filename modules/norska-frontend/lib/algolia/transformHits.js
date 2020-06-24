@@ -9,14 +9,14 @@ const highlight = require('./highlight.js');
  * @param {Function} rawOnDisplay Method to call on the hit before displaying it
  * @returns {Array} Transformed list of items
  */
-module.exports = function(hits, transforms, rawOnDisplay) {
+module.exports = function (hits, transforms, rawOnDisplay) {
   const onDisplay = rawOnDisplay || (() => {});
 
   return hits.map((rawHit, index) => {
     const hit = {};
 
     // Highlight each key
-    Object.keys(rawHit).forEach(key => {
+    Object.keys(rawHit).forEach((key) => {
       hit[key] = highlight(rawHit, key);
     });
 
@@ -24,7 +24,7 @@ module.exports = function(hits, transforms, rawOnDisplay) {
     hit.__original = rawHit;
 
     // Apply custom transforms
-    Object.keys(transforms).forEach(key => {
+    Object.keys(transforms).forEach((key) => {
       hit[key] = transforms[key](hit, index);
     });
 

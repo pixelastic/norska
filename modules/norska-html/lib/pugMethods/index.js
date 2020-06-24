@@ -17,7 +17,7 @@ const pugScreenshot = require('./screenshot.js');
  * @param {string} destination Path to the created file
  * @returns {object} Custom methods available in pug files
  **/
-module.exports = function(data, destination) {
+module.exports = function (data, destination) {
   const context = { data, destination };
   const methods = {
     cloudinary(url, options) {

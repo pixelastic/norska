@@ -1,4 +1,4 @@
-const module = require('../index.js');
+const current = require('../index.js');
 const helper = require('../helper.js');
 const credentials = require('../../credentials.js');
 
@@ -47,7 +47,7 @@ describe('router', () => {
     ],
   ];
   it.each(testCases)("parseURL('%s')", async (locationHash, routeState) => {
-    const actualIndexRouteState = module.parseURL({
+    const actualIndexRouteState = current.parseURL({
       location: { hash: locationHash },
     });
     expect(actualIndexRouteState).toEqual(expect.objectContaining(routeState));
@@ -55,7 +55,7 @@ describe('router', () => {
   it.each(testCases)(
     "createURL({...}) == '%s'",
     async (locationHash, routeState) => {
-      const actualLocation = module.createURL({ routeState });
+      const actualLocation = current.createURL({ routeState });
       expect(actualLocation).toEqual(`monsters.com/search/${locationHash}`);
     }
   );
