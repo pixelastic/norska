@@ -13,6 +13,7 @@ Thumbs.db
 npm-debug.log
 yalc.lock
 yarn-error.log
+lerna-debug.log
 *~
 
 # Local Netlify folder
