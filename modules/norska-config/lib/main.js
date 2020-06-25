@@ -163,7 +163,9 @@ module.exports = {
 
     // The norska.config.js is at the root, but the root can be changed by CLI
     // arguments
-    const rootPath = defaultConfig.root || cliConfig.root;
+    const rootPath = cliConfig.root
+      ? path.resolve(cliConfig.root)
+      : defaultConfig.root;
     const fileConfig = await this.fileConfig(rootPath);
 
     // Default config < module-specific config < norska.config.js < CLI args

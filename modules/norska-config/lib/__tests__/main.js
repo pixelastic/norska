@@ -141,6 +141,30 @@ describe('norska-config', () => {
       expect(current).toHaveProperty('__config.deep.foo', 'no');
       expect(current).toHaveProperty('__config.deep.bar', 'yes');
     });
+    it('norska.config.js should be loaded from the default root', async () => {
+      jest
+        .spyOn(current, 'defaultConfig')
+        .mockReturnValue({ root: 'defaultRoot', from: 'src', to: 'dist' });
+      jest.spyOn(current, 'fileConfig').mockReturnValue({});
+      jest.spyOn(current, 'cliConfig').mockReturnValue({});
+
+      await current.init({}, {});
+
+      expect(current.fileConfig).toHaveBeenCalledWith('defaultRoot');
+    });
+    it('norska.config.js should be loaded from --root root', async () => {
+      jest
+        .spyOn(current, 'defaultConfig')
+        .mockReturnValue({ root: 'defaultRoot', from: 'src', to: 'dist' });
+      jest.spyOn(current, 'fileConfig').mockReturnValue({});
+      jest.spyOn(current, 'cliConfig').mockReturnValue({ root: 'customRoot' });
+
+      await current.init({}, {});
+
+      expect(current.fileConfig).toHaveBeenCalledWith(
+        expect.stringContaining('customRoot')
+      );
+    });
   });
   describe('get', () => {
     it('should return the value of the specific key', () => {
