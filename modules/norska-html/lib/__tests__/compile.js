@@ -252,15 +252,44 @@ describe('norska-html > compile', () => {
       const actual = await read(output);
       expect(actual).toEqual('<p>foo</p>');
     });
-    it('should allow converting markdown', async () => {
-      const input = config.fromPath('index.pug');
-      const output = config.toPath('index.html');
-      await write('div !{markdown("# foo")}', input);
+    describe('markdown', () => {
+      it('should allow converting markdown', async () => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+        await write('div !{markdown("# foo")}', input);
 
-      await current.compile(input);
+        await current.compile(input);
 
-      const actual = await read(output);
-      expect(actual).toEqual('<div><h1>foo</h1></div>');
+        const actual = await read(output);
+        expect(actual).toEqual('<div><h1>foo</h1></div>');
+      });
+      it.each([
+        ['javascript', 'var x = 42;'],
+        ['html', '<strong>O</strong>'],
+        ['css', '.here { background: red; }'],
+        ['json', '{}'],
+        ['pug', '.bold.white text'],
+        ['yaml', 'name: aberlaas'],
+      ])('should highlight %s', async (languageName, codeExample) => {
+        const input = config.fromPath('index.pug');
+        const output = config.toPath('index.html');
+
+        const markdownContent = `\`\`\`${languageName}\\r${codeExample}\\r\`\`\``;
+        await write(
+          dedent`
+          - markdownContent = "${markdownContent}";
+          div !{markdown(markdownContent)}
+          `,
+          input
+        );
+
+        await current.compile(input);
+
+        const actual = await read(output);
+        expect(actual).toEqual(
+          expect.stringContaining(`language-${languageName}`)
+        );
+      });
     });
     describe('include', () => {
       it('should include file content', async () => {

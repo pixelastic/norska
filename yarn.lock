@@ -7281,6 +7281,11 @@ highlight.js@^9.18.1:
   resolved "https://registry.npmjs.org/highlight.js/-/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
   integrity sha512-OrVKYz70LHsnCgmbXctv/bfuvntIKDz177h0Co37DQ5jamGZLVmoCVMtjMtNZY3X9DrCcKfklHPNeA0uPZhSJg==
 
+highlightjs-pug@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/highlightjs-pug/-/highlightjs-pug-0.0.2.tgz#6175bf335f2e3fc198ad2e00043735714af03320"
+  integrity sha512-RF1BMH2UAemAejUCPBrHYptrN3G19qV7bcJsGy3pts6b6QRIEqpUwhkxbjGexPYjvuEnHcpLiK0fU+yMfHxVuA==
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"

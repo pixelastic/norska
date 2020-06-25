@@ -1,10 +1,15 @@
 const _ = require('golgoth/lib/lodash');
 const markdownIt = require('markdown-it');
 const markdownItHighlight = require('markdown-it-highlightjs');
+const highlightJsPug = require('highlightjs-pug');
 const markdown = markdownIt({
   html: true,
   linkify: true,
-}).use(markdownItHighlight);
+}).use(markdownItHighlight, {
+  register: {
+    pug: highlightJsPug,
+  },
+});
 
 /**
  * Convert markdown to html
