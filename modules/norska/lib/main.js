@@ -72,10 +72,11 @@ module.exports = {
     config.sanityCheck();
 
     if (helper.isProduction()) {
-      if (await netlify.shouldCancelBuild()) {
+      if (!(await netlify.shouldBuild())) {
         await netlify.cancelBuild();
         return false;
       }
+      return false;
       await remove(config.to());
     }
     await mkdirp(config.to());

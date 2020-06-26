@@ -10384,7 +10384,7 @@ netlify-redirector@^0.2.0:
   resolved "https://registry.npmjs.org/netlify-redirector/-/netlify-redirector-0.2.0.tgz#2037bf92520459277c9ae17f46e4df56104cd787"
   integrity sha512-5SSUu++MXvE/tik90Hx7lzISBHCl5k4TqpVeTuBEoHp5K7uWitY7c3MjPNiY3kB83GSZiTNLbuIY7bo6mpyU3Q==
 
-netlify@^4.1.7, netlify@^4.3.1, netlify@^4.3.3:
+netlify@4.3.3, netlify@^4.1.7, netlify@^4.3.1, netlify@^4.3.3:
   version "4.3.3"
   resolved "https://registry.npmjs.org/netlify/-/netlify-4.3.3.tgz#5e3089d2b35f3c35bdf257670dc854e67cad1715"
   integrity sha512-5BO10o9v64bb9RgYy2EdQG61DwLWucrYMEA6Q3cgSAi/a5ttAE6r38CJ6kTgoiybp2br+zFhoJQ74d0vjaBcLg==

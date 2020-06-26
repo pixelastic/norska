@@ -1,4 +1,5 @@
 const config = require('norska-config');
+const netlify = require('norska-netlify');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
@@ -9,7 +10,6 @@ const glob = require('firost/lib/glob');
 const readJson = require('firost/lib/readJson');
 const spinner = require('firost/lib/spinner');
 const writeJson = require('firost/lib/writeJson');
-const netlify = require('./netlify.js');
 
 module.exports = {
   /**

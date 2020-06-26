@@ -1,12 +1,17 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
+    "firost": "1.7.2",
+    "golgoth": "1.3.0",
+    "netlify": "4.3.3",
+    "netlify-cli": "2.54.0",
     "norska-config": "^0.10.3",
     "norska-helper": "^0.10.1"
   },
   "description": "Configure Netlify deployments",
   "files": [
-    "lib/*.js"
+    "lib/*.js",
+    "lib/helper/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

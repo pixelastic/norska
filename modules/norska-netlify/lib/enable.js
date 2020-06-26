@@ -1,35 +1,24 @@
 const consoleInfo = require('firost/lib/consoleInfo');
 const consoleError = require('firost/lib/consoleError');
-const readJson = require('firost/lib/readJson');
 const run = require('firost/lib/run');
-const config = require('norska-config');
+const helper = require('./helper.js');
 module.exports = {
   /**
    * Check if the current directory is already linked to a netlify application
    * @returns {boolean} true if already enabled, false otherwise
    **/
   async isEnabled() {
-    const netlifyStateFile = config.rootPath('.netlify/state.json');
-    const netlifyState = await readJson(netlifyStateFile);
-    return !!netlifyState.siteId;
+    const siteId = await helper.siteId();
+    return !!siteId;
   },
   /**
-   * Returns the Netlify token saved in ENV
-   * @returns {string} The Netlify token
+   * Enable Netlify on the current repo
+   * Expected to be called by norska init
+   * @returns {boolean} True if enabled, false otherwise
    **/
-  token() {
-    return process.env.NETLIFY_AUTH_TOKEN;
-  },
-  /**
-   * Check if a Netfliy token is available
-   * @returns {boolean} True if a token is defined
-   **/
-  hasToken() {
-    return !!this.token();
-  },
-  async enable() {
+  async run() {
     // Stop early if no Netlify token
-    if (!this.hasToken()) {
+    if (!helper.hasToken()) {
       this.__consoleError(
         '[netlify]: No NETLIFY_AUTH_TOKEN found, please visit https://app.netlify.com/start/repos to enable manually.'
       );
