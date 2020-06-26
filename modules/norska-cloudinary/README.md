@@ -1,11 +1,3 @@
-# `norska-cloudinary`
+# norska-cloudinary
 
-> TODO: description
-
-## Usage
-
-```
-const norskaCloudinary = require('norska-cloudinary');
-
-// TODO: DEMONSTRATE API
-```
+Cloudinary-related methods used both in the front-end and in pug

@@ -1,5 +1,6 @@
 const config = require('norska-config');
 const helper = require('norska-helper');
+const netlify = require('norska-netlify');
 const liveServer = require('live-server');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
@@ -71,6 +72,10 @@ module.exports = {
     config.sanityCheck();
 
     if (helper.isProduction()) {
+      if (await netlify.shouldCancelBuild()) {
+        await netlify.cancelBuild();
+        return false;
+      }
       await remove(config.to());
     }
     await mkdirp(config.to());

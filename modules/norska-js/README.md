@@ -1,3 +1,3 @@
-# Norska-js
+# norska-js
 
 Compile `.js` files through Webpack

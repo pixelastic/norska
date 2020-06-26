@@ -18,6 +18,7 @@
     "norska-html": "^0.10.3",
     "norska-init": "^0.10.3",
     "norska-js": "^0.10.3",
+    "norska-netlify": "^0.10.3",
     "norska-revv": "^0.10.3"
   },
   "description": "Opinionated static website generator",

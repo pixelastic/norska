@@ -1,4 +1,4 @@
-# `norska-revv`
+# norska-revv
 
 Rename static assets and references to them using a revving hash so their cache
 is more manageable.
