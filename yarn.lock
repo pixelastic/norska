@@ -2445,10 +2445,10 @@ abbrev@1:
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.10.0.tgz#ecd9394b0cf75b66cc9ada11c0f4b731e0b900eb"
-  integrity sha512-e9cW8L0r9es175ZEricxS5sCDjl/0yQQJpwMRgfCraL2nfyTtywI771/zmUXaYrsSHg/PZfGSO2aUs8Gf+oQXA==
+aberlaas@1.10.1:
+  version "1.10.1"
+  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.10.1.tgz#444fde92b03fdfe0ced7780b1220a112234fb837"
+  integrity sha512-6EdutNmWnTysSoqfamUaYd2ECV3HYZ4/HqAHSOnSjoDT/oOCyap8hMguYhmpdPFddZskxA2EPZmZe4sXccJZMA==
   dependencies:
     "@octokit/rest" "18.0.0"
     ci-info "2.0.0"
