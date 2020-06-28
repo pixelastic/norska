@@ -1,6 +1,8 @@
 const netlifyConfig = require('../config');
 const current = require('../build');
 const githubHelper = require('../helper/git');
+const netlifyHelper = require('../helper/index');
+const norskaHelper = require('norska-helper');
 const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const writeJson = require('firost/lib/writeJson');
@@ -8,16 +10,48 @@ const writeJson = require('firost/lib/writeJson');
 describe('norska-netlify > build', () => {
   describe('shouldBuild', () => {
     it('should always build if not in production', async () => {
+      jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(false);
+      const actual = await current.shouldBuild();
+      expect(actual).toEqual(true);
     });
     it('should always build if not on Netlify', async () => {
+      jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
+      jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(false);
+      const actual = await current.shouldBuild();
+      expect(actual).toEqual(true);
     });
     it('should build if there was no deploy before', async () => {
+      jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
+      jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue(null);
+      const actual = await current.shouldBuild();
+      expect(actual).toEqual(true);
     });
     it('should build if an important file has been changed', async () => {
+      jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
+      jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue('abcdef');
+      jest.spyOn(current, 'hasImportantFilesChanged').mockReturnValue(true);
+      const actual = await current.shouldBuild();
+      expect(actual).toEqual(true);
     });
     it('should build if an important key has been modified', async () => {
+      jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
+      jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue('abcdef');
+      jest.spyOn(current, 'hasImportantFilesChanged').mockReturnValue(false);
+      jest.spyOn(current, 'hasImportantKeysChanged').mockReturnValue(true);
+      const actual = await current.shouldBuild();
+      expect(actual).toEqual(true);
     });
     it('should not build if nothing important happened', async () => {
+      jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
+      jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue('abcdef');
+      jest.spyOn(current, 'hasImportantFilesChanged').mockReturnValue(false);
+      jest.spyOn(current, 'hasImportantKeysChanged').mockReturnValue(false);
+      const actual = await current.shouldBuild();
+      expect(actual).toEqual(false);
     });
   });
   describe('hasImportantFilesChanged', () => {

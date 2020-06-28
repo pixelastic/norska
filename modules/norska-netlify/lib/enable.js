@@ -1,7 +1,7 @@
 const consoleInfo = require('firost/lib/consoleInfo');
 const consoleError = require('firost/lib/consoleError');
 const run = require('firost/lib/run');
-const helper = require('./helper.js');
+const helper = require('./helper/index.js');
 module.exports = {
   /**
    * Check if the current directory is already linked to a netlify application

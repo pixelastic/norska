@@ -3,6 +3,7 @@ const writeJson = require('firost/lib/writeJson');
 const emptyDir = require('firost/lib/emptyDir');
 const path = require('path');
 const config = require('norska-config');
+const helper = require('../helper/index.js');
 
 describe('norska-netlify > enable', () => {
   beforeEach(async () => {
@@ -28,29 +29,29 @@ describe('norska-netlify > enable', () => {
   });
   describe('enable', () => {
     beforeEach(async () => {
-      jest.spyOn(current, 'hasToken').mockReturnValue();
+      jest.spyOn(helper, 'hasToken').mockReturnValue();
       jest.spyOn(current, 'isEnabled').mockReturnValue();
       jest.spyOn(current, '__run').mockReturnValue();
       jest.spyOn(current, '__consoleInfo').mockReturnValue();
       jest.spyOn(current, '__consoleError').mockReturnValue();
     });
     it('should fail early if no token', async () => {
-      current.hasToken.mockReturnValue(false);
-      const actual = await current.enable();
+      helper.hasToken.mockReturnValue(false);
+      const actual = await current.run();
       expect(actual).toEqual(false);
       expect(current.__consoleError).toHaveBeenCalled();
     });
     it('should stop early if already enabled', async () => {
-      current.hasToken.mockReturnValue(true);
+      helper.hasToken.mockReturnValue(true);
       current.isEnabled.mockReturnValue(true);
-      const actual = await current.enable();
+      const actual = await current.run();
       expect(actual).toEqual(true);
       expect(current.__consoleInfo).toHaveBeenCalled();
     });
     it('should init the netlify app', async () => {
-      current.hasToken.mockReturnValue(true);
+      helper.hasToken.mockReturnValue(true);
       current.isEnabled.mockReturnValue(false);
-      await current.enable();
+      await current.run();
       expect(current.__run).toHaveBeenCalledWith('yarn run netlify init', {
         shell: true,
         stdin: true,
