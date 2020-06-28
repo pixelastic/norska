@@ -25,19 +25,19 @@ module.exports = {
     if (!helper.isRunningRemotely()) {
       return true;
     }
-    this.consoleInfo(
+    this.__consoleInfo(
       'Starting building for production on Netlify. Should it continue?'
     );
     // Build if never build before
     const lastDeployCommit = await this.getLastDeployCommit();
     if (!lastDeployCommit) {
-      this.consoleSuccess('Site has never been deployed before.');
+      this.__consoleSuccess('Site has never been deployed before.');
       return true;
     }
 
     // Build if important files were changed since last build
     if (await this.hasImportantFilesChanged(lastDeployCommit)) {
-      this.consoleSuccess(
+      this.__consoleSuccess(
         'Some important files were changed since last commit'
       );
       return true;
@@ -45,13 +45,13 @@ module.exports = {
 
     // Build if important package.json keys were changed since last build
     if (await this.hasImportantKeysChanged(lastDeployCommit)) {
-      this.consoleSuccess(
+      this.__consoleSuccess(
         'Some important keys in package.json were changed since last commit'
       );
       return true;
     }
 
-    this.consoleError(
+    this.__consoleError(
       `No important changes since ${lastDeployCommit}, stopping the build`
     );
     return false;
