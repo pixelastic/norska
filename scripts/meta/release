@@ -1,4 +1,10 @@
 #!/usr/bin/env sh
 set -e
+
+# Force getting to the repo root before running tests and releasing, otherwise
+# it might only test and release the current module
+REPO_ROOT="$(cd "$( dirname "$0" )/../.." && pwd)"
+cd "$REPO_ROOT"
+
 yarn run test
 lerna publish --yes "$@"
