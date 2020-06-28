@@ -76,4 +76,30 @@ describe('norska-netlify > git', () => {
       expect(actual).toEqual([]);
     });
   });
+  describe('fileContentAtCommit', () => {
+    it('should return the content of the file', async () => {
+      const repo = await testRepo();
+      await write('One', config.rootPath('myfile'));
+      const input = await repo.commitAll('Initial commit');
+
+      await write('Two', config.rootPath('myfile'));
+
+      await repo.commitAll('Modifications');
+
+      const actual = await current.fileContentAtCommit('myfile', input);
+      expect(actual).toEqual('One');
+    });
+    it('should return null if no such file', async () => {
+      const repo = await testRepo();
+      await write('One', config.rootPath('myfile'));
+      const input = await repo.commitAll('Initial commit');
+
+      await write('Two', config.rootPath('myfile'));
+
+      await repo.commitAll('Modifications');
+
+      const actual = await current.fileContentAtCommit('nope', input);
+      expect(actual).toEqual(null);
+    });
+  });
 });

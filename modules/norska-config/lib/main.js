@@ -192,7 +192,7 @@ module.exports = {
     // When enabled, a Cloudinary bucket must be defined. It throws an error in
     // prod, but only a warning in dev
     const isProduction = helper.isProduction();
-    const isCloudinaryEnabled = this.get('cloudinary.enable');
+    const isCloudinaryEnabled = this.get('cloudinary.enable', true);
     const hasNoBucketName = this.get('cloudinary.bucketName', null) === null;
     const isMisconfigured = isCloudinaryEnabled && hasNoBucketName;
     if (isMisconfigured) {

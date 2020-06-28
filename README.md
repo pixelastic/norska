@@ -39,6 +39,26 @@ Webpack to produce one file.
 Static assets are copied from source to destination without any transformation,
 and keeping the same directory structure.
 
+#### Building for production
+
+Netlify is configured to run `yarn run build:prod` on each push. This set
+`NODE_ENV` to `production`, which in turn enables a few more optimization like
+CSS and JavaScript minification, asset revving and Cloudinary filtering.
+
+But not all push should result in a deploy. If it was only updating the README
+of updating a `devDependencies`, it shouldn't trigger a new rebuild. `norska`
+will do its best to cancel any build early if it is unnecessary, so it does not
+consume too many build minutes on Netlify.
+
+In a nutshell, norska will check the current repository state and compare it to
+the last known deploy and redeploy only if:
+- Files in `./src`, `netlify.toml` or `norska.config.js` have been updated
+- A new `dependencies` was added, or `devDependencies.norska` was modified in
+  `package.json`
+
+Both of those lists can be updated using the `netlify.deploy.files` and
+`netlify.deploy.keys` entries of the `norska.config.js` file.
+
 ### Serve
 
 Running `norska serve` will build everything the same way but will also open a

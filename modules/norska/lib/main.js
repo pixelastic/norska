@@ -55,6 +55,7 @@ module.exports = {
       cms: require('norska-cms/lib/config'),
       css: require('norska-css/lib/config'),
       js: require('norska-js/lib/config'),
+      netlify: require('norska-netlify/lib/config'),
       revv: require('norska-revv/lib/config'),
     };
     await this.__configInit(cliArgs, modulesConfig);
@@ -72,11 +73,12 @@ module.exports = {
     config.sanityCheck();
 
     if (helper.isProduction()) {
+      // Check if this build should be avoided because it's the same as the
+      // previous one
       if (!(await netlify.shouldBuild())) {
         await netlify.cancelBuild();
-        return false;
+        return;
       }
-      return false;
       await remove(config.to());
     }
     await mkdirp(config.to());
