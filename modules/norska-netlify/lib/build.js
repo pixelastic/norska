@@ -7,6 +7,9 @@ const path = require('path');
 const multimatch = require('multimatch');
 const readJson = require('firost/lib/readJson');
 const exit = require('firost/lib/exit');
+const consoleInfo = require('firost/lib/consoleInfo');
+const consoleSuccess = require('firost/lib/consoleSuccess');
+const consoleError = require('firost/lib/consoleError');
 module.exports = {
   /**
    * Check if the current build should happen based on the deploy history and
@@ -22,22 +25,35 @@ module.exports = {
     if (!helper.isRunningRemotely()) {
       return true;
     }
+    this.consoleInfo(
+      'Starting building for production on Netlify. Should it continue?'
+    );
     // Build if never build before
     const lastDeployCommit = await this.getLastDeployCommit();
     if (!lastDeployCommit) {
+      this.consoleSuccess('Site has never been deployed before.');
       return true;
     }
 
     // Build if important files were changed since last build
     if (await this.hasImportantFilesChanged(lastDeployCommit)) {
+      this.consoleSuccess(
+        'Some important files were changed since last commit'
+      );
       return true;
     }
 
     // Build if important package.json keys were changed since last build
     if (await this.hasImportantKeysChanged(lastDeployCommit)) {
+      this.consoleSuccess(
+        'Some important keys in package.json were changed since last commit'
+      );
       return true;
     }
 
+    this.consoleError(
+      `No important changes since ${lastDeployCommit}, stopping the build`
+    );
     return false;
   },
   async cancel() {
@@ -114,4 +130,7 @@ module.exports = {
     });
     return keyChanged;
   },
+  __consoleInfo: consoleInfo,
+  __consoleSuccess: consoleSuccess,
+  __consoleError: consoleError,
 };
