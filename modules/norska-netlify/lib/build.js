@@ -62,7 +62,7 @@ module.exports = {
     console.info(`Cancelling deploy ${deployId}`);
     const response = await client.cancelSiteDeploy({ deploy_id: deployId });
     console.info(response);
-    exit(1);
+    exit(0);
   },
   /**
    * Returns the SHA of commit triggering the last deploy
