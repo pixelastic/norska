@@ -71,14 +71,13 @@ module.exports = {
    **/
   async build() {
     config.sanityCheck();
+    // Stop the build if not relevant to a deploy
+    if (!(await netlify.shouldBuild())) {
+      await netlify.cancelBuild();
+      return;
+    }
 
     if (helper.isProduction()) {
-      // Check if this build should be avoided because it's the same as the
-      // previous one
-      if (!(await netlify.shouldBuild())) {
-        await netlify.cancelBuild();
-        return;
-      }
       await remove(config.to());
     }
     await mkdirp(config.to());

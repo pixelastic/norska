@@ -1,4 +1,5 @@
 const helper = require('./helper/');
+const norskaHelper = require('norska-helper');
 const gitHelper = require('./helper/git.js');
 const _ = require('golgoth/lib/lodash');
 const config = require('norska-config');
@@ -13,19 +14,26 @@ module.exports = {
    * @returns {boolean} True if should process the build, false otherwise
    **/
   async shouldBuild() {
+    // Always build in dev
+    if (!norskaHelper.isProduction()) {
+      return true;
+    }
+    // Always build outside of Netlify servers
+    if (!helper.isRunningRemotely()) {
+      return true;
+    }
+    // Build if never build before
     const lastDeployCommit = await this.getLastDeployCommit();
-    // Should always build if never deployed before
     if (!lastDeployCommit) {
       return true;
     }
 
-    // Check if some important files have been changed since last deploy
+    // Build if important files were changed since last build
     if (await this.hasImportantFilesChanged(lastDeployCommit)) {
       return true;
     }
 
-    // Check if some important keys of package.json have been changed since last
-    // deploy
+    // Build if important package.json keys were changed since last build
     if (await this.hasImportantKeysChanged(lastDeployCommit)) {
       return true;
     }

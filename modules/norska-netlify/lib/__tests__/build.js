@@ -7,12 +7,15 @@ const writeJson = require('firost/lib/writeJson');
 
 describe('norska-netlify > build', () => {
   describe('shouldBuild', () => {
-    // TODO write those tests
+    it('should always build if not in production', async () => {
+    });
+    it('should always build if not on Netlify', async () => {
+    });
+    it('should build if there was no deploy before', async () => {
+    });
     it('should build if an important file has been changed', async () => {
     });
     it('should build if an important key has been modified', async () => {
-    });
-    it('should build if there was no deploy before', async () => {
     });
     it('should not build if nothing important happened', async () => {
     });
