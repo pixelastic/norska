@@ -7,6 +7,7 @@ const remove = require('firost/lib/remove');
 const emptyDir = require('firost/lib/emptyDir');
 const pAll = require('golgoth/lib/pAll');
 const path = require('path');
+const os = require('os');
 
 const testRepo = async function () {
   await current.runCommand('init');
@@ -25,7 +26,10 @@ const testRepo = async function () {
 
 describe('norska-netlify > git', () => {
   beforeEach(async () => {
-    const tmpRepoPath = path.resolve('./tmp/norska-netlify/helpers/git/');
+    const tmpRepoPath = path.resolve(
+      os.tmpdir(),
+      'norska/norska-netlify/helpers/git'
+    );
     jest.spyOn(config, 'rootDir').mockReturnValue(tmpRepoPath);
     await mkdirp(config.rootDir());
     await emptyDir(config.rootDir());
