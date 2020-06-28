@@ -17,6 +17,7 @@ module.exports = {
    * @returns {boolean} True if should process the build, false otherwise
    **/
   async shouldBuild() {
+    console.info('test');
     // Always build in dev
     if (!norskaHelper.isProduction()) {
       return true;
@@ -62,7 +63,7 @@ module.exports = {
     console.info(`Cancelling deploy ${deployId}`);
     const response = await client.cancelSiteDeploy({ deploy_id: deployId });
     console.info(response);
-    exit(0);
+    exit(190);
   },
   /**
    * Returns the SHA of commit triggering the last deploy
