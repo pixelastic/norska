@@ -3,7 +3,7 @@
   "dependencies": {
     "firost": "1.7.2",
     "golgoth": "1.3.0",
-    "norska-helper": "^0.11.0"
+    "norska-helper": "^0.12.0"
   },
   "description": "Configuration object shared across Norska modules",
   "files": [
@@ -21,5 +21,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.11.0"
+  "version": "0.12.0"
 }
