@@ -60,7 +60,11 @@ module.exports = {
       );
       _.each(importantKeysChanged, (key) => {
         const { name, before, after } = key;
-        this.__consoleInfo(`${name} was ${before} and is now ${after}`);
+        const displayBefore = JSON.stringify(before);
+        const displayAfter = JSON.stringify(after);
+        this.__consoleInfo(
+          `${name} was ${displayBefore} and is now ${displayAfter}`
+        );
       });
       return true;
     }

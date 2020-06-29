@@ -66,6 +66,7 @@ describe('norska-netlify > build', () => {
         netlify: netlifyConfig,
       });
       const importantFiles = [
+        '.nvmrc',
         'docs/norska.config.js',
         'docs/src/assets/deep/file.png',
         'docs/src/index.pug',
@@ -94,6 +95,7 @@ describe('norska-netlify > build', () => {
         },
         devDependencies: {
           aberlaas: '1.0',
+          norska: '1.0',
         },
       };
       const packageNow = {
@@ -103,6 +105,7 @@ describe('norska-netlify > build', () => {
         },
         devDependencies: {
           aberlaas: '1.1',
+          norska: '1.1',
         },
       };
       jest
@@ -115,6 +118,11 @@ describe('norska-netlify > build', () => {
         name: 'dependencies',
         before: { lodash: '1.0' },
         after: { lodash: '1.1' },
+      });
+      expect(actual).toContainEqual({
+        name: 'devDependencies.norska',
+        before: '1.0',
+        after: '1.1',
       });
     });
   });
