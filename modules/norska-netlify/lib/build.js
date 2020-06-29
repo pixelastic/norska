@@ -17,7 +17,7 @@ module.exports = {
    * @returns {boolean} True if should process the build, false otherwise
    **/
   async shouldBuild() {
-    console.info('test');
+    console.info('Updating text');
     // Always build in dev
     if (!norskaHelper.isProduction()) {
       return true;
