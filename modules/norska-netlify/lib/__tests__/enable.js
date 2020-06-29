@@ -40,16 +40,16 @@ describe('norska-netlify > enable', () => {
   });
   describe('linkRepository', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'siteId').mockReturnValue();
+      jest.spyOn(helper, 'isLinkedLocally').mockReturnValue();
     });
     it('should stop early if already a siteId', async () => {
-      helper.siteId.mockReturnValue('site-id');
+      helper.isLinkedLocally.mockReturnValue(true);
       await current.linkRepository();
       expect(current.__consoleInfo).toHaveBeenCalled();
       expect(current.__run).not.toHaveBeenCalled();
     });
     it('should init the netlify app', async () => {
-      helper.siteId.mockReturnValue(null);
+      helper.isLinkedLocally.mockReturnValue(false);
       await current.linkRepository();
       expect(current.__run).toHaveBeenCalledWith('yarn run netlify init', {
         shell: true,
