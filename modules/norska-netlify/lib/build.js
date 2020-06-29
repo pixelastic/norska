@@ -143,7 +143,7 @@ module.exports = {
    * @returns {object} Content of the package.json
    **/
   async getPackageJson() {
-    const rootPath = await root();
+    const rootPath = await root(config.root());
     return await readJson(path.resolve(rootPath, 'package.json'));
   },
   __consoleInfo: consoleInfo,
