@@ -5,9 +5,9 @@ module.exports = {
     files: [
       'lambda/**/*',
       'netlify.toml',
-      'norska.config.js',
-      'tailwind.config.js',
       '<from>/**/*',
+      '<root>/norska.config.js',
+      '<root>/tailwind.config.js',
     ],
     // If any of those keys in package.json  has been modified since the last
     // deploy, we deploy again

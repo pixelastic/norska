@@ -2,6 +2,7 @@ const current = require('../git');
 const config = require('norska-config');
 const isCI = process.env.CI;
 const write = require('firost/lib/write');
+const writeJson = require('firost/lib/writeJson');
 const mkdirp = require('firost/lib/mkdirp');
 const remove = require('firost/lib/remove');
 const emptyDir = require('firost/lib/emptyDir');
@@ -80,29 +81,35 @@ describe('norska-netlify > git', () => {
       expect(actual).toEqual([]);
     });
   });
-  describe('fileContentAtCommit', () => {
+  describe('jsonContentAtCommit', () => {
     it('should return the content of the file', async () => {
       const repo = await testRepo();
-      await write('One', config.rootPath('myfile'));
-      const input = await repo.commitAll('Initial commit');
+      await writeJson({ key: 'One' }, config.rootPath('myfile.json'));
+      const commitRef = await repo.commitAll('Initial commit');
 
-      await write('Two', config.rootPath('myfile'));
+      await writeJson({ key: 'Two' }, config.rootPath('myfile.json'));
 
       await repo.commitAll('Modifications');
 
-      const actual = await current.fileContentAtCommit('myfile', input);
-      expect(actual).toEqual('One');
+      const actual = await current.jsonContentAtCommit(
+        'myfile.json',
+        commitRef
+      );
+      expect(actual).toHaveProperty('key', 'One');
     });
     it('should return null if no such file', async () => {
       const repo = await testRepo();
-      await write('One', config.rootPath('myfile'));
-      const input = await repo.commitAll('Initial commit');
+      await writeJson({ key: 'One' }, config.rootPath('myfile.json'));
+      const commitRef = await repo.commitAll('Initial commit');
 
-      await write('Two', config.rootPath('myfile'));
+      await writeJson({ key: 'Two' }, config.rootPath('myfile.json'));
 
       await repo.commitAll('Modifications');
 
-      const actual = await current.fileContentAtCommit('nope', input);
+      const actual = await current.jsonContentAtCommit(
+        'not-my-file.json',
+        commitRef
+      );
       expect(actual).toEqual(null);
     });
   });

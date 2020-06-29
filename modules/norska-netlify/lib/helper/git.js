@@ -33,11 +33,11 @@ module.exports = {
    * @param {string} commit SHA of the commit
    * @returns {string} Content of the file
    **/
-  async fileContentAtCommit(filepath, commit) {
+  async jsonContentAtCommit(filepath, commit) {
     try {
       const command = `show ${commit}:${filepath}`;
       const result = await this.runCommand(command);
-      return result;
+      return JSON.parse(result);
     } catch (err) {
       return null;
     }

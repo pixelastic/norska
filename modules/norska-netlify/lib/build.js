@@ -7,6 +7,7 @@ const path = require('path');
 const multimatch = require('multimatch');
 const readJson = require('firost/lib/readJson');
 const exit = require('firost/lib/exit');
+const root = require('firost/lib/root');
 const consoleInfo = require('firost/lib/consoleInfo');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleError = require('firost/lib/consoleError');
@@ -17,18 +18,19 @@ module.exports = {
    * @returns {boolean} True if should process the build, false otherwise
    **/
   async shouldBuild() {
-    console.info('Updating text');
+    this.__consoleInfo(
+      'Starting building for production on Netlify. Should it continue?'
+    );
     // Always build in dev
     if (!norskaHelper.isProduction()) {
+      this.__consoleSuccess('Not running a production build');
       return true;
     }
     // Always build outside of Netlify servers
     if (!helper.isRunningRemotely()) {
+      this.__consoleSuccess('Not running on Netlify servers');
       return true;
     }
-    this.__consoleInfo(
-      'Starting building for production on Netlify. Should it continue?'
-    );
     // Build if never build before
     const lastDeployCommit = await this.getLastDeployCommit();
     if (!lastDeployCommit) {
@@ -37,18 +39,29 @@ module.exports = {
     }
 
     // Build if important files were changed since last build
-    if (await this.hasImportantFilesChanged(lastDeployCommit)) {
+    const importantFilesChanged = await this.importantFilesChanged(
+      lastDeployCommit
+    );
+    if (!_.isEmpty(importantFilesChanged)) {
       this.__consoleSuccess(
-        'Some important files were changed since last commit'
+        'Some important files were changed since last commit:'
       );
+      _.each(importantFilesChanged, this.__consoleInfo);
       return true;
     }
 
     // Build if important package.json keys were changed since last build
-    if (await this.hasImportantKeysChanged(lastDeployCommit)) {
+    const importantKeysChanged = await this.importantKeysChanged(
+      lastDeployCommit
+    );
+    if (!_.isEmpty(importantKeysChanged)) {
       this.__consoleSuccess(
-        'Some important keys in package.json were changed since last commit'
+        'Some important keys in package.json were changed since last commit:'
       );
+      _.each(importantKeysChanged, (key) => {
+        const { name, before, after } = key;
+        this.__consoleInfo(`${name} was ${before} and is now ${after}`);
+      });
       return true;
     }
 
@@ -60,7 +73,7 @@ module.exports = {
   async cancel() {
     const client = helper.apiClient();
     const deployId = helper.getEnvVar('DEPLOY_ID');
-    console.info(`Cancelling deploy ${deployId}`);
+    this.__consoleError(`Cancelling deploy ${deployId}`);
     const response = await client.cancelSiteDeploy({ deploy_id: deployId });
     console.info(response);
     exit(190);
@@ -71,65 +84,63 @@ module.exports = {
    **/
   async getLastDeployCommit() {
     return helper.getEnvVar('CACHED_COMMIT_REF');
-    // // TODO: Seems like the CACHED_COMMIT_REF contains this information
-    // // https://docs.netlify.com/configure-builds/environment-variables/#git-metadata
-    // const client = helper.apiClient();
-    // const siteId = await helper.siteId();
-    // const allDeploys = await client.listSiteDeploys({ site_id: siteId });
-    // const lastDeployCommit = _.chain(allDeploys)
-    //   .find({
-    //     state: 'ready',
-    //     branch: 'master',
-    //   })
-    //   .get('commit_ref', null)
-    //   .value();
-    // return lastDeployCommit;
   },
   /**
-   * Check if any of the changed files since the last deploy would require
-   * a redeploy
+   * Returns the list of important files changed
    * @param {string} lastDeployCommit Commit of the last deploy
-   * @returns {boolean} True if should redeploy, false otherwise
+   * @returns {Array} List of important filepath changed
    **/
-  async hasImportantFilesChanged(lastDeployCommit) {
+  async importantFilesChanged(lastDeployCommit) {
     // Get changed files
     const changedFiles = await gitHelper.filesChangedSinceCommit(
       lastDeployCommit
     );
 
-    // Get glob patterns
-    const fromShortForm = path.relative(config.get('root'), config.get('from'));
+    // Convert <root> and <from> in glob patterns
+    const norskaRoot = config.rootDir();
+    const repoRoot = await root(norskaRoot);
+    const norskaFrom = config.from();
     const rawGlobs = config.get('netlify.deploy.files');
     const globPatterns = _.map(rawGlobs, (globPattern) => {
-      return _.replace(globPattern, '<from>', fromShortForm);
+      return _.chain(globPattern)
+        .replace('<root>', path.relative(repoRoot, norskaRoot))
+        .replace('<from>', path.relative(repoRoot, norskaFrom))
+        .value();
     });
 
-    const result = multimatch(changedFiles, globPatterns);
-    return !_.isEmpty(result);
+    return multimatch(changedFiles, globPatterns).sort();
   },
   /**
-   * Check if any important key in package.json has been modified since the last
-   * deploy
+   * Return all important keys changed
    * @param {string} lastDeployCommit SHA of the last deploy
    * @returns {boolean} True if at least one key has been updated, false
    * otherwise
    **/
-  async hasImportantKeysChanged(lastDeployCommit) {
-    const packageBefore = JSON.parse(
-      await gitHelper.fileContentAtCommit('package.json', lastDeployCommit)
+  async importantKeysChanged(lastDeployCommit) {
+    const packageBefore = await gitHelper.jsonContentAtCommit(
+      'package.json',
+      lastDeployCommit
     );
-    const packageNow = await readJson(config.rootPath('package.json'));
+    const packageNow = await this.getPackageJson();
 
     const keys = config.get('netlify.deploy.keys');
-    let keyChanged = false;
-    _.each(keys, (key) => {
-      const keyBefore = _.get(packageBefore, key, null);
-      const keyAfter = _.get(packageNow, key, null);
-      if (keyBefore !== keyAfter) {
-        keyChanged = true;
+    const changedKeys = [];
+    _.each(keys, (name) => {
+      const before = _.get(packageBefore, name, null);
+      const after = _.get(packageNow, name, null);
+      if (before !== after) {
+        changedKeys.push({ name, before, after });
       }
     });
-    return keyChanged;
+    return changedKeys;
+  },
+  /**
+   * Return content of the top level package.json
+   * @returns {object} Content of the package.json
+   **/
+  async getPackageJson() {
+    const rootPath = await root();
+    return await readJson(path.resolve(rootPath, 'package.json'));
   },
   __consoleInfo: consoleInfo,
   __consoleSuccess: consoleSuccess,
