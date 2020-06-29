@@ -1,7 +1,7 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "norska-config": "^0.12.5",
+    "norska-config": "^0.12.6",
     "norska-helper": "^0.12.0"
   },
   "description": "Pass images through Cloudinary",
@@ -23,7 +23,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.12.5",
+  "version": "0.12.6",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
