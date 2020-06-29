@@ -218,22 +218,22 @@ describe('norska-config', () => {
       expect(current.pulse.emit).toHaveBeenCalledTimes(1);
     });
   });
-  describe('rootDir', () => {
+  describe('root', () => {
     it('should return the root dir', async () => {
       await current.init({ root: tmpDirectory });
-      const actual = current.rootDir();
+      const actual = current.root();
       expect(actual).toEqual(tmpDirectory);
     });
     it('should return the current working directory by default', async () => {
       await current.init();
 
-      const actual = current.rootDir();
+      const actual = current.root();
       expect(actual).toEqual(process.cwd());
     });
   });
   describe('rootPath', () => {
     beforeEach(() => {
-      jest.spyOn(current, 'rootDir').mockReturnValue('/__root');
+      jest.spyOn(current, 'root').mockReturnValue('/__root');
     });
     it('should return an absolute path from the host', () => {
       const actual = current.rootPath('foo.txt');
@@ -317,7 +317,7 @@ describe('norska-config', () => {
   });
   describe('fileConfig', () => {
     beforeEach(async () => {
-      jest.spyOn(current, 'rootDir').mockReturnValue(tmpDirectory);
+      jest.spyOn(current, 'root').mockReturnValue(tmpDirectory);
       await emptyDir(current.rootPath());
     });
     it('should return {} if no config file', async () => {
@@ -330,7 +330,7 @@ describe('norska-config', () => {
       const configPath = current.rootPath('norska.config.js');
       await write('// anything', configPath);
 
-      const actual = await current.fileConfig(current.rootDir());
+      const actual = await current.fileConfig(current.root());
 
       expect(actual).toHaveProperty('foo', 'bar');
       expect(current.__require).toHaveBeenCalledWith(configPath);

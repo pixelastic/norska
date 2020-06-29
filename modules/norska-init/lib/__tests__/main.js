@@ -10,7 +10,7 @@ const isFile = require('firost/lib/isFile');
 describe('norska-init', () => {
   beforeEach(async () => {
     jest
-      .spyOn(config, 'rootDir')
+      .spyOn(config, 'root')
       .mockReturnValue(path.resolve('./tmp/norska-init/main'));
     jest
       .spyOn(current, '__spinner')
@@ -21,7 +21,7 @@ describe('norska-init', () => {
       js: { input: 'js/script.js' },
       css: { input: 'css/style.css' },
     });
-    await emptyDir(config.rootDir());
+    await emptyDir(config.root());
   });
   describe('templatePath', () => {
     it('should return the path to the template directory', () => {

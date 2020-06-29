@@ -238,7 +238,7 @@ describe('norska-css', () => {
       expect(actual).toMatchSnapshot();
     });
     it('should recompile the input file whenever the tailwind.config.js file is changed', async () => {
-      jest.spyOn(config, 'rootDir').mockReturnValue(tmpDirectory);
+      jest.spyOn(config, 'root').mockReturnValue(tmpDirectory);
       jest.spyOn(current, 'compile').mockReturnValue();
       await write('body {}', config.fromPath('style.css'));
       await write('// foo', config.rootPath('tailwind.config.js'));

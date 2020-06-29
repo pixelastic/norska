@@ -11,7 +11,7 @@ module.exports = {
    * Return absolute path to the host dir
    * @returns {string} Absolute path to host dir
    **/
-  rootDir() {
+  root() {
     return this.get('root');
   },
   /**
@@ -20,7 +20,7 @@ module.exports = {
    * @returns {string} Absolute path to the file
    **/
   rootPath(relativePath = '') {
-    return path.resolve(this.rootDir(), relativePath);
+    return path.resolve(this.root(), relativePath);
   },
   /**
    * Syntactic sugar to get the 'from' config key

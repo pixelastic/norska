@@ -23,7 +23,7 @@ module.exports = {
     );
 
     const templatePrefix = this.templatePath();
-    const rootPrefix = config.rootDir();
+    const rootPrefix = config.root();
 
     progress.tick('initializing new project');
     await pMap(files, async (source) => {

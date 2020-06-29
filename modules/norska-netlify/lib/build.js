@@ -97,7 +97,7 @@ module.exports = {
     );
 
     // Convert <root> and <from> in glob patterns
-    const norskaRoot = config.rootDir();
+    const norskaRoot = config.root();
     const repoRoot = await root(norskaRoot);
     const norskaFrom = config.from();
     const rawGlobs = config.get('netlify.deploy.files');

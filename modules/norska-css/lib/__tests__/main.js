@@ -54,7 +54,7 @@ describe('norska-css', () => {
   });
   describe('getTailwindConfigPath', () => {
     beforeEach(async () => {
-      jest.spyOn(config, 'rootDir').mockReturnValue(path.resolve(tmpDirectory));
+      jest.spyOn(config, 'root').mockReturnValue(path.resolve(tmpDirectory));
       await firost.emptyDir(tmpDirectory);
     });
     it('should return path to host file if available', async () => {

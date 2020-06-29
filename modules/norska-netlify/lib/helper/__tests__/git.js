@@ -31,9 +31,9 @@ describe('norska-netlify > git', () => {
       os.tmpdir(),
       'norska/norska-netlify/helpers/git'
     );
-    jest.spyOn(config, 'rootDir').mockReturnValue(tmpRepoPath);
-    await mkdirp(config.rootDir());
-    await emptyDir(config.rootDir());
+    jest.spyOn(config, 'root').mockReturnValue(tmpRepoPath);
+    await mkdirp(config.root());
+    await emptyDir(config.root());
   });
   describe('filesChangedSinceCommit', () => {
     it('should return all files added, deleted or edited', async () => {

@@ -8,9 +8,9 @@ const helper = require('../helper/index.js');
 describe('norska-netlify > enable', () => {
   beforeEach(async () => {
     jest
-      .spyOn(config, 'rootDir')
+      .spyOn(config, 'root')
       .mockReturnValue(path.resolve('./tmp/norska-init/netlify'));
-    await emptyDir(config.rootDir());
+    await emptyDir(config.root());
   });
   describe('isEnabled', () => {
     it('should return true if .netlify/state.json has an id', async () => {
