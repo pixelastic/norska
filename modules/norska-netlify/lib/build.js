@@ -7,7 +7,6 @@ const path = require('path');
 const multimatch = require('multimatch');
 const readJson = require('firost/lib/readJson');
 const exit = require('firost/lib/exit');
-const root = require('firost/lib/root');
 const consoleInfo = require('firost/lib/consoleInfo');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleError = require('firost/lib/consoleError');
@@ -78,9 +77,9 @@ module.exports = {
     const client = helper.apiClient();
     const deployId = helper.getEnvVar('DEPLOY_ID');
     this.__consoleError(`Cancelling deploy ${deployId}`);
-    const response = await client.cancelSiteDeploy({ deploy_id: deployId });
-    console.info(response);
-    exit(190);
+    // We call the API to cancel the build and stop it
+    await client.cancelSiteDeploy({ deploy_id: deployId });
+    exit(0);
   },
   /**
    * Returns the SHA of commit triggering the last deploy
@@ -100,16 +99,11 @@ module.exports = {
       lastDeployCommit
     );
 
-    // Convert <root> and <from> in glob patterns
-    const norskaRoot = config.root();
-    const repoRoot = await root(norskaRoot);
-    const norskaFrom = config.from();
+    // Convert  <from> in glob patterns
     const rawGlobs = config.get('netlify.deploy.files');
     const globPatterns = _.map(rawGlobs, (globPattern) => {
-      return _.chain(globPattern)
-        .replace('<root>', path.relative(repoRoot, norskaRoot))
-        .replace('<from>', path.relative(repoRoot, norskaFrom))
-        .value();
+      const from = path.relative(config.root(), config.from());
+      return _.replace(globPattern, '<from>', from);
     });
 
     return multimatch(changedFiles, globPatterns).sort();
@@ -143,8 +137,7 @@ module.exports = {
    * @returns {object} Content of the package.json
    **/
   async getPackageJson() {
-    const rootPath = await root(config.root());
-    return await readJson(path.resolve(rootPath, 'package.json'));
+    return await readJson(config.rootPath('package.json'));
   },
   __consoleInfo: consoleInfo,
   __consoleSuccess: consoleSuccess,

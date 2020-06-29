@@ -1,16 +1,10 @@
 const consoleInfo = require('firost/lib/consoleInfo');
+const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleError = require('firost/lib/consoleError');
 const run = require('firost/lib/run');
 const helper = require('./helper/index.js');
+const _ = require('golgoth/lib/lodash');
 module.exports = {
-  /**
-   * Check if the current directory is already linked to a netlify application
-   * @returns {boolean} true if already enabled, false otherwise
-   **/
-  async isEnabled() {
-    const siteId = await helper.siteId();
-    return !!siteId;
-  },
   /**
    * Enable Netlify on the current repo
    * Expected to be called by norska init
@@ -25,15 +19,44 @@ module.exports = {
       return false;
     }
 
-    // Stop if already enabled
-    if (await this.isEnabled()) {
-      this.__consoleInfo('Netlify already enabled');
-      return true;
+    await this.linkRepository();
+    await this.setEnvVariables();
+  },
+  async linkRepository() {
+    // Stop if already linked
+    const siteId = await helper.siteId();
+    if (siteId) {
+      this.__consoleInfo('Repository already linked to Netlify');
+      return;
     }
 
     await this.__run('yarn run netlify init', { shell: true, stdin: true });
   },
+  async setEnvVariables() {
+    // Updating a website config overrides all keys, so we first grab them and
+    // re-add them all
+    const client = helper.apiClient();
+    const siteId = await helper.siteId();
+    const siteData = await client.getSite({ site_id: siteId });
+    const currentEnvVars = _.get(siteData, 'build_settings.env', {});
+
+    const token = helper.token();
+    const envVars = {
+      ...currentEnvVars,
+      NETLIFY_AUTH_TOKEN: token,
+    };
+    await client.updateSite({
+      site_id: siteId,
+      body: {
+        build_settings: {
+          env: envVars,
+        },
+      },
+    });
+    this.__consoleSuccess('NETLIFY_AUTH_TOKEN saved to Netlify');
+  },
   __run: run,
   __consoleInfo: consoleInfo,
+  __consoleSuccess: consoleSuccess,
   __consoleError: consoleError,
 };

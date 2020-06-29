@@ -224,12 +224,6 @@ describe('norska-config', () => {
       const actual = current.root();
       expect(actual).toEqual(tmpDirectory);
     });
-    it('should return the current working directory by default', async () => {
-      await current.init();
-
-      const actual = current.root();
-      expect(actual).toEqual(process.cwd());
-    });
   });
   describe('rootPath', () => {
     beforeEach(() => {

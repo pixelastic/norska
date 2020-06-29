@@ -1,5 +1,4 @@
 const current = require('../enable');
-const writeJson = require('firost/lib/writeJson');
 const emptyDir = require('firost/lib/emptyDir');
 const path = require('path');
 const config = require('norska-config');
@@ -10,30 +9,17 @@ describe('norska-netlify > enable', () => {
     jest
       .spyOn(config, 'root')
       .mockReturnValue(path.resolve('./tmp/norska-init/netlify'));
+    jest.spyOn(current, '__consoleInfo').mockReturnValue();
+    jest.spyOn(current, '__consoleError').mockReturnValue();
+    jest.spyOn(current, '__consoleSuccess').mockReturnValue();
+    jest.spyOn(current, '__run').mockReturnValue();
     await emptyDir(config.root());
-  });
-  describe('isEnabled', () => {
-    it('should return true if .netlify/state.json has an id', async () => {
-      await writeJson({}, config.rootPath('.netlify/state.json'));
-      const actual = await current.isEnabled();
-      expect(actual).toEqual(false);
-    });
-    it('should return false if .netlify/state.json has no id', async () => {
-      await writeJson(
-        { siteId: 'uuid' },
-        config.rootPath('.netlify/state.json')
-      );
-      const actual = await current.isEnabled();
-      expect(actual).toEqual(true);
-    });
   });
   describe('enable', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'hasToken').mockReturnValue();
-      jest.spyOn(current, 'isEnabled').mockReturnValue();
-      jest.spyOn(current, '__run').mockReturnValue();
-      jest.spyOn(current, '__consoleInfo').mockReturnValue();
-      jest.spyOn(current, '__consoleError').mockReturnValue();
+      jest.spyOn(current, 'linkRepository').mockReturnValue();
+      jest.spyOn(current, 'setEnvVariables').mockReturnValue();
     });
     it('should fail early if no token', async () => {
       helper.hasToken.mockReturnValue(false);
@@ -41,17 +27,30 @@ describe('norska-netlify > enable', () => {
       expect(actual).toEqual(false);
       expect(current.__consoleError).toHaveBeenCalled();
     });
-    it('should stop early if already enabled', async () => {
+    it('should link the repository', async () => {
       helper.hasToken.mockReturnValue(true);
-      current.isEnabled.mockReturnValue(true);
-      const actual = await current.run();
-      expect(actual).toEqual(true);
+      await current.run();
+      expect(current.linkRepository).toHaveBeenCalled();
+    });
+    it('should set the env variables', async () => {
+      helper.hasToken.mockReturnValue(true);
+      await current.run();
+      expect(current.setEnvVariables).toHaveBeenCalled();
+    });
+  });
+  describe('linkRepository', () => {
+    beforeEach(async () => {
+      jest.spyOn(helper, 'siteId').mockReturnValue();
+    });
+    it('should stop early if already a siteId', async () => {
+      helper.siteId.mockReturnValue('site-id');
+      await current.linkRepository();
       expect(current.__consoleInfo).toHaveBeenCalled();
+      expect(current.__run).not.toHaveBeenCalled();
     });
     it('should init the netlify app', async () => {
-      helper.hasToken.mockReturnValue(true);
-      current.isEnabled.mockReturnValue(false);
-      await current.run();
+      helper.siteId.mockReturnValue(null);
+      await current.linkRepository();
       expect(current.__run).toHaveBeenCalledWith('yarn run netlify init', {
         shell: true,
         stdin: true,

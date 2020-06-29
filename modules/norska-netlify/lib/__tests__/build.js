@@ -62,17 +62,16 @@ describe('norska-netlify > build', () => {
   describe('importantFilesChanged', () => {
     it('should find all important files', async () => {
       await config.init({
-        root: './docs',
         netlify: netlifyConfig,
       });
       const importantFiles = [
         '.nvmrc',
-        'docs/norska.config.js',
-        'docs/src/assets/deep/file.png',
-        'docs/src/index.pug',
-        'docs/tailwind.config.js',
         'lambda/index.js',
         'netlify.toml',
+        'norska.config.js',
+        'src/assets/deep/file.png',
+        'src/index.pug',
+        'tailwind.config.js',
       ];
       const notImportantFiles = ['.prettierrc.js', 'README.md', 'scripts/test'];
       const changedFiles = [...importantFiles, ...notImportantFiles];

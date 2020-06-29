@@ -69,7 +69,7 @@ module.exports = {
    * ./scripts if needed
    **/
   async addScripts() {
-    const packagePath = config.rootPath('package.json');
+    const packagePath = await config.rootPath('package.json');
     const currentPackage = await readJson(packagePath);
     const currentScripts = _.get(currentPackage, 'scripts', {});
 

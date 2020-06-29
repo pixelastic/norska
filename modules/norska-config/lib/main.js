@@ -8,15 +8,15 @@ const helper = require('norska-helper');
 
 module.exports = {
   /**
-   * Return absolute path to the host dir
-   * @returns {string} Absolute path to host dir
+   * Return absolute path to the host root dir
+   * @returns {string} Absolute path to host root dir
    **/
   root() {
     return this.get('root');
   },
   /**
-   * Return an absolute path to a file at the root
-   * @param {string} relativePath Relative path from the root
+   * Return an absolute path to a file at the host root dir
+   * @param {string} relativePath Relative path from the host root
    * @returns {string} Absolute path to the file
    **/
   rootPath(relativePath = '') {
