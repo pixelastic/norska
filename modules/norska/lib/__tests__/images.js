@@ -3,6 +3,7 @@ const pProps = require('golgoth/lib/pProps');
 const _ = require('golgoth/lib/lodash');
 const uuid = require('firost/lib/uuid');
 const config = require('norska-config');
+const netlify = require('norska-netlify');
 const helper = require('norska-helper');
 const consoleInfo = require('firost/lib/consoleInfo');
 const emptyDir = require('firost/lib/emptyDir');
@@ -348,6 +349,7 @@ const testCases = initTestCases([
 describe('norska > images', () => {
   beforeAll(async () => {
     jest.spyOn(current, '__exit').mockReturnValue();
+    jest.spyOn(netlify, 'shouldBuild').mockReturnValue(true);
     const devResults = await getTestResults(testCases.raw, 'dev');
     const prodResults = await getTestResults(testCases.raw, 'prod');
     testCases.results = { ...devResults, ...prodResults };

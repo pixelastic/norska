@@ -5,6 +5,7 @@ const js = require('norska-js');
 const css = require('norska-css');
 const html = require('norska-html');
 const revv = require('norska-revv');
+const netlify = require('norska-netlify');
 const config = require('norska-config');
 const init = require('norska-init');
 const liveServer = require('live-server');
@@ -133,14 +134,6 @@ describe('norska', () => {
   describe('build', () => {
     const tmpDirectory = './tmp/norska/main';
     beforeEach(async () => {
-      jest.spyOn(config, 'sanityCheck').mockReturnValue();
-      await config.init({
-        from: `${tmpDirectory}/src`,
-        to: `${tmpDirectory}/dist`,
-      });
-      await emptyDir(tmpDirectory);
-    });
-    beforeEach(async () => {
       jest.spyOn(current, '__exit').mockReturnValue();
       jest.spyOn(current, '__consoleError').mockReturnValue();
       jest.spyOn(js, 'run').mockReturnValue();
@@ -148,6 +141,13 @@ describe('norska', () => {
       jest.spyOn(css, 'run').mockReturnValue();
       jest.spyOn(assets, 'run').mockReturnValue();
       jest.spyOn(revv, 'run').mockReturnValue();
+      jest.spyOn(config, 'sanityCheck').mockReturnValue();
+      jest.spyOn(netlify, 'shouldBuild').mockReturnValue(true);
+      await config.init({
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
+      });
+      await emptyDir(tmpDirectory);
     });
     it('should run js => html => css => assets => revv', async () => {
       let stack = [];
