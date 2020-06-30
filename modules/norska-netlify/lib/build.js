@@ -84,7 +84,15 @@ module.exports = {
    * @returns {string} Commit sha
    **/
   async getLastDeployCommit() {
-    return helper.getEnvVar('CACHED_COMMIT_REF');
+    const client = helper.apiClient();
+    const siteId = await helper.siteId();
+    const response = await client.listSiteDeploys({ site_id: siteId });
+    const currentCommit = await gitHelper.getCurrentCommit();
+    return _.chain(response)
+      .reject({ commit_ref: currentCommit })
+      .find({ state: 'ready', branch: 'master' })
+      .get('commit_ref')
+      .value();
   },
   /**
    * Returns the list of important files changed

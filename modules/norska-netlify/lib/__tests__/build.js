@@ -1,6 +1,6 @@
 const netlifyConfig = require('../config');
 const current = require('../build');
-const githubHelper = require('../helper/git');
+const gitHelper = require('../helper/git');
 const netlifyHelper = require('../helper/index');
 const norskaHelper = require('norska-helper');
 const config = require('norska-config');
@@ -76,7 +76,7 @@ describe('norska-netlify > build', () => {
       const notImportantFiles = ['.prettierrc.js', 'README.md', 'scripts/test'];
       const changedFiles = [...importantFiles, ...notImportantFiles];
       jest
-        .spyOn(githubHelper, 'filesChangedSinceCommit')
+        .spyOn(gitHelper, 'filesChangedSinceCommit')
         .mockReturnValue(changedFiles);
       const actual = await current.importantFilesChanged('abcdef');
       expect(actual).toEqual(importantFiles);
@@ -127,11 +127,36 @@ describe('norska-netlify > build', () => {
         netlify: netlifyConfig,
       });
       jest
-        .spyOn(githubHelper, 'jsonContentAtCommit')
+        .spyOn(gitHelper, 'jsonContentAtCommit')
         .mockReturnValue(packageBefore);
       jest.spyOn(current, 'getPackageJson').mockReturnValue(packageNow);
       const actual = await current.importantKeysChanged('abcdef');
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('getLastDeployCommit', () => {
+    const mockListSiteDeploys = jest.fn();
+    beforeEach(async () => {
+      jest
+        .spyOn(netlifyHelper, 'apiClient')
+        .mockReturnValue({ listSiteDeploys: mockListSiteDeploys });
+      jest.spyOn(netlifyHelper, 'siteId').mockReturnValue('site-id');
+      jest
+        .spyOn(gitHelper, 'getCurrentCommit')
+        .mockReturnValue('current-commit');
+    });
+    it('should return the last deploy on master branch that is not the current one', async () => {
+      mockListSiteDeploys.mockReturnValue([
+        { state: 'failed', branch: 'master', commit_ref: 'bad' },
+        { state: 'ready', branch: 'feat/something', commit_ref: 'bad' },
+        { state: 'ready', branch: 'master', commit_ref: 'current-commit' },
+        { state: 'ready', branch: 'master', commit_ref: 'good' },
+        { state: 'ready', branch: 'master', commit_ref: 'bad' },
+      ]);
+
+      const actual = await current.getLastDeployCommit();
+      expect(mockListSiteDeploys).toHaveBeenCalledWith({ site_id: 'site-id' });
+      expect(actual).toEqual('good');
     });
   });
 });

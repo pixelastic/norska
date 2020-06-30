@@ -42,4 +42,11 @@ module.exports = {
       return null;
     }
   },
+  /**
+   * Return the current commit sha
+   * @returns {string} Current commit sha
+   **/
+  async getCurrentCommit() {
+    return await this.runCommand('rev-parse HEAD');
+  },
 };
