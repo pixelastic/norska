@@ -16,9 +16,9 @@
     "norska-frontend": "^0.13.0",
     "norska-helper": "^0.13.0",
     "norska-html": "^0.13.0",
-    "norska-init": "^0.13.3",
+    "norska-init": "^0.13.4",
     "norska-js": "^0.13.0",
-    "norska-netlify": "^0.13.3",
+    "norska-netlify": "^0.13.4",
     "norska-revv": "^0.13.0"
   },
   "description": "Opinionated static website generator",
@@ -40,5 +40,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.13.3"
+  "version": "0.13.4"
 }
