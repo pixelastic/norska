@@ -12,6 +12,6 @@ module.exports = {
     ],
     // If any of those keys in package.json  has been modified since the last
     // deploy, we deploy again
-    keys: ['dependencies'],
+    keys: ['dependencies', 'scripts.build:prod'],
   },
 };

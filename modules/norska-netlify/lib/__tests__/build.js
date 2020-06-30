@@ -83,39 +83,55 @@ describe('norska-netlify > build', () => {
     });
   });
   describe('importantKeysChanged', () => {
-    it('should return all important keys changed', async () => {
+    it.each([
+      // title | before | now | expected
+      ['✘ version changed', { version: '1.0' }, { version: '1.1' }, []],
+      [
+        '✘ devDependencies changed',
+        { devDependencies: { aberlaas: '1.0' } },
+        { devDependencies: { aberlaas: '1.1' } },
+        [],
+      ],
+      [
+        '✔ dependencies changed',
+        { dependencies: { norska: '1.0' } },
+        { dependencies: { norska: '1.1' } },
+        [
+          {
+            before: { norska: '1.0' },
+            after: { norska: '1.1' },
+            name: 'dependencies',
+          },
+        ],
+      ],
+      [
+        '✗ dependencies unchanged',
+        { dependencies: { norska: '1.0' } },
+        { dependencies: { norska: '1.0' } },
+        [],
+      ],
+      [
+        '✔ scripts.build:prod changed',
+        { scripts: { 'build:prod': './scripts/build-prod' } },
+        { scripts: { 'build:prod': './scripts/build-prod-new' } },
+        [
+          {
+            before: './scripts/build-prod',
+            after: './scripts/build-prod-new',
+            name: 'scripts.build:prod',
+          },
+        ],
+      ],
+    ])('%s', async (_title, packageBefore, packageNow, expected) => {
       await config.init({
         netlify: netlifyConfig,
       });
-      const packageBefore = {
-        version: '1.0',
-        dependencies: {
-          norska: '1.0',
-        },
-        devDependencies: {
-          aberlaas: '1.0',
-        },
-      };
-      const packageNow = {
-        version: '1.1',
-        dependencies: {
-          norska: '1.1',
-        },
-        devDependencies: {
-          aberlaas: '1.1',
-        },
-      };
       jest
         .spyOn(githubHelper, 'jsonContentAtCommit')
         .mockReturnValue(packageBefore);
       jest.spyOn(current, 'getPackageJson').mockReturnValue(packageNow);
       const actual = await current.importantKeysChanged('abcdef');
-
-      expect(actual).toContainEqual({
-        name: 'dependencies',
-        before: { norska: '1.0' },
-        after: { norska: '1.1' },
-      });
+      expect(actual).toEqual(expected);
     });
   });
 });

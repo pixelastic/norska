@@ -124,7 +124,7 @@ module.exports = {
     _.each(keys, (name) => {
       const before = _.get(packageBefore, name, null);
       const after = _.get(packageNow, name, null);
-      if (before !== after) {
+      if (!_.isEqual(before, after)) {
         changedKeys.push({ name, before, after });
       }
     });
