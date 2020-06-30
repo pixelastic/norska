@@ -90,21 +90,19 @@ describe('norska-netlify > build', () => {
       const packageBefore = {
         version: '1.0',
         dependencies: {
-          lodash: '1.0',
+          norska: '1.0',
         },
         devDependencies: {
           aberlaas: '1.0',
-          norska: '1.0',
         },
       };
       const packageNow = {
         version: '1.1',
         dependencies: {
-          lodash: '1.1',
+          norska: '1.1',
         },
         devDependencies: {
           aberlaas: '1.1',
-          norska: '1.1',
         },
       };
       jest
@@ -115,13 +113,8 @@ describe('norska-netlify > build', () => {
 
       expect(actual).toContainEqual({
         name: 'dependencies',
-        before: { lodash: '1.0' },
-        after: { lodash: '1.1' },
-      });
-      expect(actual).toContainEqual({
-        name: 'devDependencies.norska',
-        before: '1.0',
-        after: '1.1',
+        before: { norska: '1.0' },
+        after: { norska: '1.1' },
       });
     });
   });
