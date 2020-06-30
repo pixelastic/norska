@@ -17,19 +17,17 @@ module.exports = {
    * @returns {boolean} True if should process the build, false otherwise
    **/
   async shouldBuild() {
+    // Only checks when running in production on Netlify
+    const isRunningRemotely = helper.isRunningRemotely();
+    const isProduction = norskaHelper.isProduction();
+    if (!(isRunningRemotely && isProduction)) {
+      return true;
+    }
+
     this.__consoleInfo(
       'Starting building for production on Netlify. Should it continue?'
     );
-    // Always build in dev
-    if (!norskaHelper.isProduction()) {
-      this.__consoleSuccess('Not running a production build');
-      return true;
-    }
-    // Always build outside of Netlify servers
-    if (!helper.isRunningRemotely()) {
-      this.__consoleSuccess('Not running on Netlify servers');
-      return true;
-    }
+
     // Build if never build before
     const lastDeployCommit = await this.getLastDeployCommit();
     if (!lastDeployCommit) {
