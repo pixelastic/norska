@@ -6349,10 +6349,10 @@ find-versions@^3.2.0:
   dependencies:
     semver-regex "^2.0.0"
 
-firost@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-1.10.0.tgz#efd3ad2db22437617fee3722d2bc940356a5a006"
-  integrity sha512-P0lZ4Rqku/urtaMmlLX6Q6npgWpOqMJTyr2Kbb9SY8x51FzXpA7F8uMchhntRBFa2deiqsebX6OmeEScnlT74w==
+firost@1.10.1:
+  version "1.10.1"
+  resolved "https://registry.npmjs.org/firost/-/firost-1.10.1.tgz#92172d3ddc470d0963388795921ffaeed45091fc"
+  integrity sha512-9A941MbFSpe7nqbjcOGV/kuoEk4Ve6is2T3mEC+nnRcFhOtUKfnsIldOKP4sCOUTBYJQm5ua37/9hy6Dge8rRA==
   dependencies:
     callsites "3.1.0"
     chokidar "3.4.0"
