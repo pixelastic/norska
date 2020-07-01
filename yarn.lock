@@ -6397,10 +6397,10 @@ firost@1.7.2:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.npmjs.org/firost/-/firost-1.8.3.tgz#56e4299084aaee3b14d2340e13ad1857dbd39e84"
-  integrity sha512-S0tbY3U8aCsT9mJuaB+RyGLNjrTHla6K7uVQrxVSHP5R6wmS6GSA0XFLkgFjDnpbFVnMlvgZo9fMC6Oq17+KvQ==
+firost@1.9.0:
+  version "1.9.0"
+  resolved "https://registry.npmjs.org/firost/-/firost-1.9.0.tgz#e567bf00f554a8d189d2c71c6da8ac65b007fe25"
+  integrity sha512-x8AV3YJQE7GzEos4JLmbM5IkOU4ixqfW0TPWl5FKDy2K305aLXyr1A5s2R7IyrpvsqecR5/OrR+q9eXti+7dQA==
   dependencies:
     callsites "3.1.0"
     chokidar "3.4.0"
@@ -6417,6 +6417,8 @@ firost@1.8.3:
     ora "4.0.4"
     pkg-dir "4.2.0"
     shelljs "0.8.4"
+    std-mocks "1.0.1"
+    strip-ansi "6.0.0"
     tempy "0.5.0"
     untildify "4.0.0"
     which "2.0.2"
