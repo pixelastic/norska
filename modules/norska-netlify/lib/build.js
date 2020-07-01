@@ -96,23 +96,27 @@ module.exports = {
   },
   /**
    * Returns the list of important files changed
-   * @param {string} lastDeployCommit Commit of the last deploy
+   * @param {string} commit Commit of the last deploy
    * @returns {Array} List of important filepath changed
-   **/
-  async importantFilesChanged(lastDeployCommit) {
+   */
+  async importantFilesChanged(commit) {
     // Get changed files
-    const changedFiles = await gitHelper.filesChangedSinceCommit(
-      lastDeployCommit
-    );
+    const changedFiles = await gitHelper.filesChangedSinceCommit(commit);
 
-    // Convert  <from> in glob patterns
+    // Convert glob patterns to absolute globs
+    const gitRoot = gitHelper.root();
+    const from = path.relative(config.root(), config.from());
     const rawGlobs = config.get('netlify.deploy.files');
     const globPatterns = _.map(rawGlobs, (globPattern) => {
-      const from = path.relative(config.root(), config.from());
-      return _.replace(globPattern, '<from>', from);
+      return path.resolve(gitRoot, _.replace(globPattern, '<from>', from));
     });
 
-    return multimatch(changedFiles, globPatterns).sort();
+    return _.chain(multimatch(changedFiles, globPatterns))
+      .map((filepath) => {
+        return path.relative(gitRoot, filepath);
+      })
+      .sort()
+      .value();
   },
   /**
    * Return all important keys changed

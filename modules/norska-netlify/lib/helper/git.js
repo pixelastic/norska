@@ -1,6 +1,8 @@
 const config = require('norska-config');
+const gitRoot = require('firost/lib/gitRoot');
 const run = require('firost/lib/run');
 const _ = require('golgoth/lib/lodash');
+const path = require('path');
 module.exports = {
   /**
    * Run a git command in the repo
@@ -20,12 +22,23 @@ module.exports = {
   /**
    * Returns a list of all files changed since the specific commit
    * @param {string} referenceCommit SHA of the reference commit
-   * @returns {Array} Array of filepaths, relative to the repo root
+   * @returns {Array} Array of absolute filepaths
    **/
   async filesChangedSinceCommit(referenceCommit) {
     const command = `diff --name-only ${referenceCommit} HEAD`;
     const result = await this.runCommand(command);
-    return _.chain(result).split('\n').compact().value();
+    const root = this.root();
+
+    return _.chain(result)
+      .split('\n')
+      .compact()
+      .map((filepath) => {
+        return path.resolve(root, filepath);
+      })
+      .value();
+  },
+  root() {
+    return gitRoot(config.root());
   },
   /**
    * Returns the file content of a specific path, at a specific commit

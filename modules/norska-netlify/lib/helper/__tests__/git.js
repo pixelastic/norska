@@ -6,9 +6,8 @@ const writeJson = require('firost/lib/writeJson');
 const mkdirp = require('firost/lib/mkdirp');
 const remove = require('firost/lib/remove');
 const emptyDir = require('firost/lib/emptyDir');
+const tmpDirectory = require('firost/lib/tmpDirectory');
 const pAll = require('golgoth/lib/pAll');
-const path = require('path');
-const os = require('os');
 
 const testRepo = async function () {
   await current.runCommand('init');
@@ -25,12 +24,9 @@ const testRepo = async function () {
   };
 };
 
+const tmpRepoPath = tmpDirectory('norska/norska-netlify/helpers/git/');
 describe('norska-netlify > git', () => {
   beforeEach(async () => {
-    const tmpRepoPath = path.resolve(
-      os.tmpdir(),
-      'norska/norska-netlify/helpers/git'
-    );
     jest.spyOn(config, 'root').mockReturnValue(tmpRepoPath);
     await mkdirp(config.root());
     await emptyDir(config.root());
@@ -53,7 +49,11 @@ describe('norska-netlify > git', () => {
       await repo.commitAll('Modifications');
 
       const actual = await current.filesChangedSinceCommit(input);
-      expect(actual).toEqual(['four', 'one', 'two']);
+      expect(actual).toEqual([
+        `${tmpRepoPath}/four`,
+        `${tmpRepoPath}/one`,
+        `${tmpRepoPath}/two`,
+      ]);
     });
     it('should ignore changes reverted along several commits', async () => {
       const repo = await testRepo();
