@@ -1,7 +1,8 @@
 const current = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const firost = require('firost');
+const emptyDir = require('firost/lib/emptyDir');
+const write = require('firost/lib/write');
 const path = require('path');
 
 describe('norska-css', () => {
@@ -55,11 +56,11 @@ describe('norska-css', () => {
   describe('getTailwindConfigPath', () => {
     beforeEach(async () => {
       jest.spyOn(config, 'root').mockReturnValue(path.resolve(tmpDirectory));
-      await firost.emptyDir(tmpDirectory);
+      await emptyDir(tmpDirectory);
     });
     it('should return path to host file if available', async () => {
       const expected = config.rootPath('tailwind.config.js');
-      await firost.write('foo', expected);
+      await write('foo', expected);
 
       const actual = await current.getTailwindConfigPath();
 
