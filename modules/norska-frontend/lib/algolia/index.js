@@ -12,6 +12,7 @@ module.exports = {
   __widgets: [],
   __transforms: {},
   __onDisplay: null,
+  __onSearch: null,
   /**
    * Init the search with credentials
    * @param {object} userCredentials object. Should include appId,
@@ -28,9 +29,26 @@ module.exports = {
       routing: {
         router: instantsearch.routers.history(router),
       },
+      searchFunction: (helper) => {
+        return this.searchFunction(helper);
+      },
     });
 
     return this;
+  },
+  /**
+   * Search function called on each search
+   * See
+   * https://www.algolia.com/doc/api-reference/widgets/instantsearch/js/#widget-param-searchfunction
+   * for details
+   * @param {object} helper Algolia helper object
+   **/
+  searchFunction(helper) {
+    const query = helper.state.query;
+    if (this.__onSearch) {
+      this.__onSearch(query);
+    }
+    helper.search();
   },
   /**
    * Define the list of widgets to use
@@ -58,6 +76,15 @@ module.exports = {
    **/
   onDisplay(onDisplay) {
     this.__onDisplay = onDisplay;
+    return this;
+  },
+  /**
+   * Define an optional method to call on each search
+   * @param {Function} onSearch Method to call on each search request
+   * @returns {object} Algolia instance, for chaining
+   **/
+  onSearch(onSearch) {
+    this.__onSearch = onSearch;
     return this;
   },
   /**
