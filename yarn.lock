@@ -14014,10 +14014,10 @@ table@^5.2.3, table@^5.4.6:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwind-config-norska@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.npmjs.org/tailwind-config-norska/-/tailwind-config-norska-0.2.4.tgz#22eb35ecd5077c714014215afa0d02851d71393e"
-  integrity sha512-1+eCCZakx4676CzfK5ykcOhLEnuSRaxBi+WEaQ/Xjl1cZCwti8bQhTxR6zudzZK1TnReIKdXhnFtsRbYPovntg==
+tailwind-config-norska@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.npmjs.org/tailwind-config-norska/-/tailwind-config-norska-0.2.5.tgz#e9174b43c47dd821c23beade990efc38ea1579f4"
+  integrity sha512-a5p1zIsMRYd8Kv+QjHT+luI7HhJkluQG9qnFPoDbb7Y+KijNdkauZfhQah5HcuFL0o2MoHM3UTXA1O0aW9sD9w==
   dependencies:
     golgoth "1.3.0"
     hex-rgb "4.1.0"
