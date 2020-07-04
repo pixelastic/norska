@@ -10,9 +10,9 @@
     "minimist": "1.2.5",
     "norska-assets": "^0.13.6",
     "norska-cloudinary": "^0.13.6",
-    "norska-cms": "^0.13.7",
+    "norska-cms": "^0.13.8",
     "norska-config": "^0.13.6",
-    "norska-css": "^0.13.7",
+    "norska-css": "^0.13.8",
     "norska-frontend": "^0.13.7",
     "norska-helper": "^0.13.0",
     "norska-html": "^0.13.7",
@@ -40,5 +40,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.13.7"
+  "version": "0.13.8"
 }
