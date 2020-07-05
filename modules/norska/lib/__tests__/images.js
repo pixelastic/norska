@@ -318,7 +318,7 @@ const testCasesScreenshot = [
     destination: 'index.pug',
     input: 'img(src=screenshot())',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;screenshot=true&amp;url=http://here.com/index.html"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=http%3A%2F%2Fhere.com%2Findex.html"/>',
   },
   // Works in subfolders
   {
@@ -326,7 +326,7 @@ const testCasesScreenshot = [
     destination: 'subfolder/index.pug',
     input: 'img(src=screenshot())',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;screenshot=true&amp;url=http://here.com/subfolder/index.html"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=http%3A%2F%2Fhere.com%2Fsubfolder%2Findex.html"/>',
   },
   // Allow passing custom url
   {
@@ -334,7 +334,7 @@ const testCasesScreenshot = [
     destination: 'index.pug',
     input: 'img(src=screenshot("https://there.com/"))',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;screenshot=true&amp;url=https://there.com/"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=https%3A%2F%2Fthere.com"/>',
   },
 ];
 const testCases = initTestCases([
@@ -350,6 +350,7 @@ describe('norska > images', () => {
   beforeAll(async () => {
     jest.spyOn(current, '__exit').mockReturnValue();
     jest.spyOn(netlify, 'shouldBuild').mockReturnValue(true);
+    jest.spyOn(helper, 'latestGitCommit').mockReturnValue('abcdef');
     const devResults = await getTestResults(testCases.raw, 'dev');
     const prodResults = await getTestResults(testCases.raw, 'prod');
     testCases.results = { ...devResults, ...prodResults };

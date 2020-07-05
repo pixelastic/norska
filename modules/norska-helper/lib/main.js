@@ -1,4 +1,5 @@
 const _ = require('golgoth/lib/lodash');
+const run = require('firost/lib/run');
 
 module.exports = {
   /**
@@ -16,5 +17,16 @@ module.exports = {
   isProduction() {
     const keywords = ['prod', 'production'];
     return _.includes(keywords, this.currentEnvironment());
+  },
+  /**
+   * Return the current git commit
+   * @returns {string} git SHA
+   **/
+  async latestGitCommit() {
+    const { stdout } = await run('git rev-parse --short HEAD', {
+      stdout: false,
+      stderr: false,
+    });
+    return stdout;
   },
 };

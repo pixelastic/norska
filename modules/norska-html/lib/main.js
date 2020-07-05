@@ -16,7 +16,6 @@ const spinner = require('firost/lib/spinner');
 const glob = require('firost/lib/glob');
 const watch = require('firost/lib/watch');
 const read = require('firost/lib/read');
-const run = require('firost/lib/run');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleWarn = require('firost/lib/consoleWarn');
 const consoleError = require('firost/lib/consoleError');
@@ -60,7 +59,7 @@ module.exports = {
 
     // Runtime data, like compiled script names to include
     const runtimeData = config.get('runtime', {});
-    runtimeData.gitCommit = await this.latestGitCommit();
+    runtimeData.gitCommit = await helper.latestGitCommit();
 
     // Tweaks that are helpful to have in every norska build
     const tweaksData = {
@@ -113,17 +112,6 @@ module.exports = {
     }
     // Add mixins at the very top
     return `${builtinMixins}\n\n${rawSource}`;
-  },
-  /**
-   * Return the current git commit
-   * @returns {string} git SHA
-   **/
-  async latestGitCommit() {
-    const { stdout } = await run('git rev-parse --short HEAD', {
-      stdout: false,
-      stderr: false,
-    });
-    return stdout;
   },
   /**
    * Write an html to disk from a pug file
