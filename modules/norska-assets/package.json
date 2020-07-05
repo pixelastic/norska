@@ -3,7 +3,7 @@
   "dependencies": {
     "firost": "1.10.1",
     "golgoth": "1.3.0",
-    "norska-config": "^0.13.6"
+    "norska-config": "^0.13.9"
   },
   "description": "Copy assets from source to destination",
   "files": [
@@ -21,5 +21,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.13.6"
+  "version": "0.13.9"
 }

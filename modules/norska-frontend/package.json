@@ -5,7 +5,7 @@
     "instantsearch.js": "4.7.0",
     "lazysizes": "5.2.2",
     "lodash-es": "4.17.15",
-    "norska-cloudinary": "^0.13.6"
+    "norska-cloudinary": "^0.13.9"
   },
   "description": "Frontend helpers to be used in live website",
   "files": [
@@ -26,5 +26,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.13.7"
+  "version": "0.13.9"
 }

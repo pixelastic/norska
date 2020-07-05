@@ -8,12 +8,12 @@
     "markdown-it": "11.0.0",
     "markdown-it-highlightjs": "3.2.0",
     "normalize-url": "5.0.0",
-    "norska-cloudinary": "^0.13.6",
-    "norska-config": "^0.13.6",
-    "norska-data": "^0.13.6",
-    "norska-frontend": "^0.13.7",
-    "norska-helper": "^0.13.0",
-    "norska-revv": "^0.13.6",
+    "norska-cloudinary": "^0.13.9",
+    "norska-config": "^0.13.9",
+    "norska-data": "^0.13.9",
+    "norska-frontend": "^0.13.9",
+    "norska-helper": "^0.13.9",
+    "norska-revv": "^0.13.9",
     "pug": "3.0.0"
   },
   "description": "Convert .pug files to .html files",
@@ -37,5 +37,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.13.7"
+  "version": "0.13.9"
 }
