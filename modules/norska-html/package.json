@@ -7,6 +7,7 @@
     "highlightjs-pug": "0.0.2",
     "markdown-it": "11.0.0",
     "markdown-it-highlightjs": "3.2.0",
+    "normalize-url": "5.0.0",
     "norska-cloudinary": "^0.13.6",
     "norska-config": "^0.13.6",
     "norska-data": "^0.13.6",

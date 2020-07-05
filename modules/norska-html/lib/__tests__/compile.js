@@ -418,4 +418,17 @@ describe('norska-html > compile', () => {
       expect(actual).toEndWith('})()</p>');
     });
   });
+  describe('runtime', () => {
+    it('shoud contain the last git commit', async () => {
+      const input = config.fromPath('index.pug');
+      const output = config.toPath('index.html');
+      await write('p=runtime.gitCommit', input);
+
+      await current.compile(input);
+
+      const actual = await read(output);
+      const expected = new RegExp('^<p>[0-9a-f]{7}</p>$');
+      expect(actual).toMatch(expected);
+    });
+  });
 });

@@ -16,6 +16,7 @@ const spinner = require('firost/lib/spinner');
 const glob = require('firost/lib/glob');
 const watch = require('firost/lib/watch');
 const read = require('firost/lib/read');
+const run = require('firost/lib/run');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleWarn = require('firost/lib/consoleWarn');
 const consoleError = require('firost/lib/consoleError');
@@ -59,6 +60,7 @@ module.exports = {
 
     // Runtime data, like compiled script names to include
     const runtimeData = config.get('runtime', {});
+    runtimeData.gitCommit = await this.latestGitCommit();
 
     // Tweaks that are helpful to have in every norska build
     const tweaksData = {
@@ -113,10 +115,22 @@ module.exports = {
     return `${builtinMixins}\n\n${rawSource}`;
   },
   /**
+   * Return the current git commit
+   * @returns {string} git SHA
+   **/
+  async latestGitCommit() {
+    const { stdout } = await run('git rev-parse --short HEAD', {
+      stdout: false,
+      stderr: false,
+    });
+    return stdout;
+  },
+  /**
    * Write an html to disk from a pug file
    * @param {string} source Path to the source pug file
    * @param {string} destination Path to the destination html file
    * @param {object} pageData Data to pass to the page
+   * @returns {boolean} True on success
    **/
   async createPage(source, destination, pageData = {}) {
     const absoluteDestination = config.toPath(destination);

@@ -1,4 +1,7 @@
+const cloudinary = require('norska-cloudinary');
 const _ = require('golgoth/lib/lodash');
+const { URL } = require('url');
+const normalizeUrl = require('normalize-url');
 const pugCloudinary = require('./cloudinary');
 
 /**
@@ -8,36 +11,63 @@ const pugCloudinary = require('./cloudinary');
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Final url of the image
  */
-module.exports = function (userUrl, context) {
-  let fullUrl = userUrl;
-  if (!fullUrl) {
-    // Get calling url
-    const defaultUrl = _.get(context, 'data.data.site.defaultUrl');
-    const urlHere = _.get(context, 'data.url.here');
-    fullUrl = `${defaultUrl}${urlHere}`;
-  }
+const screenshot = (userUrl, context) => {
+  const pageUrl = userUrl || screenshot.currentUrl(context);
+  const microlinkUrl = screenshot.microlink(pageUrl);
 
-  // Build microlink screenshot link
-  const microlinkOptions = {
-    url: fullUrl,
-    screenshot: true,
-    meta: false,
-    embed: 'screenshot.url',
-  };
-  const microlinkQueryString = _.chain(microlinkOptions)
-    .map((value, key) => {
-      return `${key}=${value}`;
-    })
-    .sort()
-    .join('&')
-    .value();
-  const microlinkUrl = `https://api.microlink.io/?${microlinkQueryString}`;
-
-  // If Cloudinary is configured, we pass the url through it, otherwise we stay
-  // with the direct microlink url
-  try {
-    return pugCloudinary(microlinkUrl, { width: 800 }, context);
-  } catch (_err) {
+  // Without Cloudinary, we use the microlink url directly
+  if (!screenshot.cloudinaryEnabled()) {
     return microlinkUrl;
   }
+
+  // With Cloudinary, we add a version in the url to bypass the cache on each
+  // deploy
+  const revvedUrl = screenshot.revvedUrl(microlinkUrl, context);
+  return pugCloudinary(revvedUrl, { width: 800 }, context);
 };
+/**
+ * Add the last commit to the search parameters of the URL so it's cached as
+ * a different resource
+ * @param {string} originUrl Url to revv
+ * @param {object} context Pug context: .data, .methods, .destination
+ * @returns {string} Revved url
+ **/
+screenshot.revvedUrl = (originUrl, context) => {
+  const newUrl = new URL(originUrl);
+  const gitCommit = _.get(context, 'data.runtime.gitCommit');
+  newUrl.searchParams.append('norskaGitCommit', gitCommit);
+  return normalizeUrl(newUrl.toString());
+};
+/**
+ * Returns an url of a screenshot of the specified url, using microlink
+ * @param {string} originUrl Webpage to take a screenshot ot
+ * @returns {string} Url of the screenshot
+ **/
+screenshot.microlink = (originUrl) => {
+  const newUrl = new URL('https://api.microlink.io/');
+  newUrl.search = new URLSearchParams({
+    embed: 'screenshot.url',
+    meta: false,
+    screenshot: true,
+    url: normalizeUrl(originUrl),
+  });
+  return normalizeUrl(newUrl.toString());
+};
+/**
+ * Return the complete absolute url of the current page
+ * @param {object} context Pug context: .data, .methods, .destination
+ * @returns {string} Full url of the current page
+ **/
+screenshot.currentUrl = (context) => {
+  const defaultUrl = _.get(context, 'data.data.site.defaultUrl');
+  const here = _.get(context, 'data.url.here');
+  return `${defaultUrl}${here}`;
+};
+/**
+ * Check if Cloudinary is enabled
+ * @returns {boolean} True if enabled, false otherwise
+ **/
+screenshot.cloudinaryEnabled = () => {
+  return _.get(cloudinary, 'config.enable');
+};
+module.exports = screenshot;
