@@ -9,19 +9,20 @@ mixin norska_head()
     } = mixinNorskaHeadHelper(meta, data.site, url);
 
     image = image || screenshot();
-
-  meta(charset='utf-8')
-  meta('http-equiv'='x-ua-compatible', content='ie-edge')
-  title=title
-  meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
-  meta(name='description', content=description)
-  meta(name='twitter:card', content='summary_large_image')
-  meta(name='twitter:site', content=twitter)
-  meta(name='twitter:creator', content=twitter)
-  meta(property='og:url', content=pageUrl)
-  meta(property='og:title', content=title)
-  meta(property='og:description', content=description)
-  meta(property='og:image', content!=image)
-  script!=tweaks.ensureUrlTrailingSlashSource
-  link(rel="shortcut icon", href=`${url.pathToRoot}favicon.png`)
-  link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
+  head
+    meta(charset='utf-8')
+    meta('http-equiv'='x-ua-compatible', content='ie-edge')
+    title=title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
+    meta(name='description', content=description)
+    meta(name='twitter:card', content='summary_large_image')
+    meta(name='twitter:site', content=twitter)
+    meta(name='twitter:creator', content=twitter)
+    meta(property='og:url', content=pageUrl)
+    meta(property='og:title', content=title)
+    meta(property='og:description', content=description)
+    meta(property='og:image', content!=image)
+    script!=tweaks.ensureUrlTrailingSlashSource
+    link(rel="shortcut icon", href=`${url.pathToRoot}favicon.png`)
+    link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
+    block
