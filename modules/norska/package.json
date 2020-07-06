@@ -16,7 +16,7 @@
     "norska-frontend": "^0.14.0",
     "norska-helper": "^0.14.0",
     "norska-html": "^0.14.0",
-    "norska-init": "^0.14.0",
+    "norska-init": "^0.14.1",
     "norska-js": "^0.14.0",
     "norska-netlify": "^0.14.0",
     "norska-revv": "^0.14.0"
@@ -40,5 +40,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.14.0"
+  "version": "0.14.1"
 }
