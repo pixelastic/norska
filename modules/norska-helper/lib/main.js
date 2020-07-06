@@ -23,10 +23,13 @@ module.exports = {
    * @returns {string} git SHA
    **/
   async latestGitCommit() {
-    const { stdout } = await run('git rev-parse --short HEAD', {
-      stdout: false,
-      stderr: false,
-    });
-    return stdout;
+    if (!this.__latestGitCommit) {
+      const { stdout } = await run('git rev-parse --short HEAD', {
+        stdout: false,
+        stderr: false,
+      });
+      this.__latestGitCommit = stdout;
+    }
+    return this.__latestGitCommit;
   },
 };

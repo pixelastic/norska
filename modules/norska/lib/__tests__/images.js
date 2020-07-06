@@ -318,7 +318,7 @@ const testCasesScreenshot = [
     destination: 'index.pug',
     input: 'img(src=screenshot())',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=http%3A%2F%2Fhere.com%2Findex.html"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=http%3A%2F%2Fhere.com"/>',
   },
   // Works in subfolders
   {
@@ -326,7 +326,7 @@ const testCasesScreenshot = [
     destination: 'subfolder/index.pug',
     input: 'img(src=screenshot())',
     expected:
-      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=http%3A%2F%2Fhere.com%2Fsubfolder%2Findex.html"/>',
+      '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=http%3A%2F%2Fhere.com%2Fsubfolder"/>',
   },
   // Allow passing custom url
   {

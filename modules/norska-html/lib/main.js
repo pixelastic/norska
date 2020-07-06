@@ -72,6 +72,7 @@ module.exports = {
       url: urlData,
       runtime: runtimeData,
       tweaks: tweaksData,
+      meta: {}, // Empty so each page can fill it
     };
 
     return {

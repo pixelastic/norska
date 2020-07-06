@@ -10,27 +10,8 @@ const { isEmpty, pick, merge, map } = require('lodash-es');
 module.exports = {
   /**
    * Create a full url from a routeState
-   * @param {object} {routeState} Object containing all the filters
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState} .routeState
-   * @param {routeState}.routeState
+   * @param {object} obj Object as defined in https://www.algolia.com/doc/api-reference/widgets/history-router/js/#widget-param-createurl
+   * @param {object} obj.routeState routeState object
    * @returns {string} Full url
    */
   createURL({ routeState }) {
@@ -68,27 +49,8 @@ module.exports = {
   },
   /**
    * Parse a full url to a routeState
-   * @param {object} {location} Page location object
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location} .location
-   * @param {location}.location
+   * @param {object} obj Object as defined in https://www.algolia.com/doc/api-reference/widgets/history-router/js/#widget-param-parseurl
+   * @param {object} obj.location location object
    * @returns {object} Route state from the url
    */
   parseURL({ location }) {

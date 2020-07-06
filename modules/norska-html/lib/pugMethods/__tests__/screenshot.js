@@ -67,7 +67,7 @@ describe('norska-html > pugMethods > screenshot', () => {
       it('should use microlink if no cloudinary configured', async () => {
         const actual = current(null, context);
         const expected =
-          'https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Ffoo%2Findex.html';
+          'https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Ffoo';
         expect(actual).toEqual(expected);
       });
     });
@@ -79,7 +79,7 @@ describe('norska-html > pugMethods > screenshot', () => {
         // input | output
         [
           null,
-          'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Ffoo%2Findex.html',
+          'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Ffoo',
         ],
         [
           'https://there.com/',

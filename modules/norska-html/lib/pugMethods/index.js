@@ -5,6 +5,7 @@ const pugInclude = require('./include.js');
 const pugLazyload = require('./lazyload.js');
 const pugMarkdown = require('./markdown.js');
 const pugMixinImgHelper = require('./mixinImgHelper.js');
+const pugMixinNorskaHeadHelper = require('./mixinNorskaHeadHelper.js');
 const pugRemoteUrl = require('./remoteUrl.js');
 const pugRevv = require('./revv.js');
 const pugScreenshot = require('./screenshot.js');
@@ -31,7 +32,6 @@ module.exports = function (data, destination) {
       return pugLazyload(url, options, context);
     },
     markdown: pugMarkdown,
-    mixinImgHelper: _.partialRight(pugMixinImgHelper, context),
     remoteUrl: _.partialRight(pugRemoteUrl, context),
     revv(filepath, options) {
       return pugRevv(filepath, options, context);
@@ -40,6 +40,10 @@ module.exports = function (data, destination) {
       return pugScreenshot(url, context);
     },
     _,
+
+    // These methods are only used in specific mixins
+    mixinImgHelper: _.partialRight(pugMixinImgHelper, context),
+    mixinNorskaHeadHelper: _.partialRight(pugMixinNorskaHeadHelper, context),
   };
   // We re-add methods into context so it's correctly recursively passed to each
   // method

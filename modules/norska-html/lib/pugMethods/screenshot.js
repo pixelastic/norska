@@ -1,7 +1,7 @@
 const cloudinary = require('norska-cloudinary');
 const _ = require('golgoth/lib/lodash');
 const { URL } = require('url');
-const normalizeUrl = require('normalize-url');
+const normalizeUrl = require('firost/lib/normalizeUrl');
 const pugCloudinary = require('./cloudinary');
 
 /**

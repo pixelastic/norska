@@ -1,35 +1,8 @@
-block config
-  //- Empty on purpose so each page can update its variables
-
-- pageAuthor = pageAuthor || data.site.defaultAuthor
-- pageDescription = pageDescription || data.site.defaultDescription
-- pageTitle = pageTitle || data.site.defaultTitle
-- pageTwitter = pageTwitter || data.site.defaultTwitter
-- pageUrl = pageUrl || data.site.defaultUrl
-- pageImage = pageImage || screenshot()
-
 doctype html
 html(lang='en')
-  head
-    meta(charset='utf-8')
-    meta('http-equiv'='x-ua-compatible', content='ie-edge')
-    title=pageTitle
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
-    meta(name='description', content=pageDescription)
-    meta(name='twitter:card', content='summary_large_image')
-    meta(name='twitter:site', content=pageTwitter)
-    meta(name='twitter:creator', content=pageTwitter)
-    meta(property='og:url', content=pageUrl)
-    meta(property='og:title', content=pageTitle)
-    meta(property='og:description', content=pageDescription)
-    meta(property='og:image', content!=pageImage)
-    script!=tweaks.ensureUrlTrailingSlashSource
-    link(rel="shortcut icon", href=`${url.pathToRoot}favicon.png`)
-    link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
-    body.arial
-      include /_includes/header
-      .container.mx-auto.p-3.mt-8
-        block content
-      each jsFile in runtime.jsFiles
-        script(src=`${url.pathToRoot}${jsFile}`)
-
+  +norska_head
+  body
+    include /_includes/header
+    .container.mx-auto.p-3.mt-8
+      block content
+  +norska_scripts
