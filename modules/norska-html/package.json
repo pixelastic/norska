@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "ensure-url-trailing-slash": "0.1.4",
-    "firost": "1.11.0",
+    "firost": "1.11.1",
     "golgoth": "1.3.0",
     "highlightjs-pug": "0.0.2",
     "markdown-it": "11.0.0",

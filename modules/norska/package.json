@@ -4,7 +4,7 @@
     "norska": "./bin/norska"
   },
   "dependencies": {
-    "firost": "1.11.0",
+    "firost": "1.11.1",
     "golgoth": "1.3.0",
     "live-server": "1.2.1",
     "minimist": "1.2.5",
