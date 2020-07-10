@@ -5,6 +5,7 @@ const credentials = require('./credentials');
 const transformHits = require('./transformHits');
 const { filter } = require('lodash-es');
 const hitsWidget = require('./widgets').hits;
+const infiniteHitsWidget = require('./widgets').infiniteHits;
 const configureWidget = require('./widgets').configure;
 
 module.exports = {
@@ -112,9 +113,10 @@ module.exports = {
     // Finding the hits record and enhancing the results
     const widgets = this.__widgets.map((widget) => {
       const isHitWidget = widget.type === hitsWidget;
+      const isInfiniteHitWidget = widget.type === infiniteHitsWidget;
 
       // Transforming hits before display
-      if (isHitWidget) {
+      if (isHitWidget || isInfiniteHitWidget) {
         widget.options.transformItems = (items) => {
           return transformHits(items, this.__transforms, this.__onDisplay);
         };
