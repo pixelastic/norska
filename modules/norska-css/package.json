@@ -13,7 +13,7 @@
     "postcss-nested": "4.2.3",
     "purge-from-html": "1.0.3",
     "tailwind-config-norska": "0.3.0",
-    "tailwindcss": "1.4.6"
+    "tailwindcss": "1.5.0"
   },
   "description": "Compile .css files through postcss and Tailwind",
   "files": [
