@@ -10,13 +10,13 @@
     "minimist": "1.2.5",
     "norska-assets": "^0.14.3",
     "norska-cloudinary": "^0.14.3",
-    "norska-cms": "^0.14.4",
+    "norska-cms": "^0.14.5",
     "norska-config": "^0.14.3",
-    "norska-css": "^0.14.4",
+    "norska-css": "^0.14.5",
     "norska-frontend": "^0.14.4",
     "norska-helper": "^0.14.3",
     "norska-html": "^0.14.4",
-    "norska-init": "^0.14.3",
+    "norska-init": "^0.14.5",
     "norska-js": "^0.14.3",
     "norska-netlify": "^0.14.3",
     "norska-revv": "^0.14.3"
@@ -40,5 +40,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.14.4"
+  "version": "0.14.5"
 }
