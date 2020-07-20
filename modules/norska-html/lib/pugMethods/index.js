@@ -3,7 +3,7 @@ const pugCloudinary = require('./cloudinary.js');
 const pugImg = require('./img.js');
 const pugInclude = require('./include.js');
 const pugLazyload = require('./lazyload.js');
-const pugMarkdown = require('./markdown.js');
+const pugMarkdown = require('./markdown');
 const pugMixinImgHelper = require('./mixinImgHelper.js');
 const pugMixinNorskaHeadHelper = require('./mixinNorskaHeadHelper.js');
 const pugRemoteUrl = require('./remoteUrl.js');
@@ -31,7 +31,9 @@ module.exports = function (data, destination) {
     lazyload(url, options) {
       return pugLazyload(url, options, context);
     },
-    markdown: pugMarkdown,
+    markdown(input) {
+      return pugMarkdown(input, context);
+    },
     remoteUrl: _.partialRight(pugRemoteUrl, context),
     revv(filepath, options) {
       return pugRevv(filepath, options, context);

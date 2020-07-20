@@ -337,6 +337,22 @@ const testCasesScreenshot = [
       '<img src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&amp;meta=false&amp;norskaGitCommit=abcdef&amp;screenshot=true&amp;url=https%3A%2F%2Fthere.com"/>',
   },
 ];
+const testCasesMarkdown = [
+  {
+    env: 'dev',
+    destination: 'index.pug',
+    input: 'div!=markdown("![title](https://there.com/foo.png)")',
+    expected:
+      '<div><p><img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" alt="title" class="lazyload" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" loading="lazy"></p></div>',
+  },
+  {
+    env: 'prod',
+    destination: 'bar/index.pug',
+    input: 'div!=markdown("![title](foo.png)")',
+    expected:
+      '<div><p><img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.h4sh.png" alt="title" class="lazyload" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png" loading="lazy"></p></div>',
+  },
+];
 const testCases = initTestCases([
   ...testCasesCloudinary,
   ...testCasesRevv,
@@ -344,6 +360,7 @@ const testCases = initTestCases([
   ...testCasesLazyload,
   ...testCasesImgMixin,
   ...testCasesScreenshot,
+  ...testCasesMarkdown,
 ]);
 
 describe('norska > images', () => {
@@ -435,7 +452,7 @@ async function getTestResults(allTestCases, env) {
   // Write test files
   await pProps(testCasesByFile, async (testCase, pugPath) => {
     const output = config.fromPath(pugPath);
-    const pugContent = testCase.inputs.join('\n');
+    const pugContent = testCase.inputs.join('\n// SPLIT\n');
     await write(pugContent, output);
   });
   // Write data
@@ -466,9 +483,8 @@ async function getTestResults(allTestCases, env) {
     const htmlPath = pugPath.replace(/\.pug$/, '.html');
     const htmlContent = await read(config.toPath(htmlPath));
     const actuals = _.chain(htmlContent)
-      .split('/>')
+      .split('<!-- SPLIT-->')
       .compact()
-      .map((item) => `${item}/>`)
       .value();
     testCase.actuals = actuals;
   });

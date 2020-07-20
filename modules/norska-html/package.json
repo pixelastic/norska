@@ -22,6 +22,7 @@
   "files": [
     "lib/*.js",
     "lib/pugMethods/*.js",
+    "lib/pugMethods/markdown/*.js",
     "lib/pugMixins/*.pug"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
