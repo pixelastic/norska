@@ -3,7 +3,7 @@ module.exports = {
     // Static files
     '**/*.{html,txt}',
     // Images
-    '**/*.{ico,jpg,gif,png,svg}',
+    '**/*.{ico,jpg,jpeg,gif,png,svg}',
     // Fonts
     '**/*.{eot,otf,ttf,woff,woff2}',
     // Documents
