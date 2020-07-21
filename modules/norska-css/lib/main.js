@@ -106,6 +106,7 @@ module.exports = {
 
   /**
    * Compile all source CSS to destination
+   * @returns {boolean} False if CSS compilation is skipped
    **/
   async run() {
     const timer = timeSpan();
