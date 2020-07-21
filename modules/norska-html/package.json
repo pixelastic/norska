@@ -10,7 +10,7 @@
     "norska-cloudinary": "^0.14.3",
     "norska-config": "^0.14.3",
     "norska-data": "^0.14.3",
-    "norska-frontend": "^0.14.4",
+    "norska-frontend": "^0.14.6",
     "norska-helper": "^0.14.3",
     "norska-revv": "^0.14.3",
     "pug": "3.0.0"
@@ -37,5 +37,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.14.4"
+  "version": "0.14.6"
 }
