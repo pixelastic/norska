@@ -350,21 +350,51 @@ const testCasesMarkdown = [
     destination: 'index.pug',
     input: 'div!=markdown("![title](foo.png)")',
     expected:
-      '<div><p><img src="foo.png" alt="title" class="lazyload" data-src="foo.png" loading="lazy"></p></div>',
+      '<div><p><img src="./foo.png" alt="title" class="lazyload" data-src="./foo.png" loading="lazy"></p></div>',
   },
   {
     env: 'dev',
     destination: 'index.pug',
-    input: 'div!=markdown("![title](foo.png)", { basePath: "bar" })',
+    input:
+      'div!=markdown("![title](subimage.png)", { basePath: "./subfolder" })',
     expected:
-      '<div><p><img src="bar/foo.png" alt="title" class="lazyload" data-src="bar/foo.png" loading="lazy"></p></div>',
+      '<div><p><img src="./subfolder/subimage.png" alt="title" class="lazyload" data-src="./subfolder/subimage.png" loading="lazy"></p></div>',
+  },
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'div!=markdown("![title](foo.png)", { basePath: ".." })',
+    expected:
+      '<div><p><img src="../foo.png" alt="title" class="lazyload" data-src="../foo.png" loading="lazy"></p></div>',
+  },
+  {
+    env: 'dev',
+    destination: 'subfolder/index.pug',
+    input: 'div!=markdown("![title](subimage.png)")',
+    expected:
+      '<div><p><img src="./subimage.png" alt="title" class="lazyload" data-src="./subimage.png" loading="lazy"></p></div>',
   },
   {
     env: 'prod',
-    destination: 'bar/index.pug',
+    destination: 'index.pug',
     input: 'div!=markdown("![title](foo.png)")',
     expected:
       '<div><p><img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/foo.h4sh.png" alt="title" class="lazyload" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/foo.h4sh.png" loading="lazy"></p></div>',
+  },
+  {
+    env: 'prod',
+    destination: 'subfolder/index.pug',
+    input: 'div!=markdown("![title](subimage.png)")',
+    expected:
+      '<div><p><img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/subfolder/subimage.h4sh.png" alt="title" class="lazyload" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subfolder/subimage.h4sh.png" loading="lazy"></p></div>',
+  },
+  {
+    env: 'prod',
+    destination: 'index.pug',
+    input:
+      'div!=markdown("![title](subimage.png)", { basePath: "./subfolder" })',
+    expected:
+      '<div><p><img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/http://here.com/subfolder/subimage.h4sh.png" alt="title" class="lazyload" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/http://here.com/subfolder/subimage.h4sh.png" loading="lazy"></p></div>',
   },
 ];
 const testCases = initTestCases([
