@@ -346,6 +346,20 @@ const testCasesMarkdown = [
       '<div><p><img src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" alt="title" class="lazyload" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" loading="lazy"></p></div>',
   },
   {
+    env: 'dev',
+    destination: 'index.pug',
+    input: 'div!=markdown("![title](foo.png)")',
+    expected:
+      '<div><p><img src="foo.png" alt="title" class="lazyload" data-src="foo.png" loading="lazy"></p></div>',
+  },
+  {
+    env: 'dev',
+    destination: 'index.pug',
+    input: 'div!=markdown("![title](foo.png)", { basePath: "bar" })',
+    expected:
+      '<div><p><img src="bar/foo.png" alt="title" class="lazyload" data-src="bar/foo.png" loading="lazy"></p></div>',
+  },
+  {
     env: 'prod',
     destination: 'bar/index.pug',
     input: 'div!=markdown("![title](foo.png)")',

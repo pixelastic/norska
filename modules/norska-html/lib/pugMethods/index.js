@@ -31,8 +31,8 @@ module.exports = function (data, destination) {
     lazyload(url, options) {
       return pugLazyload(url, options, context);
     },
-    markdown(input) {
-      return pugMarkdown(input, context);
+    markdown(input, options) {
+      return pugMarkdown(input, options, context);
     },
     remoteUrl: _.partialRight(pugRemoteUrl, context),
     revv(filepath, options) {

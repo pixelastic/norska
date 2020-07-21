@@ -19,9 +19,21 @@ const markdown = markdownIt({
 /**
  * Convert markdown to html
  * @param {string} input Markdown string to parse
- * @param {object} context Pug context: .data, .methods, .destination
+ * @param {object} userOptions Custom options
+ * @param {string} userOptions.basePath Treat all images as relative to this
+ * folder
+ * @param {object} userContext Pug context: .data, .methods, .destination
  * @returns {string} HTML string
  **/
-module.exports = function (input, context) {
+module.exports = function (input, userOptions, userContext) {
+  const defaultOptions = {
+    basePath: null,
+  };
+  const options = {
+    ...defaultOptions,
+    ...userOptions,
+  };
+
+  const context = { ...userContext, options };
   return _.trim(markdown.render(input, context));
 };
