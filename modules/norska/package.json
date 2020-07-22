@@ -10,15 +10,15 @@
     "minimist": "1.2.5",
     "norska-assets": "^0.14.6",
     "norska-cloudinary": "^0.14.3",
-    "norska-cms": "^0.14.6",
+    "norska-cms": "^0.14.7",
     "norska-config": "^0.14.3",
-    "norska-css": "^0.14.6",
+    "norska-css": "^0.14.7",
     "norska-frontend": "^0.14.6",
     "norska-helper": "^0.14.3",
     "norska-html": "^0.14.6",
-    "norska-init": "^0.14.5",
+    "norska-init": "^0.14.7",
     "norska-js": "^0.14.3",
-    "norska-netlify": "^0.14.3",
+    "norska-netlify": "^0.14.7",
     "norska-revv": "^0.14.3"
   },
   "description": "Opinionated static website generator",
@@ -40,5 +40,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.14.6"
+  "version": "0.14.7"
 }
