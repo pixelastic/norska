@@ -27,6 +27,24 @@ describe('norska-html > mixins', () => {
       expect(actual).toEqual('<p>dummy</p>');
     });
   });
+  describe('times', () => {
+    it('should display the block n times', async () => {
+      const input = config.fromPath('foo.pug');
+      const output = config.toPath('output.html');
+      await write(
+        dedent`
+      +times(3)
+        p foo
+      `,
+        input
+      );
+
+      await current.createPage(input, output);
+
+      const actual = await read(output);
+      expect(actual).toEqual('<p>foo</p><p>foo</p><p>foo</p>');
+    });
+  });
   describe('img', () => {
     it.each([
       // pug code | html code
