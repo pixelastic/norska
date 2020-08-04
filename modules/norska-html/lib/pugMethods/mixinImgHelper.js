@@ -1,4 +1,5 @@
 const pugLazyload = require('./lazyload');
+const he = require('he');
 /**
  * This method is used only by the +img() mixin
  * We moved the code in its own file so it's easier to lint, test and debug
@@ -20,9 +21,10 @@ module.exports = function (attributes, context) {
 
   let finalAttributes = attributes;
 
-  // Enable lazyloading is src is set
+  // Enable lazyloading if src is set
   if (attributes.src) {
-    const lazyloadAttributes = pugLazyload(attributes.src, options, context);
+    const originUrl = he.decode(attributes.src); // Pug encodes ? and & in urls
+    const lazyloadAttributes = pugLazyload(originUrl, options, context);
     finalAttributes.src = lazyloadAttributes.placeholder;
     finalAttributes['data-src'] = lazyloadAttributes.full;
     finalAttributes.loading = 'lazy';

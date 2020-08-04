@@ -3,8 +3,6 @@ const config = require('norska-config');
 const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
 const read = require('firost/lib/read');
-const cloudinary = require('norska-cloudinary');
-cloudinary.init({ bucketName: 'bucket' });
 
 describe('norska-html > mixins', () => {
   const tmpDirectory = './tmp/norska-html/mixins';
@@ -53,15 +51,15 @@ describe('norska-html > mixins', () => {
       ['+img.foo', '<img class="lazyload foo"/>'],
       [
         '+img(src="https://there.com/foo.png")',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" loading="lazy"/>',
+        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={width: 100})',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_100/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto,w_100/https://there.com/foo.png" loading="lazy"/>',
+        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il&w=100" loading="lazy"/>',
       ],
       [
-        '+img(src="https://there.com/foo.png" options={placeholder: {blur:8000}})',
-        '<img class="lazyload" src="https://res.cloudinary.com/bucket/image/fetch/e_blur:8000,f_auto,q_auto:low/https://there.com/foo.png" data-src="https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/foo.png" loading="lazy"/>',
+        '+img(src="https://there.com/foo.png" options={placeholder: {blur:100}})',
+        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=100&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
       ],
     ])('%s', async (input, expected) => {
       const source = config.fromPath('source.pug');

@@ -23,9 +23,9 @@ function lazyload(userUrl, userOptions, context) {
   const isDev = !helper.isProduction();
   const isRemote = _.startsWith(userUrl, 'http');
   const isLocal = !isRemote;
-  const cloudinaryOptions = _.omit(options, ['disable', 'placeholder']);
+  const imageProxyOptions = _.omit(options, ['disable', 'placeholder']);
 
-  const fullUrl = pugImg(userUrl, cloudinaryOptions, context);
+  const fullUrl = pugImg(userUrl, imageProxyOptions, context);
 
   let originUrl = userUrl;
   if (isLocal) {
