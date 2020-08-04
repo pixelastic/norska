@@ -1,41 +1,35 @@
 const current = require('../attributes');
-const cloudinary = require('norska-cloudinary');
 
 describe('norska-frontend > lazyload > attributes', () => {
-  beforeEach(async () => {
-    cloudinary.init({
-      bucketName: 'bucket',
-    });
-  });
   it.each([
     // description, input url, options, full, placeholder
     [
       'Proxy image and default placeholder',
       'https://there.com/image.png',
       {},
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
-      'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low/https://there.com/image.png',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il',
     ],
     [
       'Disabling placeholder',
       'https://there.com/image.png',
       { disable: true },
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il',
     ],
     [
-      'Passing specific options to cloudinary, and cascading to the placeholder',
+      'Passing specific options to the image proxy, and cascading to the placeholder',
       'https://there.com/image.png',
       { width: 200 },
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_200/https://there.com/image.png',
-      'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_200/https://there.com/image.png',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il&w=200',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&w=200',
     ],
     [
       'Passing specific options to the placeholder',
       'https://there.com/image.png',
       { placeholder: { width: 200 } },
-      'https://res.cloudinary.com/bucket/image/fetch/f_auto/https://there.com/image.png',
-      'https://res.cloudinary.com/bucket/image/fetch/e_blur:300,f_auto,q_auto:low,w_200/https://there.com/image.png',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&w=200',
     ],
   ])('%s', async (_description, input, options, full, placeholder) => {
     const actual = current(input, options);
