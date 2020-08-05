@@ -117,7 +117,7 @@ module.exports = {
             _.chain(result)
               .replace(new RegExp(item.from, 'g'), item.to)
               // We also need to replace urlencoded placeholders with urlencoded
-              // values (for example when they are in cloudinary links)
+              // values (for example when they are in an image proxy links)
               .replace(
                 new RegExp(encodeURIComponent(item.from), 'g'),
                 encodeURIComponent(item.to)

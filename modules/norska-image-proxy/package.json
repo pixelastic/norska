@@ -11,7 +11,7 @@
   "name": "norska-image-proxy",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pixelastic/norska/modules/norska-cloudinary"
+    "url": "https://github.com/pixelastic/norska/modules/norska-image-proxy"
   },
   "scripts": {
     "lint": "../../scripts/local/lint",

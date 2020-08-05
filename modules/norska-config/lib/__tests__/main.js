@@ -2,7 +2,6 @@ const current = require('../main');
 const path = require('path');
 const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
-const helper = require('norska-helper');
 
 describe('norska-config', () => {
   const tmpDirectory = path.resolve('./tmp/norska-config');
@@ -351,55 +350,6 @@ describe('norska-config', () => {
     ])('[%s:%s] => %s', (source, destination, expected) => {
       const actual = current.relativePath(source, destination);
       expect(actual).toEqual(expected);
-    });
-  });
-  describe('sanityCheck', () => {
-    describe('cloudinary', () => {
-      it.each([
-        // prod/dev | isEnabled | bucketName | expected outcome
-        ['dev', 'enabled', 'bucket', 'nothing'],
-        ['dev', 'enabled', null, 'warning'],
-        ['dev', 'disabled', 'bucket', 'nothing'],
-        ['dev', 'disabled', null, 'nothing'],
-        ['prod', 'enabled', 'bucket', 'nothing'],
-        ['prod', 'enabled', null, 'error'],
-        ['prod', 'disabled', 'bucket', 'nothing'],
-        ['prod', 'disabled', null, 'nothing'],
-      ])(
-        'env:%s, cloudinary:%s, bucketName:%s => %s',
-        (environment, enableState, bucketName, expectedOutcome) => {
-          jest.spyOn(current, '__consoleWarn').mockReturnValue();
-          const isProductionMapping = { dev: false, prod: true };
-          jest
-            .spyOn(helper, 'isProduction')
-            .mockReturnValue(isProductionMapping[environment]);
-          const enableMapping = { enabled: true, disabled: false };
-          current.set('cloudinary', {
-            enable: enableMapping[enableState],
-            bucketName,
-          });
-
-          let actualError = null;
-          try {
-            current.sanityCheck();
-          } catch (err) {
-            actualError = err;
-          }
-
-          if (expectedOutcome === 'nothing') {
-            expect(actualError).toEqual(null);
-            expect(current.__consoleWarn).not.toHaveBeenCalled();
-          }
-          if (expectedOutcome === 'warning') {
-            expect(actualError).toEqual(null);
-            expect(current.__consoleWarn).toHaveBeenCalled();
-          }
-          if (expectedOutcome === 'error') {
-            expect(actualError).not.toEqual(null);
-            expect(current.__consoleWarn).not.toHaveBeenCalled();
-          }
-        }
-      );
     });
   });
 });

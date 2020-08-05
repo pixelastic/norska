@@ -152,8 +152,8 @@ const testCasesRevv = [
 const testCasesImgMethod = [
   // Img
   // Should ignore local files in dev
-  // Should revv and pass through cloudinary local files in prod
-  // Should pass through cloudinary remote files
+  // Should revv and pass through image proxy local files in prod
+  // Should pass through image proxy remote files
   {
     env: 'dev',
     destination: 'index.pug',

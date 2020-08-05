@@ -141,7 +141,6 @@ describe('norska', () => {
       jest.spyOn(css, 'run').mockReturnValue();
       jest.spyOn(assets, 'run').mockReturnValue();
       jest.spyOn(revv, 'run').mockReturnValue();
-      jest.spyOn(config, 'sanityCheck').mockReturnValue();
       jest.spyOn(netlify, 'shouldBuild').mockReturnValue(true);
       await config.init({
         from: `${tmpDirectory}/src`,
@@ -198,10 +197,6 @@ describe('norska', () => {
         expect.stringContaining('error message')
       );
       expect(current.__exit).toHaveBeenCalledWith(1);
-    });
-    it('should perform a sanity check', async () => {
-      await current.build();
-      expect(config.sanityCheck).toHaveBeenCalled();
     });
   });
   describe('serve', () => {
