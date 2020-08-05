@@ -1,6 +1,5 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
-  "dependencies": {},
   "description": "Pass images through an image CDN for transforming before display",
   "files": [
     "lib/*.js"
@@ -20,7 +19,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.14.3",
+  "version": "0.15.0",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
