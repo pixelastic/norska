@@ -6,8 +6,7 @@ const pugRemoteUrl = require('./remoteUrl.js');
 /**
  * Pass a local or remote url through the image proxu
  * @param {string} userUrl URL or path to the image
- * @param {object} userOptions Image proxy option. See norska-images/lib/main.js
- * for more details
+ * @param {object} userOptions Image proxy option. See norska-image-proxy for more details
  * @param {object} context Pug context: .data, .methods, .destination
  *
  * @returns {string} Final url

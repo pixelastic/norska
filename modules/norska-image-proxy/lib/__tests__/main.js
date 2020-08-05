@@ -1,6 +1,6 @@
 const current = require('../main');
 
-describe('norska-images', () => {
+describe('norska-image-proxy', () => {
   it('should pass the url through image proxy', async () => {
     const input = 'http://www.example.com/foo.png';
     const actual = current(input);
