@@ -12,10 +12,10 @@
     "norska-cms": "^0.15.0",
     "norska-config": "^0.15.0",
     "norska-css": "^0.15.0",
-    "norska-frontend": "^0.15.0",
+    "norska-frontend": "^0.15.1",
     "norska-helper": "^0.15.0",
-    "norska-html": "^0.15.0",
-    "norska-image-proxy": "^0.15.0",
+    "norska-html": "^0.15.1",
+    "norska-image-proxy": "^0.15.1",
     "norska-init": "^0.15.0",
     "norska-js": "^0.15.0",
     "norska-netlify": "^0.15.0",
@@ -40,5 +40,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.15.0"
+  "version": "0.15.1"
 }

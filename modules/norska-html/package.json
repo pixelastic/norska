@@ -10,9 +10,9 @@
     "markdown-it-highlightjs": "3.2.0",
     "norska-config": "^0.15.0",
     "norska-data": "^0.15.0",
-    "norska-frontend": "^0.15.0",
+    "norska-frontend": "^0.15.1",
     "norska-helper": "^0.15.0",
-    "norska-image-proxy": "^0.15.0",
+    "norska-image-proxy": "^0.15.1",
     "norska-revv": "^0.15.0",
     "pug": "3.0.0"
   },
@@ -38,5 +38,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.15.0"
+  "version": "0.15.1"
 }
