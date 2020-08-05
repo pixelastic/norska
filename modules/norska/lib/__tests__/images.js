@@ -244,7 +244,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("foo.png")
     img(src!=attrs_{testId}.placeholder, data-src!=attrs_{testId}.full)`,
     expected:
-      '<img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&il"/>',
+      '<img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&il"/>',
   },
   // Remote images in dev should be proxyfied
   {
@@ -253,7 +253,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src!=attrs_{testId}.placeholder, data-src!=attrs_{testId}.full)`,
     expected:
-      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il"/>',
+      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il"/>',
   },
   // Remote images in prod should by proxyfied as well for the placeholder
   {
@@ -262,7 +262,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png")
     img(src!=attrs_{testId}.placeholder, data-src!=attrs_{testId}.full)`,
     expected:
-      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il"/>',
+      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il"/>',
   },
   // Disabled lazyloading in prod should use the proxyfied url direcly as
   // a placeholder
@@ -281,7 +281,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { width: 100 })
     img(src!=attrs_{testId}.placeholder, data-src!=attrs_{testId}.full)`,
     expected:
-      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il&w=100"/>',
+      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il&w=100"/>',
   },
   // Passing custom proxy attributes to the placeholder
   {
@@ -290,7 +290,7 @@ const testCasesLazyload = [
     input: `- const attrs_{testId} = lazyload("https://there.com/foo.png", { placeholder: { width: 100 } })
     img(src!=attrs_{testId}.placeholder, data-src!=attrs_{testId}.full)`,
     expected:
-      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il"/>',
+      '<img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il"/>',
   },
 ];
 const testCasesImgMixin = [
@@ -299,7 +299,7 @@ const testCasesImgMixin = [
     destination: 'index.pug',
     input: '+img(src="https://there.com/foo.png")',
     expected:
-      '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
+      '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
   },
   // local images should be revved in both placeholder and full
   {
@@ -307,7 +307,7 @@ const testCasesImgMixin = [
     destination: 'bar/index.pug',
     input: '+img(src="foo.png")',
     expected:
-      '<img class="lazyload" src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&il" loading="lazy"/>',
+      '<img class="lazyload" src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&af&il" loading="lazy"/>',
   },
 ];
 const testCasesScreenshot = [
@@ -342,7 +342,7 @@ const testCasesMarkdown = [
     destination: 'index.pug',
     input: 'div!=markdown("![title](https://there.com/foo.png)")',
     expected:
-      '<div><p><img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&amp;af&amp;blur=5&amp;il&amp;q=10" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&amp;af&amp;il" loading="lazy"></p></div>',
+      '<div><p><img src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&amp;af&amp;blur=5&amp;il&amp;q=50" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&amp;af&amp;il" loading="lazy"></p></div>',
   },
   {
     env: 'dev',
@@ -378,14 +378,14 @@ const testCasesMarkdown = [
     destination: 'index.pug',
     input: 'div!=markdown("![title](foo.png)")',
     expected:
-      '<div><p><img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&amp;af&amp;blur=5&amp;il&amp;q=10" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&amp;af&amp;il" loading="lazy"></p></div>',
+      '<div><p><img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&amp;af&amp;blur=5&amp;il&amp;q=50" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Ffoo.h4sh.png&amp;af&amp;il" loading="lazy"></p></div>',
   },
   {
     env: 'prod',
     destination: 'subfolder/index.pug',
     input: 'div!=markdown("![title](subimage.png)")',
     expected:
-      '<div><p><img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;blur=5&amp;il&amp;q=10" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;il" loading="lazy"></p></div>',
+      '<div><p><img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;blur=5&amp;il&amp;q=50" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;il" loading="lazy"></p></div>',
   },
   {
     env: 'prod',
@@ -393,7 +393,7 @@ const testCasesMarkdown = [
     input:
       'div!=markdown("![title](subimage.png)", { basePath: "./subfolder" })',
     expected:
-      '<div><p><img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;blur=5&amp;il&amp;q=10" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;il" loading="lazy"></p></div>',
+      '<div><p><img src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;blur=5&amp;il&amp;q=50" alt="title" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2Fsubfolder%2Fsubimage.h4sh.png&amp;af&amp;il" loading="lazy"></p></div>',
   },
 ];
 const testCases = initTestCases([

@@ -3,9 +3,9 @@ const current = require('../placeholderize');
 describe('norska-frontend > lazyload > placeholderize', () => {
   it.each([
     // Object | String
-    [{}, 'af&blur=5&il&q=10'],
-    [{ placeholder: { grayscale: true } }, 'af&blur=5&filt=greyscale&il&q=10'],
-    [{ grayscale: true }, 'af&blur=5&filt=greyscale&il&q=10'],
+    [{}, 'af&blur=5&il&q=50'],
+    [{ placeholder: { grayscale: true } }, 'af&blur=5&filt=greyscale&il&q=50'],
+    [{ grayscale: true }, 'af&blur=5&filt=greyscale&il&q=50'],
     [{ quality: 80 }, 'af&blur=5&il&q=80'],
     [{ placeholder: { quality: 80 } }, 'af&blur=5&il&q=80'],
   ])('%s => %s', async (options, params) => {

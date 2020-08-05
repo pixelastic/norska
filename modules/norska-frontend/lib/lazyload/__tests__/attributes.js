@@ -8,7 +8,7 @@ describe('norska-frontend > lazyload > attributes', () => {
       'https://there.com/image.png',
       {},
       'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il',
-      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&q=10',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&q=50',
     ],
     [
       'Disabling placeholder',
@@ -22,14 +22,14 @@ describe('norska-frontend > lazyload > attributes', () => {
       'https://there.com/image.png',
       { width: 200 },
       'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il&w=200',
-      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&q=10&w=200',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&q=50&w=200',
     ],
     [
       'Passing specific options to the placeholder',
       'https://there.com/image.png',
       { placeholder: { width: 200 } },
       'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&il',
-      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&q=10&w=200',
+      'https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Fimage.png&af&blur=5&il&q=50&w=200',
     ],
   ])('%s', async (_description, input, options, full, placeholder) => {
     const actual = current(input, options);

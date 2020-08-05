@@ -51,15 +51,15 @@ describe('norska-html > mixins', () => {
       ['+img.foo', '<img class="lazyload foo"/>'],
       [
         '+img(src="https://there.com/foo.png")',
-        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
+        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={width: 100})',
-        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=10&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il&w=100" loading="lazy"/>',
+        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=5&il&q=50&w=100" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il&w=100" loading="lazy"/>',
       ],
       [
         '+img(src="https://there.com/foo.png" options={placeholder: {blur:100}})',
-        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=100&il&q=10" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
+        '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=100&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
       ],
     ])('%s', async (input, expected) => {
       const source = config.fromPath('source.pug');
