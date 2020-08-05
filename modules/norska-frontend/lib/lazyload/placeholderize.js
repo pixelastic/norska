@@ -12,7 +12,7 @@ module.exports = function (url, userOptions = {}) {
 
   const options = {
     blur: 5,
-    quality: 10,
+    quality: 50,
     ...userOptions,
     ...placeholderOptions,
   };
