@@ -51,7 +51,6 @@ module.exports = {
   async initConfig(cliArgs) {
     const modulesConfig = {
       assets: require('norska-assets/lib/config'),
-      cloudinary: require('norska-cloudinary/lib/config'),
       cms: require('norska-cms/lib/config'),
       css: require('norska-css/lib/config'),
       js: require('norska-js/lib/config'),
@@ -70,7 +69,6 @@ module.exports = {
    * Build the website, compiling all files in .from()
    **/
   async build() {
-    config.sanityCheck();
     // Stop the build if not relevant to a deploy
     if (!(await netlify.shouldBuild())) {
       await netlify.cancelBuild();

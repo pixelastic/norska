@@ -1,4 +1,4 @@
-const imageProxy = require('norska-images');
+const imageProxy = require('norska-image-proxy');
 const placeholderize = require('./placeholderize.js');
 /**
  * Returns .full and .placeholder keys from any image url to use in lazyloading

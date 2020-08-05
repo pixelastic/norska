@@ -7,8 +7,7 @@ const pugImageProxy = require('./imageProxy.js');
 /**
  * Transform a local or remote path to be used as an image
  * @param {string} filepath Original path
- * @param {object} options Image CDN options. See
- * norska-frontent/lib/cloudinary/proxy for more details
+ * @param {object} options Image CDN option
  * @param {object} context Pug context: .data, .methods, .destination
  * @returns {string} Final url
  */

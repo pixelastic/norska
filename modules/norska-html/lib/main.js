@@ -1,7 +1,6 @@
 const EventEmitter = require('events');
 const config = require('norska-config');
 const data = require('norska-data');
-const cloudinary = require('norska-cloudinary');
 const ensureUrlTrailingSlash = require('ensure-url-trailing-slash');
 const helper = require('norska-helper');
 const path = require('path');
@@ -195,9 +194,6 @@ module.exports = {
   async run() {
     // We warm the cache to avoid doing it for each compilation
     await data.init();
-
-    // Enabling Cloudinary support
-    cloudinary.init(config.get('cloudinary'));
 
     const timer = timeSpan();
     const progress = this.__spinner();

@@ -1,5 +1,5 @@
 const _ = require('golgoth/lib/lodash');
-const pugCloudinary = require('./cloudinary.js');
+const pugImageProxy = require('./imageProxy.js');
 const pugImg = require('./img.js');
 const pugInclude = require('./include.js');
 const pugLazyload = require('./lazyload.js');
@@ -21,8 +21,8 @@ const pugScreenshot = require('./screenshot.js');
 module.exports = function (data, destination) {
   const context = { data, destination };
   const methods = {
-    cloudinary(url, options) {
-      return pugCloudinary(url, options, context);
+    imageProxy(url, options) {
+      return pugImageProxy(url, options, context);
     },
     include: _.partialRight(pugInclude, context),
     img(url, options) {

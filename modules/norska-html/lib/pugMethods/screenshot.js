@@ -1,8 +1,7 @@
-const cloudinary = require('norska-cloudinary');
 const _ = require('golgoth/lib/lodash');
 const { URL } = require('url');
 const normalizeUrl = require('firost/lib/normalizeUrl');
-const pugCloudinary = require('./cloudinary');
+const pugImageProxy = require('./imageProxy');
 
 /**
  * Returns the url of a screenshot of the current page
@@ -15,15 +14,10 @@ const screenshot = (userUrl, context) => {
   const pageUrl = userUrl || screenshot.currentUrl(context);
   const microlinkUrl = screenshot.microlink(pageUrl);
 
-  // Without Cloudinary, we use the microlink url directly
-  if (!screenshot.cloudinaryEnabled()) {
-    return microlinkUrl;
-  }
-
-  // With Cloudinary, we add a version in the url to bypass the cache on each
+  // We add a version in the url to bypass the cache on each
   // deploy
   const revvedUrl = screenshot.revvedUrl(microlinkUrl, context);
-  return pugCloudinary(revvedUrl, { width: 800 }, context);
+  return pugImageProxy(revvedUrl, { width: 800 }, context);
 };
 /**
  * Add the last commit to the search parameters of the URL so it's cached as
@@ -62,12 +56,5 @@ screenshot.currentUrl = (context) => {
   const defaultUrl = _.get(context, 'data.data.site.defaultUrl');
   const here = _.get(context, 'data.url.here');
   return `${defaultUrl}${here}`;
-};
-/**
- * Check if Cloudinary is enabled
- * @returns {boolean} True if enabled, false otherwise
- **/
-screenshot.cloudinaryEnabled = () => {
-  return _.get(cloudinary, 'config.enable');
 };
 module.exports = screenshot;

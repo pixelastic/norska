@@ -186,29 +186,6 @@ module.exports = {
     this.__config = finalConfig;
   },
   /**
-   * Check the current config for any errors. Display warnings and throw errors
-   **/
-  sanityCheck() {
-    // When enabled, a Cloudinary bucket must be defined. It throws an error in
-    // prod, but only a warning in dev
-    const isProduction = helper.isProduction();
-    const isCloudinaryEnabled = this.get('cloudinary.enable', true);
-    const hasNoBucketName = this.get('cloudinary.bucketName', null) === null;
-    const isMisconfigured = isCloudinaryEnabled && hasNoBucketName;
-    if (isMisconfigured) {
-      const errorMessage = [
-        "You don't have a Cloudinary bucket configured.",
-        'Check your config.norska.js file and either:',
-        '- set the cloudinary.bucketName key to your bucket name',
-        '- set the cloudinary.enable key to false to disable Cloudinary support',
-      ].join('\n');
-      if (isProduction) {
-        throw firostError('ERROR_CONFIG_CLOUDINARY', errorMessage);
-      }
-      this.__consoleWarn(errorMessage);
-    }
-  },
-  /**
    * Internal singleton representation of the config
    **/
   __config: {},

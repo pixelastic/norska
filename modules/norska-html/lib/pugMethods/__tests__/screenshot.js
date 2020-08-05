@@ -1,5 +1,4 @@
 const current = require('../screenshot.js');
-const cloudinary = require('norska-cloudinary');
 
 describe('norska-html > pugMethods > screenshot', () => {
   const context = {
@@ -9,18 +8,6 @@ describe('norska-html > pugMethods > screenshot', () => {
       runtime: { gitCommit: 'abcdef' },
     },
   };
-  describe('cloudinaryEnabled', () => {
-    it('should return false if not enabled', async () => {
-      cloudinary.init({ enable: false });
-      const actual = current.cloudinaryEnabled();
-      expect(actual).toEqual(false);
-    });
-    it('should return true when enabled', async () => {
-      cloudinary.init({ enable: true });
-      const actual = current.cloudinaryEnabled();
-      expect(actual).toEqual(true);
-    });
-  });
   describe('currentUrl', () => {
     it('should return the current full url', async () => {
       const actual = current.currentUrl(context);
@@ -63,36 +50,23 @@ describe('norska-html > pugMethods > screenshot', () => {
     });
   });
   describe('screenshot()', () => {
-    describe('without cloudinary', () => {
-      it('should use microlink if no cloudinary configured', async () => {
-        const actual = current(null, context);
-        const expected =
-          'https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Ffoo';
-        expect(actual).toEqual(expected);
-      });
-    });
-    describe('with cloudinary', () => {
-      beforeEach(async () => {
-        cloudinary.init({ enable: true, bucketName: 'bucket' });
-      });
-      it.each([
-        // input | output
-        [
-          null,
-          'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Ffoo',
-        ],
-        [
-          'https://there.com/',
-          'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=https%3A%2F%2Fthere.com',
-        ],
-        [
-          'https://there.com/?sort=asc',
-          'https://res.cloudinary.com/bucket/image/fetch/f_auto,w_800/https://api.microlink.io/%3Fembed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=https%3A%2F%2Fthere.com%2F%3Fsort%3Dasc',
-        ],
-      ])('%s', (input, expected) => {
-        const actual = current(input, context);
-        expect(actual).toEqual(expected);
-      });
+    it.each([
+      // input | output
+      [
+        null,
+        'https://images.weserv.nl?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26norskaGitCommit%3Dabcdef%26screenshot%3Dtrue%26url%3Dhttp%253A%252F%252Fhere.com%252Ffoo&af&il&w=800',
+      ],
+      [
+        'https://there.com/',
+        'https://images.weserv.nl?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26norskaGitCommit%3Dabcdef%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fthere.com&af&il&w=800',
+      ],
+      [
+        'https://there.com/?sort=asc',
+        'https://images.weserv.nl?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26norskaGitCommit%3Dabcdef%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fthere.com%252F%253Fsort%253Dasc&af&il&w=800',
+      ],
+    ])('%s', (input, expected) => {
+      const actual = current(input, context);
+      expect(actual).toEqual(expected);
     });
   });
 });

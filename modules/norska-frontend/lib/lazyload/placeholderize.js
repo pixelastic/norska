@@ -1,4 +1,4 @@
-const imageProxy = require('norska-images');
+const imageProxy = require('norska-image-proxy');
 
 /**
  * Returns a placeholder version of an image, to be used for lazyloading

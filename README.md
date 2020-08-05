@@ -43,7 +43,7 @@ and keeping the same directory structure.
 
 Netlify is configured to run `yarn run build:prod` on each push. This set
 `NODE_ENV` to `production`, which in turn enables a few more optimization like
-CSS and JavaScript minification, asset revving and Cloudinary filtering.
+CSS and JavaScript minification, asset revving and image transformation.
 
 But not all push should result in a deploy. If it was only updating the README
 of updating a `devDependencies`, it shouldn't trigger a new rebuild. `norska`

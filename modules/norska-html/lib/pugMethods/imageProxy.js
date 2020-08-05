@@ -1,4 +1,4 @@
-const imageProxy = require('norska-images');
+const imageProxy = require('norska-image-proxy');
 const config = require('norska-config');
 const helper = require('norska-helper');
 const pugRemoteUrl = require('./remoteUrl.js');

@@ -8,7 +8,7 @@
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
   "main": "./lib/main.js",
-  "name": "norska-images",
+  "name": "norska-image-proxy",
   "repository": {
     "type": "git",
     "url": "https://github.com/pixelastic/norska/modules/norska-cloudinary"

@@ -12,9 +12,7 @@ const markdown = markdownIt({
       pug: highlightJsPug,
     },
   })
-  .use(norskaPlugin, {
-    foo: 'bar',
-  });
+  .use(norskaPlugin);
 
 /**
  * Convert markdown to html
