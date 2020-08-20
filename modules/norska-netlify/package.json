@@ -1,8 +1,8 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "1.11.1",
-    "golgoth": "1.3.2",
+    "firost": "1.12.0",
+    "golgoth": "1.4.0",
     "multimatch": "4.0.0",
     "netlify": "4.3.10",
     "netlify-cli": "2.59.0",

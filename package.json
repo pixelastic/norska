@@ -7,8 +7,8 @@
   "description": "Norska master workspace",
   "devDependencies": {
     "aberlaas": "1.12.2",
-    "firost": "1.11.1",
-    "golgoth": "1.3.2",
+    "firost": "1.12.0",
+    "golgoth": "1.4.0",
     "lerna": "3.22.1"
   },
   "files": [],
