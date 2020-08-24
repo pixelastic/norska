@@ -15,6 +15,10 @@ const pMapSeries = require('golgoth/lib/pMapSeries');
 const _ = require('golgoth/lib/lodash');
 
 module.exports = {
+  /**
+   * Replace revv placeholder with real path in all HTML files, and create
+   * revved copy of all such files
+   **/
   async run() {
     const timer = timeSpan();
     const progress = this.spinner();
