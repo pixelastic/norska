@@ -4,8 +4,8 @@
     "firost": "1.12.0",
     "golgoth": "1.4.0",
     "multimatch": "4.0.0",
-    "netlify": "4.3.10",
-    "netlify-cli": "2.59.0",
+    "netlify": "4.3.12",
+    "netlify-cli": "2.59.1",
     "norska-config": "^0.16.0",
     "norska-helper": "^0.16.0"
   },
