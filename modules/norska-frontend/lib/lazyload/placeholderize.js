@@ -16,5 +16,6 @@ module.exports = function (url, userOptions = {}) {
     ...userOptions,
     ...placeholderOptions,
   };
+  delete options.placeholder;
   return imageProxy(url, options);
 };

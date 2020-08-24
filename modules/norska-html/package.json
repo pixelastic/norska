@@ -2,10 +2,12 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "ensure-url-trailing-slash": "0.1.4",
-    "firost": "1.11.1",
-    "golgoth": "1.3.2",
+    "firost": "1.12.0",
+    "front-matter": "4.0.2",
+    "golgoth": "1.4.0",
     "he": "1.2.0",
     "highlightjs-pug": "0.0.2",
+    "is-url-superb": "4.0.0",
     "markdown-it": "11.0.0",
     "markdown-it-highlightjs": "3.2.0",
     "norska-config": "^0.15.0",
@@ -13,7 +15,6 @@
     "norska-frontend": "^0.15.1",
     "norska-helper": "^0.15.0",
     "norska-image-proxy": "^0.15.1",
-    "norska-revv": "^0.15.0",
     "pug": "3.0.0"
   },
   "description": "Convert .pug files to .html files",
@@ -22,9 +23,11 @@
   },
   "files": [
     "lib/*.js",
-    "lib/pugMethods/*.js",
-    "lib/pugMethods/markdown/*.js",
-    "lib/pugMixins/*.pug"
+    "lib/markdown/*.js",
+    "lib/pug/*.js",
+    "lib/pug/methods/*.js",
+    "lib/pug/mixins/*.pug",
+    "lib/pug/mixins/helpers/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

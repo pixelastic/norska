@@ -1,0 +1,8 @@
+mixin scripts() 
+  each jsFile in runtime.jsFiles
+    script(src=`${url.pathToRoot}${jsFile}`)
+  block
+
+//- Backward compatibility
+mixin norska_scripts()
+  +scripts()

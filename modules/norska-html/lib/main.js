@@ -1,208 +1,36 @@
 const EventEmitter = require('events');
-const config = require('norska-config');
-const data = require('norska-data');
-const ensureUrlTrailingSlash = require('ensure-url-trailing-slash');
-const helper = require('norska-helper');
-const path = require('path');
-const pugMethods = require('./pugMethods');
-const pug = require('pug');
-const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
-const pMap = require('golgoth/lib/pMap');
-const timeSpan = require('golgoth/lib/timeSpan');
-const write = require('firost/lib/write');
-const spinner = require('firost/lib/spinner');
-const glob = require('firost/lib/glob');
-const watch = require('firost/lib/watch');
-const read = require('firost/lib/read');
+const config = require('norska-config');
+const consoleError = require('firost/lib/consoleError');
 const consoleSuccess = require('firost/lib/consoleSuccess');
 const consoleWarn = require('firost/lib/consoleWarn');
-const consoleError = require('firost/lib/consoleError');
-const firostError = require('firost/lib/error');
+const glob = require('firost/lib/glob');
+const helper = require('norska-helper');
+const markdown = require('./markdown/index.js');
+const norskaData = require('norska-data');
+const pMap = require('golgoth/lib/pMap');
+const path = require('path');
+const pug = require('./pug/index.js');
+const spinner = require('firost/lib/spinner');
+const timeSpan = require('golgoth/lib/timeSpan');
+const watch = require('firost/lib/watch');
+const _ = require('golgoth/lib/lodash');
 
 module.exports = {
-  /**
-   * Returns the list of pug files to be processed by the plugin
-   * @returns {Array} List of absolute path to pug files to process
-   **/
-  async pugFilesPattern() {
-    const source = config.from();
-    return [`${source}/**/*.pug`, `!${source}/_*/**/*.pug`];
-  },
-  /**
-   * Return the data to be passed to each compiled file
-   * @param {string} destination Path to the destination file created
-   * @returns {object} Data object
-   **/
-  async getData(destination) {
-    // We double check that all data has been loaded
-    await data.init();
-
-    const sourceData = await data.getAll();
-
-    const siteUrl = _.get(sourceData, 'site.url', '/');
-    const liveServerUrl = `http://127.0.0.1:${config.get('port')}`;
-    const baseUrl = helper.isProduction() ? siteUrl : liveServerUrl;
-
-    // Various ways of refering to the current document in the url
-    const fullPathDir = path.dirname(config.toPath(destination));
-    const relativePathDir = path.relative(fullPathDir, config.to());
-    const pathToRoot = _.isEmpty(relativePathDir)
-      ? './'
-      : `${relativePathDir}/`;
-    const urlData = {
-      base: baseUrl,
-      here: `/${destination}`,
-      pathToRoot,
-    };
-
-    // Runtime data, like compiled script names to include
-    const runtimeData = config.get('runtime', {});
-    runtimeData.gitCommit = await helper.latestGitCommit();
-
-    // Tweaks that are helpful to have in every norska build
-    const tweaksData = {
-      // JavaScript snippet to force a redirect if no trailing slash
-      ensureUrlTrailingSlashSource: ensureUrlTrailingSlash.source,
-    };
-
-    const baseData = {
-      data: sourceData,
-      url: urlData,
-      runtime: runtimeData,
-      tweaks: tweaksData,
-      meta: {}, // Empty so each page can fill it
-    };
-
-    return {
-      ...baseData,
-      ...pugMethods(baseData, destination),
-    };
-  },
-  /**
-   * Returns the builtin pug mixins
-   * This use a cache on subsequent calls
-   * @returns {string} Pug code of the mixins
-   **/
-  async getMixins() {
-    // Read and concatenate all files in ./pugMixins
-    if (!this.__mixins) {
-      const mixinDir = path.resolve(__dirname, 'pugMixins');
-      const mixinFiles = await glob(`${mixinDir}/*.pug`);
-      const mixinContent = await pMap(mixinFiles, read);
-      this.__mixins = mixinContent.join('\n\n');
-    }
-    return this.__mixins;
-  },
-  /**
-   * Returns the pug string source from a path
-   * Automatically adds builtin mixins
-   *
-   * @param {string} filepath Filepath to the pug file
-   * @returns {string} Stringified version of the source
-   */
-  async getSource(filepath) {
-    const rawSource = await read(filepath);
-    const builtinMixins = await this.getMixins();
-    // If starts with extends, add the mixins on the second line
-    if (_.startsWith(rawSource, 'extends ')) {
-      const lines = rawSource.split('\n');
-      lines.splice(1, 0, builtinMixins);
-      return lines.join('\n');
-    }
-    // Add mixins at the very top
-    return `${builtinMixins}\n\n${rawSource}`;
-  },
-  /**
-   * Write an html to disk from a pug file
-   * @param {string} source Path to the source pug file
-   * @param {string} destination Path to the destination html file
-   * @param {object} pageData Data to pass to the page
-   * @returns {boolean} True on success
-   **/
-  async createPage(source, destination, pageData = {}) {
-    const absoluteDestination = config.toPath(destination);
-    const absoluteSource = config.fromPath(source);
-    const siteData = await this.getData(destination);
-    const compileData = _.merge({}, siteData, { data: pageData });
-
-    let result;
-    try {
-      const pugSource = await this.getSource(absoluteSource);
-
-      const compiler = pug.compile(pugSource, {
-        filename: absoluteSource,
-        basedir: config.from(),
-      });
-      result = compiler(compileData);
-    } catch (err) {
-      throw firostError('ERROR_HTML_COMPILATION_FAILED', err.toString());
-    }
-
-    await write(result, absoluteDestination);
-    return true;
-  },
-  /**
-   * Compile a file from source into destination
-   * @param {string} inputFile Absolute path to the source file. It is expected to
-   * be in the config.from() folder
-   * @returns {boolean} True on success, false otherwise
-   **/
-  async compile(inputFile) {
-    const sourceFolder = config.from();
-    const absoluteSource = config.fromPath(inputFile);
-
-    // We only compile files that are in the source directory
-    if (!_.startsWith(absoluteSource, sourceFolder)) {
-      this.__consoleWarn(
-        `${absoluteSource} compilation aborted. It is not in the source directory.`
-      );
-      return false;
-    }
-
-    const relativeSource = path.relative(sourceFolder, absoluteSource);
-    const relativeDestination = this.getDestinationPath(relativeSource);
-    await this.createPage(relativeSource, relativeDestination);
-
-    // // Also create a pretty url custom/index.html
-    // const basename = path.basename(relativeDestination);
-    // if (basename !== 'index.html') {
-    //   const htmlSource = config.toPath(relativeDestination);
-    //   const prettyDestination = htmlSource.replace(/\.html$/, '/index.html');
-    //   await this.createPage(relativeSource, prettyDestination);
-    //   await copy(htmlSource, prettyDestination);
-    // }
-  },
-  /**
-   * Return the path to the output file from a pug file
-   * This will create pretty urls, using the basename as a directory name and
-   * creating an index.html file
-   * @param {string} inputPath Path to the pug file
-   * @returns {string} Path to the html file
-   **/
-  getDestinationPath(inputPath) {
-    const basename = path.basename(inputPath, '.pug');
-    if (basename === 'index') {
-      return inputPath.replace(/\.pug$/, '.html');
-    }
-
-    return inputPath.replace(/\.pug$/, '/index.html');
-  },
   /**
    * Compile all source files to html
    **/
   async run() {
-    // We warm the cache to avoid doing it for each compilation
-    await data.init();
+    await this.init();
 
     const timer = timeSpan();
     const progress = this.__spinner();
     progress.tick('Compiling HTML');
 
     try {
-      const pugFilesPattern = await this.pugFilesPattern();
-      const pugFiles = await glob(pugFilesPattern);
-      await pMap(pugFiles, async (filepath) => {
+      const filePatterns = await this.filePatterns();
+      const files = await glob(filePatterns);
+      await pMap(files, async (filepath) => {
         await this.compile(filepath);
       });
     } catch (error) {
@@ -212,22 +40,21 @@ module.exports = {
 
     // Running hook
     await config.get('hooks.afterHtml')({
-      createPage: this.createPage.bind(this),
+      createPage: pug.compile.bind(pug),
     });
 
     progress.success(`HTML compiled in ${timer.rounded()}ms`);
     this.pulse.emit('run');
   },
   /**
-   * Listen to any changes on pug files and rebuild them
+   * Listen to any relevant change and rebuild html
    **/
   async watch() {
-    // We warm the cache to avoid doing it for each compilation
-    await data.init();
+    await this.init();
 
-    // Reload a given pug file whenever it is changed
-    const pugFilesPattern = await this.pugFilesPattern();
-    await watch(pugFilesPattern, async (filepath) => {
+    // Reload files when changed
+    const filePatterns = await this.filePatterns();
+    await watch(filePatterns, async (filepath) => {
       try {
         const timer = timeSpan();
         const relativePath = path.relative(config.from(), filepath);
@@ -240,16 +67,16 @@ module.exports = {
       }
     });
 
-    // Reload all pug files whenever files in _data/ are changed
+    // Reload everything whenever the data in _data is changed
     const dataPath = config.fromPath('_data/**/*.{js,json}');
     await watch(dataPath, async () => {
-      await data.updateCache();
+      await norskaData.updateCache();
       await this.run();
     });
 
     // Rebuild everything whenever an included file changes
-    const pugIncludePatterns = [config.fromPath('_includes/**/*')];
-    await watch(pugIncludePatterns, async () => {
+    const includePatterns = [config.fromPath('_includes/**/*')];
+    await watch(includePatterns, async () => {
       await this.run();
     });
 
@@ -262,10 +89,81 @@ module.exports = {
     });
   },
   /**
+   * Compile a file from source into destination
+   * @param {string} inputFile Absolute path to the source file
+   * @returns {boolean} True on success, false otherwise
+   **/
+  async compile(inputFile) {
+    // We only compile files that are in the source directory
+    const sourceFolder = config.from();
+    const absoluteSource = config.fromPath(inputFile);
+    if (!_.startsWith(absoluteSource, sourceFolder)) {
+      this.__consoleWarn(
+        `${absoluteSource} compilation aborted. It is not in the source directory.`
+      );
+      return false;
+    }
+
+    const relativeSource = path.relative(sourceFolder, absoluteSource);
+    const relativeDestination = this.getDestinationPath(relativeSource);
+
+    const extname = path.extname(relativeSource).toLowerCase();
+    const compilers = {
+      '.pug': pug.compile.bind(pug),
+      '.md': markdown.compile.bind(markdown),
+    };
+    await compilers[extname](relativeSource, relativeDestination);
+  },
+  /**
+   * Read all data from _data and expose some values to the runtime config
+   * - runtime.gitCommit contains the latest git commit hash, to be used for
+   *   revving urls
+   * - runtime.productionUrl contains the default url and is used to make remote urls
+   **/
+  async init() {
+    await norskaData.warmCache();
+
+    const gitCommit = await helper.latestGitCommit();
+    config.set('runtime.gitCommit', gitCommit);
+
+    const data = norskaData.getAll();
+    const baseUrl = _.get(data, 'site.defaultUrl');
+    config.set('runtime.productionUrl', baseUrl);
+  },
+  /**
+   * Returns a pattern list matching all files that should be compiled to HTML
+   * @returns {Array} List of pattern to glob
+   **/
+  async filePatterns() {
+    const source = config.from();
+    return [
+      `${source}/**/*.pug`,
+      `${source}/**/*.md`,
+      `!${source}/_*/**/*.pug`,
+      `!${source}/_*/**/*.md`,
+    ];
+  },
+  /**
+   * Return the path to the output file from an input file
+   * This will create pretty urls, using the basename as a directory name and
+   * creating an index.html file
+   * @param {string} inputPath Path to the source file
+   * @returns {string} Path to the destination html file
+   **/
+  getDestinationPath(inputPath) {
+    const extname = path.extname(inputPath);
+    const basename = path.basename(inputPath, extname);
+    const regexp = new RegExp(`${extname}$`);
+    if (basename === 'index') {
+      return inputPath.replace(regexp, '.html');
+    }
+
+    return inputPath.replace(regexp, '/index.html');
+  },
+  /**
    * Event emitter to emit/listen to events
    **/
   pulse: new EventEmitter(),
-  __mixins: null,
   __consoleError: consoleError,
   __consoleSuccess: consoleSuccess,
   __consoleWarn: consoleWarn,

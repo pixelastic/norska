@@ -7,215 +7,167 @@ const read = require('firost/lib/read');
 const glob = require('firost/lib/glob');
 
 describe('norska-revv', () => {
+  const tmpDirectory = './tmp/norska-revv/main';
   beforeEach(async () => {
     await config.init({
-      from: './tmp/norska-revv/src',
-      to: './tmp/norska-revv/dist',
+      from: `${tmpDirectory}/src`,
+      to: `${tmpDirectory}/dist`,
     });
-    await emptyDir('./tmp/norska-revv');
-    config.set('runtime.revvFiles', {});
-    jest
-      .spyOn(current, '__spinner')
-      .mockReturnValue({ tick() {}, success() {}, info() {} });
+    current.__hashes = {};
+    await emptyDir(tmpDirectory);
   });
-  describe('manifest', () => {
-    it('should return an empty object if no manifest yet set', () => {
-      const actual = current.manifest();
-
-      expect(actual).toEqual({});
-    });
-    it('should write if value passed, read if not', () => {
-      current.manifest({ foo: 'bar' });
-
-      const actual = current.manifest();
-
-      expect(actual).toEqual({ foo: 'bar' });
-    });
-  });
-  describe('add', () => {
-    it('should add a null entry to the manifest', () => {
-      current.add('foo/bar.js');
-
-      const actual = current.manifest();
-
-      expect(actual).toHaveProperty(['foo/bar.js'], null);
-    });
-  });
-  describe('revvPath', () => {
-    it('keep same path if file does not exist', async () => {
-      const actual = await current.revvPath('foo.txt');
-
-      expect(actual).toEqual('foo.txt');
-    });
-    describe('with default method', () => {
-      it('return revved filepath of file', async () => {
-        await write('foo', config.toPath('foo.txt'));
-
-        const actual = await current.revvPath('foo.txt');
-
-        expect(actual).toEqual('foo.acbd18db4c.txt');
-      });
-      it('return different filepath if content is different', async () => {
-        await write('foo', config.toPath('foo.txt'));
-        const revv1 = await current.revvPath('foo.txt');
-        await write('bar', config.toPath('foo.txt'));
-        const revv2 = await current.revvPath('foo.txt');
-
-        expect(revv1).not.toEqual(revv2);
+  describe('run', () => {
+    describe('in dev', () => {
+      beforeEach(async () => {
+        jest.spyOn(helper, 'isProduction').mockReturnValue(false);
       });
     });
-    describe('with custom method', () => {
-      it('should use the custom method returned value', async () => {
-        await config.init({
-          from: './tmp/norska-revv/src',
-          to: './tmp/norska-revv/dist',
-          revv: {
-            hashingMethod(_filepath) {
-              return 'bar.baz';
-            },
-          },
-        });
-        await write('foo', config.toPath('foo.txt'));
-
-        const actual = await current.revvPath('foo.txt');
-
-        expect(actual).toEqual('bar.baz');
+    describe('in prod', () => {
+      beforeEach(async () => {
+        jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
-    });
-  });
-  describe('fillManifest', () => {
-    it('should add revved filepath to each file in the manifest', async () => {
-      await write('foo', config.toPath('foo.txt'));
-      await write('bar', config.toPath('bar.txt'));
-      current.add('foo.txt');
-      current.add('bar.txt');
+      it('nominal case', async () => {
+        await write('root', config.toPath('cover.png'));
+        await write('blog', config.toPath('blog/cover.png'));
+        await write('assets', config.toPath('assets/cover.png'));
 
-      await current.fillManifest();
+        const sourceFile = config.toPath('blog/index.html');
+        const htmlSource = dedent`
+      <img src="{revv: cover.png}" />
+      <img src="{revv: blog/cover.png}" />
+      <img src="{revv: /assets/cover.png}" />
+      <img src="{revv: assets/cover.png}" />
+      `;
+        await write(htmlSource, sourceFile);
+        await current.run();
 
-      const actual = current.manifest();
+        const expected = dedent`
+      <img src="../cover.63a9f0ea7b.png" />
+      <img src="cover.126ac9f614.png" />
+      <img src="assets/cover.32bb636196.png" />
+      <img src="../assets/cover.32bb636196.png" />
+      `;
+        const actual = await read(config.toPath('blog/index.html'));
+        expect(actual).toEqual(expected);
 
-      expect(actual).toHaveProperty(['foo.txt'], 'foo.acbd18db4c.txt');
-      expect(actual).toHaveProperty(['bar.txt'], 'bar.37b51d194a.txt');
+        const files = await glob(config.toPath('**/*'));
+        expect(files).toContain(config.toPath('cover.png'));
+        expect(files).toContain(config.toPath('cover.63a9f0ea7b.png'));
+        expect(files).toContain(config.toPath('blog/cover.png'));
+        expect(files).toContain(config.toPath('blog/cover.126ac9f614.png'));
+        expect(files).toContain(config.toPath('assets/cover.png'));
+        expect(files).toContain(config.toPath('assets/cover.32bb636196.png'));
+      });
     });
   });
   describe('compile', () => {
     beforeEach(async () => {
-      await write('foo', config.toPath('foo.txt'));
-      current.add('foo.txt');
-      await write('foo', config.toPath('subfolder/foo.txt'));
-      current.add('subfolder/foo.txt');
-      await current.fillManifest();
+      jest.spyOn(current, 'read').mockReturnValue(null);
+      jest.spyOn(current, 'revHash').mockReturnValue('h4sh');
     });
-    it.each([
-      // Destination | Input | Expected
-      ['index.html', '{revv: foo.txt}', 'foo.acbd18db4c.txt'],
-      [
-        'index.html',
-        '{revv: foo.txt}-{revv: foo.txt}',
-        'foo.acbd18db4c.txt-foo.acbd18db4c.txt',
-      ],
-      ['subfolder/index.html', '{revv: foo.txt}', '../foo.acbd18db4c.txt'],
-      [
-        'subfolder/index.html',
-        '{revv: subfolder/foo.txt}',
-        'foo.acbd18db4c.txt',
-      ],
-      [
-        'index.html',
-        '{revv: subfolder/foo.txt}',
-        'subfolder/foo.acbd18db4c.txt',
-      ],
-      [
-        'foo/index.html',
-        '{revv: subfolder/foo.txt}',
-        '../subfolder/foo.acbd18db4c.txt',
-      ],
-      ['subfolder/index.html', '{absoluteRevv: foo.txt}', 'foo.acbd18db4c.txt'],
-      [
-        'subfolder/index.html',
-        '{absoluteRevv: subfolder/foo.txt}',
-        'subfolder/foo.acbd18db4c.txt',
-      ],
-    ])('[%s] %s => %s', async (destination, input, expected) => {
-      const htmlFile = config.toPath(destination);
-      await write(input, htmlFile);
-      await current.compile(htmlFile);
-      const actual = await read(htmlFile);
+    it('should replace all occurences', async () => {
+      const sourceFile = config.toPath('blog/index.html');
+      const htmlSource = dedent`
+      <img src="{revv: cover.png}" />
+      <img src="{revv: blog/cover.png}" />
+      <img src="{revv: /assets/cover.png}" />
+      <img src="{revv: assets/cover.png}" />
+      `;
+      const expected = dedent`
+      <img src="../cover.h4sh.png" />
+      <img src="cover.h4sh.png" />
+      <img src="assets/cover.h4sh.png" />
+      <img src="../assets/cover.h4sh.png" />
+      `;
+      await write(htmlSource, sourceFile);
+      await current.compile(sourceFile);
+
+      const actual = await read(config.toPath('blog/index.html'));
       expect(actual).toEqual(expected);
     });
   });
-  describe('renameAssets', () => {
-    it('should create a revved copy of each file in manifest', async () => {
-      await write('foo', config.toPath('foo.txt'));
-      current.add('foo.txt');
-      await current.fillManifest();
-
-      await current.renameAssets();
-
-      const actual = await glob(config.toPath('**/*'));
-      expect(actual).toInclude(config.toPath('foo.acbd18db4c.txt'));
+  describe('convert', () => {
+    beforeEach(async () => {
+      jest.spyOn(current, 'read').mockReturnValue(null);
+      jest.spyOn(current, 'revHash').mockReturnValue('h4sh');
     });
-    it('should keep the initial file as well', async () => {
-      await write('foo', config.toPath('foo.txt'));
-      current.add('foo.txt');
-      await current.fillManifest();
-
-      await current.renameAssets();
-
-      const actual = await glob(config.toPath('**/*'));
-      expect(actual).toInclude(config.toPath('foo.txt'));
+    it.each([
+      // htmlSource, sourceFile, expected
+      ['{revv: cover.png}', 'index.html', 'cover.h4sh.png'],
+      ['{revv: cover.png}', 'blog/index.html', '../cover.h4sh.png'],
+      ['{revv: /cover.png}', 'index.html', 'cover.h4sh.png'],
+      ['{revv: /cover.png}', 'blog/index.html', 'cover.h4sh.png'],
+      ['{revv: /assets/cover.png}', 'index.html', 'assets/cover.h4sh.png'],
+      [
+        '{revv: cover.png}{revv: cover.png}',
+        'index.html',
+        'cover.h4sh.pngcover.h4sh.png',
+      ],
+      ['%7Brevv%3A%20cover.png%7D', 'index.html', 'cover.h4sh.png'],
+      ['%7Brevv%3A%20cover.png%7D', 'blog/index.html', '..%2Fcover.h4sh.png'],
+      [
+        '%7Brevv%3A%20assets%2Fcover.png%7D',
+        'blog/index.html',
+        '..%2Fassets%2Fcover.h4sh.png',
+      ],
+      [
+        '%7Brevv%3A%20%2Fassets%2Fcover.png%7D',
+        'blog/index.html',
+        'assets%2Fcover.h4sh.png',
+      ],
+      [
+        '%7Brevv%3A%20cover.png%7D%7Brevv%3A%20cover.png%7D',
+        'index.html',
+        'cover.h4sh.pngcover.h4sh.png',
+      ],
+    ])('%s in %s => %s', async (htmlSource, sourceFile, expected) => {
+      const actual = await current.convert(htmlSource, sourceFile);
+      expect(actual).toEqual(expected);
     });
   });
-  describe('run', () => {
+  describe('hashFile', () => {
     beforeEach(async () => {
-      jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-
-      await write('foo', config.toPath('foo.txt'));
-      current.add('foo.txt');
+      jest.spyOn(current, 'read').mockReturnValue(null);
+      jest.spyOn(current, 'revHash').mockReturnValue('h4sh');
     });
-    it('should update all html files in destination', async () => {
-      const html = '<a href="{revv: foo.txt}">foo</a>';
-      const index = config.toPath('index.html');
-      const subfile = config.toPath('subdir/deep/index.html');
-      await write(html, index);
-      await write(html, subfile);
-
-      await current.run();
-
-      const expected = '<a href="foo.acbd18db4c.txt">foo</a>';
-      const expectedSubfile = '<a href="../../foo.acbd18db4c.txt">foo</a>';
-
-      expect(await read(index)).toEqual(expected);
-      expect(await read(subfile)).toEqual(expectedSubfile);
+    it.each([
+      ['cover.png', 'cover.h4sh.png'],
+      ['assets/cover.png', 'assets/cover.h4sh.png'],
+      ['scripts.js.map', 'scripts.js.h4sh.map'],
+    ])('%s => %s', async (input, expected) => {
+      const actual = await current.hashFile(input);
+      expect(actual).toEqual(expected);
     });
-    it('should not run in dev', async () => {
-      jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-      const html = '<a href="{revv: foo.txt}">foo</a>';
-      const index = config.toPath('index.html');
-      const subfile = config.toPath('subdir/deep/index.html');
-      await write(html, index);
-      await write(html, subfile);
-
-      await current.run();
-
-      const expected = html;
-
-      expect(await read(index)).toEqual(expected);
-      expect(await read(subfile)).toEqual(expected);
+  });
+  describe('getFileHash', () => {
+    beforeEach(async () => {
+      jest.spyOn(current, 'hashFile').mockImplementation((filepath) => {
+        return `REVVED:${filepath}`;
+      });
     });
-    it('should have renamed files', async () => {
-      await current.run();
-
-      const actual = await glob(config.toPath('**/*'));
-
-      expect(actual).toInclude(config.toPath('foo.acbd18db4c.txt'));
+    it('should hash the input', async () => {
+      const actual = await current.getFileHash('cover.png');
+      expect(actual).toEqual('REVVED:cover.png');
     });
-    it('should have kept initial files', async () => {
-      await current.run();
-
-      const actual = await glob(config.toPath('**/*'));
-
-      expect(actual).toInclude(config.toPath('foo.txt'));
+    it('should allow passing a custom method', async () => {
+      config.set('revv.hashingMethod', (filepath) => {
+        return `CUSTOM_REVVED:${filepath}`;
+      });
+      const actual = await current.getFileHash('cover.png');
+      expect(actual).toEqual('CUSTOM_REVVED:cover.png');
+    });
+    it('should normalize paths starting with /', async () => {
+      const actual = await current.getFileHash('/cover.png');
+      expect(actual).toEqual('REVVED:cover.png');
+    });
+    it('should read from cache on next calls', async () => {
+      await current.getFileHash('cover.png');
+      await current.getFileHash('cover.png');
+      expect(current.hashFile).toHaveBeenCalledTimes(1);
+      expect(current).toHaveProperty(
+        ['__hashes', 'cover.png'],
+        'REVVED:cover.png'
+      );
     });
   });
 });

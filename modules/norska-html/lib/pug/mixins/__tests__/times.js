@@ -1,0 +1,26 @@
+const pug = require('../../index.js');
+const config = require('norska-config');
+
+describe('norska-html > pug > mixins > times', () => {
+  const tmpDirectory = './tmp/norska-html/pug/mixins/times';
+  beforeEach(async () => {
+    await config.init({
+      from: `${tmpDirectory}/src`,
+      to: `${tmpDirectory}/dist`,
+    });
+  });
+  it.each([
+    // name, input, expected
+    [
+      'Nominal case',
+      dedent`
+      +times(3)
+        p foo
+      `,
+      '<p>foo</p><p>foo</p><p>foo</p>',
+    ],
+  ])('%s', async (_name, source, expected) => {
+    const actual = await pug.convert(source);
+    expect(actual).toEqual(expected);
+  });
+});

@@ -1,157 +1,23 @@
 const config = require('norska-config');
-const copy = require('firost/lib/copy');
-const exist = require('firost/lib/exist');
-const glob = require('firost/lib/glob');
 const helper = require('norska-helper');
+const copy = require('firost/lib/copy');
+const glob = require('firost/lib/glob');
 const pMap = require('golgoth/lib/pMap');
+const pProps = require('golgoth/lib/pProps');
 const path = require('path');
 const read = require('firost/lib/read');
 const revHash = require('rev-hash');
 const spinner = require('firost/lib/spinner');
 const timeSpan = require('golgoth/lib/timeSpan');
 const write = require('firost/lib/write');
-const _ = require('golgoth/lib/lodash');
 const defaultConfig = require('./config.js');
+const pMapSeries = require('golgoth/lib/pMapSeries');
+const _ = require('golgoth/lib/lodash');
 
 module.exports = {
-  /**
-   * Default configuration object
-   * @returns {object} Default module config
-   **/
-  defaultConfig() {
-    return defaultConfig;
-  },
-  /**
-   * Convenience method to read/write in the cached manifest
-   * Each key is the base asset path, and value is its revved path or null
-   * @param {object} value Manifest object to write
-   * @returns {object} Manifest object read from cache
-   **/
-  manifest(value) {
-    if (!value) {
-      return config.get('runtime.revvFiles', {});
-    }
-    config.set('runtime.revvFiles', value);
-  },
-  /**
-   * Add a file to the manifest
-   * Note: This method is called from template files with revv()
-   * @param {string} filepath Path to the file to revv
-   **/
-  add(filepath) {
-    const manifest = this.manifest();
-    manifest[filepath] = null;
-    this.manifest(manifest);
-  },
-  /**
-   * Returns a hash from a filepath
-   * @param {string} filepath Path to the file
-   * @returns {string} Hash
-   **/
-  async getHash(filepath) {
-    const hashingMethod = config.get('revv.hashingMethod');
-    if (!hashingMethod) {
-      const fullPath = config.toPath(filepath);
-      const hash = revHash(await read(fullPath));
-      const extname = path.extname(filepath);
-      return _.replace(
-        filepath,
-        new RegExp(`${extname}$`),
-        `.${hash}${extname}`
-      );
-    }
-    return await hashingMethod(filepath);
-  },
-  /**
-   * Return the revved filepath of any file
-   * @param {string} filepath Path to the initial file
-   * @returns {string} Revved filepath
-   **/
-  async revvPath(filepath) {
-    const fullPath = config.toPath(filepath);
-
-    if (!(await exist(fullPath))) {
-      return filepath;
-    }
-
-    return await this.getHash(filepath);
-  },
-  /**
-   * Update the manifest with revved filenames for each file
-   **/
-  async fillManifest() {
-    const manifest = this.manifest();
-    await pMap(_.keys(manifest), async (asset) => {
-      manifest[asset] = await this.revvPath(asset);
-    });
-    this.manifest(manifest);
-  },
-  /**
-   * Replace all {revv: path} to real revved path in the specified file
-   * @param {string} htmlPath Path to the HTML file to update
-   **/
-  async compile(htmlPath) {
-    let content = await read(htmlPath);
-
-    const manifest = this.manifest();
-    _.each(manifest, (revvedPath, basePath) => {
-      const absoluteRevvedPath = config.toPath(revvedPath);
-      const destinationFolder = path.dirname(htmlPath);
-      let relativeRevvedPath = path.relative(
-        destinationFolder,
-        absoluteRevvedPath
-      );
-
-      // We need to decode revv and absoluteRevv placeholders
-      const revvPattern = `{revv: ${basePath}}`;
-      const absoluteRevvPattern = `{absoluteRevv: ${basePath}}`;
-      const replacements = [
-        { from: revvPattern, to: relativeRevvedPath },
-        { from: absoluteRevvPattern, to: revvedPath },
-      ];
-
-      content = _.reduce(
-        replacements,
-        function (result, item) {
-          return (
-            _.chain(result)
-              .replace(new RegExp(item.from, 'g'), item.to)
-              // We also need to replace urlencoded placeholders with urlencoded
-              // values (for example when they are in an image proxy links)
-              .replace(
-                new RegExp(encodeURIComponent(item.from), 'g'),
-                encodeURIComponent(item.to)
-              )
-              .value()
-          );
-        },
-        content
-      );
-    });
-
-    await write(content, htmlPath);
-  },
-  /**
-   * Create a revved copy of each revved asset
-   * Note: We keep the original asset as well, in case it is referenced without
-   * revving
-   **/
-  async renameAssets() {
-    const assets = _.map(this.manifest(), (revvedPath, basePath) => {
-      return { revvedPath, basePath };
-    });
-    await pMap(assets, async (asset) => {
-      const basePath = config.toPath(asset.basePath);
-      const revvedPath = config.toPath(asset.revvedPath);
-      await copy(basePath, revvedPath);
-    });
-  },
-  /**
-   * Update all HTML files in destination with path to the revved assets
-   **/
   async run() {
     const timer = timeSpan();
-    const progress = this.__spinner();
+    const progress = this.spinner();
     progress.tick('Revving assets');
     if (!helper.isProduction()) {
       progress.info('Revving skipped in dev');
@@ -159,10 +25,8 @@ module.exports = {
     }
 
     try {
-      await this.fillManifest();
-      const htmlFiles = await glob(config.toPath('**/*.html'));
-
-      await pMap(htmlFiles, async (filepath) => {
+      const files = await glob(config.toPath('**/*.html'));
+      await pMap(files, async (filepath) => {
         await this.compile(filepath);
       });
 
@@ -174,5 +38,121 @@ module.exports = {
 
     progress.success(`Assets revved in ${timer.rounded()}ms`);
   },
-  __spinner: spinner,
+  /**
+   * Replace all {revv: path} placeholders in a given HTML page
+   * @param {string} sourceFile Path to the source html file
+   **/
+  async compile(sourceFile) {
+    const fullPath = config.toPath(sourceFile);
+    const htmlSource = await read(fullPath);
+    const newSource = await this.convert(htmlSource, sourceFile);
+    await write(newSource, fullPath);
+  },
+  /**
+   * Convert an HTML source to replace all {revv: path} placeholders into real
+   * paths
+   * @param {string} htmlSource Source of the file to transform
+   * @param {string} sourceFile Path to the file to resolve relative paths from
+   * @returns {string} Converted HTML Source
+   **/
+  async convert(htmlSource, sourceFile) {
+    let newSource = htmlSource;
+    newSource = await this.convertWithOptions(newSource, sourceFile, {
+      pattern: /{revv: (?<path>.*?)}/g,
+      decode: _.identity,
+      encode: _.identity,
+    });
+    // Revv placeholders can also be included in proxy image urls and need to be
+    // converted there as well
+    newSource = await this.convertWithOptions(newSource, sourceFile, {
+      pattern: /%7Brevv%3A%20(?<path>.*?)%7D/g,
+      decode: decodeURIComponent,
+      encode: encodeURIComponent,
+    });
+    return newSource;
+  },
+  /**
+   * Internal method used by convert to allow converting both url-encoded and
+   * non url-encoded placeholders
+   * @param {string} htmlSource Source of the file to transform
+   * @param {string} sourceFile Path to the file to resolve relative paths from
+   * @param {object} options Option object
+   * @param {RegExp} options.pattern Regexp to match the placeholder
+   * @param {Function} options.decode Method to execute on the match when found
+   * @param {Function} options.encode Method to execute on the revved path
+   * before replacing
+   * @returns {string} Converted HTML Source
+   **/
+  async convertWithOptions(htmlSource, sourceFile, options) {
+    const dirname = path.dirname(config.toPath(sourceFile));
+
+    const matches = Array.from(htmlSource.matchAll(options.pattern));
+
+    let newSource = htmlSource;
+    await pMapSeries(matches, async ([fullMatch, rawMatchPath]) => {
+      const matchPath = options.decode(rawMatchPath);
+      const isFromRoot = matchPath.startsWith('/');
+
+      const hashedPath = await this.getFileHash(matchPath);
+
+      // Revvs starting with / should be transformed in path relative to the
+      // root while others are relative to the current file
+      const finalPath = isFromRoot
+        ? hashedPath
+        : path.relative(dirname, config.toPath(hashedPath));
+
+      newSource = newSource.replace(fullMatch, options.encode(finalPath));
+    });
+
+    return newSource;
+  },
+  /**
+   * Make a copy of each asset with its revved name
+   **/
+  async renameAssets() {
+    await pProps(this.__hashes, async (revvedPath, initialPath) => {
+      await copy(config.toPath(initialPath), config.toPath(revvedPath));
+    });
+  },
+  /**
+   * Returns the revved path of an asset
+   * Will use the default hashing method unless revv.hashingMethod is defined,
+   * and will keep results in cache for the whole run
+   * @param {string} userFilepath Path to the asset
+   * @returns {string} Revved path to the asset
+   **/
+  async getFileHash(userFilepath) {
+    const filepath = _.trimStart(userFilepath, '/');
+
+    // Fill up the cache on first call
+    if (!this.__hashes[filepath]) {
+      const hashingMethod =
+        config.get('revv.hashingMethod') || this.hashFile.bind(this);
+      this.__hashes[filepath] = await hashingMethod(filepath);
+    }
+
+    return this.__hashes[filepath];
+  },
+  /**
+   * Default hashing method to add a unique revv idenfier to a filepath
+   * @param {string} filepath Path to the asset
+   * @returns {string} Revved path to the asset
+   **/
+  async hashFile(filepath) {
+    const hash = this.revHash(await this.read(config.toPath(filepath)));
+    const extname = path.extname(filepath);
+    const regexp = new RegExp(`${extname}$`);
+    return filepath.replace(regexp, `.${hash}${extname}`);
+  },
+  /**
+   * Default configuration object
+   * @returns {object} Default module config
+   **/
+  defaultConfig() {
+    return defaultConfig;
+  },
+  read,
+  revHash,
+  spinner,
+  __hashes: {},
 };

@@ -1,11 +1,8 @@
 const current = require('../main');
 const config = require('norska-config');
-const data = require('norska-data');
 const emptyDir = require('firost/lib/emptyDir');
 const write = require('firost/lib/write');
-const read = require('firost/lib/read');
 const exist = require('firost/lib/exist');
-const writeJson = require('firost/lib/writeJson');
 const glob = require('firost/lib/glob');
 
 describe('norska-html', () => {
@@ -17,88 +14,38 @@ describe('norska-html', () => {
     });
     await emptyDir(tmpDirectory);
   });
-  describe('pugFilesPattern', () => {
-    it('should find pug file in source', async () => {
-      await write('dummy', config.fromPath('index.pug'));
-      const actual = await glob(await current.pugFilesPattern());
+  describe('filePatterns', () => {
+    it.each([
+      // file | should be found
+      ['index.pug', true],
+      ['subdir/index.pug', true],
+      ['subdir/something.pug', true],
+      ['_includes/index.pug', false],
+      ['index.md', true],
+      ['subdir/index.md', true],
+      ['subdir/something.md', true],
+      ['_data/text.md', false],
+    ])('%s: %s', async (input, expected) => {
+      await write('anything', config.fromPath(input));
+      const actual = await glob(await current.filePatterns());
 
-      expect(actual).toContain(config.fromPath('index.pug'));
-    });
-    it('should find pug file in sub directory of source', async () => {
-      await write('dummy', config.fromPath('subdir/index.pug'));
-      const actual = await glob(await current.pugFilesPattern());
-
-      expect(actual).toContain(config.fromPath('subdir/index.pug'));
-    });
-    it('should not find files in _directories', async () => {
-      await write('dummy', config.fromPath('_subdir/index.pug'));
-      const actual = await glob(await current.pugFilesPattern());
-
-      expect(actual).not.toContain(config.fromPath('_subdir/index.pug'));
-    });
-  });
-  describe('createPage', () => {
-    beforeEach(async () => {
-      data.clearCache();
-    });
-    it('should create a file from a template', async () => {
-      const input = config.fromPath('_templates/foo.pug');
-      const output = config.toPath('output.html');
-      await write('p foo', input);
-
-      await current.createPage(input, output);
-
-      const actual = await read(output);
-      expect(actual).toEqual('<p>foo</p>');
-    });
-    it('should use site data', async () => {
-      const input = config.fromPath('_templates/foo.pug');
-      const output = config.toPath('output.html');
-      const dataPath = config.fromPath('_data/foo.json');
-      await write('p=data.foo.bar', input);
-      await writeJson({ bar: 'baz' }, dataPath);
-
-      await current.createPage(input, output);
-
-      const actual = await read(output);
-      expect(actual).toEqual('<p>baz</p>');
-    });
-    it('should allow overriding site data', async () => {
-      const input = config.fromPath('_templates/foo.pug');
-      const output = config.toPath('output.html');
-      const dataPath = config.fromPath('_data/foo.json');
-      await write('p=data.foo.bar', input);
-      await writeJson({ bar: 'baz' }, dataPath);
-
-      await current.createPage(input, output, { foo: { bar: 'quux' } });
-
-      const actual = await read(output);
-      expect(actual).toEqual('<p>quux</p>');
+      expect(actual.includes(config.fromPath(input))).toEqual(expected);
     });
   });
   describe('getDestinationPath', () => {
-    it('index.pug', async () => {
-      const expected = 'index.html';
-      const actual = current.getDestinationPath(testName);
+    it.each([
+      // source | destination
+      ['index.pug', 'index.html'],
+      ['about.pug', 'about/index.html'],
+      ['blog/index.pug', 'blog/index.html'],
+      ['blog/me/index.pug', 'blog/me/index.html'],
 
-      expect(actual).toEqual(expected);
-    });
-    it('foo.pug', async () => {
-      const expected = 'foo/index.html';
-      const actual = current.getDestinationPath(testName);
-
-      expect(actual).toEqual(expected);
-    });
-    it('foo/index.pug', async () => {
-      const expected = 'foo/index.html';
-      const actual = current.getDestinationPath(testName);
-
-      expect(actual).toEqual(expected);
-    });
-    it('foo/bar.pug', async () => {
-      const expected = 'foo/bar/index.html';
-      const actual = current.getDestinationPath(testName);
-
+      ['index.md', 'index.html'],
+      ['about.md', 'about/index.html'],
+      ['blog/index.md', 'blog/index.html'],
+      ['blog/me/index.md', 'blog/me/index.html'],
+    ])('%s => %s', async (input, expected) => {
+      const actual = current.getDestinationPath(input);
       expect(actual).toEqual(expected);
     });
   });
@@ -116,21 +63,6 @@ describe('norska-html', () => {
 
         const actual = await exist(config.toPath('_foo/index.html'));
         expect(actual).toEqual(false);
-      });
-    });
-    describe('compilation error', () => {
-      it('should throw if one of the compilation fails', async () => {
-        await write('p foo', config.fromPath('index.pug'));
-        await write('p.invalid:syntax foo', config.fromPath('error.pug'));
-
-        let actual = null;
-        try {
-          await current.run();
-        } catch (error) {
-          actual = error;
-        }
-
-        expect(actual).toHaveProperty('code', 'ERROR_HTML_COMPILATION_FAILED');
       });
     });
   });

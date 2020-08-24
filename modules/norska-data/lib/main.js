@@ -26,7 +26,7 @@ module.exports = {
    * Init the module, filling the cache if needed.
    * Won't do anything if called more than once
    **/
-  async init() {
+  async warmCache() {
     if (this.hasCache()) {
       return;
     }

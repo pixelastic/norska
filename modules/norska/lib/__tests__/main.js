@@ -77,7 +77,6 @@ describe('norska', () => {
       jest.spyOn(current, 'build').mockReturnValue();
       jest.spyOn(current, 'init').mockReturnValue();
       jest.spyOn(current, 'serve').mockReturnValue();
-      // jest.spyOn(current, 'screenshot').mockReturnValue();
       jest.spyOn(current, 'initConfig').mockReturnValue();
     });
     it('should allow running the build command', async () => {

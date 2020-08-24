@@ -1,0 +1,36 @@
+mixin head() 
+  - 
+    let {
+      title,
+      description,
+      twitter,
+      pageUrl,
+      image
+    } = mixinHelpers.head(meta);
+  head
+    meta(charset='utf-8')
+    meta('http-equiv'='x-ua-compatible', content='ie-edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
+    //- HTML meta
+    title=title
+    meta(name='description', content=description)
+    //- Twitter meta
+    meta(name='twitter:card', content='summary_large_image')
+    meta(name='twitter:site', content=`@${twitter}`)
+    //- OpenGraph meta
+    meta(property='og:title', content=title)
+    meta(property='og:description', content=description)
+    meta(property='og:url', content=pageUrl)
+    meta(property='og:image', content!=image)
+    //- Netlify redirect if missing trailing slash
+    script!=tweaks.ensureUrlTrailingSlashSource
+    //- Favicon
+    link(rel="shortcut icon", href=`${url.pathToRoot}favicon.png`)
+    //- CSS
+    link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
+    //- Custom content
+    block
+
+//- Backward compatibility
+mixin norska_head()
+  +head()

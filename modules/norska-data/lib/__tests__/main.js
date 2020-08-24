@@ -37,11 +37,11 @@ describe('norska-data', () => {
       expect(actual).toHaveProperty('foo', 'bar');
     });
   });
-  describe('init', () => {
+  describe('warmCache', () => {
     it('should fill the cache on first call', async () => {
       jest.spyOn(current, 'updateCache').mockReturnValue();
 
-      await current.init();
+      await current.warmCache();
 
       expect(current.updateCache).toHaveBeenCalled();
     });
@@ -49,7 +49,7 @@ describe('norska-data', () => {
       jest.spyOn(current, 'updateCache').mockReturnValue();
       current.__cache = { foo: 'bar' };
 
-      await current.init();
+      await current.warmCache();
 
       expect(current.updateCache).not.toHaveBeenCalled();
     });
