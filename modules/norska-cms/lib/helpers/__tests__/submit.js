@@ -2,10 +2,10 @@ const current = require('../submit');
 const path = require('path');
 const cms = require('../../main.js');
 const config = require('norska-config');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const read = require('firost/lib/read');
-const exist = require('firost/lib/exist');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const read = require('firost/read');
+const exist = require('firost/exist');
 
 describe('helpers/submit', () => {
   const tmpPath = './tmp/norska-cms/helper/submit';

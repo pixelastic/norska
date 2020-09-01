@@ -5,10 +5,10 @@ const liveServer = require('live-server');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
 const pAll = require('golgoth/lib/pAll');
-const consoleError = require('firost/lib/consoleError');
-const exit = require('firost/lib/exit');
-const mkdirp = require('firost/lib/mkdirp');
-const remove = require('firost/lib/remove');
+const consoleError = require('firost/consoleError');
+const exit = require('firost/exit');
+const mkdirp = require('firost/mkdirp');
+const remove = require('firost/remove');
 
 module.exports = {
   /**

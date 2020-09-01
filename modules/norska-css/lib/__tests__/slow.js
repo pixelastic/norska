@@ -1,12 +1,12 @@
 const current = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const read = require('firost/lib/read');
-const mkdirp = require('firost/lib/mkdirp');
-const unwatchAll = require('firost/lib/unwatchAll');
-const waitForWatchers = require('firost/lib/waitForWatchers');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const read = require('firost/read');
+const mkdirp = require('firost/mkdirp');
+const unwatchAll = require('firost/unwatchAll');
+const waitForWatchers = require('firost/waitForWatchers');
 
 // This tests are slow as they actually really compile CSS through postCSS. We
 // put them in their own file to easily ignore them when watching tests

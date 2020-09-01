@@ -1,6 +1,6 @@
 const pug = require('../../index.js');
 const config = require('norska-config');
-const write = require('firost/lib/write');
+const write = require('firost/write');
 
 describe('norska-html > pug > methods > include', () => {
   const tmpDirectory = './tmp/norska-html/pug/methods/include';

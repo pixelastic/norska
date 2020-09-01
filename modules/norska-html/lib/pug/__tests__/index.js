@@ -1,9 +1,9 @@
 const current = require('../index');
 const config = require('norska-config');
-const write = require('firost/lib/write');
+const write = require('firost/write');
 const data = require('norska-data');
-const read = require('firost/lib/read');
-const writeJson = require('firost/lib/writeJson');
+const read = require('firost/read');
+const writeJson = require('firost/writeJson');
 
 describe('norska-html > pug', () => {
   const tmpDirectory = './tmp/norska-html/pug';

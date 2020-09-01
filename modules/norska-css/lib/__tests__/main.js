@@ -1,8 +1,8 @@
 const current = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
 const path = require('path');
 
 describe('norska-css', () => {

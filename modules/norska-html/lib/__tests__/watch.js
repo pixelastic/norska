@@ -2,11 +2,11 @@
 const current = require('../main');
 const config = require('norska-config');
 const data = require('norska-data');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const uuid = require('firost/lib/uuid');
-const unwatchAll = require('firost/lib/unwatchAll');
-const waitForWatchers = require('firost/lib/waitForWatchers');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const uuid = require('firost/uuid');
+const unwatchAll = require('firost/unwatchAll');
+const waitForWatchers = require('firost/waitForWatchers');
 
 describe('norska-html > watch', () => {
   const tmpDirectory = './tmp/norska-html/watch';

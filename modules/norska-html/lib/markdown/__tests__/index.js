@@ -1,8 +1,8 @@
 const current = require('../index');
 const config = require('norska-config');
-const write = require('firost/lib/write');
-const emptyDir = require('firost/lib/emptyDir');
-const read = require('firost/lib/read');
+const write = require('firost/write');
+const emptyDir = require('firost/emptyDir');
+const read = require('firost/read');
 
 describe('norska-html > markdown > index', () => {
   const tmpDirectory = './tmp/norska-html/markdown/index';

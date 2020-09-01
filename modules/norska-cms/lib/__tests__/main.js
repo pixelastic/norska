@@ -1,6 +1,6 @@
 const current = require('../main');
 const config = require('norska-config');
-const emptyDir = require('firost/lib/emptyDir');
+const emptyDir = require('firost/emptyDir');
 const objectWith = expect.objectContaining;
 const arrayWith = expect.arrayContaining;
 const anything = expect.anything();

@@ -1,9 +1,9 @@
 const current = require('../main');
 const config = require('norska-config');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const exist = require('firost/lib/exist');
-const glob = require('firost/lib/glob');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const exist = require('firost/exist');
+const glob = require('firost/glob');
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/index';

@@ -7,9 +7,9 @@ const livereload = require('livereload');
 const connectLivereload = require('connect-livereload');
 const open = require('open');
 const multer = require('multer');
-const read = require('firost/lib/read');
-const write = require('firost/lib/write');
-const firostRequire = require('firost/lib/require');
+const read = require('firost/read');
+const write = require('firost/write');
+const firostRequire = require('firost/require');
 const defaultConfig = require('./config.js');
 
 module.exports = {

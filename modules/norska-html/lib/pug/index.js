@@ -1,12 +1,12 @@
 const config = require('norska-config');
 const pug = require('pug');
 const _ = require('golgoth/lib/lodash');
-const write = require('firost/lib/write');
-const read = require('firost/lib/read');
-const firostError = require('firost/lib/error');
+const write = require('firost/write');
+const read = require('firost/read');
+const firostError = require('firost/error');
 const data = require('../data.js');
 const path = require('path');
-const glob = require('firost/lib/glob');
+const glob = require('firost/glob');
 const pMap = require('golgoth/lib/pMap');
 const pugMethods = require('./methods/index.js');
 

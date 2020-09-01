@@ -1,11 +1,11 @@
 const current = require('../main');
 const path = require('path');
 const config = require('norska-config');
-const glob = require('firost/lib/glob');
-const readJson = require('firost/lib/readJson');
-const writeJson = require('firost/lib/writeJson');
-const emptyDir = require('firost/lib/emptyDir');
-const isFile = require('firost/lib/isFile');
+const glob = require('firost/glob');
+const readJson = require('firost/readJson');
+const writeJson = require('firost/writeJson');
+const emptyDir = require('firost/emptyDir');
+const isFile = require('firost/isFile');
 
 describe('norska-init', () => {
   beforeEach(async () => {

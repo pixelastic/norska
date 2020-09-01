@@ -1,7 +1,7 @@
-const consoleInfo = require('firost/lib/consoleInfo');
-const consoleSuccess = require('firost/lib/consoleSuccess');
-const consoleError = require('firost/lib/consoleError');
-const run = require('firost/lib/run');
+const consoleInfo = require('firost/consoleInfo');
+const consoleSuccess = require('firost/consoleSuccess');
+const consoleError = require('firost/consoleError');
+const run = require('firost/run');
 const helper = require('./helper/index.js');
 const _ = require('golgoth/lib/lodash');
 module.exports = {

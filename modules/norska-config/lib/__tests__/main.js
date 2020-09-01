@@ -1,7 +1,7 @@
 const current = require('../main');
 const path = require('path');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
 
 describe('norska-config', () => {
   const tmpDirectory = path.resolve('./tmp/norska-config');

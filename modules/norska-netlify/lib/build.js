@@ -5,11 +5,11 @@ const _ = require('golgoth/lib/lodash');
 const config = require('norska-config');
 const path = require('path');
 const multimatch = require('multimatch');
-const readJson = require('firost/lib/readJson');
-const exit = require('firost/lib/exit');
-const consoleInfo = require('firost/lib/consoleInfo');
-const consoleSuccess = require('firost/lib/consoleSuccess');
-const consoleError = require('firost/lib/consoleError');
+const readJson = require('firost/readJson');
+const exit = require('firost/exit');
+const consoleInfo = require('firost/consoleInfo');
+const consoleSuccess = require('firost/consoleSuccess');
+const consoleError = require('firost/consoleError');
 module.exports = {
   /**
    * Check if the current build should happen based on the deploy history and

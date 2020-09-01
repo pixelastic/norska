@@ -1,12 +1,12 @@
 const current = require('../git');
 const config = require('norska-config');
 const isCI = process.env.CI;
-const write = require('firost/lib/write');
-const writeJson = require('firost/lib/writeJson');
-const mkdirp = require('firost/lib/mkdirp');
-const remove = require('firost/lib/remove');
-const emptyDir = require('firost/lib/emptyDir');
-const tmpDirectory = require('firost/lib/tmpDirectory');
+const write = require('firost/write');
+const writeJson = require('firost/writeJson');
+const mkdirp = require('firost/mkdirp');
+const remove = require('firost/remove');
+const emptyDir = require('firost/emptyDir');
+const tmpDirectory = require('firost/tmpDirectory');
 const pAll = require('golgoth/lib/pAll');
 
 const testRepo = async function () {

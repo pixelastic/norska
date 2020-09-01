@@ -1,6 +1,6 @@
 const _ = require('golgoth/lib/lodash');
-const isFile = require('firost/lib/isFile');
-const readJson = require('firost/lib/readJson');
+const isFile = require('firost/isFile');
+const readJson = require('firost/readJson');
 /**
  * Helper method to get input field types from data. Those fields will be used
  * to create the add/edit UI

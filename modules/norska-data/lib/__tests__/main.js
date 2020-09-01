@@ -1,9 +1,9 @@
 const current = require('../main');
 const config = require('norska-config');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const uuid = require('firost/lib/uuid');
-const writeJson = require('firost/lib/writeJson');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const uuid = require('firost/uuid');
+const writeJson = require('firost/writeJson');
 
 describe('norska-data', () => {
   beforeEach(async () => {

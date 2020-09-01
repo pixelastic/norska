@@ -7,11 +7,11 @@ const webpack = require('webpack');
 const _ = require('golgoth/lib/lodash');
 const chalk = require('golgoth/lib/chalk');
 const pify = require('golgoth/lib/pify');
-const consoleError = require('firost/lib/consoleError');
-const consoleSuccess = require('firost/lib/consoleSuccess');
-const spinner = require('firost/lib/spinner');
-const exists = require('firost/lib/exists');
-const firostError = require('firost/lib/error');
+const consoleError = require('firost/consoleError');
+const consoleSuccess = require('firost/consoleSuccess');
+const spinner = require('firost/spinner');
+const exists = require('firost/exists');
+const firostError = require('firost/error');
 const defaultConfig = require('./config.js');
 
 module.exports = {

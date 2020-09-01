@@ -1,5 +1,5 @@
 const _ = require('golgoth/lib/lodash');
-const run = require('firost/lib/run');
+const run = require('firost/run');
 
 module.exports = {
   /**

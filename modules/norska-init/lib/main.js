@@ -4,12 +4,12 @@ const path = require('path');
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
 const pMapSeries = require('golgoth/lib/pMapSeries');
-const copy = require('firost/lib/copy');
-const exist = require('firost/lib/exist');
-const glob = require('firost/lib/glob');
-const readJson = require('firost/lib/readJson');
-const spinner = require('firost/lib/spinner');
-const writeJson = require('firost/lib/writeJson');
+const copy = require('firost/copy');
+const exist = require('firost/exist');
+const glob = require('firost/glob');
+const readJson = require('firost/readJson');
+const spinner = require('firost/spinner');
+const writeJson = require('firost/writeJson');
 
 module.exports = {
   /**

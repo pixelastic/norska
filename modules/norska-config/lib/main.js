@@ -1,8 +1,8 @@
 const EventEmitter = require('events');
-const exists = require('firost/lib/exists');
+const exists = require('firost/exists');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
-const consoleWarn = require('firost/lib/consoleWarn');
+const consoleWarn = require('firost/consoleWarn');
 
 module.exports = {
   /**

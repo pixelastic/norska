@@ -2,9 +2,9 @@ const config = require('norska-config');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
-const glob = require('firost/lib/glob');
-const readJson = require('firost/lib/readJson');
-const firostRequire = require('firost/lib/require');
+const glob = require('firost/glob');
+const readJson = require('firost/readJson');
+const firostRequire = require('firost/require');
 
 module.exports = {
   __cache: {},

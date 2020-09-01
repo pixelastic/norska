@@ -3,9 +3,9 @@ const pMap = require('golgoth/lib/pMap');
 const path = require('path');
 const cms = require('../main.js');
 const config = require('norska-config');
-const isFile = require('firost/lib/isFile');
-const move = require('firost/lib/move');
-const remove = require('firost/lib/remove');
+const isFile = require('firost/isFile');
+const move = require('firost/move');
+const remove = require('firost/remove');
 
 module.exports = {
   /**

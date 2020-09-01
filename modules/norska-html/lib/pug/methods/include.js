@@ -2,7 +2,7 @@ const config = require('norska-config');
 const fs = require('fs');
 const path = require('path');
 const pug = require('pug');
-const firostError = require('firost/lib/error');
+const firostError = require('firost/error');
 
 /**
  * Workaround for Pug not having dynamic include by default

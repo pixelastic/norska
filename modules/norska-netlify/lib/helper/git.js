@@ -1,6 +1,6 @@
 const config = require('norska-config');
-const gitRoot = require('firost/lib/gitRoot');
-const run = require('firost/lib/run');
+const gitRoot = require('firost/gitRoot');
+const run = require('firost/run');
 const _ = require('golgoth/lib/lodash');
 const path = require('path');
 module.exports = {

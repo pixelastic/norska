@@ -2,10 +2,10 @@ const current = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
 const pEvent = require('p-event');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const read = require('firost/lib/read');
-const isFile = require('firost/lib/isFile');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const read = require('firost/read');
+const isFile = require('firost/isFile');
 
 // Note:
 // Webpack seems to have trouble when too many compiler are instanciated.

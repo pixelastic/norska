@@ -1,19 +1,19 @@
 const EventEmitter = require('events');
 const chalk = require('golgoth/lib/chalk');
 const config = require('norska-config');
-const consoleError = require('firost/lib/consoleError');
-const consoleSuccess = require('firost/lib/consoleSuccess');
-const consoleWarn = require('firost/lib/consoleWarn');
-const glob = require('firost/lib/glob');
+const consoleError = require('firost/consoleError');
+const consoleSuccess = require('firost/consoleSuccess');
+const consoleWarn = require('firost/consoleWarn');
+const glob = require('firost/glob');
 const helper = require('norska-helper');
 const markdown = require('./markdown/index.js');
 const norskaData = require('norska-data');
 const pMap = require('golgoth/lib/pMap');
 const path = require('path');
 const pug = require('./pug/index.js');
-const spinner = require('firost/lib/spinner');
+const spinner = require('firost/spinner');
 const timeSpan = require('golgoth/lib/timeSpan');
-const watch = require('firost/lib/watch');
+const watch = require('firost/watch');
 const _ = require('golgoth/lib/lodash');
 
 module.exports = {

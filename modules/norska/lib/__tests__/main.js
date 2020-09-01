@@ -9,10 +9,10 @@ const netlify = require('norska-netlify');
 const config = require('norska-config');
 const init = require('norska-init');
 const liveServer = require('live-server');
-const emptyDir = require('firost/lib/emptyDir');
-const exist = require('firost/lib/exist');
-const write = require('firost/lib/write');
-const firostError = require('firost/lib/error');
+const emptyDir = require('firost/emptyDir');
+const exist = require('firost/exist');
+const write = require('firost/write');
+const firostError = require('firost/error');
 
 describe('norska', () => {
   describe('initConfig', () => {

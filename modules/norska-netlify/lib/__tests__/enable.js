@@ -1,5 +1,5 @@
 const current = require('../enable');
-const emptyDir = require('firost/lib/emptyDir');
+const emptyDir = require('firost/emptyDir');
 const path = require('path');
 const config = require('norska-config');
 const helper = require('../helper/index.js');

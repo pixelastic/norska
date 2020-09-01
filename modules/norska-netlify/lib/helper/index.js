@@ -1,7 +1,7 @@
 const NetlifyAPI = require('netlify');
 const config = require('norska-config');
-const exists = require('firost/lib/exists');
-const readJson = require('firost/lib/readJson');
+const exists = require('firost/exists');
+const readJson = require('firost/readJson');
 const got = require('golgoth/lib/got');
 const _ = require('golgoth/lib/lodash');
 module.exports = {

@@ -1,10 +1,10 @@
 const current = require('../main');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const emptyDir = require('firost/lib/emptyDir');
-const write = require('firost/lib/write');
-const read = require('firost/lib/read');
-const glob = require('firost/lib/glob');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
+const read = require('firost/read');
+const glob = require('firost/glob');
 
 describe('norska-revv', () => {
   const tmpDirectory = './tmp/norska-revv/main';
