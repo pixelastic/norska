@@ -5,11 +5,12 @@
   },
   "description": "Norska documentation theme",
   "files": [
+    "main.js",
     "src/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "./lib/main.js",
+  "main": "./main.js",
   "name": "norska-theme-docs",
   "repository": "https://github.com/pixelastic/norska/modules/norska-theme-docs",
   "scripts": {
