@@ -2,11 +2,12 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Default norska theme",
   "files": [
+    "main.js",
     "src/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
-  "main": "./lib/main.js",
+  "main": "./main.js",
   "name": "norska-theme-default",
   "repository": "https://github.com/pixelastic/norska/modules/norska-theme-default",
   "scripts": {
