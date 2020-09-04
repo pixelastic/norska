@@ -12,8 +12,8 @@ html(lang='en')
           each part in data.theme.navigation
             h3.DocSearch-categoryTitle.bold.gray-6.text-3=part.name
             ul.mb-1
-              each link in part.links
-                - const parts = data.themeMethods.parseNavigationLink(link, isCurrentPage)
+              each entry in part.links
+                - const parts = data.themeMethods.parseNavigationLink(entry, { isCurrentPage, link })
                 li
                   a.text-2.block.ml-01.my-01.pl-02.gray-7.hover_green-5.border-l-01(href=parts.href title=parts.titles class=parts.css)=parts.title
 

@@ -23,6 +23,10 @@ module.exports = function (data, sourceFile) {
     isCurrentPage(target) {
       return path.pageUrl(target) === path.pageUrl(sourceFile);
     },
+    // Find the simplest link to a file
+    link(target) {
+      return path.link(target, sourceFile);
+    },
     // Convert markdown to HTML
     markdown(markdownSource, options = {}) {
       return markdownConvert.run(markdownSource, sourceFile, options);
