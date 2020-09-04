@@ -25,10 +25,7 @@ describe('norska-html > markdown > convert', () => {
           # Title
 
           Text`,
-        dedent`
-          <h1>Title</h1>
-          <p>Text</p>
-        `,
+        '<h1 id="title"><a href="#title">Title</a></h1><p>Text</p>',
       ],
       [
         'Allow HTML in source',
@@ -176,6 +173,41 @@ describe('norska-html > markdown > convert', () => {
         expect(actual).toContain(
           `<pre><code class="hljs language-${language}">`
         );
+      });
+    });
+    describe('links', () => {
+      it.each([
+        ['[blog](blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+        ['[2020](2020/)', 'blog/index.html', '<p><a href="2020/">2020</a></p>'],
+        ['[blog](/blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+        [
+          '[projects](/projects/)',
+          'blog/index.html',
+          '<p><a href="../projects/">projects</a></p>',
+        ],
+      ])('%s in %s', (markdownSource, sourceFile, expected) => {
+        const actual = current.run(markdownSource, sourceFile);
+        expect(actual).toEqual(expected);
+      });
+    });
+    describe('headers', () => {
+      it.each([
+        ['# Title', '<h1 id="title"><a href="#title">Title</a></h1>'],
+        [
+          '## Subtitle',
+          '<h2 id="subtitle"><a href="#subtitle">Subtitle</a></h2>',
+        ],
+        [
+          '# Getting Started',
+          '<h1 id="gettingStarted"><a href="#gettingStarted">Getting Started</a></h1>',
+        ],
+        [
+          '# We ♥ you',
+          '<h1 id="weLoveYou"><a href="#weLoveYou">We ♥ you</a></h1>',
+        ],
+      ])('%s', (markdownSource, expected) => {
+        const actual = current.run(markdownSource);
+        expect(actual).toEqual(expected);
       });
     });
   });

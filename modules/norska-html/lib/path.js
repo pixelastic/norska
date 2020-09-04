@@ -215,4 +215,27 @@ module.exports = {
 
     return path.relative(config.to(), fullTarget);
   },
+  /**
+   * Returns the simplest link between the sourceFile and the
+   * destination
+   * @param {string} target Path to a file
+   * @param {string} sourceFile Path to the file to resolve relative paths from
+   * @returns {string} Link from sourceFile to target
+   **/
+  link(target, sourceFile) {
+    // Remote url are kept remote
+    if (this.isUrl(target)) {
+      return normalizeUrl(target);
+    }
+
+    const fromFile = this.pathFromFile(target, sourceFile);
+    // Current page
+    if (!fromFile) {
+      return '.';
+    }
+
+    // Add a final slash for directories
+    const hasExtension = !!path.extname(target);
+    return hasExtension ? fromFile : `${fromFile}/`;
+  },
 };

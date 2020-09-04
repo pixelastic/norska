@@ -150,26 +150,20 @@ module.exports = {
    * Listen to any changes on css files and rebuild them
    **/
   async watch() {
-    const watchPatterns = [];
-
-    // Listen to the entrypoint
-    const inputFile = config.fromPath(config.get('css.input'));
-    watchPatterns.push(inputFile);
-
-    // Listen to the includes files
-    const includedFiles = `${config.from()}/_styles/**/*.css`;
-    watchPatterns.push(includedFiles);
-
-    // Listen to the tailwind.config.js file
-    const tailwindConfig = await this.getTailwindConfigPath();
-    watchPatterns.push(tailwindConfig);
+    const entrypoint = config.fromPath(config.get('css.input'));
+    const watchPatterns = [
+      entrypoint,
+      `${config.from()}/_styles/**/*.css`, // Included files
+      config.themePath('**/*.css'), // Theme files
+      await this.getTailwindConfigPath(), // Tailwind config
+    ];
 
     // Rebuild the entrypoint whenever something changed
     await watch(watchPatterns, async () => {
       try {
         const timer = timeSpan();
-        const relativePath = path.relative(config.from(), inputFile);
-        await this.compile(inputFile);
+        const relativePath = path.relative(config.from(), entrypoint);
+        await this.compile(entrypoint);
         this.__consoleSuccess(
           `${relativePath} compiled in ${timer.rounded()}ms`
         );

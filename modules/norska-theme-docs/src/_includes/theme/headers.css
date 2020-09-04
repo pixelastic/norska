@@ -1,0 +1,12 @@
+.prose {
+  h1, h2, h3, h4, h5, h6 {
+    /** 
+     * Prevent headers used as anchors to be hidden behind 
+     * the fixed header 
+     **/
+    @apply scroll-mt-8;
+    a {
+      @apply current-color;
+    }
+  }
+}

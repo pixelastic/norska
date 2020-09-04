@@ -4,6 +4,7 @@ const markdownItHighlight = require('markdown-it-highlightjs');
 const highlightJsPug = require('highlightjs-pug');
 const mixinHelperImg = require('../pug/mixins/helpers/img.js');
 const path = require('../path.js');
+const slug = require('slug');
 
 module.exports = {
   /**
@@ -46,6 +47,13 @@ module.exports = {
     // Override the default handling of images
     this.__defaultImageRenderer = instance.renderer.rules.image;
     instance.renderer.rules.image = this.imageRenderer.bind(this);
+
+    // Override the default handling of links
+    instance.renderer.rules.link_open = this.linkRenderer.bind(this);
+
+    // Override the default handling of headers
+    instance.renderer.rules.heading_open = this.headingOpen.bind(this);
+    instance.renderer.rules.heading_close = this.headingClose.bind(this);
   },
   /**
    * Custom markdownIt image renderer method to mimic the +img mixin
@@ -91,6 +99,45 @@ module.exports = {
       renderOptions,
       _self
     );
+  },
+  /**
+   * Normalize all links so starting / are relative to the website root and all
+   * urls are normalized
+   * @param {Array} tokens List of all token
+   * @param {number} tokenIndex Index of the current token
+   * @param {object} _markdownItOptions Options passed when instanciating
+   * markdownIt
+   * @param {object} renderOptions Options passed to the compiler.render()
+   * method
+   * @param {object} _self Current rendered
+   * @returns {string} HTML representation of the opening link tag
+   **/
+  linkRenderer(tokens, tokenIndex, _markdownItOptions, renderOptions, _self) {
+    const sourceFile = renderOptions.sourceFile;
+    const token = tokens[tokenIndex];
+    const attributes = _.fromPairs(token.attrs);
+
+    const href = attributes.href;
+    const normalizedHref = path.link(href, sourceFile);
+
+    token.attrSet('href', normalizedHref);
+    return _self.renderToken(tokens, tokenIndex, _markdownItOptions);
+  },
+  headingOpen(tokens, tokenIndex) {
+    const tag = _.get(tokens[tokenIndex], 'tag');
+    const id = _.chain(tokens[tokenIndex + 1])
+      .get('children')
+      .find({ type: 'text' })
+      .get('content')
+      .thru(slug)
+      .camelCase()
+      .value();
+
+    return `<${tag} id="${id}"><a href="#${id}">`;
+  },
+  headingClose(tokens, tokenIndex) {
+    const tag = _.get(tokens[tokenIndex], 'tag');
+    return `</a></${tag}>`;
   },
   __compiler: null,
   __defaultImageRenderer: null,

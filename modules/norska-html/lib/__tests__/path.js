@@ -475,4 +475,17 @@ describe('norska-html > path', () => {
       expect(actual).toEqual(expected);
     });
   });
+  describe('link', () => {
+    it.each([
+      ['blog/', 'index.html', 'blog/'],
+      ['/blog/', 'index.html', 'blog/'],
+      ['/blog/', 'blog/index.html', '.'],
+      ['/projects/', 'blog/index.html', '../projects/'],
+      ['2020/', 'blog/index.html', '2020/'],
+      ['http://there.com', 'blog/index.html', 'http://there.com/'],
+    ])('[%s] %s is %s', async (target, sourceFile, expected) => {
+      const actual = current.link(target, sourceFile);
+      expect(actual).toEqual(expected);
+    });
+  });
 });

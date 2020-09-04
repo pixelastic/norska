@@ -138,7 +138,7 @@ module.exports = {
     return this.__hashes[filepath];
   },
   /**
-   * Default hashing method to add a unique revv idenfier to a filepath
+   * Default hashing method to add a unique revv identifier to a filepath
    * @param {string} filepath Path to the asset
    * @returns {string} Revved path to the asset
    **/

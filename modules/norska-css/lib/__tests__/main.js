@@ -4,6 +4,9 @@ const helper = require('norska-helper');
 const emptyDir = require('firost/emptyDir');
 const write = require('firost/write');
 const path = require('path');
+const waitForWatchers = require('firost/waitForWatchers');
+const uuid = require('firost/uuid');
+const unwatchAll = require('firost/unwatchAll');
 
 describe('norska-css', () => {
   const tmpDirectory = './tmp/norska-css/index';
@@ -94,6 +97,90 @@ describe('norska-css', () => {
       expect(actual()).toEqual('my plugins');
     });
   });
+  describe('compile', () => {
+    beforeEach(async () => {
+      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
+      await config.init({
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
+        css: current.defaultConfig(),
+      });
+      await emptyDir(tmpDirectory);
+    });
+    it('should call the compiler with the raw content', async () => {
+      await write('/* css content */', config.fromPath('style.css'));
+      const mockCompiler = jest.fn();
+      jest.spyOn(current, 'getCompiler').mockReturnValue(mockCompiler);
+
+      await current.compile('style.css');
+
+      expect(mockCompiler).toHaveBeenCalledWith(
+        '/* css content */',
+        expect.anything()
+      );
+    });
+    it('should call the compiler with from as the source', async () => {
+      await write('/* css content */', config.fromPath('style.css'));
+      const mockCompiler = jest.fn();
+      jest.spyOn(current, 'getCompiler').mockReturnValue(mockCompiler);
+
+      await current.compile('style.css');
+
+      expect(mockCompiler).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ from: config.fromPath('style.css') })
+      );
+    });
+    it('should write the .css key result to file', async () => {
+      jest.spyOn(current, '__write');
+      await write('/* css content */', config.fromPath('style.css'));
+      const mockCompiler = jest.fn().mockImplementation(async () => {
+        return { css: '/* compiled content */' };
+      });
+      jest.spyOn(current, 'getCompiler').mockReturnValue(mockCompiler);
+
+      await current.compile('style.css');
+
+      expect(current.__write).toHaveBeenCalledWith(
+        '/* compiled content */',
+        config.toPath('style.css')
+      );
+    });
+    describe('compilation errors', () => {
+      it('should fail if file is not in the source folder', async () => {
+        const input = '/nope/foo.css';
+
+        let actual;
+        try {
+          await current.compile(input);
+        } catch (error) {
+          actual = error;
+        }
+
+        expect(actual).toHaveProperty('code', 'ERROR_CSS_COMPILATION_FAILED');
+        expect(actual).toHaveProperty(
+          'message',
+          expect.stringContaining('not in the source directory')
+        );
+      });
+      it('should throw if cannot compile', async () => {
+        await write('.foo {', config.fromPath('style.css'));
+
+        let actual;
+        try {
+          await current.compile('style.css');
+        } catch (error) {
+          actual = error;
+        }
+
+        expect(actual).toHaveProperty('code', 'ERROR_CSS_COMPILATION_FAILED');
+        expect(actual).toHaveProperty(
+          'message',
+          expect.stringContaining('Unclosed block')
+        );
+      });
+    });
+  });
   describe('convert', () => {
     beforeEach(async () => {
       await emptyDir(tmpDirectory);
@@ -179,6 +266,65 @@ describe('norska-css', () => {
       jest.spyOn(helper, 'isProduction').mockReturnValue(envHash[envName]);
       const actual = await current.convert(input);
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('watch', () => {
+    beforeEach(async () => {
+      await config.init({
+        root: tmpDirectory,
+        theme: path.resolve(tmpDirectory, 'theme'),
+        css: current.defaultConfig(),
+      });
+      jest.spyOn(current, 'compile').mockReturnValue();
+      await emptyDir(tmpDirectory);
+      jest
+        .spyOn(current, 'getTailwindConfigPath')
+        .mockReturnValue(config.rootPath('tailwind.config.js'));
+      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
+      jest.spyOn(current, '__consoleError').mockReturnValue();
+    });
+    afterEach(async () => {
+      await unwatchAll();
+    });
+    const writeFile = async (filepath) => {
+      await write(uuid(), config.rootPath(filepath));
+      await waitForWatchers();
+    };
+    const writeTemplateFile = async (filepath) => {
+      await write(uuid(), config.themePath(filepath));
+      await waitForWatchers();
+    };
+    const whileWatching = async (callback) => {
+      await current.watch();
+      await callback();
+      await waitForWatchers();
+    };
+    it('recompiles the whole CSS when parts are changed', async () => {
+      await whileWatching(async () => {
+        await writeFile('src/style.css');
+        await writeFile('src/_styles/fonts.css');
+        await writeFile('tailwind.config.js');
+
+        await writeTemplateFile('style.css');
+        await writeTemplateFile('_includes/theme/fonts.css');
+      });
+
+      expect(current.compile).toHaveBeenCalledTimes(5);
+    });
+    describe('compilation errors', () => {
+      it('should display compilation errors', async () => {
+        current.compile.mockImplementation(() => {
+          throw new Error('Compilation error');
+        });
+
+        await whileWatching(async () => {
+          await writeFile('src/style.css');
+        });
+
+        expect(current.__consoleError).toHaveBeenCalledWith(
+          expect.stringContaining('Compilation error')
+        );
+      });
     });
   });
 });

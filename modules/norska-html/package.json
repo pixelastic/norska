@@ -15,9 +15,10 @@
     "norska-frontend": "^1.0.0",
     "norska-helper": "^1.0.0",
     "norska-image-proxy": "^1.0.0",
-    "pug": "3.0.0"
+    "pug": "3.0.0",
+    "slug": "3.3.4"
   },
-  "description": "Convert .pug files to .html files",
+  "description": "Convert sources to .html files",
   "devDependencies": {
     "p-event": "4.2.0"
   },
