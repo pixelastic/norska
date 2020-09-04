@@ -5,8 +5,7 @@ describe('norska-html > pug > mixins > scripts', () => {
   const tmpDirectory = './tmp/norska-html/pug/mixins/scripts';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
   });
   it.each([
@@ -29,17 +28,14 @@ describe('norska-html > pug > mixins > scripts', () => {
     [
       'With custom content',
       [],
-      dedent`
-        +scripts()
-          script(src="custom.js")
-      `,
+      '+scripts()\n    script(src="custom.js")', // Double indentation on purpose
       'index.html',
       '<script src="custom.js"></script>',
     ],
   ])('%s', async (_name, jsFiles, source, destinationPath, expected) => {
     config.set('runtime.jsFiles', jsFiles);
     const options = { to: destinationPath };
-    const actual = await pug.convert(source, options);
-    expect(actual).toEqual(expected);
+    const actual = await pug.convert(`block content\n  ${source}`, options);
+    expect(actual).toContain(expected);
   });
 });

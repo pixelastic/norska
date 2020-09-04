@@ -6,8 +6,7 @@ describe('norska-html > pug > methods > include', () => {
   const tmpDirectory = './tmp/norska-html/pug/methods/include';
   beforeAll(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
     await write('norska', config.fromPath('repo-name.txt'));
     await write(
@@ -31,11 +30,16 @@ describe('norska-html > pug > methods > include', () => {
       '<div><ul><li>List element</li></ul></div>',
     ],
   ])('%s', async (_name, source, expected) => {
-    const actual = await pug.convert(source);
-    expect(actual).toEqual(expected);
+    const actual = await pug.convert(dedent`
+    block content
+      ${source}`);
+    expect(actual).toContain(expected);
   });
   it('should throw an error if included file does not exist', async () => {
-    const source = 'div!=include("nope.txt")';
+    const source = dedent`
+      block content
+        div!=include("nope.txt")
+      `;
     let actual = null;
     try {
       await pug.convert(source);

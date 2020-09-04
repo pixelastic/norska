@@ -5,8 +5,7 @@ describe('norska-html > pug > mixins > times', () => {
   const tmpDirectory = './tmp/norska-html/pug/mixins/times';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
   });
   it.each([
@@ -14,13 +13,14 @@ describe('norska-html > pug > mixins > times', () => {
     [
       'Nominal case',
       dedent`
-      +times(3)
-        p foo
+        block content
+          +times(3)
+            p foo
       `,
       '<p>foo</p><p>foo</p><p>foo</p>',
     ],
   ])('%s', async (_name, source, expected) => {
     const actual = await pug.convert(source);
-    expect(actual).toEqual(expected);
+    expect(actual).toContain(expected);
   });
 });

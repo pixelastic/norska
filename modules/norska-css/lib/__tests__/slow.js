@@ -1,6 +1,5 @@
 const current = require('../main');
 const config = require('norska-config');
-const helper = require('norska-helper');
 const emptyDir = require('firost/emptyDir');
 const write = require('firost/write');
 const read = require('firost/read');
@@ -93,91 +92,6 @@ describe('norska-css', () => {
           'message',
           expect.stringContaining('Unclosed block')
         );
-      });
-    });
-  });
-  describe('run', () => {
-    beforeEach(async () => {
-      jest.spyOn(current, '__consoleSuccess').mockReturnValue();
-      jest
-        .spyOn(current, '__spinner')
-        .mockReturnValue({ tick() {}, success() {}, failure() {} });
-      await config.init({
-        from: `${tmpDirectory}/src`,
-        to: `${tmpDirectory}/dist`,
-        css: current.defaultConfig(),
-      });
-      await emptyDir(tmpDirectory);
-    });
-
-    it('should compile basic CSS', async () => {
-      await write('.class { color: red; }', config.fromPath('style.css'));
-      await current.run();
-
-      const actual = await read(config.toPath('style.css'));
-      expect(actual).toMatchSnapshot();
-    });
-    it('should import statements inline', async () => {
-      await write(
-        '@import "_styles/imported.css"',
-        config.fromPath('style.css')
-      );
-      await write(
-        'b { color: blue; }',
-        config.fromPath('_styles/imported.css')
-      );
-      await current.run();
-
-      const actual = await read(config.toPath('style.css'));
-      expect(actual).toMatchSnapshot();
-    });
-    it('should flatten nested syntax', async () => {
-      await write('.class { a { color: red; } }', config.fromPath('style.css'));
-      await current.run();
-
-      const actual = await read(config.toPath('style.css'));
-      expect(actual).toMatchSnapshot();
-    });
-
-    describe('in production', () => {
-      beforeEach(async () => {
-        jest.spyOn(helper, 'isProduction').mockReturnValue(true);
-      });
-      it('should build a neat CSS file', async () => {
-        await write(
-          '<p class="context"><span>foo</span></p>',
-          config.toPath('index.html')
-        );
-        await write(
-          `/* This should be removed */
-          /*! This should still be remove */
-          .context { color: green; user-select: none; }
-          span { color: green; }
-          .nope { color: red; }
-          .foo { color: red; }
-          .ais-bar { 
-            color: green; 
-            span {
-              color: green;
-            }
-          }
-          .js-bar { 
-            color: green; 
-            span {
-              color: green;
-            }
-          }
-          /* purgecss start ignore */
-          .quxx { color: green; }
-          /* purgecss end ignore */
-          `,
-          config.fromPath('style.css')
-        );
-
-        await current.run();
-
-        const actual = await read(config.toPath('style.css'));
-        expect(actual).toMatchSnapshot();
       });
     });
   });

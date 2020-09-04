@@ -9,8 +9,7 @@ describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/index';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
     await emptyDir(tmpDirectory);
   });

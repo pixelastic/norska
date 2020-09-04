@@ -1,0 +1,21 @@
+{
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "dependencies": {},
+  "description": "Default norska theme",
+  "files": [
+    "src/"
+  ],
+  "homepage": "https://github.com/pixelastic/norska/",
+  "license": "MIT",
+  "main": "./lib/main.js",
+  "name": "norska-theme-default",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-theme-default",
+  "scripts": {
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "release": "../../scripts/meta/release",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
+  },
+  "version": "0.16.0"
+}

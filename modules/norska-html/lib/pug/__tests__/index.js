@@ -9,9 +9,17 @@ describe('norska-html > pug', () => {
   const tmpDirectory = './tmp/norska-html/pug';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
+      theme: `${tmpDirectory}/node_modules/norska-theme-something/src`,
     });
+    // Default layout in theme
+    await write(
+      dedent`
+        .default
+          block content
+    `,
+      config.themePath('_includes/layouts/default.pug')
+    );
   });
   describe('compile', () => {
     beforeEach(async () => {
@@ -20,109 +28,185 @@ describe('norska-html > pug', () => {
     it('should create a file from a template', async () => {
       const input = config.fromPath('_templates/foo.pug');
       const output = config.toPath('output.html');
-      await write('p foo', input);
+      await write('block content\n  p foo', input);
 
       await current.compile(input, output);
 
       const actual = await read(output);
-      expect(actual).toEqual('<p>foo</p>');
+      expect(actual).toEqual('<div class="default"><p>foo</p></div>');
     });
     it('should use site data', async () => {
       const input = config.fromPath('_templates/foo.pug');
       const output = config.toPath('output.html');
       const dataPath = config.fromPath('_data/foo.json');
-      await write('p=data.foo.bar', input);
+      await write('block content\n  p=data.foo.bar', input);
       await writeJson({ bar: 'baz' }, dataPath);
 
       await current.compile(input, output);
 
       const actual = await read(output);
-      expect(actual).toEqual('<p>baz</p>');
+      expect(actual).toEqual('<div class="default"><p>baz</p></div>');
     });
     it('should allow overriding site data', async () => {
       const input = config.fromPath('_templates/foo.pug');
       const output = config.toPath('output.html');
       const dataPath = config.fromPath('_data/foo.json');
-      await write('p=data.foo.bar', input);
+      await write('block content\n  p=data.foo.bar', input);
       await writeJson({ bar: 'baz' }, dataPath);
 
       await current.compile(input, output, { foo: { bar: 'quux' } });
 
       const actual = await read(output);
-      expect(actual).toEqual('<p>quux</p>');
+      expect(actual).toEqual('<div class="default"><p>quux</p></div>');
     });
   });
   describe('convert', () => {
     beforeEach(async () => {
+      // Custom layout in project
       await write(
         dedent`
-      .container
-        block content
+          .project
+            block content
       `,
-        config.fromPath('_includes/layout.pug')
+        config.fromPath('_includes/layouts/project.pug')
+      );
+      // Custom layout in theme
+      await write(
+        dedent`
+          .docs
+            block content
+      `,
+        config.themePath('_includes/layouts/docs.pug')
       );
     });
     it.each([
-      ['Nominal case', 'p foo', '<p>foo</p>', {}],
       [
-        'With relative layout',
+        'Default layout from theme',
         dedent`
-          extends _includes/layout.pug
-
           block content
             p foo
-          `,
-        '<div class="container"><p>foo</p></div>',
-        {},
-      ],
-      [
-        'With absolute layout in subfolder',
-        dedent`
-          extends /_includes/layout.pug
-
-          block content
-            p foo
-          `,
-        '<div class="container"><p>foo</p></div>',
-        {
-          from: 'subfolder/index.pug',
-        },
-      ],
-      [
-        'With relative layout in subfolder',
-        dedent`
-          extends ../_includes/layout.pug
-
-          block content
-            p foo
-          `,
-        '<div class="container"><p>foo</p></div>',
-        {
-          from: 'subfolder/index.pug',
-        },
-      ],
-      ['With lodash', 'p=_.keys({foo: "bar"})', '<p>foo</p>', {}],
-      ['With markdown', 'p!=markdown("# foo")', '<p><h1>foo</h1></p>', {}],
-      ['Manual revving', 'p!=revv("style.css")', '<p>style.css</p>', {}],
-      ['Manual img link', 'p!=img("cover.png")', '<p>cover.png</p>', {}],
-      [
-        'With mixins',
-        dedent`
-      +times(2)
-        p Text
         `,
-        '<p>Text</p><p>Text</p>',
-        {},
+        '<div class="default"><p>foo</p></div>',
       ],
-    ])('%s', async (_name, source, expected, options) => {
-      const actual = await current.convert(source, options);
+      [
+        'Custom theme layout',
+        dedent`
+        //- ---
+        //- layout: docs
+        //- ---
+        block content
+          p foo
+        `,
+        '<div class="docs"><p>foo</p></div>',
+      ],
+      [
+        'Custom project layout',
+        dedent`
+        //- ---
+        //- layout: project
+        //- ---
+        block content
+          p foo
+        `,
+        '<div class="project"><p>foo</p></div>',
+      ],
+      [
+        'Specific default',
+        dedent`
+        //- ---
+        //- layout: default
+        //- ---
+        block content
+          p foo
+        `,
+        '<div class="default"><p>foo</p></div>',
+      ],
+      [
+        'lodash is available as _',
+        dedent`
+          block content
+            p=_.keys({foo: "bar"})
+        `,
+        '<div class="default"><p>foo</p></div>',
+      ],
+      [
+        'markdown() method is available',
+        dedent`
+          block content
+            p!=markdown("# foo")
+        `,
+        '<div class="default"><p><h1>foo</h1></p></div>',
+      ],
+      [
+        'revv() method is available',
+        dedent`
+          block content
+            p!=revv("style.css")
+        `,
+        '<div class="default"><p>style.css</p></div>',
+      ],
+      [
+        'img() method is available',
+        dedent`
+          block content
+            p!=img("cover.png")
+        `,
+        '<div class="default"><p>cover.png</p></div>',
+      ],
+      [
+        '+times() mixin is available',
+        dedent`
+          block content
+            +times(2)
+              p Text
+        `,
+        '<div class="default"><p>Text</p><p>Text</p></div>',
+      ],
+      [
+        'frontmatter is available as meta',
+        dedent`
+        //- ---
+        //- title: My title
+        //- ---
+          block content
+            p=meta.title
+        `,
+        '<div class="default"><p>My title</p></div>',
+      ],
+    ])('%s', async (_name, source, expected) => {
+      const actual = await current.convert(source);
       expect(actual).toEqual(expected);
     });
   });
   describe('errors', () => {
     it.each([
-      ['Invalid syntax', 'p.invalid:syntax foo', 'Unexpected token', {}],
-      ['Missing data', 'p=nope.nope', 'Cannot read property', {}],
+      [
+        'Invalid syntax',
+        dedent`
+          block content
+            p.invalid:syntax foo
+        `,
+        'Unexpected token',
+      ],
+      [
+        'Missing data',
+        dedent`
+          block content
+            p=nope.nope
+        `,
+        'Cannot read property',
+      ],
+      [
+        'Missing layout',
+        dedent`
+          //- ---
+          //- layout: nope
+          //- ---
+          block content
+            p foo
+        `,
+        'Missing layout: nope',
+      ],
     ])('%s', async (_name, source, expected) => {
       const sourcePath = config.fromPath('index.pug');
       const destinationPath = config.toPath('index.html');
@@ -137,6 +221,55 @@ describe('norska-html > pug', () => {
 
       expect(actual).toHaveProperty('code', 'ERROR_PUG_COMPILATION_FAILED');
       expect(actual).toHaveProperty('message', expect.stringMatching(expected));
+    });
+  });
+  describe('frontMatter', () => {
+    it.each([
+      ['No frontmatter', '.container Content', {}, '.container Content'],
+      [
+        'One key in frontmatter',
+        dedent`
+        //- ---
+        //- title: My title
+        //- ---
+        
+        .container Content
+        `,
+        {
+          title: 'My title',
+        },
+        '.container Content',
+      ],
+      [
+        'Multiple keysin frontmatter',
+        dedent`
+        //- ---
+        //- title: My title
+        //- description: My description
+        //- ---
+        
+        .container Content
+        `,
+        {
+          title: 'My title',
+          description: 'My description',
+        },
+        '.container Content',
+      ],
+      [
+        'Unclosed frontmatter',
+        dedent`
+        //- ---
+        
+        .container Content
+        `,
+        {},
+        '//- ---\n\n.container Content',
+      ],
+    ])('%s', async (_name, pugSource, attributes, body) => {
+      const actual = current.frontMatter(pugSource);
+      expect(actual).toHaveProperty('attributes', attributes);
+      expect(actual).toHaveProperty('body', body);
     });
   });
 });

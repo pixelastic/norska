@@ -8,34 +8,27 @@ describe('norska-html > markdown > index', () => {
   const tmpDirectory = './tmp/norska-html/markdown/index';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
+    // Default layout in theme
+    await write(
+      dedent`
+        .default
+          block content
+    `,
+      config.themePath('_includes/layouts/default.pug')
+    );
     config.set('runtime.productionUrl', 'http://here.com');
   });
   describe('compile', () => {
     beforeEach(async () => {
       await write(
         dedent`
-      .layout-core
-        block content
-      `,
-        config.fromPath('_includes/layouts/core.pug')
-      );
-      await write(
-        dedent`
-      .layout-custom
-        block content
-      `,
-        config.fromPath('_includes/layouts/custom.pug')
-      );
-      await write(
-        dedent`
       title=meta.title
-      .layout-meta
+      .project
         block content
       `,
-        config.fromPath('_includes/layouts/meta.pug')
+        config.fromPath('_includes/layouts/project.pug')
       );
     });
     beforeEach(async () => {
@@ -44,43 +37,24 @@ describe('norska-html > markdown > index', () => {
     it.each([
       // sourceFile, markdownSource, destinationFile, expected
       [
-        'Nominal case',
+        'Use default layout',
         'index.md',
         '# Title',
         'index.html',
-        '<div class="layout-core"><h1>Title</h1></div>',
+        '<div class="default"><h1>Title</h1></div>',
       ],
       [
-        'Sub directory',
-        'about.md',
-        '# Title',
-        'about/index.html',
-        '<div class="layout-core"><h1>Title</h1></div>',
-      ],
-      [
-        'Custom layout',
-        'about.md',
+        'Use custom layout',
+        'index.md',
         dedent`
-        ---
-        layout: custom
-        ---
-        
-        # Title`,
-        'about/index.html',
-        '<div class="layout-custom"><h1>Title</h1></div>',
-      ],
-      [
-        'Custom meta',
-        'about.md',
-        dedent`
-        ---
-        title: my title
-        layout: meta
-        ---
-        
-        # Title`,
-        'about/index.html',
-        '<title>my title</title><div class="layout-meta"><h1>Title</h1></div>',
+          ---
+          layout: project
+          title: my title
+          ---
+          
+          # Title`,
+        'index.html',
+        '<title>my title</title><div class="project"><h1>Title</h1></div>',
       ],
     ])(
       '%s',

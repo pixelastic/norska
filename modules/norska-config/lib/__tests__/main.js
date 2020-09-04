@@ -329,4 +329,73 @@ describe('norska-config', () => {
       expect(current.__require).toHaveBeenCalledWith(configPath);
     });
   });
+  describe('findFile', () => {
+    beforeEach(async () => {
+      const themePath = path.resolve(
+        tmpDirectory,
+        'node_modules/norska-theme-default/src'
+      );
+      await current.init({
+        root: tmpDirectory,
+        theme: themePath,
+      });
+      await emptyDir(tmpDirectory);
+    });
+    it.each([
+      // test name | files to create | input | expected key
+      [
+        'Layout only in theme',
+        {
+          theme: '_includes/layouts/default.pug',
+          project: null,
+        },
+        '_includes/layouts/default.pug',
+        'theme',
+      ],
+      [
+        'Layout in theme and project',
+        {
+          theme: '_includes/layouts/default.pug',
+          project: '_includes/layouts/default.pug',
+        },
+        '_includes/layouts/default.pug',
+        'project',
+      ],
+      [
+        'Layout only in project',
+        {
+          theme: null,
+          project: '_includes/layouts/default.pug',
+        },
+        '_includes/layouts/default.pug',
+        'project',
+      ],
+      [
+        'Layout not found',
+        {
+          theme: null,
+          project: null,
+        },
+        '_includes/layouts/default.pug',
+        'false',
+      ],
+    ])('%s', async (_name, files, input, expectedType) => {
+      if (files.theme) {
+        await write('', path.resolve(current.get('theme'), files.theme));
+      }
+      if (files.project) {
+        await write('', current.fromPath(files.project));
+      }
+      const actual = await current.findFile(input);
+      const expectedHash = {
+        theme: current.themePath.bind(current),
+        project: current.fromPath.bind(current),
+        false: () => {
+          return false;
+        },
+      };
+      const expected = expectedHash[expectedType](input);
+      expect(actual).toEqual(expected);
+    });
+  });
 });

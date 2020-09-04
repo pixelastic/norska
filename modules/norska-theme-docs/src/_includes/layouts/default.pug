@@ -1,0 +1,35 @@
+include ../theme/mixins.pug
+
+doctype html
+html(lang='en')
+  +norska_head
+
+  body.bg-gray-1.lato
+    include ../theme/header.pug
+    .container.mx-auto.flex.pt-10.pb-3.px-1.md_px-2
+      .ds-sidebar.w-25p
+        .px-4.py-2
+          each part in data.theme.navigation
+            h3.ds-categoryTitle.bold.gray-4=part.name
+            ul.mb-1
+              each link in part.links
+                -
+                  linkHref = link.href || link
+                  linkTitle = link.title || link
+                li
+                  a.ds-pageTitle.text-2.block.ml-01.my-01.pl-02.gray-7.hover_green-5.border-l-01.border-transparent.hover_border-gray-4(href=`${url.pathToRoot}${linkHref}/` title=linkTitle)=linkTitle
+
+      .flex-grow
+        if data.theme.isDefaultInstall
+          .bg-red-1.border-001.border-red-9.p-3.mb-3
+            .prose!=markdown(data.theme.instructions)
+
+        .bg-white.border-001.border-gray-4.p-3
+          h1.gray-9.text-6.border-b-01.border-green-5=meta.title
+          .prose.prose-xl.pt-5
+            block content
+
+    include ../theme/footer.pug
+
+  +norska_scripts
+

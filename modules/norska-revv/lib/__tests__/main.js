@@ -10,21 +10,21 @@ describe('norska-revv', () => {
   const tmpDirectory = './tmp/norska-revv/main';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
     current.__hashes = {};
     await emptyDir(tmpDirectory);
   });
   describe('run', () => {
-    describe('in dev', () => {
-      beforeEach(async () => {
-        jest.spyOn(helper, 'isProduction').mockReturnValue(false);
-      });
-    });
     describe('in prod', () => {
       beforeEach(async () => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+        jest.spyOn(current, 'spinner').mockReturnValue({
+          text() {},
+          tick() {},
+          success() {},
+          failure() {},
+        });
       });
       it('nominal case', async () => {
         await write('root', config.toPath('cover.png'));

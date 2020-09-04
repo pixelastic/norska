@@ -111,7 +111,6 @@ describe('norska-init', () => {
 
       const actual = await glob(config.fromPath('**/*.pug'));
 
-      expect(actual).toInclude(config.fromPath('_includes/layouts/core.pug'));
       expect(actual).toInclude(config.fromPath('index.pug'));
       expect(actual).toInclude(config.fromPath('404.pug'));
     });

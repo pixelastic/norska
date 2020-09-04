@@ -35,7 +35,9 @@ describe('norska-html > pug > mixins > img', () => {
       '<img class="lazyload" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=100&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
     ],
   ])('%s', async (_name, source, expected) => {
-    const actual = await pug.convert(source);
-    expect(actual).toEqual(expected);
+    const actual = await pug.convert(dedent`
+    block content
+      ${source}`);
+    expect(actual).toContain(expected);
   });
 });

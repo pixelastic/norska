@@ -41,6 +41,18 @@ module.exports = {
       const key = await this.key(filepath);
       _.set(this.__cache, key, value);
     });
+
+    // Add theme values if not yet set
+    const themeFiles = await glob(config.themePath('_data/**/*.{js,json}'));
+    await pMap(themeFiles, async (filepath) => {
+      const key = await this.key(filepath);
+      if (_.has(this.__cache, key)) {
+        return;
+      }
+
+      const value = await this.read(filepath);
+      _.set(this.__cache, key, value);
+    });
   },
   /**
    * Read a .json or .js file from disk and return its content
@@ -68,15 +80,14 @@ module.exports = {
    * @returns {string} dot-separated path
    **/
   key(filepath) {
-    const basedir = config.fromPath('_data');
-    const relativePath = path.relative(basedir, filepath);
+    const splitPath = filepath.split('/');
+    const dataIndex = _.lastIndexOf(splitPath, '_data');
     const extname = path.extname(filepath);
-    const relativeBasename = _.replace(
-      relativePath,
-      new RegExp(`${extname}$`),
-      ''
-    );
-    return _.replace(relativeBasename, /\//g, '.');
+    return _.chain(splitPath)
+      .slice(dataIndex + 1)
+      .join('.')
+      .replace(new RegExp(`${extname}$`), '')
+      .value();
   },
   clearCache() {
     this.__cache = {};

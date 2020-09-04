@@ -86,24 +86,40 @@ module.exports = {
       );
     }
 
-    const rawContent = await read(absoluteSource);
-    const compiler = await this.getCompiler();
+    const cssSource = await read(absoluteSource);
+    const result = await this.convert(cssSource);
 
-    let compiledCss;
-    try {
-      const compilationResult = await compiler(rawContent, {
-        from: absoluteSource,
-      });
-      compiledCss = _.get(compilationResult, 'css');
-    } catch (err) {
-      throw firostError('ERROR_CSS_COMPILATION_FAILED', err.toString());
-    }
-
-    await this.__write(compiledCss, absoluteDestination);
+    await this.__write(result, absoluteDestination);
 
     return true;
   },
+  /**
+   * Pass a CSS string through postcss
+   * @param {string} cssSource CSS source string
+   * @param {object} userOptions Options to pass to the conversion
+   * - from: path to the source file, relative to source directory
+   * @returns {string} CSS string
+   **/
+  async convert(cssSource, userOptions) {
+    const options = {
+      from: config.fromPath('style.css'),
+      ...userOptions,
+    };
+    const compiler = await this.getCompiler();
 
+    const themeRoot = config.themeRoot();
+    const regexp = /@import ("|')theme:(?<filepath>.*)("|')/g;
+    const withTheme = cssSource.replace(regexp, `@import "${themeRoot}/$2"`);
+
+    try {
+      const compilationResult = await compiler(withTheme, {
+        from: options.from,
+      });
+      return _.get(compilationResult, 'css');
+    } catch (err) {
+      throw firostError('ERROR_CSS_COMPILATION_FAILED', err.toString());
+    }
+  },
   /**
    * Compile all source CSS to destination
    * @returns {boolean} False if CSS compilation is skipped

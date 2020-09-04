@@ -23,21 +23,26 @@ module.exports = {
       const markdownSource = await read(absoluteSourcePath);
 
       const { attributes, body } = frontMatter(markdownSource);
-      const meta = _.omit(attributes, ['layout']);
+      const pugFrontmatter = _.chain(attributes)
+        .map((value, key) => {
+          return `//- ${key}: ${value}`;
+        })
+        .join('\n')
+        .value();
 
-      const layout = attributes.layout || 'core';
       const pugSource = dedent`
-      extends /_includes/layouts/${layout}
+        //- ---
+        ${pugFrontmatter}
+        //- ---
 
-      block content
-        !=markdown(markdownContent)
+        block content
+          !=markdown(markdownContent)
       `;
       const options = {
         from: sourcePath,
         to: destinationPath,
         data: {
           markdownContent: body,
-          meta,
         },
       };
       result = await pug.convert(pugSource, options);

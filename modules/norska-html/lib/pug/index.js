@@ -9,6 +9,7 @@ const path = require('path');
 const glob = require('firost/glob');
 const pMap = require('golgoth/lib/pMap');
 const pugMethods = require('./methods/index.js');
+const frontMatter = require('front-matter');
 
 module.exports = {
   /**
@@ -25,6 +26,7 @@ module.exports = {
     let result;
     try {
       const pugSource = await read(absoluteSourcePath);
+
       const options = {
         from: sourcePath,
         to: destinationPath,
@@ -55,22 +57,29 @@ module.exports = {
       ...userOptions,
     };
 
-    const wrappedSource = await this.addMixins(pugSource);
+    const { attributes, body } = this.frontMatter(pugSource);
+
+    const wrappedSource = await this.preflight(body, attributes.layout);
     const compiler = pug.compile(wrappedSource, {
       filename: config.fromPath(options.from),
-      basedir: config.from(),
+      basedir: '/',
     });
 
     // Create a recursive compileData object that contains the pugMethods with
     // the right context
     const siteData = await data.all(options.to);
-    const baseData = _.merge({}, siteData, options.data);
+    const baseData = _.merge({ meta: attributes }, siteData, options.data);
     const compileData = {
       ...baseData,
       ...pugMethods(baseData, options.to),
     };
 
     return compiler(compileData);
+  },
+  async preflight(pugSource, layoutName = 'default') {
+    const withMixins = await this.addMixins(pugSource);
+    const withLayout = await this.addLayout(withMixins, layoutName);
+    return withLayout;
   },
   /**
    * Add all the default mixins to the pug source
@@ -86,14 +95,55 @@ module.exports = {
       this.__mixins = mixinContent.join('\n\n');
     }
 
-    // If starts with extends, add the mixins on the second line
-    if (_.startsWith(pugSource, 'extends ')) {
-      const lines = pugSource.split('\n');
-      lines.splice(1, 0, this.__mixins);
-      return lines.join('\n');
-    }
-    // Add mixins at the very top
+    // Add mixins at  top
     return `${this.__mixins}\n\n${pugSource}`;
+  },
+  /**
+   * Add the correct layout to the top of the pug source
+   * @param {string} pugSource Pug string
+   * @param {string} layoutName Name of the layout to load
+   * @returns {string} Pug string with extend line added on top
+   **/
+  async addLayout(pugSource, layoutName = 'default') {
+    const layoutPath = await config.findFile(
+      `_includes/layouts/${layoutName}.pug`
+    );
+    if (!layoutPath) {
+      throw firostError(
+        'ERROR_PUG_MISSING_LAYOUT',
+        `Missing layout: ${layoutName}`
+      );
+    }
+    return `extends ${layoutPath}\n\n${pugSource}`;
+  },
+  /**
+   * Extract (custom) frontmatter from pug source
+   * Pug does not allow for frontmatter by default, so we expect it to be
+   * commented out with //-
+   * @param {string} pugSource Pug source
+   * @returns {object} Parsed frontmatter with .attributes and .body keys
+   **/
+  frontMatter(pugSource) {
+    // We replace the custom commented frontmatter with its non-commented
+    // version and pass it to frontMatter
+    const regexp = new RegExp(
+      '(?<pugFrontmatter>//- ---\\n.*?\\n//- ---\\n).*',
+      's'
+    );
+    const match = pugSource.match(regexp);
+    if (!match) {
+      return {
+        attributes: {},
+        body: pugSource,
+      };
+    }
+
+    const { pugFrontmatter } = match.groups;
+    const cleanFrontmatter = pugFrontmatter.replace(/^\/\/- /gm, '');
+
+    const cleanSource = pugSource.replace(pugFrontmatter, cleanFrontmatter);
+    const { attributes, body } = frontMatter(cleanSource);
+    return { attributes, body };
   },
   __mixins: null,
 };

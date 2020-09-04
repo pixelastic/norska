@@ -1,0 +1,6 @@
+/* purgecss start ignore */
+@import 'tailwindcss/base';
+@import 'norska/reset';
+@import 'tailwindcss/components';
+/* purgecss end ignore */
+@import 'tailwindcss/utilities';

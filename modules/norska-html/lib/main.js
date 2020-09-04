@@ -75,7 +75,10 @@ module.exports = {
     });
 
     // Rebuild everything whenever an included file changes
-    const includePatterns = [config.fromPath('_includes/**/*')];
+    const includePatterns = [
+      config.fromPath('_includes/**/*'),
+      config.themePath('_includes/**/*'),
+    ];
     await watch(includePatterns, async () => {
       await this.run();
     });

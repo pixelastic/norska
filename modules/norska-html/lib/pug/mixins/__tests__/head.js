@@ -2,7 +2,7 @@ const pug = require('../../index.js');
 const config = require('norska-config');
 const helper = require('norska-helper');
 
-describe('norska-html > pug > mixins > scripts', () => {
+describe('norska-html > pug > mixins > head', () => {
   const tmpDirectory = './tmp/norska-html/pug/mixins/head';
   describe('nominal case', () => {
     let actual;
@@ -15,8 +15,9 @@ describe('norska-html > pug > mixins > scripts', () => {
       config.set('runtime.productionUrl', 'http://here.com');
       jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       const source = dedent`
-        +head()
-          meta(name="custom", content="my value")
+        block content
+          +head()
+            meta(name="custom", content="my value")
       `;
       const options = {
         from: 'blog.pug',

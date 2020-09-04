@@ -1,22 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`norska-css run in production should build a neat CSS file 1`] = `".context{color:green;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}span{color:green}.ais-bar{color:green}.ais-bar span{color:green}.js-bar{color:green}.js-bar span{color:green}.quxx{color:green}"`;
-
-exports[`norska-css run should compile basic CSS 1`] = `
-".class { color: red;
-}"
-`;
-
-exports[`norska-css run should flatten nested syntax 1`] = `
-".class a { color: red;
-}"
-`;
-
-exports[`norska-css run should import statements inline 1`] = `
-"b { color: blue;
-}"
-`;
-
 exports[`norska-css watch should compile the input file when it is created 1`] = `
 "body { background-color: red;
 }"

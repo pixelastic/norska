@@ -7,13 +7,14 @@ const write = require('firost/write');
 const uuid = require('firost/uuid');
 const unwatchAll = require('firost/unwatchAll');
 const waitForWatchers = require('firost/waitForWatchers');
+const path = require('path');
 
 describe('norska-html > watch', () => {
   const tmpDirectory = './tmp/norska-html/watch';
   beforeEach(async () => {
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
+      theme: path.resolve(tmpDirectory, 'theme'),
     });
     await emptyDir(tmpDirectory);
     jest.spyOn(current, 'compile').mockReturnValue();
@@ -30,6 +31,10 @@ describe('norska-html > watch', () => {
   // Write/update a file with random content
   const writeFile = async (filepath) => {
     await write(uuid(), config.fromPath(filepath));
+    await waitForWatchers();
+  };
+  const writeTemplateFile = async (filepath) => {
+    await write(uuid(), config.themePath(filepath));
     await waitForWatchers();
   };
   // Execute code while watching and stops after watchers have finished
@@ -67,13 +72,11 @@ describe('norska-html > watch', () => {
       await writeFile('_data/blog/tags.json');
 
       await writeFile('_includes/templates/hit.pug');
-      await writeFile('_includes/layouts/core.pug');
+      await writeTemplateFile('_includes/layouts/default.pug');
 
       config.set('runtime.jsFiles', ['new files']);
     });
 
-    // One call at init, then one on each data change
-    expect(current.run).toHaveBeenCalledTimes(6);
     expect(current.run).toHaveBeenCalledTimes(6);
   });
   it('should display the errors', async () => {

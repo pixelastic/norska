@@ -4,14 +4,18 @@ const emptyDir = require('firost/emptyDir');
 const write = require('firost/write');
 const uuid = require('firost/uuid');
 const writeJson = require('firost/writeJson');
+const path = require('path');
 
 describe('norska-data', () => {
+  const tmpDirectory = path.resolve('./tmp/norska-data');
   beforeEach(async () => {
     await config.init({
-      from: './tmp/norska-data/src',
-      to: './tmp/norska-data/dist',
+      root: tmpDirectory,
     });
-    await emptyDir('./tmp/norska-data');
+    jest
+      .spyOn(config, 'themeRoot')
+      .mockReturnValue(path.resolve(tmpDirectory, 'theme'));
+    await emptyDir(config.root());
     current.__cache = {};
   });
   describe('hasCache', () => {
@@ -107,26 +111,23 @@ describe('norska-data', () => {
     });
   });
   describe('key', () => {
-    it('foo.json', () => {
-      const input = config.fromPath('_data/foo.json');
+    it.each([
+      ['project', '_data/site.json', 'site'],
+      ['project', '_data/projects/firost.json', 'projects.firost'],
+      ['project', '_data/projects/2020/firost.json', 'projects.2020.firost'],
+      ['project', '_data/site.js', 'site'],
+      ['theme', '_data/firost.json', 'firost'],
+      ['theme', '_data/projects/firost.json', 'projects.firost'],
+      ['theme', '_data/projects/2020/firost.json', 'projects.2020.firost'],
+      ['theme', '_data/site.js', 'site'],
+    ])('[%s] %s => %s', async (type, input, expected) => {
+      const typeHash = {
+        project: config.fromPath.bind(config),
+        theme: config.themePath.bind(config),
+      };
 
-      const actual = current.key(input);
-
-      expect(actual).toEqual('foo');
-    });
-    it('subdir/foo.json', () => {
-      const input = config.fromPath('_data/subdir/foo.json');
-
-      const actual = current.key(input);
-
-      expect(actual).toEqual('subdir.foo');
-    });
-    it('subdir/deep/foo.json', () => {
-      const input = config.fromPath('_data/subdir/deep/foo.json');
-
-      const actual = current.key(input);
-
-      expect(actual).toEqual('subdir.deep.foo');
+      const actual = current.key(typeHash[type](input));
+      expect(actual).toEqual(expected);
     });
   });
   describe('updateCache', () => {
@@ -144,6 +145,26 @@ describe('norska-data', () => {
 
       expect(actual).toHaveProperty(`${jsonId}.name`, 'foo');
       expect(actual).toHaveProperty(`${jsId}.name`, 'bar');
+    });
+  });
+  describe('from a file in the theme', () => {
+    it('should read from theme if available', async () => {
+      await writeJson({ name: 'docs' }, config.themePath('_data/theme.json'));
+
+      await current.updateCache();
+      const actual = current.getAll();
+
+      expect(actual).toHaveProperty('theme.name', 'docs');
+    });
+
+    it('should prefer project file if one has the same name', async () => {
+      await writeJson({ name: 'docs' }, config.themePath('_data/theme.json'));
+      await writeJson({ name: 'project' }, config.fromPath('_data/theme.json'));
+
+      await current.updateCache();
+      const actual = current.getAll();
+
+      expect(actual).toHaveProperty('theme.name', 'project');
     });
   });
 });

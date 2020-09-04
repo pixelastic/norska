@@ -3,6 +3,7 @@ const exists = require('firost/exists');
 const path = require('path');
 const _ = require('golgoth/lib/lodash');
 const consoleWarn = require('firost/consoleWarn');
+const defaultTheme = require('norska-theme-default');
 
 module.exports = {
   /**
@@ -51,6 +52,40 @@ module.exports = {
     return path.resolve(this.to(), relativePath);
   },
   /**
+   * Syntactic sugar to get the root of the theme directory
+   * @returns {string} Path to the theme directory
+   **/
+  themeRoot() {
+    return path.resolve(this.get('theme'));
+  },
+  /**
+   * Return an absolute path to a file in the theme directory
+   * @param {string} relativePath Relative path from the source directory
+   * @returns {string} Absolute path to the file
+   **/
+  themePath(relativePath = '') {
+    return path.resolve(this.themeRoot(), relativePath);
+  },
+  /**
+   * Returns paths to a file, either from the theme, or from the source
+   * directory
+   * @param {string} relativePath Relative path from the source directory
+   * @returns {string|boolean} Full path to the file, or false if not found
+   */
+  async findFile(relativePath = '') {
+    const fromPath = this.fromPath(relativePath);
+    if (await exists(fromPath)) {
+      return fromPath;
+    }
+
+    const themePath = this.themePath(relativePath);
+    if (await exists(themePath)) {
+      return themePath;
+    }
+
+    return false;
+  },
+  /**
    * Returns the default config values
    * @returns {object} Default config object
    **/
@@ -63,6 +98,7 @@ module.exports = {
       port: 8083,
       root,
       to: './dist',
+      theme: defaultTheme,
       runtime: {
         jsFiles: [],
         revvFiles: {},
