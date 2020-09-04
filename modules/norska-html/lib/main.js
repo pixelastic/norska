@@ -5,11 +5,13 @@ const consoleError = require('firost/consoleError');
 const consoleSuccess = require('firost/consoleSuccess');
 const consoleWarn = require('firost/consoleWarn');
 const glob = require('firost/glob');
+const write = require('firost/write');
 const helper = require('norska-helper');
 const markdown = require('./markdown/index.js');
 const norskaData = require('norska-data');
 const pMap = require('golgoth/lib/pMap');
 const path = require('path');
+const { pageUrl } = require('./path.js');
 const pug = require('./pug/index.js');
 const spinner = require('firost/spinner');
 const timeSpan = require('golgoth/lib/timeSpan');
@@ -42,6 +44,8 @@ module.exports = {
     await config.get('hooks.afterHtml')({
       createPage: pug.compile.bind(pug),
     });
+
+    await this.writeSitemap();
 
     progress.success(`HTML compiled in ${timer.rounded()}ms`);
     this.pulse.emit('run');
@@ -165,6 +169,38 @@ module.exports = {
     }
 
     return inputPath.replace(regexp, '/index.html');
+  },
+  /**
+   * Returns the sitemap.xml content from the list of build files
+   * @returns {string} XML repesentation of the sitemap
+   **/
+  getSitemap() {
+    const blocklist = ['/404/index.html'];
+    const urlList = _.chain(config.get('runtime.htmlFiles'))
+      .values()
+      .difference(blocklist)
+      .map(pageUrl)
+      .sort()
+      .map((url) => {
+        return `<url><loc>${url}</loc></url>`;
+      })
+      .join('')
+      .value();
+
+    return [
+      '<?xml version="1.0" encoding="utf-8"?>',
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+      urlList,
+      '</urlset>',
+    ].join('');
+  },
+  /**
+   * Write a sitemap to disk
+   **/
+  async writeSitemap() {
+    const destination = config.toPath('sitemap.xml');
+    const content = this.getSitemap();
+    await write(content, destination);
   },
   /**
    * Event emitter to emit/listen to events

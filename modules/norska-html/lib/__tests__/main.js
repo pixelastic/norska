@@ -53,6 +53,11 @@ describe('norska-html', () => {
       jest
         .spyOn(current, '__spinner')
         .mockReturnValue({ tick() {}, success() {}, failure() {}, info() {} });
+      jest.spyOn(current, 'writeSitemap').mockReturnValue();
+    });
+    it('should write a sitemap', async () => {
+      await current.run();
+      expect(current.writeSitemap).toHaveBeenCalled();
     });
     describe('excluded files', () => {
       it('folder starting with _ should not be processed', async () => {
@@ -63,6 +68,22 @@ describe('norska-html', () => {
         const actual = await exist(config.toPath('_foo/index.html'));
         expect(actual).toEqual(false);
       });
+    });
+  });
+  describe('getSitemap', () => {
+    it('should return a sitemap with all valid links', async () => {
+      config.set('runtime.productionUrl', 'http://here.com');
+      config.set('runtime.htmlFiles', {
+        '404.pug': '/404/index.html',
+        'index.pug': '/index.html',
+        'about.md': '/about/index.html',
+      });
+      const actual = current.getSitemap();
+      expect(actual).toContain('<url><loc>http://here.com/</loc></url>');
+      expect(actual).toContain('<url><loc>http://here.com/about/</loc></url>');
+      expect(actual).not.toContain(
+        '<url><loc>http://here.com/404/</loc></url>'
+      );
     });
   });
 });

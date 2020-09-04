@@ -101,6 +101,7 @@ module.exports = {
       theme: defaultTheme,
       runtime: {
         jsFiles: [],
+        htmlFiles: {},
         revvFiles: {},
         gitCommit: null,
         baseUrl: null,

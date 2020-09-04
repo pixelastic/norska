@@ -39,9 +39,9 @@ describe('norska-html > markdown > index', () => {
       [
         'Use default layout',
         'index.md',
-        '# Title',
+        'content',
         'index.html',
-        '<div class="default"><h1>Title</h1></div>',
+        '<div class="default"><p>content</p></div>',
       ],
       [
         'Use custom layout',
@@ -52,9 +52,10 @@ describe('norska-html > markdown > index', () => {
           title: my title
           ---
           
-          # Title`,
+          content
+          `,
         'index.html',
-        '<title>my title</title><div class="project"><h1>Title</h1></div>',
+        '<title>my title</title><p>content</p></div>',
       ],
     ])(
       '%s',
@@ -63,6 +64,9 @@ describe('norska-html > markdown > index', () => {
         await current.compile(sourceFile, destinationFile);
         const actual = await read(config.toPath(destinationFile));
         expect(actual).toEqual(expected);
+        expect(config.get(['runtime', 'htmlFiles', sourceFile])).toEqual(
+          destinationFile
+        );
       }
     );
   });

@@ -59,6 +59,14 @@ describe('norska-html > pug', () => {
       const actual = await read(output);
       expect(actual).toEqual('<div class="default"><p>quux</p></div>');
     });
+    it('should save file in runtime.htmlFiles', async () => {
+      const input = 'input.pug';
+      const output = 'output.html';
+      await write('block content\n  p=data.foo.bar', config.fromPath(input));
+
+      await current.compile(input, output);
+      expect(config.get(['runtime', 'htmlFiles', input])).toEqual(output);
+    });
   });
   describe('convert', () => {
     beforeEach(async () => {
@@ -133,9 +141,9 @@ describe('norska-html > pug', () => {
         'markdown() method is available',
         dedent`
           block content
-            p!=markdown("# foo")
+            |!=markdown("content")
         `,
-        '<div class="default"><p><h1>foo</h1></p></div>',
+        '<div class="default"><p>content</p></div>',
       ],
       [
         'revv() method is available',

@@ -38,6 +38,7 @@ module.exports = {
     }
 
     await write(result, absoluteDestinationPath);
+    config.set(['runtime', 'htmlFiles', sourcePath], destinationPath);
     return true;
   },
   /**
