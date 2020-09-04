@@ -1,6 +1,5 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
-  "dependencies": {},
   "description": "Default norska theme",
   "files": [
     "src/"
@@ -17,5 +16,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "0.16.0"
+  "version": "1.0.0"
 }
