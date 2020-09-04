@@ -55,7 +55,7 @@ describe('norska-html > markdown > index', () => {
           content
           `,
         'index.html',
-        '<title>my title</title><p>content</p></div>',
+        '<title>my title</title><div class="project"><p>content</p></div>',
       ],
     ])(
       '%s',
