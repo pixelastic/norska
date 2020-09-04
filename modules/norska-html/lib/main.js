@@ -68,8 +68,11 @@ module.exports = {
     });
 
     // Reload everything whenever the data in _data is changed
-    const dataPath = config.fromPath('_data/**/*.{js,json}');
-    await watch(dataPath, async () => {
+    const dataPatterns = [
+      config.fromPath('_data/**/*.{js,json}'),
+      config.themePath('_data/**/*.{js,json}'),
+    ];
+    await watch(dataPatterns, async () => {
       await norskaData.updateCache();
       await this.run();
     });

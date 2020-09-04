@@ -41,11 +41,14 @@ describe('norska-html > data', () => {
         expect(actual).toHaveProperty('base', 'https://my-url.com');
       });
     });
-    describe('destination', () => {
-      it('should have the destination', async () => {
-        const actual = await current.url('about/index.html');
-        expect(actual).toHaveProperty('here', '/about/index.html');
-      });
+    describe('here', () => {
+      it.each([['about/index.html', '/about/']])(
+        '%s => %s',
+        async (input, expected) => {
+          const actual = await current.url(input);
+          expect(actual).toHaveProperty('here', expected);
+        }
+      );
     });
     describe('pathToRoot', () => {
       it.each([

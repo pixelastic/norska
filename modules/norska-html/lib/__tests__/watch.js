@@ -65,11 +65,12 @@ describe('norska-html > watch', () => {
     expectToHaveCompiled('initial.md');
     expectToHaveCompiled('new-file.md');
   });
-  it('compiles everything when top level files are changed', async () => {
+  it('compiles everything when top level or theme files are changed', async () => {
     await whileWatching(async () => {
       await writeFile('_data/projects.js');
       await writeFile('_data/users.json');
       await writeFile('_data/blog/tags.json');
+      await writeTemplateFile('_data/themeMethods.js');
 
       await writeFile('_includes/templates/hit.pug');
       await writeTemplateFile('_includes/layouts/default.pug');
@@ -77,7 +78,7 @@ describe('norska-html > watch', () => {
       config.set('runtime.jsFiles', ['new files']);
     });
 
-    expect(current.run).toHaveBeenCalledTimes(6);
+    expect(current.run).toHaveBeenCalledTimes(7);
   });
   it('should display the errors', async () => {
     current.compile.mockImplementation(() => {

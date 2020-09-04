@@ -19,6 +19,10 @@ module.exports = function (data, sourceFile) {
       const includeContext = { data, methods };
       return include(url, includeContext);
     },
+    // Check if target point to the current pag
+    isCurrentPage(target) {
+      return path.pageUrl(target) === path.pageUrl(sourceFile);
+    },
     // Convert markdown to HTML
     markdown(markdownSource, options = {}) {
       return markdownConvert.run(markdownSource, sourceFile, options);

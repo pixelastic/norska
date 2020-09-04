@@ -10,14 +10,12 @@ html(lang='en')
       .ds-sidebar.w-25p
         .px-4.py-2
           each part in data.theme.navigation
-            h3.ds-categoryTitle.bold.gray-4=part.name
+            h3.DocSearch-categoryTitle.bold.gray-6.text-3=part.name
             ul.mb-1
               each link in part.links
-                -
-                  linkHref = link.href || link
-                  linkTitle = link.title || link
+                - const parts = data.themeMethods.parseNavigationLink(link, isCurrentPage)
                 li
-                  a.ds-pageTitle.text-2.block.ml-01.my-01.pl-02.gray-7.hover_green-5.border-l-01.border-transparent.hover_border-gray-4(href=`${url.pathToRoot}${linkHref}/` title=linkTitle)=linkTitle
+                  a.text-2.block.ml-01.my-01.pl-02.gray-7.hover_green-5.border-l-01(href=parts.href title=parts.titles class=parts.css)=parts.title
 
       .flex-grow
         if data.theme.isDefaultInstall
@@ -26,7 +24,7 @@ html(lang='en')
 
         .bg-white.border-001.border-gray-4.p-3
           h1.gray-9.text-6.border-b-01.border-green-5=meta.title
-          .prose.prose-xl.pt-5
+          .DocSearch-content.prose.prose-xl.pt-5
             block content
 
     include ../theme/footer.pug

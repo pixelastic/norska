@@ -18,7 +18,7 @@ module.exports = {
    * @param {string} destination Path to the file created
    * @returns {object} Url Data
    **/
-  async url(destination) {
+  async url(destination = 'index.html') {
     const sourceData = await this.data();
 
     const baseUrl = helper.isProduction()
@@ -31,9 +31,11 @@ module.exports = {
       ? './'
       : `${relativePathDir}/`;
 
+    const here = destination.replace(/index\.html$/, '');
+
     return {
       base: baseUrl,
-      here: `/${destination}`,
+      here: `/${here}`,
       pathToRoot,
     };
   },
