@@ -141,7 +141,7 @@ describe('norska-html > pug', () => {
         'markdown() method is available',
         dedent`
           block content
-            |!=markdown("content")
+            !=markdown("content")
         `,
         '<div class="default"><p>content</p></div>',
       ],
