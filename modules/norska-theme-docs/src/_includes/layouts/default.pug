@@ -23,9 +23,9 @@ html(lang='en')
           .bg-red-1.border-001.border-red-9.p-3.mb-3
             .prose!=markdown(data.theme.instructions)
 
-        .bg-white.border-001.border-gray-4.p-3
+        .DocSearch-content.bg-white.border-001.border-gray-4.p-3
           h1.gray-9.text-6.border-b-01.border-green-5=meta.title
-          .DocSearch-content.prose.prose-xl.pt-5
+          .prose.prose-xl.pt-5
             block content
 
     include ../theme/footer.pug
