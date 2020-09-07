@@ -1,11 +1,13 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "2.0.5"
+    "firost": "2.0.5",
+    "golgoth": "1.4.0"
   },
   "description": "Norska documentation theme",
   "files": [
     "main.js",
+    "lib/*.js",
     "src/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",

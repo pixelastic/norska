@@ -74,9 +74,9 @@ describe('norska-html', () => {
     it('should return a sitemap with all valid links', async () => {
       config.set('runtime.productionUrl', 'http://here.com');
       config.set('runtime.htmlFiles', {
-        '404.pug': '/404/index.html',
-        'index.pug': '/index.html',
-        'about.md': '/about/index.html',
+        '404.pug': '404/index.html',
+        'index.pug': 'index.html',
+        'about.md': 'about/index.html',
       });
       const actual = current.getSitemap();
       expect(actual).toContain('<url><loc>http://here.com/</loc></url>');

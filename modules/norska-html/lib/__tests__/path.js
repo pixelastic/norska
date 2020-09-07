@@ -9,8 +9,7 @@ describe('norska-html > path', () => {
   beforeEach(async () => {
     const tmpDirectory = './tmp/norska-html/path';
     await config.init({
-      from: `${tmpDirectory}/src`,
-      to: `${tmpDirectory}/dist`,
+      root: tmpDirectory,
     });
     config.set('runtime.productionUrl', 'http://here.com');
     config.set('runtime.gitCommit', 'abcdef');

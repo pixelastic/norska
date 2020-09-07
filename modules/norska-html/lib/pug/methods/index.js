@@ -19,7 +19,7 @@ module.exports = function (data, sourceFile) {
       const includeContext = { data, methods };
       return include(url, includeContext);
     },
-    // Check if target point to the current pag
+    // Check if target point to the current page
     isCurrentPage(target) {
       return path.pageUrl(target) === path.pageUrl(sourceFile);
     },

@@ -175,7 +175,7 @@ module.exports = {
    * @returns {string} XML repesentation of the sitemap
    **/
   getSitemap() {
-    const blocklist = ['/404/index.html'];
+    const blocklist = ['404/index.html'];
     const urlList = _.chain(config.get('runtime.htmlFiles'))
       .values()
       .difference(blocklist)
