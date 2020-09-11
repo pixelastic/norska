@@ -12,7 +12,7 @@
     "markdown-it-highlightjs": "3.2.0",
     "norska-config": "^1.0.2",
     "norska-data": "^1.0.2",
-    "norska-frontend": "^1.0.0",
+    "norska-frontend": "^1.0.7",
     "norska-helper": "^1.0.0",
     "norska-image-proxy": "^1.0.0",
     "pug": "3.0.0",
@@ -42,5 +42,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.0.4"
+  "version": "1.0.7"
 }
