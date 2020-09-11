@@ -1,4 +1,4 @@
-mixin head() 
+mixin norska_head() 
   - 
     let {
       title,
@@ -30,7 +30,3 @@ mixin head()
     link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
     //- Custom content
     block
-
-//- Backward compatibility
-mixin norska_head()
-  +head()

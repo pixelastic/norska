@@ -13,22 +13,22 @@ describe('norska-html > pug > mixins > scripts', () => {
     [
       'Nominal case',
       ['script.js', 'vendors.js'],
-      '+scripts()',
+      '+norska_scripts()',
       'index.html',
       '<script src="./script.js"></script><script src="./vendors.js"></script>',
     ],
     [
       'In subfolder',
       ['script.js', 'vendors.js'],
-      '+scripts()',
+      '+norska_scripts()',
       'blog/index.html',
       '<script src="../script.js"></script><script src="../vendors.js"></script>',
     ],
-    ['With no scripts', [], '+scripts()', 'index.html', ''],
+    ['With no scripts', [], '+norska_scripts()', 'index.html', ''],
     [
       'With custom content',
       [],
-      '+scripts()\n    script(src="custom.js")', // Double indentation on purpose
+      '+norska_scripts()\n    script(src="custom.js")', // Double indentation on purpose
       'index.html',
       '<script src="custom.js"></script>',
     ],

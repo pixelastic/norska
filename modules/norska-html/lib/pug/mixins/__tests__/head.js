@@ -16,7 +16,7 @@ describe('norska-html > pug > mixins > head', () => {
       jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       const source = dedent`
         block content
-          +head()
+          +norska_head()
             meta(name="custom", content="my value")
       `;
       const options = {
