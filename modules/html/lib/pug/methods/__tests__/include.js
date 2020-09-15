@@ -29,10 +29,14 @@ describe('norska-html > pug > methods > include', () => {
       'div!=include("ul.pug")',
       '<div><ul><li>List element</li></ul></div>',
     ],
+    [
+      'Included files have default mixins',
+      '+times(3)\n    p item',
+      '<p>item</p><p>item</p><p>item</p>',
+    ],
   ])('%s', async (_name, source, expected) => {
-    const actual = await pug.convert(dedent`
-    block content
-      ${source}`);
+    const pugSource = `block content\n  ${source}`;
+    const actual = await pug.convert(pugSource);
     expect(actual).toContain(expected);
   });
   it('should throw an error if included file does not exist', async () => {

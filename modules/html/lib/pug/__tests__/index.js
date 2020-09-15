@@ -86,6 +86,11 @@ describe('norska-html > pug', () => {
       `,
         config.themePath('_includes/layouts/docs.pug')
       );
+      // Custom mixins in project
+      await write(
+        'mixin test_mixin()\n  p test mixin content',
+        config.fromPath('_includes/mixins.pug')
+      );
     });
     it.each([
       [
@@ -169,6 +174,14 @@ describe('norska-html > pug', () => {
               p Text
         `,
         '<div class="default"><p>Text</p><p>Text</p></div>',
+      ],
+      [
+        'custom mixins are available',
+        dedent`
+          block content
+            +test_mixin()
+        `,
+        '<div class="default"><p>test mixin content</p></div>',
       ],
       [
         'frontmatter is available as meta',

@@ -27,13 +27,9 @@ module.exports = function (filepath, context) {
   if (extname === '.pug') {
     // We make sure we pass both the data from the parent, and this set of
     // methods recursively
-    try {
-      const mixinSource = mixins.getSource();
-      const withMixins = `${mixinSource}\n\n${content}`;
-      return pug.compile(withMixins)({ ...context.data, ...context.methods });
-    } catch (err) {
-      console.info(err);
-    }
+    const mixinSource = mixins.getSource();
+    const withMixins = `${mixinSource}\n\n${content}`;
+    return pug.compile(withMixins)({ ...context.data, ...context.methods });
   }
   return content;
 };
