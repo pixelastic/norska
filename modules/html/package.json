@@ -1,0 +1,47 @@
+{
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "dependencies": {
+    "ensure-url-trailing-slash": "0.1.4",
+    "firost": "2.0.5",
+    "front-matter": "4.0.2",
+    "golgoth": "1.4.0",
+    "he": "1.2.0",
+    "highlightjs-pug": "0.0.2",
+    "is-url-superb": "4.0.0",
+    "markdown-it": "11.0.1",
+    "markdown-it-highlightjs": "3.2.0",
+    "norska-config": "^1.0.2",
+    "norska-data": "^1.0.2",
+    "norska-frontend": "^1.0.7",
+    "norska-helper": "^1.0.0",
+    "norska-image-proxy": "^1.0.0",
+    "pug": "3.0.0",
+    "slug": "3.3.4"
+  },
+  "description": "Convert sources to .html files",
+  "devDependencies": {
+    "p-event": "4.2.0"
+  },
+  "files": [
+    "lib/*.js",
+    "lib/markdown/*.js",
+    "lib/pug/*.js",
+    "lib/pug/methods/*.js",
+    "lib/pug/mixins/*.pug",
+    "lib/pug/mixins/*.js",
+    "lib/pug/mixins/helpers/*.js"
+  ],
+  "homepage": "https://github.com/pixelastic/norska/",
+  "license": "MIT",
+  "main": "./lib/main.js",
+  "name": "norska-html",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-html",
+  "scripts": {
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "release": "../../scripts/meta/release",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
+  },
+  "version": "1.0.7"
+}

@@ -11767,6 +11767,13 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
+norska-theme-docs@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.0.9.tgz#0df03ab325a99a48fcb88b12761ccc30f8218ed3"
+  integrity sha512-Z08iGLvm6mo4ycAK2CPL604ZL3fuXHujNh8/8WAyUkaNUOLFWk94PQUuQeG3e6e9rq4hs0iPBpcpjaxfFcKDkQ==
+  dependencies:
+    firost "2.0.5"
+
 np@6.5.0:
   version "6.5.0"
   resolved "https://registry.npmjs.org/np/-/np-6.5.0.tgz#1092e001a7dd22412bb459d9bcb86a43806660f2"

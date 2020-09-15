@@ -1,0 +1,16 @@
+@import 'theme:style.css';
+
+body {
+  .theme-header {
+    @apply bg-blue-1;
+  }
+  .theme-navigation-link-active {
+    @apply border-blue-4;
+  }
+  .theme-navigation-link:hover {
+    @apply blue-5;
+  }
+  .theme-title {
+    @apply border-blue-5;
+  }
+}

@@ -1,0 +1,7 @@
+//- ---
+//- title: "404: Page not found"
+//- description: Sorry, we couldn't find this page
+//- ---
+
+block content
+  p Sorry, the page you're looking for was not found
