@@ -14,7 +14,8 @@
     "cms": "../../scripts/docs/cms",
     "lint": "../../scripts/docs/lint",
     "lint:fix": "../../scripts/docs/lint-fix",
-    "serve": "../../scripts/docs/serve"
+    "serve": "../../scripts/docs/serve",
+    "release": "../../scripts/meta/release"
   },
   "version": "1.0.7"
 }
