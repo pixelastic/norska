@@ -112,7 +112,13 @@ describe('norska-init', () => {
       const actual = await glob(config.fromPath('**/*.pug'));
 
       expect(actual).toInclude(config.fromPath('index.pug'));
-      expect(actual).toInclude(config.fromPath('404.pug'));
+    });
+    it('should create md files', async () => {
+      await current.run();
+
+      const actual = await glob(config.fromPath('**/*.md'));
+
+      expect(actual).toInclude(config.fromPath('404.md'));
     });
     it('should create CSS files', async () => {
       await current.run();
