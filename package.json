@@ -26,7 +26,11 @@
     "release": "./scripts/meta/release",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch",
-    "update-dependencies": "node ./scripts/meta/update-dependencies"
+    "update-dependencies": "node ./scripts/meta/update-dependencies",
+    "build": "./scripts/docs/build",
+    "build:prod": "./scripts/docs/build-prod",
+    "cms": "./scripts/docs/cms",
+    "serve": "./scripts/docs/serve"
   },
   "version": "0.0.4",
   "workspaces": [
