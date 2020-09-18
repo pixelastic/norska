@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "norska": "1.0.7",
+    "norska": "^1.0.8",
     "norska-theme-docs": "1.1.0"
   },
   "files": [],
@@ -17,5 +17,5 @@
     "serve": "../../scripts/docs/serve",
     "release": "../../scripts/meta/release"
   },
-  "version": "1.0.7"
+  "version": "1.0.8"
 }
