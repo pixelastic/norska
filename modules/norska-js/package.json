@@ -6,7 +6,7 @@
     "norska-config": "^1.0.2",
     "norska-helper": "^1.0.0",
     "pug-loader": "^2.4.0",
-    "webpack": "4.44.1"
+    "webpack": "4.44.2"
   },
   "description": "Compile .js files through Webpack",
   "devDependencies": {
