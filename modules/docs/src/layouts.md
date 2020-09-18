@@ -2,8 +2,7 @@
 title: Layouts
 ---
 
-By default, all `.pug` and `.md` files inherit from the default layout bundled
-with `norska`.
+By default, all files inherit from the default layout bundled with `norska`.
 
 ## Overriding the default layout
 

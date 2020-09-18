@@ -8,9 +8,5 @@ module.exports = {
     '**/*.{eot,otf,ttf,woff,woff2}',
     // Documents
     '**/*.pdf',
-    // Netlify
-    '_redirects',
-    '_headers',
-    'netlify.toml',
   ],
 };

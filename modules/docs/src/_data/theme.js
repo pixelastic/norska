@@ -36,6 +36,24 @@ module.exports = {
         {
           title: 'Pug',
           href: 'pug',
+          links: [
+            {
+              title: 'Layouts',
+              href: 'layouts',
+            },
+            {
+              title: 'Data',
+              href: 'data',
+            },
+            {
+              title: 'Mixins',
+              href: 'mixins',
+            },
+            {
+              title: 'Methods',
+              href: 'pug-methods',
+            },
+          ],
         },
         {
           title: 'Markdown',
@@ -50,8 +68,8 @@ module.exports = {
           href: 'javascript',
         },
         {
-          title: 'Data',
-          href: 'data',
+          title: 'Images',
+          href: 'images',
         },
         {
           title: 'Assets',
@@ -62,14 +80,6 @@ module.exports = {
     {
       name: 'Configuration',
       links: [
-        {
-          title: 'Layouts',
-          href: 'layouts',
-        },
-        {
-          title: 'Mixins',
-          href: 'mixins',
-        },
         {
           title: 'Netlify',
           href: 'netlify',

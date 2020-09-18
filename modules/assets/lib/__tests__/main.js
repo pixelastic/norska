@@ -168,35 +168,6 @@ describe('norska-assets', () => {
         expect(actual).toEqual(true);
       });
     });
-    describe('Netlify config', () => {
-      it('should copy _redirects file', async () => {
-        const filepath = '_redirects';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy _headers file', async () => {
-        const filepath = '_headers';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy netlify.toml', async () => {
-        const filepath = 'netlify.toml';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-    });
     describe('misc', () => {
       it('should not copy unknown files', async () => {
         const filepath = 'foo.weird';

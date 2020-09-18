@@ -3,9 +3,11 @@ title: Mixins
 ---
 
 Any `.pug` file (including layouts), will come bundled with a few mixins to make
-development easier.
+development easier, but you can also add your own.
 
-## img
+## Default mixins
+
+### img
 
 This mixin is very powerful and should be used in place of the regular `img`
 tag. It will automatically pass the target url through an image CDN and lazyload
@@ -16,7 +18,7 @@ website root. Any other relative path is interpreted as relative to the file
 calling it. Any remote url (starting with `http(s)://`), is always handled as
 a remote resource.
 
-## norska_head
+### norska_head
 
 This mixin is meant to be used as part of a layout and will render the whole
 `<head>` tag.
@@ -34,7 +36,7 @@ You can pass additional custom elements by filling the mixin block like this:
   link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha")
 ```
 
-## norska_scripts
+### norska_scripts
 
 This mixin is meant to be used as part of a layout and will add all the required
 `<script>` tags.
@@ -49,3 +51,9 @@ You can pass additional custom scripts by filling the mixin block like this:
 +norska_scripts
   script(src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha")
 ```
+
+## Custom mixins
+
+You can add your own mixins by creating a file named
+`./src/_includes/mixins.pug` and adding them there. They will be automatically
+added to the top of each file.
