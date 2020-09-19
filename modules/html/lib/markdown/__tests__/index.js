@@ -57,6 +57,20 @@ describe('norska-html > markdown > index', () => {
         'index.html',
         '<title>my title</title><div class="project"><p>content</p></div>',
       ],
+      [
+        ': in frontmatter',
+        'index.md',
+        dedent`
+          ---
+          title: "404: Page not found"
+          layout: project
+          ---
+          
+          content
+          `,
+        'index.html',
+        '<title>404: Page not found</title><div class="project"><p>content</p></div>',
+      ],
     ])(
       '%s',
       async (_name, sourceFile, markdownSource, destinationFile, expected) => {

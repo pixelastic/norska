@@ -25,7 +25,7 @@ module.exports = {
       const { attributes, body } = frontMatter(markdownSource);
       const pugFrontmatter = _.chain(attributes)
         .map((value, key) => {
-          return `//- ${key}: ${value}`;
+          return `//- ${key}: "${value}"`;
         })
         .join('\n')
         .value();
