@@ -123,12 +123,19 @@ module.exports = {
     token.attrSet('href', normalizedHref);
     return _self.renderToken(tokens, tokenIndex, _markdownItOptions);
   },
+  /**
+   * Transform headers into links to themselves
+   * @param {Array} tokens List of all token
+   * @param {number} tokenIndex Index of the current token
+   * @returns {string} HTML representation of the opening link tag
+   **/
   headingOpen(tokens, tokenIndex) {
     const tag = _.get(tokens[tokenIndex], 'tag');
     const id = _.chain(tokens[tokenIndex + 1])
       .get('children')
-      .find({ type: 'text' })
-      .get('content')
+      .map('content')
+      .compact()
+      .join('')
       .thru(slug)
       .camelCase()
       .value();
