@@ -180,7 +180,7 @@ module.exports = {
     }
 
     // Fallback to value in norska-css
-    return path.resolve(__dirname, './tailwind.config.js');
+    return path.resolve(__dirname, './tailwind/index.js');
   },
   /**
    * Wrapper around the postcss method, to make it easier to mock in tests

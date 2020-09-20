@@ -14,3 +14,6 @@ body {
     @apply border-blue-5;
   }
 }
+.prose a {
+  @apply blue-5;
+}

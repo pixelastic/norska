@@ -2,9 +2,11 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "@fullhuman/postcss-purgecss": "1.3.0",
+    "@tailwindcss/typography": "0.2.0",
     "autoprefixer": "9.8.6",
     "firost": "2.0.6",
     "golgoth": "1.5.0",
+    "hex-rgb": "4.2.0",
     "norska-config": "^1.0.8",
     "norska-helper": "^1.0.8",
     "postcss": "7.0.34",
@@ -12,12 +14,15 @@
     "postcss-import": "12.0.1",
     "postcss-nested": "4.2.3",
     "purge-from-html": "1.0.3",
-    "tailwind-config-norska": "0.5.1",
     "tailwindcss": "1.5.1"
   },
   "description": "Compile .css files through postcss and Tailwind",
   "files": [
     "lib/*.js",
+    "lib/tailwind/*.js",
+    "lib/tailwind/helpers/*.js",
+    "lib/tailwind/plugins/**/*.js",
+    "lib/tailwind/themes/**/*.js",
     "reset.css"
   ],
   "homepage": "https://github.com/pixelastic/norska/",

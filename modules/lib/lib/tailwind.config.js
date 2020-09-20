@@ -1,4 +1,3 @@
 // This file exists so websites can import the full CSS config directly from the
 // norska dependency
-const config = require('norska-css/lib/tailwind.config.js');
-module.exports = config;
+module.exports = require('norska-css/lib/tailwind');
