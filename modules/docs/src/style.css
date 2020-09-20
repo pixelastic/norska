@@ -16,4 +16,7 @@ body {
 }
 .prose a {
   @apply blue-5;
+  &:hover {
+    @apply underline-blue-5;
+  }
 }

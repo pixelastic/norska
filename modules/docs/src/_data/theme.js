@@ -100,6 +100,15 @@ module.exports = {
         },
       ],
     },
+    {
+      name: 'Themes',
+      links: [
+        {
+          title: 'Docs',
+          href: 'theme-docs',
+        },
+      ],
+    },
   ],
   // docSearch: {
   //   apiKey: '2d2a4ce134f339d2dab57ddbdecd7868',
