@@ -8674,10 +8674,10 @@ inquirer@^6.2.0, inquirer@^6.2.1, inquirer@^6.5.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-instantsearch.js@4.8.1:
-  version "4.8.1"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.8.1.tgz#ca407a89fc165f4306b57a692aa1b016965ca5a2"
-  integrity sha512-87WgFPBgYTQ1dW45+rdmo1d3KM9AcoDZDvhvxUoO8jaj3jUm8bhgJQPv0/r2POKRRtCppcIPDReUWyY7xf7IUg==
+instantsearch.js@4.8.2:
+  version "4.8.2"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.8.2.tgz#6f2e01f612fe7b013ee9ea27711e9dfb5823e627"
+  integrity sha512-DG2IUMfiZeGfJjgZrwBY1KGWUllyHUpG2khvhuPdHx8wopDC/713n6JDZ02oBdceBQJ91cn6Ph14igXSAjWJJA==
   dependencies:
     "@types/googlemaps" "^3.39.6"
     algoliasearch-helper "^3.2.2"
@@ -11323,10 +11323,10 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.npmjs.org/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@2.63.3:
-  version "2.63.3"
-  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-2.63.3.tgz#cb7ee7b1a0bb7fa5d81846eb602b466648b353d6"
-  integrity sha512-XHokxG0dgSYbewUj9ifRI/EiM8PYAwWaA31+WFCbGHi0kKHrVwFLx1FsQH3Yo35dQk7MM0dnHjT8xTir0slgZw==
+netlify-cli@2.64.0:
+  version "2.64.0"
+  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-2.64.0.tgz#56ac36c761341504fdacab1207e8aaac40e8d60a"
+  integrity sha512-NyBz6kfBVSWF7zVYsQ9vR9RGeE2wgZxNpBK1GukV6tq3GjQ/SfQAyp18bJ4Z9DkC3tFFvfo8avZOGRZGPZuDdg==
   dependencies:
     "@netlify/build" "^4.0.1"
     "@netlify/config" "^2.0.9"
