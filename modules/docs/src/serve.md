@@ -23,7 +23,7 @@ You can change the port on which the server is running through the `port`
 option, and disable the opening of the browser window through the `open`
 options.
 
-Both options can either be set from the command line (`--port=8090`) or through
-the `norska.config.js` file.
+Both options can either be set from the command line (`--port=8090` and
+`--no-open`) or through the `norska.config.js` file.
 
 [1]: http://127.0.0.1:8083/

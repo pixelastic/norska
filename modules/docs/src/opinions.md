@@ -4,8 +4,8 @@ title: Opinionated
 
 `norska` is opinionated, but what does it mean exactly?
 
-In my career, I had to build a lot of websites using various static Website
-Generators (Jekyll, Middleman, Brunch, Metalsmith, Eleventy, etc). Each
+Along the years, I had to build a lot of websites using various static website
+generators (Jekyll, Middleman, Brunch, Metalsmith, Eleventy, etc). Each
 experience was different, and they all had their pros and cons: some were quick
 to build, some had great livereload, some could be easily extended, some had
 great documentation and plugins, but none had all of that.

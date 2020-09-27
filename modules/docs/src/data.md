@@ -86,3 +86,17 @@ p This is my page
 
 You'll then be able to access the `meta.title` key in your layout; to add it at
 the top of the page for example.
+
+## Builtin data
+
+Norska also add the `url` data object to all pages. It contains the following
+keys:
+
+- `url.base` is the absolute URL to the website root
+- `url.here` is the relative path, from the website root, to the current page
+- `url.pathToRoot` is the relative path, from the current page, to the website
+  root
+
+Those keys are mostly used internally to generate links, but you might need them
+as well.
+

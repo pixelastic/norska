@@ -91,6 +91,10 @@ module.exports = {
       name: 'Configuration',
       links: [
         {
+          title: 'norska.config.js',
+          href: 'norska.config.js',
+        },
+        {
           title: 'Netlify',
           href: 'netlify',
         },
@@ -106,6 +110,15 @@ module.exports = {
         {
           title: 'Docs',
           href: 'theme-docs',
+        },
+      ],
+    },
+    {
+      name: 'Misc',
+      links: [
+        {
+          title: 'Monorepo',
+          href: 'monorepo',
         },
       ],
     },

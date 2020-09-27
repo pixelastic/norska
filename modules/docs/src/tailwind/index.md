@@ -41,3 +41,6 @@ to blue.
 
 This maintains the ability to change the text opacity through `.text-opacity-XX`
 classes.
+
+_Note: Not all plugins are currently documented. I'll add documentation as
+I work on them_

@@ -40,3 +40,5 @@ When running on Netlify, it will cancel the build early if it detects that no
 relevant changes where made since the last deploy. This works by checking the
 git history since the last deploy and only proceed with the build if files in
 `./src` where changed.
+
+See the [Netlify](/netlify/) section for more information.
