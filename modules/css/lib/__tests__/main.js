@@ -77,7 +77,7 @@ describe('norska-css', () => {
     it('should return path to norska file if none in path', async () => {
       const actual = await current.getTailwindConfigPath();
 
-      expect(actual).toEqual(path.resolve(__dirname, '../tailwind.config.js'));
+      expect(actual).toEqual(path.resolve(__dirname, '../tailwind/index.js'));
     });
   });
   describe('getCompiler', () => {

@@ -1,6 +1,6 @@
 describe('textColor', () => {
   describe('should contain', () => {
-    const actual = pluginClasses('../index.js');
+    const actual = tailwindPluginClasses('../index.js');
     it.each([
       ['.transparent', { color: 'transparent' }],
       ['.current-color', { color: 'currentColor' }],

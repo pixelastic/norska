@@ -1,11 +1,14 @@
-const firost = require('firost');
 const _ = require('golgoth/lib/lodash');
 const pMap = require('golgoth/lib/pMap');
+const run = require('firost/run');
+const readJson = require('firost/readJson');
+const writeJson = require('firost/writeJson');
+const glob = require('firost/glob');
 
 // Those modules will be updated to the latest available version
 const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
 
-(async function () {
+(async () => {
   // Allow specifying which dep to update
   const inputDependencies = _.slice(process.argv, 2);
   const dependenciesToUpdate = _.isEmpty(inputDependencies)
@@ -16,18 +19,19 @@ const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
   const commandRemove = `yarn remove -W ${dependenciesToUpdate.join(' ')}`;
   const commandAdd = `yarn add -W --dev ${dependenciesToUpdate.join(' ')}`;
   console.info('Removing dependencies from root');
-  await firost.shell(commandRemove);
+  await run(commandRemove);
+
   console.info('Re-adding dependencies to root');
-  await firost.shell(commandAdd);
+  await run(commandAdd);
 
   // Find the real versions to use
-  const { devDependencies } = await firost.readJson('package.json');
+  const { devDependencies } = await readJson('package.json');
   const versions = _.pick(devDependencies, safelist);
   console.info('Correct versions');
   console.info(versions);
 
   // Find all the package.json from all modules
-  const filepaths = await firost.glob('./modules/*/package.json');
+  const filepaths = await glob('./modules/*/package.json');
 
   /**
    * Update values of a dependency object with values passed in second argument
@@ -46,7 +50,7 @@ const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
 
   // Update all those package.json with the new versions
   await pMap(filepaths, async (filepath) => {
-    const packageJson = await firost.readJson(filepath);
+    const packageJson = await readJson(filepath);
     packageJson.dependencies = updateDependencies(
       packageJson.dependencies,
       versions
@@ -58,9 +62,11 @@ const safelist = ['firost', 'aberlaas', 'golgoth', 'lerna'];
       );
     }
 
-    await firost.writeJson(packageJson, filepath, { sort: false });
+    await writeJson(packageJson, filepath, {
+      sort: false,
+    });
   });
 
   // Re-run yarn install so yarn hoists all dependencies it can
-  await firost.run('yarn install');
+  await run('yarn install');
 })();
