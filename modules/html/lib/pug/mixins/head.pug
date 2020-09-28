@@ -1,27 +1,20 @@
 mixin norska_head() 
-  - 
-    let {
-      title,
-      description,
-      twitter,
-      pageUrl,
-      image
-    } = mixinHelpers.head(meta);
+  - const head = mixinHelpers.head();
   head
     meta(charset='utf-8')
     meta('http-equiv'='x-ua-compatible', content='ie-edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
     //- HTML meta
-    title=title
-    meta(name='description', content=description)
+    title=head.title
+    meta(name='description', content=head.description)
     //- Twitter meta
     meta(name='twitter:card', content='summary_large_image')
-    meta(name='twitter:site', content=`@${twitter}`)
+    meta(name='twitter:site', content=`@${head.twitter}`)
     //- OpenGraph meta
-    meta(property='og:title', content=title)
-    meta(property='og:description', content=description)
-    meta(property='og:url', content=pageUrl)
-    meta(property='og:image', content!=image)
+    meta(property='og:title', content=head.title)
+    meta(property='og:description', content=head.description)
+    meta(property='og:url', content=head.url)
+    meta(property='og:image', content!=head.image)
     //- Netlify redirect if missing trailing slash
     script!=tweaks.ensureUrlTrailingSlashSource
     //- Favicon

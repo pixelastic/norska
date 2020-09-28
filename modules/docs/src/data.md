@@ -69,23 +69,14 @@ helper methods, in case you need them:
 - `themePath(relativePath)` will return the full path to a file, relative to the
   norska current theme folder
 
-## Frontmatter
+## Frontmatter and metadata
 
-In addition to the files stored in `./src/_data`, any key added to a file
-frontmatter will be available through the `meta` key.
+The `./src/_data/meta.json` file (or its `.js` version) is treated a bit
+differently. Any value set inside will be used as the default value for the page
+metadata, unless a key with the same name is defined in the page metadata.
 
-So, given this `.pug` file:
-
-```pug
-//- ---
-//- title: My custom title
-//- ---
-
-p This is my page
-```
-
-You'll then be able to access the `meta.title` key in your layout; to add it at
-the top of the page for example.
+In other words, the `title` value of `./src/_data/meta.json` will be used for
+the page `<title>` unless a `title` is passed in the frontmatter.
 
 ## Builtin data
 

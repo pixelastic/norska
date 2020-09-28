@@ -44,8 +44,9 @@ module.exports = function (data, sourceFile) {
       img(attributes) {
         return mixinHelperImg(attributes, sourceFile);
       },
-      head(meta) {
-        return mixinHelperHead(meta, data.site, sourceFile);
+      head() {
+        const meta = _.get(data, 'data.meta', {});
+        return mixinHelperHead(meta, sourceFile);
       },
     },
   };

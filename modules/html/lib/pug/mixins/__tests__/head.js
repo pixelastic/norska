@@ -23,10 +23,12 @@ describe('norska-html > pug > mixins > head', () => {
         from: 'blog.pug',
         to: 'blog/index.html',
         data: {
-          meta: {
-            title: 'my title',
-            description: 'my description',
-            twitter: 'pixelastic',
+          data: {
+            meta: {
+              title: 'my title',
+              description: 'my description',
+              twitter: 'pixelastic',
+            },
           },
           url: {
             pathToRoot: '../',

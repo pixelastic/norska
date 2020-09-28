@@ -59,14 +59,6 @@ module.exports = {
     };
   },
   /**
-   * Meta data to fill the title and head tags. Defaults to an empty object to
-   * avoid null reference errors
-   * @returns {object} Meta data
-   **/
-  meta() {
-    return {};
-  },
-  /**
    * Return the data to be passed to each compiled file
    * @param {string} destination Path to the destination file created
    * @returns {object} Data object
@@ -78,14 +70,12 @@ module.exports = {
     const url = await this.url(destination);
     const runtime = await this.runtime();
     const tweaks = this.tweaks();
-    const meta = this.meta();
 
     return {
       data,
       url,
       runtime,
       tweaks,
-      meta,
     };
   },
 };

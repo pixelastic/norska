@@ -24,7 +24,7 @@ describe('norska-html > markdown > index', () => {
     beforeEach(async () => {
       await write(
         dedent`
-      title=meta.title
+      title=data.meta.title
       .project
         block content
       `,

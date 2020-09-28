@@ -104,7 +104,7 @@ describe('norska-init', () => {
 
       const actual = await glob(config.fromPath('_data/*.json'));
 
-      expect(actual).toInclude(config.fromPath('_data/site.json'));
+      expect(actual).toInclude(config.fromPath('_data/meta.json'));
     });
     it('should create pug files', async () => {
       await current.run();

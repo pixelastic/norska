@@ -1,4 +1,5 @@
 const current = require('../data');
+
 const norskaData = require('norska-data');
 const helper = require('norska-helper');
 const config = require('norska-config');
@@ -73,12 +74,6 @@ describe('norska-html > data', () => {
     it('should have the ensureUrlTrailingSlash', async () => {
       const actual = await current.tweaks();
       expect(actual).toHaveProperty('ensureUrlTrailingSlashSource');
-    });
-  });
-  describe('meta', () => {
-    it('should have an empty object', async () => {
-      const actual = await current.meta();
-      expect(actual).toEqual({});
     });
   });
 });

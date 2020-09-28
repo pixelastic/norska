@@ -184,13 +184,13 @@ describe('norska-html > pug', () => {
         '<div class="default"><p>test mixin content</p></div>',
       ],
       [
-        'frontmatter is available as meta',
+        'frontmatter is available as data.meta',
         dedent`
         //- ---
         //- title: My title
         //- ---
           block content
-            p=meta.title
+            p=data.meta.title
         `,
         '<div class="default"><p>My title</p></div>',
       ],

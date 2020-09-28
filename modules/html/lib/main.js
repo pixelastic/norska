@@ -137,8 +137,8 @@ module.exports = {
     config.set('runtime.gitCommit', gitCommit);
 
     const data = norskaData.getAll();
-    const baseUrl = _.get(data, 'site.defaultUrl');
-    config.set('runtime.productionUrl', baseUrl);
+    const productionUrl = _.get(data, 'meta.productionUrl');
+    config.set('runtime.productionUrl', productionUrl);
   },
   /**
    * Returns a pattern list matching all files that should be compiled to HTML
