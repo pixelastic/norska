@@ -23,5 +23,6 @@ editing files in `./src` and your browser window will automatically update.
 If you need to dig deeper (changing the layout, adding data, etc), everything is
 documented on the [official website](https://projects.pixelastic.com/norska/).
 
-Th
+## Built with
 
+<!-- TODO: Add list of websites using norska -->
