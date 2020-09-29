@@ -8747,10 +8747,10 @@ inquirer@^6.2.0, inquirer@^6.2.1, inquirer@^6.5.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-instantsearch.js@4.8.2:
-  version "4.8.2"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.8.2.tgz#6f2e01f612fe7b013ee9ea27711e9dfb5823e627"
-  integrity sha512-DG2IUMfiZeGfJjgZrwBY1KGWUllyHUpG2khvhuPdHx8wopDC/713n6JDZ02oBdceBQJ91cn6Ph14igXSAjWJJA==
+instantsearch.js@4.8.3:
+  version "4.8.3"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.8.3.tgz#f9bff4370c7250ddc674c14fce078a69cda2c841"
+  integrity sha512-qU3ybRfwkTkftuTdPODGev04pa+4sk4Jve2iTQRDHMAMTO02F10/doV8IuxmGymVsk1kb8O/15Xcux69D/m9BQ==
   dependencies:
     "@types/googlemaps" "^3.39.6"
     algoliasearch-helper "^3.2.2"
@@ -11500,10 +11500,10 @@ netlify-redirector@^0.2.0:
   resolved "https://registry.npmjs.org/netlify-redirector/-/netlify-redirector-0.2.0.tgz#2037bf92520459277c9ae17f46e4df56104cd787"
   integrity sha512-5SSUu++MXvE/tik90Hx7lzISBHCl5k4TqpVeTuBEoHp5K7uWitY7c3MjPNiY3kB83GSZiTNLbuIY7bo6mpyU3Q==
 
-netlify@4.5.2, netlify@^4.5.2:
-  version "4.5.2"
-  resolved "https://registry.npmjs.org/netlify/-/netlify-4.5.2.tgz#d3c1c2634f33b6138fb414e048a242f9ff9cdbfc"
-  integrity sha512-o6g67js91RBY2ZPGvgKC6jyEYxhLyofBMiiaKh4ALcRUnSXOnZEGZH1FZYZIB85omjO6PUaTdGIB9g+VkWRUaA==
+netlify@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/netlify/-/netlify-4.6.0.tgz#185238e810709b19b27b1da47c7fb87c0f9291d4"
+  integrity sha512-wmx0bs64TQH1DtJs+5NyYUy9f+VvrBRRpGXNgzFYyaVsect/lxycdkDZwWQFrcvTlCf9lGHlRu2Gr0uC6+/k6Q==
   dependencies:
     "@netlify/open-api" "^0.16.0"
     "@netlify/zip-it-and-ship-it" "^1.3.12"
@@ -11594,6 +11594,36 @@ netlify@^4.3.13:
   version "4.3.13"
   resolved "https://registry.npmjs.org/netlify/-/netlify-4.3.13.tgz#6b7013e9f9e2ade10e9a9418cf9a825fa8d1cdaa"
   integrity sha512-nXiqUm89HOEGOzYiLtxGOUCZ+iJB01zxCMeolaQXaIia6UnFCw/jHMARGXMLpntxkgjclaMgMVzKO3aetbHAvQ==
+  dependencies:
+    "@netlify/open-api" "^0.16.0"
+    "@netlify/zip-it-and-ship-it" "^1.3.12"
+    backoff "^2.5.0"
+    clean-deep "^3.3.0"
+    filter-obj "^2.0.1"
+    flush-write-stream "^2.0.0"
+    folder-walker "^3.2.0"
+    from2-array "0.0.4"
+    hasha "^5.0.0"
+    lodash.camelcase "^4.3.0"
+    lodash.flatten "^4.4.0"
+    lodash.get "^4.4.2"
+    lodash.set "^4.3.2"
+    micro-api-client "^3.3.0"
+    node-fetch "^2.2.0"
+    p-map "^3.0.0"
+    p-wait-for "^3.1.0"
+    parallel-transform "^1.1.0"
+    pump "^3.0.0"
+    qs "^6.9.3"
+    rimraf "^3.0.2"
+    tempy "^0.3.0"
+    through2-filter "^3.0.0"
+    through2-map "^3.0.0"
+
+netlify@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.npmjs.org/netlify/-/netlify-4.5.2.tgz#d3c1c2634f33b6138fb414e048a242f9ff9cdbfc"
+  integrity sha512-o6g67js91RBY2ZPGvgKC6jyEYxhLyofBMiiaKh4ALcRUnSXOnZEGZH1FZYZIB85omjO6PUaTdGIB9g+VkWRUaA==
   dependencies:
     "@netlify/open-api" "^0.16.0"
     "@netlify/zip-it-and-ship-it" "^1.3.12"
@@ -11840,12 +11870,12 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-norska-theme-docs@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.1.0.tgz#0d7824faa206701e9c427ffe2fb4a168019e8e10"
-  integrity sha512-X94buSkqcoXvRKkwUkqKOQFcJHWECRfZIng4UEW0LpnYkKFan44b78FZkwSFqzQ/7KsbDYce+jGqjzc4CnbplQ==
+norska-theme-docs@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.1.1.tgz#bec2732194b601a69d20ed4ac6b3f5b30cbd8273"
+  integrity sha512-duky66179ZGNc7OMkoh6rI9NmthAR0jvQiCQnAjPAq4m3Rh9h5AId20tLtiOjKYpr+jiCXbd+MY13BPre5VsBg==
   dependencies:
-    firost "2.0.5"
+    firost "2.0.6"
     parse-github-repo-url "1.4.1"
 
 np@6.5.0:
@@ -12128,10 +12158,10 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
-open@7.2.1:
-  version "7.2.1"
-  resolved "https://registry.npmjs.org/open/-/open-7.2.1.tgz#07b0ade11a43f2a8ce718480bdf3d7563a095195"
-  integrity sha512-xbYCJib4spUdmcs0g/2mK1nKo/jO2T7INClWd/beL7PFkXRWgr8B23ssDHX/USPn2M2IjDR5UdpYs6I67SnTSA==
+open@7.3.0:
+  version "7.3.0"
+  resolved "https://registry.npmjs.org/open/-/open-7.3.0.tgz#45461fdee46444f3645b6e14eb3ca94b82e1be69"
+  integrity sha512-mgLwQIx2F/ye9SmbrUkurZCnkoXyXyu9EbHtJZrICjVAJfyMArdHp3KkixGdZx1ZHFPNIwl0DDM1dFFqXbTLZw==
   dependencies:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
@@ -12981,10 +13011,10 @@ postcss@7.0.27, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.1
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@7.0.34:
-  version "7.0.34"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-7.0.34.tgz#f2baf57c36010df7de4009940f21532c16d65c20"
-  integrity sha512-H/7V2VeNScX9KE83GDrDZNiGT1m2H+UTnlinIzhjlLX9hfMUn1mHNnGeX81a1c8JSBdBvqk7c2ZOG6ZPn5itGw==
+postcss@7.0.35:
+  version "7.0.35"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz#d2be00b998f7f211d8a276974079f2e92b970e24"
+  integrity sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
@@ -14496,10 +14526,10 @@ slide@^1.1.6:
   resolved "https://registry.npmjs.org/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
   integrity sha1-VusCfWW00tzmyy4tMsTUr8nh1wc=
 
-slug@3.3.4:
-  version "3.3.4"
-  resolved "https://registry.npmjs.org/slug/-/slug-3.3.4.tgz#bde453bee60587505f312c68738b8df21e5d388f"
-  integrity sha512-VpHbtRCEWmgaZsrZcTsVl/Dhw98lcrOYDO17DNmJCNpppI6s3qJvnNu2Q3D4L84/2bi6vkW40mjNQI9oGQsflg==
+slug@3.3.5:
+  version "3.3.5"
+  resolved "https://registry.npmjs.org/slug/-/slug-3.3.5.tgz#4c6efd39b148b34a78fccda49e684a82e983e81a"
+  integrity sha512-d/9yTbJDtSIhJThaNRP/U5uxwCl0mWIlV42JmKSfvg8t7DiVt69G8rAWTc0FWhaQOier0fiNAWVs7ctvVhK1RA==
 
 smart-buffer@^4.1.0:
   version "4.1.0"

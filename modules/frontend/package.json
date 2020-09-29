@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "algoliasearch": "4.5.1",
-    "instantsearch.js": "4.8.2",
+    "instantsearch.js": "4.8.3",
     "lazysizes": "5.2.2",
     "lodash-es": "4.17.15",
     "norska-image-proxy": "^1.1.0"
