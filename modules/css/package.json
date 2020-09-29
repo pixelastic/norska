@@ -7,8 +7,8 @@
     "firost": "2.0.6",
     "golgoth": "1.5.0",
     "hex-rgb": "4.2.0",
-    "norska-config": "^1.0.8",
-    "norska-helper": "^1.0.8",
+    "norska-config": "^1.1.0",
+    "norska-helper": "^1.1.0",
     "postcss": "7.0.34",
     "postcss-clean": "1.1.0",
     "postcss-import": "12.0.1",
@@ -37,5 +37,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.0.8"
+  "version": "1.1.0"
 }
