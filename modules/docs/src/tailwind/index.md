@@ -27,6 +27,16 @@ Some width relative to the number of characters in a row are also available:
 To cover the last cases, the following values are also added: `50vh`, `50vw`,
 `100vh`, `100vw`, `0`, `none` and `auto`.
 
+## Purging
+
+In production, the resulting CSS file will be _purged_. This means that all
+classes that are generated but not used in any HTML file will be removed. This
+is a very important step when using Tailwind as otherwise our CSS will be
+bloated with thousands of classes we don't use.
+
+Note that by default any custom CSS you added to your `style.css` file will be
+kept, no matter if it is present or not in the pages. If you want to purge it as
+well, you should wrap it in a `@layer utilities { }` block.
 
 ## Plugins
 

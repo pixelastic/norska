@@ -7,11 +7,11 @@ For convenience, several postCSS plugins are automatically added.
 ### Tailwind CSS
 
 This might be the most important plugin of all.
-[Tailwind](https://tailwindcss.com/) is an incredible utility-first framework
+[Tailwind][1] is an incredible utility-first framework
 that allows very quick designing in the browser.
 
 `norska` comes bundled with it, and extends it with [its own custom
-config](/tailwind/).You can also edit the `tailwind.config.js` file to add your
+config][2].You can also edit the `tailwind.config.js` file to add your
 own configuration on top of it.
 
 Most of the time, you won't need to edit any CSS files as you'll be able to
@@ -24,10 +24,9 @@ can use the `@apply` from Tailwind in your CSS files.
 }
 ```
 
-### import
+### Import
 
-[postcss-import](https://github.com/postcss/postcss-import) allows using
-`@import` to import import local files. 
+[postcss-import][3] allows using `@import` to import import local files.
 
 A common pattern is to create a `./src/_styles` folder where you store your CSS
 files and reference them through the
@@ -43,9 +42,9 @@ files and reference them through the
 _Note that the `theme:` syntax is a custom syntax to load CSS files from
 themes._
 
-### nested
+### Nested
 
-[postcss-nested](https://github.com/postcss/postcss-nested) unwraps nested rules
+[postcss-nested][4] unwraps nested rules
 in a fashion similar to what SCSS does.
 
 ```scss
@@ -66,21 +65,19 @@ in a fashion similar to what SCSS does.
 When running in production (through `yarn run build:prod`), additional plugins
 are added.
 
-### purgecss
+### Autoprefixer
 
-[postcss-purgecss](https://github.com/FullHuman/postcss-purgecss) will remove
-from the final CSS file all the classes that are not present in the HTML.
-
-This is very important when using a framework like Tailwind because Tailwind
-will by default generate a lot of classes (for each colors, breakpoints, etc).
-By purging the CSS, we remove all the classes that are not used.
-
-### autoprefixer
-
-[postcss-autoprefixer](https://github.com/postcss/autoprefixer) will add all the
+[postcss-autoprefixer][5] will add all the
 vendor prefixes needed for browser compatibility.
 
-### clean
+### Clean
 
-[postcss-clean](https://github.com/leodido/postcss-clean) will minify the final
+[postcss-clean][6] will minify the final
 CSS to reduce its size.
+
+[1]: https://tailwindcss.com/
+[2]: /tailwind/
+[3]: https://github.com/postcss/postcss-import
+[4]: https://github.com/postcss/postcss-nested
+[5]: https://github.com/postcss/autoprefixer
+[6]: https://github.com/leodido/postcss-clean
