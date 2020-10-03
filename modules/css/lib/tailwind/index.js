@@ -3,12 +3,23 @@ const defaultTheme = defaultConfig.theme;
 const _ = require('golgoth/lib/lodash');
 const themeConfig = require('./themes');
 const pluginConfig = require('./plugins');
+const config = require('norska-config');
 
 const baseConfig = {
+  __isNorskaDefaultConfig: true,
   // Pug does not allow the ":" character in shorthand classnames
   separator: '_',
-  // Norska already purges the CSS, so we disable the builtin purge
-  purge: false,
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+  },
+  purge: {
+    content: [config.toPath('./**/*.html')],
+    preserveHtmlElements: true,
+    options: {
+      keyframes: true,
+    },
+  },
   variants: {
     // Base
     backgroundColor: [

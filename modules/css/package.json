@@ -13,8 +13,7 @@
     "postcss-clean": "1.1.0",
     "postcss-import": "12.0.1",
     "postcss-nested": "5.0.1",
-    "purge-from-html": "1.0.3",
-    "tailwindcss": "1.5.1"
+    "tailwindcss": "1.8.10"
   },
   "description": "Compile .css files through postcss and Tailwind",
   "files": [
@@ -22,8 +21,7 @@
     "lib/tailwind/*.js",
     "lib/tailwind/helpers/*.js",
     "lib/tailwind/plugins/**/*.js",
-    "lib/tailwind/themes/**/*.js",
-    "reset.css"
+    "lib/tailwind/themes/**/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",

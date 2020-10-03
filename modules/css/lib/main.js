@@ -9,8 +9,6 @@ const postcssAutoprefixer = require('autoprefixer');
 const postcssImport = require('postcss-import');
 const postcssNested = require('postcss-nested');
 const postcssClean = require('postcss-clean');
-const postcssPurge = require('@fullhuman/postcss-purgecss');
-const purgeHtml = require('purge-from-html');
 const tailwind = require('tailwindcss');
 const firostError = require('firost/error');
 const consoleError = require('firost/consoleError');
@@ -35,11 +33,10 @@ module.exports = {
    * @returns {Array} Array of configured plugins
    */
   async getPlugins() {
-    const tailwindConfigPath = await this.getTailwindConfigPath();
     const basePlugins = [
       this.__pluginImport(),
       this.__pluginNested(),
-      this.__pluginTailwind(tailwindConfigPath),
+      await this.__pluginTailwind(),
     ];
 
     // That's all the plugins we need in dev
@@ -48,7 +45,6 @@ module.exports = {
     }
 
     const productionPlugins = [
-      this.__pluginPurge(),
       this.__pluginAutoprefixer(),
       this.__pluginClean(),
     ];
@@ -155,7 +151,7 @@ module.exports = {
       entrypoint,
       `${config.from()}/_styles/**/*.css`, // Included files
       config.themePath('**/*.css'), // Theme files
-      await this.getTailwindConfigPath(), // Tailwind config
+      config.rootPath('tailwind.config.js'), // Tailwind config
     ];
 
     // Rebuild the entrypoint whenever something changed
@@ -172,15 +168,15 @@ module.exports = {
       }
     });
   },
-  async getTailwindConfigPath() {
+  async getTailwindConfig() {
     // First check in the host
     const configFromHost = config.rootPath('tailwind.config.js');
-    if (await exists(configFromHost)) {
-      return configFromHost;
-    }
+    const tailwindConfig = (await exists(configFromHost))
+      ? require(configFromHost)
+      : require('./tailwind/index.js');
 
-    // Fallback to value in norska-css
-    return path.resolve(__dirname, './tailwind/index.js');
+    _.set(tailwindConfig, 'purge.enabled', helper.isProduction());
+    return tailwindConfig;
   },
   /**
    * Wrapper around the postcss method, to make it easier to mock in tests
@@ -226,30 +222,13 @@ module.exports = {
     return postcssClean(options);
   },
   /**
-   * Wrapper around the postcss purge plugin, to make it easier to mock in
-   * tests
-   * @returns {object} A postcss-clean plugin instance
-   **/
-  __pluginPurge() {
-    const dynamicClassesPatterns = [/^ais-/, /^js-/];
-    const options = {
-      content: [`${config.to()}/**/*.html`],
-      extractors: [
-        {
-          extractor: purgeHtml,
-          extensions: ['html'],
-        },
-      ],
-      whitelistPatterns: dynamicClassesPatterns,
-      whitelistPatternsChildren: dynamicClassesPatterns,
-    };
-    return postcssPurge(options);
-  },
-  /**
    * Wrapper around Tailwindcss
    * @returns {object} A tailwind plugin instance
    **/
-  __pluginTailwind: tailwind,
+  async __pluginTailwind() {
+    const tailwindConfig = await this.getTailwindConfig();
+    return tailwind(tailwindConfig);
+  },
   __consoleSuccess: consoleSuccess,
   __consoleError: consoleError,
   __write: write,

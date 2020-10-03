@@ -25,8 +25,7 @@
   "files": [
     "lib/*.js",
     "bin/",
-    "frontend/",
-    "reset.css"
+    "frontend/"
   ],
   "homepage": "https://projects.pixelastic.com/norska/",
   "license": "MIT",
