@@ -40,17 +40,6 @@ well, you should wrap it in a `@layer utilities { }` block.
 
 ## Plugins
 
-`norska` also cames bundled with its own set of custom Tailwind plugins. Below
-is the list of plugins and what they add.
+`norska` also cames bundled with its own set of custom Tailwind plugins:
 
-### textColor
-
-This plugin adds syntactic sugar to write text-coloring classes without the
-`.text-` prefix. You can write `.blue` instead of `.text-blue` to set the text
-to blue.
-
-This maintains the ability to change the text opacity through `.text-opacity-XX`
-classes.
-
-_Note: Not all plugins are currently documented. I'll add documentation as
-I work on them_
+- [textColor](./playground/textColor/)

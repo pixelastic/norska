@@ -32,7 +32,15 @@ module.exports = {
       };
       result = await this.convert(pugSource, options);
     } catch (err) {
-      throw firostError('ERROR_PUG_COMPILATION_FAILED', err.toString());
+      let errorMessage = err.toString();
+      const mustBeInBlockError = errorMessage.includes(
+        'Only named blocks and mixins can appear at the top level'
+      );
+      if (mustBeInBlockError) {
+        errorMessage +=
+          "\n\nPotential solution: Your pug content must be defined in a 'block content'";
+      }
+      throw firostError('ERROR_PUG_COMPILATION_FAILED', errorMessage);
     }
 
     await write(result, absoluteDestinationPath);
