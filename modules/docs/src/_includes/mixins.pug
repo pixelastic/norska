@@ -5,5 +5,18 @@ mixin logo(attributes)
 
 mixin tailwind_tests
   h3 Tests
+  p.italic.text-2 The following block lists all related classes and is used for automated visual regression testing.
   .screenshot
     block
+
+mixin tailwind_table_header(one, two)
+  .flex.w-100p.bg-gray-1.gray-7.border-001.border-r-0.border-l-0.border-gray-3
+    .w-50p.pl-2.py-01.bold Class
+    .w-50p.pl-2.py-01.bold Example
+
+mixin tailwind_table_line(className)
+  .flex.w-100p.border-b-001.border-gray-3
+    .w-50p.flex.items-center.pl-1
+      .mono=`.${className}`
+    .w-50p.pl-2
+      block

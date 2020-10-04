@@ -1,4 +1,5 @@
 const generateClasses = require('../../helpers/generateClasses.js');
+// TODO: Remove this plugin, as it is now part of Tailwind core
 
 /**
  * Allow using .bg-gradient-from-{color} and .bg-gradient-to-{color} with

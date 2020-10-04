@@ -1,0 +1,15 @@
+//- ---
+//- title: Border radius
+//- ---
+
+block content
+  :markdown-it
+    Norska uses the same `.rounded-{radius}` classes as the default Tailwind, but with a different scale.
+
+  +tailwind_tests
+    +tailwind_table_header
+    each key in data.tailwind.theme('borderRadius')
+      - const className=`rounded-${key}`.replace('-default', '')
+      +tailwind_table_line(className)
+        .w-100p.bg-checkered.p-1
+          .w-5.h-5.bg-blue.transparent(class=className) Aa 

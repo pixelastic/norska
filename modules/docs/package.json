@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "norska": "^1.1.0",
+    "golgoth": "1.5.0",
+    "norska-css": "^1.1.0",
     "norska-theme-docs": "1.1.1"
   },
   "files": [],

@@ -1,0 +1,17 @@
+
+//- ---
+//- title: Background opacity
+//- ---
+
+block content
+  :markdown-it
+    Norska uses the same `.bg-opacity-{value}` classes as the default Tailwind,
+    but with a different scale.
+    
+  +tailwind_tests
+    +tailwind_table_header
+    each key in data.tailwind.theme('opacity')
+      - const className=`bg-opacity-${key}`
+      +tailwind_table_line(className)
+        .w-100p.bg-checkered.p-01
+          .w-100p.bg-blue.transparent(class=className) Aa

@@ -2,30 +2,38 @@
 //- title: Text color
 //- ---
 
-//- block meta
-//-   - meta.title = "Font colors"
-//-   - pageClasses = data.tailwind.getClasses('colors', 'text');
-
 block content
   :markdown-it
     By default, Tailwind allows one to color text color using the `.text-X`
     utilities. For example, `.text-blue` would turn the text blue.
 
+    ### No prefix
     In norska, the `text-` prefix is dropped. To color a text blue, you call
     `.blue` on it instead of `.text-blue`.
 
-    The rationale behind the change is to have shorter classes for text styling.
+    _The rationale behind the change is to have shorter classes for text styling.
     This is in line with the `.bold` or `.underline` classes.
 
+    ### Simpler scale
+
+    It uses a numeric scale using single digit units instead of hundreds. For
+    example, `.bg-red-5` is used instead of `.bg-red-500`. 
+
+    _The rationale for the change is that it's easier to increment/decrement the
+    suffix using an IDE keybinding when they only move by one digit instead of
+    100._
+
+    ### Default values
+      
+    By convention, every color can be called without a numeric suffix, and the
+    value of the `-6` will be used instead. For example, `.bg-blue` and
+    `.bg-blue-6` are the same color.
+
+    _The rationale here is to be able to quickly slap some mid-tone color for
+    quick prototyping, and then being able to tweak the scale if needed._
+
   +tailwind_tests
-    |Tests will go here
-
-//-   +tailwind_tests
-
-  //- .flcw.screenshot.border-t-001.border-gray
-  //-   each className in pageClasses
-  //-     - const simplerClassName = _.replace(className, 'text-', '');
-  //-     .fln.flrnw.flrcv.border-b-001.border-gray.py-01
-  //-       code.w-12.fln.code=`.${simplerClassName}`
-  //-       .fla(class=simplerClassName)=testString
-
+    +tailwind_table_header
+    each key in data.tailwind.theme('colors')
+      +tailwind_table_line(key)
+        .bold(class=key) Aa

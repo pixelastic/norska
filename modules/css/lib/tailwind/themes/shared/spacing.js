@@ -46,4 +46,10 @@ module.exports = {
   '50vh': '50vh',
   '100vw': '100vw',
   '100vh': '100vh',
+  '25ch': '25ch',
+  '50ch': '50ch',
+  '65ch': '65ch',
+  '75ch': '75ch',
+  '100ch': '100ch',
+  prose: '65ch',
 };

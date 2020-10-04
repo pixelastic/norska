@@ -1,0 +1,26 @@
+//- ---
+//- title: Base cropping
+//- ---
+
+block content
+  :markdown-it
+    In addition to the default `.w-{size}` classes, norska also provides the
+    `.w-base-{size}` and `.w-crop-{size}` classes (also works for `.h-{size}`).
+
+    This can be used to a dimension in the form of `X minus Y`. For example
+    `.w-base-100p.w-crop-5` would mean `100% of the available space minus 5 on
+    the scale`.
+
+    
+  +tailwind_tests
+    +tailwind_table_header
+    - 
+      const examples = [
+        ['w-base-100p', 'w-crop-2'],
+        ['w-base-50p', 'w-crop-1'],
+        ['w-base-10', 'w-crop-5'],
+      ]
+    each example in examples
+      +tailwind_table_line(example.join('.'))
+        .w-100p.bg-checkered
+          .bg-blue.transparent(class=example.join(' ')) Aa
