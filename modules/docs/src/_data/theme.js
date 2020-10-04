@@ -53,6 +53,10 @@ module.exports = {
               title: 'Methods',
               href: 'pug-methods',
             },
+            {
+              title: 'Filters',
+              href: 'pug-filters',
+            },
           ],
         },
         {

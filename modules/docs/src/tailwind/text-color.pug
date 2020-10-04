@@ -1,0 +1,31 @@
+//- ---
+//- title: Text color
+//- ---
+
+//- block meta
+//-   - meta.title = "Font colors"
+//-   - pageClasses = data.tailwind.getClasses('colors', 'text');
+
+block content
+  :markdown-it
+    By default, Tailwind allows one to color text color using the `.text-X`
+    utilities. For example, `.text-blue` would turn the text blue.
+
+    In norska, the `text-` prefix is dropped. To color a text blue, you call
+    `.blue` on it instead of `.text-blue`.
+
+    The rationale behind the change is to have shorter classes for text styling.
+    This is in line with the `.bold` or `.underline` classes.
+
+  +tailwind_tests
+    |Tests will go here
+
+//-   +tailwind_tests
+
+  //- .flcw.screenshot.border-t-001.border-gray
+  //-   each className in pageClasses
+  //-     - const simplerClassName = _.replace(className, 'text-', '');
+  //-     .fln.flrnw.flrcv.border-b-001.border-gray.py-01
+  //-       code.w-12.fln.code=`.${simplerClassName}`
+  //-       .fla(class=simplerClassName)=testString
+
