@@ -6,6 +6,8 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
+    "@percy/agent": "0.28.2",
+    "@percy/script": "1.1.0",
     "aberlaas": "1.13.3",
     "callsites": "3.1.0",
     "firost": "2.0.6",
