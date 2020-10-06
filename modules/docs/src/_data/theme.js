@@ -92,6 +92,19 @@ module.exports = {
       ],
     },
     {
+      name: 'Tailwind',
+      links: [
+        {
+          title: 'Colors',
+          href: 'tailwind/colors',
+        },
+        // {
+        //   title: 'Dimensions',
+        //   href: 'tailwind/dimensions',
+        // },
+      ],
+    },
+    {
       name: 'Configuration',
       links: [
         {

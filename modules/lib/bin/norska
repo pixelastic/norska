@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const norska = require('../lib/main');
+const norska = require('../lib/main.js');
 const minimist = require('minimist');
 const args = minimist(process.argv.slice(2));
 (async () => {

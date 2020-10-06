@@ -24,6 +24,7 @@ describe('norska-html', () => {
       ['subdir/index.md', true],
       ['subdir/something.md', true],
       ['_data/text.md', false],
+      ['subdir/_includes/file.pug', false],
     ])('%s: %s', async (input, expected) => {
       await write('anything', config.fromPath(input));
       const actual = await glob(await current.filePatterns());

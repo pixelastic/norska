@@ -149,8 +149,8 @@ module.exports = {
     return [
       `${source}/**/*.pug`,
       `${source}/**/*.md`,
-      `!${source}/_*/**/*.pug`,
-      `!${source}/_*/**/*.md`,
+      `!${source}/**/_*/**/*.pug`,
+      `!${source}/**/_*/**/*.md`,
     ];
   },
   /**
