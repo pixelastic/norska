@@ -10,42 +10,43 @@ const generateClasses = require('../../helpers/generateClasses.js');
  */
 function generateAnimationClasses({ theme, addBase }) {
   // Define the animation @keyframes
-  const animationName = theme('animationName');
-  const keyframes = _.transform(
-    animationName,
+  const keyframes = theme('keyframes');
+  const baseKeyframes = _.transform(
+    keyframes,
     (result, value, key) => {
       result[`@keyframes ${key}`] = value;
     },
     {}
   );
-  addBase(keyframes);
+  addBase(baseKeyframes);
 
-  // Define the .animation-{name}
-  const animationDelay = theme('animationDelay');
-  const animationDuration = theme('animationDuration');
+  // Define the .animate-{name}
+  const animation = theme('animation');
+  const animationDelay = theme('delay');
+  const animationDuration = theme('duration');
   const animationIterationCount = theme('animationIterationCount');
   const animationPlayState = theme('animationPlayState');
-  const animationTimingFunction = theme('animationTimingFunction');
+  const animationTimingFunction = theme('timingFunction');
   const defaultProperties = {
-    '--animation-delay': animationDelay.default,
-    '--animation-duration': animationDuration.default,
+    '--delay': animationDelay.default,
+    '--duration': animationDuration.default,
     '--animation-iteration-count': animationIterationCount.default,
     '--animation-play-state': animationPlayState.default,
-    '--animation-timing-function': animationTimingFunction.default,
-    animationDelay: 'var(--animation-delay)',
-    animationDuration: 'var(--animation-duration)',
+    '--timing-function': animationTimingFunction.default,
+    animationDelay: 'var(--delay)',
+    animationDuration: 'var(--duration)',
     animationIterationCount: 'var(--animation-iteration-count)',
     animationPlayState: 'var(--animation-play-state)',
-    animationTimingFunction: 'var(--animation-timing-function)',
+    animationTimingFunction: 'var(--timing-function)',
   };
 
   const animationNameClasses = generateClasses(
-    animationName,
-    '.animation-',
-    (value, key) => {
+    animation,
+    '.animate-',
+    (value) => {
       return {
         ...defaultProperties,
-        animationName: key,
+        ...value,
       };
     }
   );
@@ -56,7 +57,7 @@ function generateAnimationClasses({ theme, addBase }) {
   );
   const animationPlayStateClasses = generateClasses(
     animationPlayState,
-    '.animation-',
+    '.animate-',
     '--animation-play-state'
   );
 
@@ -73,23 +74,23 @@ function generateAnimationClasses({ theme, addBase }) {
  * @returns {object} Object of classes
  */
 function generateTransitionClasses({ theme }) {
-  const transitionDelay = theme('transitionDelay');
-  const transitionDuration = theme('transitionDuration');
+  const transitionDelay = theme('delay');
+  const transitionDuration = theme('duration');
   const transitionProperty = theme('transitionProperty');
-  const transitionTimingFunction = theme('transitionTimingFunction');
+  const transitionTimingFunction = theme('timingFunction');
 
   const defaultProperties = {
-    '--transition-delay': transitionDelay.default,
-    '--transition-duration': transitionDuration.default,
-    '--transition-timing-function': transitionTimingFunction.default,
-    transitionDelay: 'var(--transition-delay)',
-    transitionDuration: 'var(--transition-duration)',
-    transitionTimingFunction: 'var(--transition-timing-function)',
+    '--delay': transitionDelay.default,
+    '--duration': transitionDuration.default,
+    '--timing-function': transitionTimingFunction.default,
+    transitionDelay: 'var(--delay)',
+    transitionDuration: 'var(--duration)',
+    transitionTimingFunction: 'var(--timing-function)',
   };
   const transitionPropertyClasses = generateClasses(
     transitionProperty,
     '.transition-',
-    (value, _key) => {
+    (value) => {
       return {
         ...defaultProperties,
         transitionProperty: value,
@@ -106,46 +107,16 @@ function generateTransitionClasses({ theme }) {
  * @returns {object} Object of classes
  */
 function generateSharedClasses({ theme }) {
-  const animationDelay = theme('animationDelay');
-  const animationDuration = theme('animationDuration');
-  const animationTimingFunction = theme('animationTimingFunction');
-  const transitionDelay = theme('transitionDelay');
-  const transitionDuration = theme('transitionDuration');
-  const transitionTimingFunction = theme('transitionTimingFunction');
+  const delay = theme('delay');
+  const duration = theme('duration');
+  const timingFunction = theme('timingFunction');
 
-  const allDelays = { ...animationDelay, ...transitionDelay };
-  const delayClasses = generateClasses(allDelays, '.delay-', (value, key) => {
-    return {
-      '--animation-delay': animationDelay[key],
-      '--transition-delay': transitionDelay[key],
-    };
-  });
-
-  const allDurations = { ...animationDuration, ...transitionDuration };
-  const durationClasses = generateClasses(
-    allDurations,
-    '.duration-',
-    (value, key) => {
-      return {
-        '--animation-duration': animationDuration[key],
-        '--transition-duration': transitionDuration[key],
-      };
-    }
-  );
-
-  const allTimingFunctions = {
-    ...animationTimingFunction,
-    ...transitionTimingFunction,
-  };
+  const delayClasses = generateClasses(delay, '.delay-', '--delay');
+  const durationClasses = generateClasses(duration, '.duration-', '--duration');
   const easeClasses = generateClasses(
-    allTimingFunctions,
+    timingFunction,
     '.ease-',
-    (value, key) => {
-      return {
-        '--animation-timing-function': animationTimingFunction[key],
-        '--transition-timing-function': transitionTimingFunction[key],
-      };
-    }
+    '--timing-function'
   );
 
   return {

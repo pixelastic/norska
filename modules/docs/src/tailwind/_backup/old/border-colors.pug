@@ -1,0 +1,12 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Border colors"
+  - pageClasses = data.tailwind.getClasses('colors', 'border');
+
+block content
+  .flcw.screenshot
+    each className in pageClasses
+      .fln.flrnw.border-01(class=className)
+        code.fla.code=`.${className}`
+

@@ -1,0 +1,20 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Box shadows"
+  - pageClasses = data.tailwind.getClasses('boxShadow', 'shadow');
+  - colorClasses = data.tailwind.getClasses('colors', 'shadow');
+
+block content
+  .screenshot.bg-gray-1
+    .flrw
+      each rawClassName in pageClasses
+        - const className = rawClassName.replace('-default', '');
+        .fln.flrnw.flc.p-5
+          .p-2.bg-white.rounded.flrnw.flc(class=className)
+            code.fln.code=`.${className}`
+    .flrw
+      each className in colorClasses
+        .fln.flrnw.flc.p-5
+          .p-2.bg-white.rounded.flrnw.flc.shadow-5(class=className)
+            code.fln.code=`.shadow-5.${className}`

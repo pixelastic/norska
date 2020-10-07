@@ -1,0 +1,21 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Min/Max"
+  -
+    const manualClasses = [
+      { content: "Short content", classes: ['min-w-10', 'min-h-10'] },
+      { content: "Very long content that should span several lines", classes: ['max-w-10', 'max-h-3'] },
+    ]
+
+block content
+  .screenshot
+    .flcw.border-t-001.border-gray
+      each item in manualClasses
+        - const displayClassName = item.classes.join('.')
+        .fln.flrnw.py-1.border-b-001.border-gray
+          code.fln.w-18.fln.code=`.${displayClassName}`
+          .fla.flrnw.flrcv
+            .h-12.w-12.bg-gray-3
+              .inline-block.white.bg-green(class=item.classes)=item.content
+

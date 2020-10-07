@@ -1,0 +1,15 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Font colors"
+  - pageClasses = data.tailwind.getClasses('colors', 'text');
+
+block content
+  p Colors can be used without the `.text-` prefix
+  .flcw.screenshot.border-t-001.border-gray
+    each className in pageClasses
+      - const simplerClassName = _.replace(className, 'text-', '');
+      .fln.flrnw.flrcv.border-b-001.border-gray.py-01
+        code.w-12.fln.code=`.${simplerClassName}`
+        .fla(class=simplerClassName)=testString
+

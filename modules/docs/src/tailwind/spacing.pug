@@ -1,0 +1,63 @@
+//- ---
+//- title: Spacing scale
+//- ---
+
+block content
+  p
+    | Norska uses a custom scale for all dimension-based classes.
+    
+  !=markdown('## Shared scale')
+  p The same scale is used for the following classes. 
+  
+  ul
+    li #[code .w-*], #[code .min-w-*] and #[code .max-w-*] for controlling the width
+    li #[code .min-w-*], #[code .min-h-*] and #[code .max-h-*] for controlling the min width
+    li #[code .p-*] for controlling the padding
+    li #[code .m-*] for controlling the margin
+    li #[code .border-*] for controlling the border width
+
+  p.italic.text-1
+    | The rationale is that I found having the same scale for handling both the
+    | dimensions and the spacing of elements made every alignment easier.
+
+  !=markdown('## Default scale')
+  p
+    | The scale used by Norska is very different from the default Tailwind scale.
+
+  ol
+    li 
+      | It ranges from 1 to 20. #[.inline.text-smaller Tailwind goes from 1 to 64]
+    li 
+      | All steps are defined. #[.inline.text-smaller For example, there is no #[code .w-7] or #[code .w-52] in Tailwind]
+    li 
+      | It is #[strong not] proportional. #[.inline.text-smaller Step #[code n+1] is bigger than #[code n], but #[code 2*n] is not twice as large as #[code n].]
+    
+  !=markdown('## Small and very small values')
+  p 
+    | Values smaller that #[code 1] can be achieved using the steps #[code 01]
+    | to #[code 04]. 
+  
+  p 
+    | Very very small values (we're talking 1 or 2 pixels) can be used with
+    | the #[code 001] and #[code 002] steps.
+
+
+  !=markdown('## Other units')
+  p
+    | All values of the default scale are expressed in #[code rem]. When a value is in another unit, the last characters of the key indicate the value (#[code p], #[code vh], #[code vw] or #[code ch])
+
+  p.italic.text-1
+    | Some values might not be available if they don't make sense in a specific
+    | context (like #[code border-50p])
+
+  !=markdown('## Full scale')
+  p
+    | The following table displays all the available spacing. For the sake of
+    | clarity, it exposes them when used on a width, but they are equally
+    | available on all other relevant classes
+  +tailwind_table_header
+  each key in data.tailwind.theme('spacing')
+    - const className=`w-${key}`
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered
+        .bg-blue.transparent(class=className) Aa

@@ -1,0 +1,10 @@
+//- ---
+//- layout: percy
+//- title: Border colors
+//- ---
+
+block content
+  each key in data.tailwind.theme('colors')
+    - const className=`border-${key}`;
+    +tailwind_table_line(className)
+      .w-100p.border-01.transparent(class=className) Aa 

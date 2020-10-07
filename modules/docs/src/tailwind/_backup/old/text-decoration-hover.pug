@@ -1,0 +1,19 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Text Decoration Hover"
+  -
+    const manualClasses = [
+      '.hover_underline',
+      '.underline.hover_underline-blue',
+    ]
+
+block content
+  .flcw.border-t-001.border-gray.mt-1
+    each classNames in manualClasses
+      - const classesAsArray = classNames.split('.')
+      .fln.flrnw.flrcv.border-b-001.border-gray.py-01
+        code.w-16.fln.code=classNames
+        .fla(class=classesAsArray)=testString
+
+

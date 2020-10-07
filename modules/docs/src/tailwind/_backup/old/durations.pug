@@ -1,0 +1,14 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Durations"
+  - pageTheme = data.tailwind.getTheme('transitionDuration');
+
+block content
+  .flcw
+    p Available values for durations. Applies to both animations and transitions
+    .mt-1.border-t-001.border-gray
+    each item in pageTheme
+      .fln.flrnw.border-b-001.border-gray.py-01
+        code.w-12.fln.code=`.duration-${item.key}`
+        .fla.h-3=item.value

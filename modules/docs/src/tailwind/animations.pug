@@ -1,0 +1,142 @@
+//- ---
+//- title: Animations and transitions
+//- ---
+
+block content
+  p 
+    |Norska adds more utilities to Tailwind default animation and transitions.
+
+  p
+    |The main change is that the #[code .delay-*], #[code .duration-*] and #[code .ease-*] transition classes are also usable
+    | on animations. The #[code .loop-*], #[code .animate-play] and #[code .animate-pause] classes are also added.
+
+  p 
+    |The default #[code duration-*] and #[code delay-*] scales are expressed in
+    |seconds while the steps starting with #[code 0] are in hundreds of
+    |milliseconds.
+
+  !=markdown('## Default animation and transitions')
+  +tailwind_table_header
+  +tailwind_table_line('animate-spin')
+    .w-100p.p-01
+      +loader.w-4.h-4.blue.animate-spin
+  +tailwind_table_line('animate-ping')
+    .w-100p.p-02
+      .w-3.h-3.bg-green-5.rounded-100p.animate-ping
+  +tailwind_table_line('animate-pulse')
+    .w-100p.p-02
+      .w-100p.h-2.bg-gray-3.animate-pulse.rounded.transparent Aa
+  +tailwind_table_line('animate-bounce')
+    .w-100p.p-02
+      +down_arrow.w-4.h-4.gray-8.animate-bounce
+  +tailwind_table_line('transition-colors')
+    .w-100p.p-01
+      .duration-03.transition-colors.inline-block.rounded.pointer.px-1.border-01.bold.gray-9.hover_gray-2.bg-gray-2.hover_bg-green-7.border-gray-3.hover_border-green-3 Hover me
+  +tailwind_table_line('transition-dimensions')
+    .w-100p.p-01.bg-checkered
+      .duration-03.transition-dimensions.inline-block.rounded.pointer.px-1.bg-blue.white.bold.w-50p.text-center.hover_w-100p Hover me
+  +tailwind_table_line('transition-opacity')
+    .w-100p.p-01.bg-checkered
+      .duration-03.transition-opacity.inline-block.rounded.pointer.px-1.bg-blue.white.bold.opacity-100p.hover_opacity-25p Hover me
+
+
+  !=markdown('## Variations')
+  +tailwind_table_header
+  +tailwind_table_line('duration-30')
+    .w-100p.p-01.bg-checkered
+      .duration-5.transition-dimensions.inline-block.rounded.pointer.px-1.bg-blue.white.bold.w-50p.text-center.hover_w-100p Hover me
+  +tailwind_table_line('duration-03')
+    .w-100p.py-02
+      +down_arrow.w-4.h-4.gray-8.animate-bounce.duration-03
+  +tailwind_table_line('delay-03')
+    .w-100p.p-01.bg-checkered
+      .duration-03.delay-03.transition-dimensions.inline-block.rounded.pointer.px-1.bg-blue.white.bold.w-50p.text-center.hover_w-100p Hover me
+  +tailwind_table_line('ease-in')
+    .w-100p.p-02
+      .w-3.h-3.bg-green-5.rounded-100p.animate-ping.ease-in
+  +tailwind_table_line('ease-out')
+    .w-100p.p-02
+      .w-3.h-3.bg-green-5.rounded-100p.animate-ping.ease-out
+  +tailwind_table_line('ease-in')
+    .w-100p.p-01.bg-checkered
+      .duration-03.ease-in.transition-dimensions.inline-block.rounded.pointer.px-1.bg-blue.white.bold.w-50p.text-center.hover_w-100p Hover me
+  +tailwind_table_line('ease-out')
+    .w-100p.p-01.bg-checkered
+      .duration-03.ease-out.transition-dimensions.inline-block.rounded.pointer.px-1.bg-blue.white.bold.w-50p.text-center.hover_w-100p Hover me
+  +tailwind_table_line('ease-linear')
+    .w-100p.p-01.bg-checkered
+      .duration-03.ease-linear.transition-dimensions.inline-block.rounded.pointer.px-1.bg-blue.white.bold.w-50p.text-center.hover_w-100p Hover me
+  +tailwind_table_line('loop-2')
+    .w-100p.p-01
+      +loader.w-4.h-4.blue.animate-spin.loop-2
+  +tailwind_table_line('hover_animate-pause')
+    .w-100p.p-01
+      +loader.w-4.h-4.blue.pointer.animate-spin.hover_animate-pause
+  +tailwind_table_line('hover_animate-play')
+    .w-100p.p-01
+      +loader.w-4.h-4.blue.pointer.animate-spin.animate-pause.hover_animate-play
+
+
+  !=markdown('## Duration')
+  p 
+    |The #[code .duration-*] classes control both the transition and animation
+    |durations.
+  +tailwind_table_header("Class", "Duration")
+  each item in data.tailwind.getTheme('duration')
+    - const className=`duration-${item.key}`;
+    +tailwind_table_line(className)
+      .w-100p=item.value
+
+
+  !=markdown('## Delay')
+  p 
+    |The #[code .delay-*] classes control the time to wait before starting the animation/transition.
+  +tailwind_table_header("Class", "Delay")
+  each item in data.tailwind.getTheme('delay')
+    - const className=`delay-${item.key}`;
+    +tailwind_table_line(className)
+      .w-100p=item.value
+
+
+
+  !=markdown('## Easing')
+  p 
+    |The #[code .ease-*] classes control the animation/transition easing curve.
+  +tailwind_table_header("Class", "Function")
+  each item in data.tailwind.getTheme('timingFunction')
+    - const className=`ease-${item.key}`;
+    +tailwind_table_line(className)
+      .w-100p=item.value
+
+
+  !=markdown('## Loop')
+  p 
+    |The #[code .loop-*] classes control how many times an animation should run. 
+  +tailwind_table_header("Class", "Count")
+  each item in data.tailwind.getTheme('animationIterationCount')
+    - const className=`loop-${item.key}`;
+    +tailwind_table_line(className)
+      .w-100p=item.value
+
+  !=markdown('## Play/Pause')
+  p 
+    |The following classes can control the animation play state.nimation. They prove most useful when applied on #[code :hover].
+
+  +tailwind_table_header("Class", "Play state")
+  each item in data.tailwind.getTheme('animationPlayState')
+    - const className=`animate-${item.key}`;
+    +tailwind_table_line(className)
+      .w-100p=item.value
+
+
+  !=markdown('## Limitations')
+  p.italic
+    |Due to the nature of animations, not all scenarios can be covered with
+    |utility classes. For example, the utility classes provided can only change
+    |the easing method of the whole animation, not of a specific keyframe.
+
+
+
+
+  //- Add animations and transitions examples
+  //- Also include .delay-, .duration- and .ease- functions

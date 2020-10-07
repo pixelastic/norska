@@ -1,0 +1,19 @@
+//- ---
+//- title: Opacity
+//- ---
+
+block content
+  p 
+    | Norska uses a slightly different scale for opacity than the default tailwind.
+
+  p.italic.text-smaller
+    | The following table displays all the opacity values. For the sake of
+    | clarity, it exposes them when used on a background, but they are equally
+    | available on text.
+
+  +tailwind_table_header
+  each key in data.tailwind.theme('opacity')
+    - const className=`bg-opacity-${key}`
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered.p-01
+        .w-100p.bg-blue.transparent(class=className) Aa

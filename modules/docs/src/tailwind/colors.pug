@@ -1,0 +1,50 @@
+//- ---
+//- title: Color palette
+//- ---
+
+block content
+  p 
+    | Norska uses a slightly different color palette than the default Tailwind
+    | one. This page explains all the differences.
+
+  !=markdown('## Simpler scale')
+  p
+    | It uses a numeric scale using single digit units instead of hundreds. For
+    | example, #[code .bg-red-5] is used instead of #[code .bg-red-500].
+
+  p.italic.text-1
+    |The rationale for the change is that it's easier to increment/decrement the
+    |suffix using an IDE keybinding when they only move by one digit instead of
+    |100.
+
+  !=markdown('## Default values')
+  p
+    |By convention, every color can be called without a numeric suffix, and the
+    |value of the #[code -6] will be used instead. For example, #[code .bg-blue] and
+    |#[code .bg-blue-6] are the same color.
+
+  p.italic.text-1
+    |The rationale here is to be able to quickly slap some mid-tone color for
+    |quick prototyping, and then being able to tweak the scale if needed.
+    |
+
+  !=markdown('## No prefix for text colors')
+  p
+    | In norska, the #[code text-] prefix is dropped when coloring text. To color a text blue, you call
+    | #[code .blue] on it instead of #[code .text-blue].
+
+  p.italic.text-1
+    |The rationale behind the change is to have shorter classes for text styling.
+    |This is in line with the #[code .bold] or #[code .underline] classes.
+
+  !=markdown('## Full palette')
+  p
+    | The following table displays all the available colors. For the sake of
+    | clarity, it exposes them when used on a background, but they are equally
+    | available on borders and text.
+  +tailwind_table_header
+  each key in data.tailwind.theme('colors')
+    - const className=`bg-${key}`;
+    +tailwind_table_line(className)
+      .w-100p.transparent(class=className) Aa
+

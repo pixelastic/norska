@@ -1,0 +1,20 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Animations"
+  -
+    const manualClasses = [
+      '.animation-spin',
+      '.animation-spin.delay-2',
+      '.animation-spin.duration-5',
+      '.animation-spin.ease-in',
+      '.animation-spin.loop-1',
+      '.animation-spin.animation-paused.hover_animation-running',
+    ]
+
+block content
+  .bg-gray-3.flrw.p-1
+    each classNames in manualClasses
+      - const classesAsArray = classNames.split('.')
+      .fln.w-50p.flrnw.flc.p-1
+        .bg-white.border-gray.shadow.rounded.p-1.cursor-default.flrnw.flc(class=classesAsArray)=classNames

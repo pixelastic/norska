@@ -1,0 +1,21 @@
+//- ---
+//- title: Misc utilities
+//- ---
+
+block content
+  p 
+    | Norska also bundles a few other utility classes that wouldn't fit in any
+    | of the other categories and are documented here.
+
+  !=markdown('## Scroll margin')
+
+  p
+    |#[code .scroll-mt-{size}] utilities are available to control the #[a(href="https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin-top") scroll-margin-top] value. #[code size] can be any step of the dimension scale.
+
+  p
+    |#[code .scroll-mt-{size}] classes can be used on anchors. When following a link
+    |  pointing to such an anchor, it controls how much space must be scrolled
+    |  above the target link. This is used on this very own website to always keep
+    |  the headers visible when following the link, even when they would be hidden
+    |  by the header otherwise.
+    

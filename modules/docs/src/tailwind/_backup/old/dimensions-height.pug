@@ -1,0 +1,14 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Height"
+  - pageClasses = data.tailwind.getClasses('height', 'h');
+
+block content
+  .py-1 Also applies to `.max-h-X` and `.min-h-X`
+  .flrw.screenshot
+    each className in pageClasses
+      .fln.flcnw.w-12.mb-01.mr-1
+        code.w-12.fln.code=`.${className}`
+        .fla.flcnw.bg-gray-3.h-20.overflow-hidden
+          .fln.bg-green(class=className)

@@ -1,0 +1,12 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Z-index hover"
+
+block content
+  .screenshot-flaky.p-3
+    .w-15.h-15.relative.bg-gray-3.relative
+      .absolute.w-12.h-12.bg-green.top-5.left-5.z-1.hover_z-5.screenshot-hover
+        code.code.block.p-1.white .z-1.hover_z-5
+      .absolute.w-5.h-5.bg-purple.top-12.left-12.z-2.flrnw.flc
+        code.code.block.white .z-2

@@ -1,0 +1,11 @@
+//- ---
+//- layout: percy
+//- title: Width
+//- ---
+
+block content
+  each key in data.tailwind.theme('spacing')
+    - const className=`w-${key}`
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered
+        .bg-blue.transparent(class=className) Aa

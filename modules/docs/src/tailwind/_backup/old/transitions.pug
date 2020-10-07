@@ -1,0 +1,29 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Transitions"
+  -
+    const manualClasses = [
+      '.transition-colors.bg-white.hover_bg-green',
+      '.transition-colors.delay-1.bg-white.hover_bg-green',
+      '.transition-colors.duration-1.bg-white.hover_bg-green',
+      '.transition-colors.ease-linear.bg-white.hover_bg-green',
+      '.transition-colors.black.hover_green',
+      '.transition-colors.border-01.border-gray.hover_border-green',
+      '.transition-colors.underline.hover_underline-green',
+      '.transition-dimensions.w-80p.hover_w-100p',
+      '.transition-dimensions.h-80p.hover_h-100p',
+      '.transition-opacity.opacity-100p.hover_opacity-10p',
+      '.transition-shadow.shadow-1.hover_shadow-3',
+      '.transition-transform.transform.hover_scale-150p',
+      '.transition-transform.transform.hover_-rotate-180',
+      '.transition-transform.transform.hover_-skew-x-12',
+      '.transition-all.transform.hover_scale-90p.w-80p.hover_w-100p.black.hover_white.bg-white.hover_bg-black.hover_rotate-45',
+    ]
+
+block content
+  .screenshot.bg-gray-3.flrw.p-1
+    each classNames in manualClasses
+      - const classesAsArray = classNames.split('.')
+      .fln.w-50p.flrnw.flc.p-1
+        .bg-white.border-gray.shadow.rounded.p-1.cursor-default.flrnw.flc(class=classesAsArray)=classNames

@@ -31,6 +31,31 @@ module.exports = {
       ],
     },
     {
+      name: 'Tailwind',
+      links: [
+        {
+          title: 'Spacing scale',
+          href: 'tailwind/spacing',
+        },
+        {
+          title: 'Color palette',
+          href: 'tailwind/colors',
+        },
+        {
+          title: 'Animations',
+          href: 'tailwind/animations',
+        },
+        {
+          title: 'Opacity',
+          href: 'tailwind/opacity',
+        },
+        {
+          title: 'Misc',
+          href: 'tailwind/misc',
+        },
+      ],
+    },
+    {
       name: 'Conversions',
       links: [
         {
@@ -89,19 +114,6 @@ module.exports = {
           title: 'Assets',
           href: 'assets',
         },
-      ],
-    },
-    {
-      name: 'Tailwind',
-      links: [
-        {
-          title: 'Colors',
-          href: 'tailwind/colors',
-        },
-        // {
-        //   title: 'Dimensions',
-        //   href: 'tailwind/dimensions',
-        // },
       ],
     },
     {

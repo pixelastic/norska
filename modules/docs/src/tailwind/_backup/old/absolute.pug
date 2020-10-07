@@ -1,0 +1,69 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Absolute positioning"
+  -
+    const manualClasses = [
+      // Stuck to one side
+      ['top-0', 'left-0'],
+      ['top-0', 'right-0'],
+      ['bottom-0', 'left-0'],
+      ['bottom-0', 'right-0'],
+
+      // Full width/height
+      ['top-0', 'left-0', 'right-0'],
+      ['right-0', 'top-0', 'bottom-0'],
+      ['bottom-0', 'right-0', 'left-0'],
+      ['left-0', 'top-0', 'bottom-0'],
+
+      // Using default scaling
+      ['top-1', 'left-1'],
+      ['top-1', 'right-1'],
+      ['bottom-1', 'left-1'],
+      ['bottom-1', 'right-1'],
+
+      // Smal scale
+      ['top-01', 'left-01'],
+      ['top-01', 'right-01'],
+      ['bottom-01', 'left-01'],
+      ['bottom-01', 'right-01'],
+
+      // Smaller scale
+      ['top-001', 'left-001'],
+      ['top-001', 'right-001'],
+      ['bottom-001', 'left-001'],
+      ['bottom-001', 'right-001'],
+
+      // Percentage
+      ['top-25p', 'left-25p'],
+      ['top-25p', 'right-25p'],
+      ['bottom-25p', 'left-25p'],
+      ['bottom-25p', 'right-25p'],
+
+      // Negative
+      ['-top-1'],
+      ['-right-1'],
+      ['-bottom-1'],
+      ['-left-1'],
+
+      // Negative percentage
+      ['-top-25p'],
+      ['-right-25p'],
+      ['-bottom-25p'],
+      ['-left-25p'],
+    ]
+
+block content
+  .py-01 Elements can be absolutely positioned with the `.top-X`, `.right-X`, `.bottom-X`, `.left-X` classes.
+  .py-01 It uses the same scale as the dimensions, including percentage, 0, 00, vh and vw entries
+  .py-01 Negative values are also possible using `.-top-X`, `.-right-X`, `.-bottom-X` and `.-left-X`.
+
+  .screenshot
+    .flcw.border-t-001.border-gray
+      each classNames in manualClasses
+        - const displayClassName = classNames.join('.')
+        .fln.flrnw.py-1.border-b-001.border-gray
+          code.fln.w-18.fln.code=`.${displayClassName}`
+          .fla.flrnw.flrcv
+            .relative.h-9.w-9.bg-gray-3
+              .min-w-4.min-h-4.absolute.bg-green(class=classNames)

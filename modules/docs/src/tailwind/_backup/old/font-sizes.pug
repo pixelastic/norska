@@ -1,0 +1,13 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Font sizes"
+  - pageClasses = data.tailwind.getClasses('fontSize', 'text');
+
+block content
+  .flcw.screenshot.border-t-001.border-gray
+    each className in pageClasses
+      .fln.flrnw.flrcv.border-b-001.border-gray.py-01
+        code.w-12.fln.code=`.${className}`
+        .fla(class=className)=testString
+

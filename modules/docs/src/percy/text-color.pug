@@ -1,0 +1,9 @@
+//- ---
+//- layout: percy
+//- title: Text colors
+//- ---
+
+block content
+  each key in data.tailwind.theme('colors')
+    +tailwind_table_line(key)
+      .bold(class=key) Aa

@@ -1,0 +1,10 @@
+//- ---
+//- layout: percy
+//- title: Background colors
+//- ---
+
+block content
+  each key in data.tailwind.theme('colors')
+    - const className=`bg-${key}`;
+    +tailwind_table_line(className)
+      .w-100p.transparent(class=className) Aa

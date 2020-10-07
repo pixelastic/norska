@@ -1,0 +1,18 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Grid Columns"
+  - pageClasses = data.tailwind.getClasses('gridColumnWidth', 'grid-cols-w');
+
+block content
+  .flcw.screenshot
+    each className in pageClasses
+      .mb-1.w-100p.overflow-hidden
+        code.w-12.fln.code=`.${className}`
+        .bg-gray-3.grid.gap-2(class=className)
+          .h-5.bold.white.flrnw.flc.bg-blue-2 1
+          .h-5.bold.white.flrnw.flc.bg-blue-3 2
+          .h-5.bold.white.flrnw.flc.bg-blue-4 3
+          .h-5.bold.white.flrnw.flc.bg-blue-5 4
+          .h-5.bold.white.flrnw.flc.bg-blue-6 5
+          .h-5.bold.white.flrnw.flc.bg-blue-7 6

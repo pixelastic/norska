@@ -1,0 +1,39 @@
+extends /_includes/_layouts/core
+
+block meta
+  - meta.title = "Bullets"
+  - 
+    bulletClasses = [
+      'bullet',
+      'bullet-arrow',
+      'bullet-cross',
+      'bullet-tick',
+      'bullet-1',
+      'bullet-2',
+      'bullet-3',
+      'bullet-4',
+      'bullet-5',
+      'bullet-6',
+      'bullet-7',
+      'bullet-8',
+      'bullet-9',
+      'bullet-10'
+    ]
+  - colorClasses = data.tailwind.getClasses('colors', 'bullet');
+
+
+block content
+  p Bullets are added as pseudo-element :before
+  p Other bullets (✔, ✘, > and numbers 1-10) are also available
+  p Default bullet color is text color, but can be changed independently
+  .screenshot.flcnw
+    .fla.bg-gray-2.flrw.mb-1
+      each bulletClassName in bulletClasses
+        .fln.blue.m-3.px-1.py-01.bg-white(class=bulletClassName)
+          code.code=`.${bulletClassName}`
+
+    each colorClassName in colorClasses
+      .fla.bg-gray-2.flrw.mb-1
+        each bulletClassName in bulletClasses
+          .fln.blue.m-3.px-1.py-01.bg-white(class=[bulletClassName, colorClassName])
+            code.code=`.${bulletClassName}.${colorClassName}`
