@@ -1,0 +1,22 @@
+//- ---
+//- layout: percy
+//- title: Background gradients
+//- ---
+
+block content
+  -
+    const examples = [
+      ['bg-gradient-to-r', 'from-orange', 'via-red', 'to-pink'],
+      ['bg-gradient-to-b', 'from-orange', 'via-red', 'to-pink'],
+      ['bg-gradient-to-b', 'from-white', 'to-transparent'],
+      ['bg-gradient-to-t', 'from-white', 'to-transparent'],
+      ['bg-gradient-to-t', 'from-white', 'via-transparent', 'to-white'],
+      ['bg-gradient-to-l', 'from-white', 'to-transparent'],
+      ['bg-gradient-to-r', 'from-white', 'to-transparent'],
+      ['bg-gradient-to-r', 'from-white', 'via-transparent', 'to-white'],
+    ]
+  each example in examples
+    - const className=example.join('.');
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered.bg-gray-9
+        .w-100p.h-5.transparent(class=example) Aa

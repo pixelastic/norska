@@ -1,0 +1,22 @@
+//- ---
+//- layout: percy
+//- title: Min Height
+//- ---
+
+block content
+  +tailwind_table_line('min-h-5')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.min-h-5 Hello World
+  +tailwind_table_line('min-h-0')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.min-h-0 Hello World
+  +tailwind_table_line('min-h-0')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.min-h-0
+  +tailwind_table_line('h-5.min-h-0')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.h-5.min-h-0 Hello World
+  +tailwind_table_line('h-5.min-h-10')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.h-5.min-h-10 Hello World
+

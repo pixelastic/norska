@@ -1,5 +1,5 @@
 /**
  * https://tailwindcss.com/docs/min-height/
  **/
-const spacing = require('./shared/spacing.js');
-module.exports = spacing;
+const height = require('./height.js');
+module.exports = height;

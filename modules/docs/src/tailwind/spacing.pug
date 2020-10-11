@@ -61,3 +61,12 @@ block content
     +tailwind_table_line(className)
       .w-100p.bg-checkered
         .bg-blue.transparent(class=className) Aa
+
+  !=markdown('## Negative dimensions')
+
+  p
+    | The #[code .-w-*] and #[code .-h-*] classes allow setting dimensions expressed as #[span.italic full width/height of the container, minus #[code *]].
+
+  p
+    |For example, #[code .-h-5] will take the whole container height, minus #[code 5] on the scale. Similarly, #[code .-w-25p] is the same as #[code .w-75p].
+

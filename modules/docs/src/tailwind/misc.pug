@@ -1,5 +1,5 @@
 //- ---
-//- title: Misc utilities
+//- title: Misc changes
 //- ---
 
 block content
@@ -18,4 +18,26 @@ block content
     |  above the target link. This is used on this very own website to always keep
     |  the headers visible when following the link, even when they would be hidden
     |  by the header otherwise.
+
+  !=markdown('## Scaling')
+
+  p
+    | Norska uses the #[a(href='https://tailwindcss.com/docs/scale#app') same #[code .scale-*] classes as Tailwind] 
+    | to scale an element, except that the
+    | class names uses a #[code p] at the end, for consistency with other
+    | percentage classes.
+
+  p
+    |For example, to scale an element down half its original size, you would use #[code .scale-50p] instead of #[code .scale-50].
     
+  !=markdown('## Border radius')
+
+  p
+    | Norska uses a different set of values for the border radius than #[a(href='https://tailwindcss.com/docs/border-radius#app') the default Tailwind].
+
+  +tailwind_table_header
+  each key in data.tailwind.theme('borderRadius')
+    - const className=`rounded-${key}`.replace('-default', '')
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered.p-01
+        .border-blue.border-01.w-5.h-5.transparent(class=className) Aa

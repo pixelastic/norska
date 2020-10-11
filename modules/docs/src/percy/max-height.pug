@@ -1,0 +1,21 @@
+//- ---
+//- layout: percy
+//- title: Max Height
+//- ---
+
+block content
+  +tailwind_table_line('max-h-5')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.max-h-5 Hello World
+  +tailwind_table_line('max-h-1')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.max-h-1 Hello World
+  +tailwind_table_line('h-5.max-h-1')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.h-5.max-h-1 Hello World
+  +tailwind_table_line('h-1.max-h-5')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.h-1.max-h-5 Hello World
+  +tailwind_table_line('h-10.max-h-5')
+    .w-100p.bg-checkered.h-10
+      .bg-blue.white.h-10.max-h-5 Hello World

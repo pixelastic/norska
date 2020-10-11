@@ -1,10 +1,10 @@
 //- ---
 //- layout: percy
-//- title: Width
+//- title: Negative width
 //- ---
 
 block content
-  each key in data.tailwind.theme('width')
+  each key in data.tailwind.theme('negativeWidth')
     - const className=`w-${key}`
     +tailwind_table_line(className)
       .w-100p.bg-checkered

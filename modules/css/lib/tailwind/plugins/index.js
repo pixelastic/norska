@@ -9,7 +9,6 @@ const gridColumnWidth = require('./gridColumnWidth');
 const flexbox = require('./flexbox');
 const fontFamily = require('./fontFamily');
 const fontWeight = require('./fontWeight');
-const gradient = require('./gradient');
 const grayscale = require('./grayscale');
 const lineHeight = require('./lineHeight');
 const misc = require('./misc');
@@ -29,7 +28,6 @@ const pluginList = [
   flexbox,
   fontFamily,
   fontWeight,
-  gradient,
   grayscale,
   gridColumnWidth,
   lineHeight,
