@@ -1,5 +1,4 @@
 const config = require('norska-css/lib/tailwind/index.js');
-console.info(config.theme.height);
 const sortKeys = require('norska-css/lib/tailwind/helpers/sortKeys.js');
 const _ = require('golgoth/lib/lodash');
 module.exports = {

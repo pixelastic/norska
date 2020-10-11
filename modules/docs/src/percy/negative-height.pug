@@ -1,0 +1,12 @@
+//- ---
+//- layout: percy
+//- title: Negative height
+//- ---
+
+block content
+  each key in data.tailwind.theme('negativeHeight')
+    - const className=`-h-${key}`
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered
+        .h-100vh
+          .bg-blue(class=className)

@@ -50,6 +50,28 @@ block content
     | Some values might not be available if they don't make sense in a specific
     | context (like #[code border-50p])
 
+  !=markdown('## Negative dimensions')
+
+  p
+    | The #[code .-w-*] and #[code .-h-*] classes allow setting dimensions expressed as #[span.italic full width/height of the container, minus #[code *]].
+
+  p
+    |For example, #[code .-h-5] will take the whole container height, minus #[code 5] on the scale. Similarly, #[code .-w-25p] is the same as #[code .w-75p].
+
+  +tailwind_table_header
+  - 
+    const examples = [
+      '-w-1',
+      '-w-5',
+      '-w-25p'
+    ]
+  each example in examples
+    +tailwind_table_line(example)
+      .w-100p.bg-checkered
+        .bg-blue.transparent(class=example) Aa
+
+
+
   !=markdown('## Full scale')
   p
     | The following table displays all the available spacing. For the sake of
@@ -61,12 +83,4 @@ block content
     +tailwind_table_line(className)
       .w-100p.bg-checkered
         .bg-blue.transparent(class=className) Aa
-
-  !=markdown('## Negative dimensions')
-
-  p
-    | The #[code .-w-*] and #[code .-h-*] classes allow setting dimensions expressed as #[span.italic full width/height of the container, minus #[code *]].
-
-  p
-    |For example, #[code .-h-5] will take the whole container height, minus #[code 5] on the scale. Similarly, #[code .-w-25p] is the same as #[code .w-75p].
 
