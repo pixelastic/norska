@@ -1,0 +1,16 @@
+//- ---
+//- title: Bullets
+//- ---
+
+block content
+  p 
+    | Norska provides the ability to style elements like list items, even if not
+    | technically part of a #[code ul]/#[code li], by adding the #[code .bullet] class to them.
+
+  p
+   | Both the type and color of the bullet can be styled through the #[code .bullet-*] classes.
+
+  +tailwind_table_header
+  each key in data.tailwind.getClasses('bullet', 'bullet');
+    +tailwind_table_line(key)
+      .w-100p(class=key) Hello World

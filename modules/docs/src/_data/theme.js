@@ -42,12 +42,32 @@ module.exports = {
           href: 'tailwind/colors',
         },
         {
+          title: 'Text',
+          href: 'tailwind/text',
+        },
+        {
           title: 'Animations',
           href: 'tailwind/animations',
         },
         {
           title: 'Opacity',
           href: 'tailwind/opacity',
+        },
+        {
+          title: 'Shadows',
+          href: 'tailwind/shadows',
+        },
+        {
+          title: 'Bullets',
+          href: 'tailwind/bullets',
+        },
+        {
+          title: 'If / Then',
+          href: 'tailwind/if-then',
+        },
+        {
+          title: 'Debug',
+          href: 'tailwind/debug',
         },
         {
           title: 'Misc',

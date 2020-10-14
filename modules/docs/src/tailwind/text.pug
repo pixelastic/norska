@@ -1,0 +1,105 @@
+//- ---
+//- title: Text utilities
+//- ---
+
+block content
+  p 
+    | When it comes to text styling, Norska expands on the existing utilities,
+    | add a few, and modify some of the existing ones.
+
+  !=markdown('## Font scale')
+
+  p
+    | The font scale used ranges from #[code .text-1] to #[code .text-10].
+    | Values smaller than #[code 1] can be achieved with classes #[code .text-01]
+    | to #[code .text-0001].
+
+  +tailwind_table_header
+  each key in data.tailwind.theme('fontSize')
+    - const className=`text-${key}`;
+    +tailwind_table_line(className)
+      .w-100p.h-100p.flex.flex-col.justify-center
+        span(class=className) Aa
+
+  !=markdown('## Font family')
+
+  p
+    |The font family classes dropped their #[code .font-*] prefix and have a few additions.
+
+  +tailwind_table_header
+  each key in data.tailwind.theme('fontFamily')
+    +tailwind_table_line(key)
+      .w-100p(class=key) Hello World
+
+  !=markdown('## Font color')
+  p
+    |Color can be applied directly to text without the #[code .text-*] preifx.
+    |For a complete list of all available colors, check the 
+    |#[a(href=link("/tailwind/colors/")) color palette] page.
+
+  +tailwind_table_header
+  -
+    examples = [
+      'black', 
+      'white', 
+      'gray', 
+      'red', 
+      'orange', 
+      'yellow', 
+      'green', 
+      'teal', 
+      'blue', 
+      'indigo', 
+      'purple', 
+      'pink'
+    ]
+  each example in examples
+    +tailwind_table_line(example)
+      .w-100p(class=example) Hello World
+
+  !=markdown('## Font Weight')
+
+  p
+    | Norska simplifies the font weight to the #[code .bold] and 
+    | #[code .no-bold] classes.
+
+  +tailwind_table_header
+  +tailwind_table_line('bold')
+    .w-100p.bold Hello World
+  +tailwind_table_line('no-bold')
+    .w-100p.no-bold Hello World
+
+  !=markdown('## Font Decoration')
+
+  p
+    | Norska renames the #[code .line-through] class to #[code .strike] and
+    | allow changing the color of the text decoration through the #[code .underline-*]
+    | color classes.
+
+  p
+    |For a complete list of all available colors, check the 
+    |#[a(href=link("/tailwind/colors/")) color palette] page.
+  +tailwind_table_header
+  -
+    examples = [
+      ['underline'],
+      ['strike'],
+      ['underline', 'underline-blue'],
+      ['strike', 'underline-red'],
+    ]
+  each example in examples
+    +tailwind_table_line(example.join('.'))
+      .w-100p(class=example) Hello World
+
+
+  !=markdown('## Line height')
+
+  p
+    | Norska renames the #[code .leading-*] classes handling line height to #[code .lh-*].
+
+  +tailwind_table_header
+  each key in data.tailwind.theme('lineHeight')
+    - const className=`lh-${key}`;
+    +tailwind_table_line(className)
+      .w-100p.bg-checkered.p-1
+        .border-gray-3.bg-white.border-t-001.border-b-001(class=className) Hello World

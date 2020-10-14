@@ -123,6 +123,10 @@ function compareStrings(a, b) {
  */
 module.exports = function (keys) {
   return _.clone(keys).sort((a, b) => {
+    // Default key is always first
+    if (a === 'default') {
+      return -1;
+    }
     const isNumberA = isNumber(a);
     const isNumberB = isNumber(b);
 

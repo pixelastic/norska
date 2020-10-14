@@ -1,0 +1,11 @@
+//- ---
+//- layout: percy
+//- title: Shadows
+//- ---
+
+block content
+  each key in data.tailwind.theme('boxShadow')
+    - const className=`shadow-${key}`.replace('-default', '')
+    +tailwind_table_line(className)
+      .w-100p.p-1.bg-gray-1.overflow-hidden
+        .p-2.bg-white.rounded(class=className) Aa

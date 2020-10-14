@@ -4,6 +4,7 @@ const _ = require('golgoth/lib/lodash');
 describe('sortKeys', () => {
   describe('should order two keys', () => {
     it.each([
+      ['default', '-1'],
       ['-1', '1'],
       ['1', '2'],
       ['2', '10'],
@@ -25,7 +26,6 @@ describe('sortKeys', () => {
       ['auto', 'green'],
       ['0', 'auto'],
       ['100p', '10vh'],
-      ['100p', '10vh'],
     ])('%s before %s', async (before, after) => {
       const input = [after, before];
       const actual = current(input);
@@ -35,6 +35,7 @@ describe('sortKeys', () => {
   });
   it('should order all keys', async () => {
     const expected = [
+      'default',
       '0',
       '001',
       '002',

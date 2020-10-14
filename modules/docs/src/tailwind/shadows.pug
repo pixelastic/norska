@@ -1,0 +1,45 @@
+//- ---
+//- title: Shadows
+//- ---
+
+block content
+  p 
+    | Norska uses expands on the 
+    | #[a(href="https://tailwindcss.com/docs/box-shadow#app") base #[code .shadow-*] classes] 
+    | of Tailwind, allowing you to also change their color.
+
+  +tailwind_table_header
+  each key in data.tailwind.theme('boxShadow')
+    - const className=`shadow-${key}`.replace('-default', '')
+    +tailwind_table_line(className)
+      .w-100p.p-1.bg-gray-1.overflow-hidden
+        .p-2.bg-white.rounded(class=className) Aa
+  -
+    examples = [
+      ['shadow-5', 'shadow-blue'],
+      ['shadow-5', 'shadow-green'],
+      ['shadow-5', 'shadow-red'],
+    ]
+  each example in examples
+    +tailwind_table_line(example.join('.'))
+      .w-100p.p-1.bg-gray-1.overflow-hidden
+        .p-2.bg-white.rounded(class=example) Aa
+
+  
+  !=markdown('## Text shadow')
+
+  p
+    |Norska also adds the #[code .text-shadow] utility to add some depth to
+    |text. It comes with the #[code .text-shadow-*] classes to change the text
+    |shadow color and the #[code .text-shadow-opacity-*] classes for the
+    |opacity.
+
+  +tailwind_table_header
+  +tailwind_table_line('text-shadow')
+    .w-100p.p-1.bg-gray-8.text-4.bold.white.text-shadow You can cut our
+  +tailwind_table_line('text-shadow.text-shadow-blue')
+    .w-100p.p-1.bg-gray-8.text-4.bold.white.text-shadow.text-shadow-blue wings but we will
+  +tailwind_table_line('text-shadow.text-shadow-green')
+    .w-100p.p-1.bg-gray-8.text-4.bold.white.text-shadow.text-shadow-green always remember what it
+  +tailwind_table_line('text-shadow.text-shadow-red')
+    .w-100p.p-1.bg-gray-8.text-4.bold.white.text-shadow.text-shadow-red was like to fly.

@@ -1,0 +1,16 @@
+//- ---
+//- layout: percy
+//- title: Text Shadows
+//- ---
+
+block content
+  - 
+    const examples = [
+      ['text-shadow'],
+      ['text-shadow', 'text-shadow-red'],
+      ['text-shadow', 'text-shadow-red', 'text-shadow-opacity-100p'],
+      ['text-shadow', 'text-shadow-red', 'text-shadow-opacity-25p'],
+    ]
+  each example in examples
+    +tailwind_table_line(example.join('.'))
+      .w-100p.p-1.bg-gray-8.text-4.bold.white(class=example) You can cut our wings but we will always remember what it was like to fly
