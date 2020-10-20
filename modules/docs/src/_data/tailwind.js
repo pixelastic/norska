@@ -11,20 +11,35 @@ module.exports = {
       .thru(sortKeys)
       .value();
   },
-  getTheme(item) {
-    const theme = _.get(config, `theme.${item}`);
-    const sortedKeys = sortKeys(_.keys(theme));
-    return _.map(sortedKeys, (key) => {
-      const value = theme[key];
-      return { key, value };
-    });
+  themeWithValues(themeKey) {
+    const theme = _.get(config, `theme.${themeKey}`);
+    const keys = this.theme(themeKey);
+    return _.transform(
+      keys,
+      (result, key) => {
+        result.push({
+          key,
+          value: theme[key],
+        });
+      },
+      []
+    );
   },
-  getThemeKeys(item) {
-    const keys = _.keys(_.get(config, `theme.${item}`));
-    return sortKeys(keys);
-  },
-  getClasses(themeKey, prefix) {
-    const keys = this.getThemeKeys(themeKey);
-    return _.map(keys, (key) => `${prefix}-${key}`);
-  },
+  // getTheme(item) {
+  // return [];
+  // const theme = _.get(config, `theme.${item}`);
+  // const sortedKeys = sortKeys(_.keys(theme));
+  // return _.map(sortedKeys, (key) => {
+  //   const value = theme[key];
+  //   return { key, value };
+  // });
+  // },
+  // getThemeKeys(item) {
+  // const keys = _.keys(_.get(config, `theme.${item}`));
+  // return sortKeys(keys);
+  // },
+  // getClasses(themeKey, prefix) {
+  // const keys = this.getThemeKeys(themeKey);
+  // return _.map(keys, (key) => `${prefix}-${key}`);
+  // },
 };

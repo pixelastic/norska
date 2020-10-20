@@ -58,6 +58,10 @@ module.exports = {
           href: 'tailwind/shadows',
         },
         {
+          title: 'Grid',
+          href: 'tailwind/grid',
+        },
+        {
           title: 'Bullets',
           href: 'tailwind/bullets',
         },

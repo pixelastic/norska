@@ -1,0 +1,23 @@
+//- ---
+//- title: Grid
+//- ---
+
+block content
+  p 
+    | Tailwind provides #[a(href="https://tailwindcss.com/docs/grid-template-columns") grid utilities] to create columns of equal width given any arbitrary row width.
+    
+  p
+    | Norska adds the ability to set repeating columns of any width using the #[code .grid-cols-w-*] classes. This will use the #[code repeat(auto-fill, minmax(*, 1fr))] syntax. This will enforce a minimum width for each element and wrap overflowing elements on a new line.
+
+
+  each key in data.tailwind.theme('gridColumnWidth')
+    - className = `grid-cols-w-${key}`
+    .border-b-001.border-gray
+      .mono=`.${className}`
+      .w-100p.py-1.bg-checkered.grid.gap-2(class=className)
+        .transparent.bg-blue-2 Aa
+        .transparent.bg-blue-3 Aa
+        .transparent.bg-blue-4 Aa
+        .transparent.bg-blue-5 Aa
+        .transparent.bg-blue-6 Aa
+        .transparent.bg-blue-7 Aa

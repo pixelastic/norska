@@ -32,9 +32,13 @@ module.exports = {
     try {
       const filePatterns = await this.filePatterns();
       const files = await glob(filePatterns);
-      await pMap(files, async (filepath) => {
-        await this.compile(filepath);
-      });
+      await pMap(
+        files,
+        async (filepath) => {
+          await this.compile(filepath);
+        },
+        { concurrency: 10 }
+      );
     } catch (error) {
       progress.failure('HTML compilation failed');
       throw error;

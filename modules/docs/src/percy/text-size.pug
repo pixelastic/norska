@@ -1,0 +1,11 @@
+//- ---
+//- layout: percy
+//- title: Text size
+//- ---
+
+block content
+  each key in data.tailwind.theme('fontSize')
+    - const className=`text-${key}`;
+    +tailwind_table_line(className)
+      .w-100p.h-100p.flex.flex-col.justify-center
+        span(class=className) Aa

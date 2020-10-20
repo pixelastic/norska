@@ -33,7 +33,7 @@ Now, let's see how to tweak the theme to make it fit your project.
 
 ### Meta
 
-Oprn `./src/_data/site.json` and edit the data that defines your project.
+Open `./src/_data/site.json` and edit the data that defines your project.
 
 ### Sidebar
 

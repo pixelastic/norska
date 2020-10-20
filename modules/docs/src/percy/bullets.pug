@@ -1,0 +1,15 @@
+//- ---
+//- layout: percy
+//- title: Bullets
+//- ---
+
+block content
+  +tailwind_table_header
+  each key in data.tailwind.theme('bullet')
+    - className = `bullet-${key}`.replace('-default', '')
+    +tailwind_table_line(className)
+      .w-100p(class=className) Hello World
+  each key in data.tailwind.theme('bulletColor')
+    - className = `bullet-${key}`
+    +tailwind_table_line(className)
+      .w-100p.bullet(class=className) Hello World

@@ -1,0 +1,11 @@
+//- ---
+//- layout: percy
+//- title: Text decoration
+//- ---
+
+block content
+  each key in data.tailwind.theme('textDecorationColor')
+    - const className = `underline-${key}`
+    +tailwind_table_line(`underline.${className}`)
+      .w-100p.h-100p.flex.flex-col.justify-center
+        span.underline(class=className) Hello World

@@ -42,11 +42,21 @@ block content
       .w-100p.bg-checkered.p-01
         .border-blue.border-01.w-5.h-5.transparent(class=className) Aa
 
-  !=markdown('## TODO')
+  !=markdown('## Z-index')
 
-  ul
-    li .pointer
-    li .grid-cols-w-*
-    li Add tests for absolute positioning and negative values
-    li Simplified z-index scale
+  p
+    | The #[code z-*] classes in Norska only use one digit instead of 3.
 
+  .bg-checkered.pb-6
+    .w-20.h-20.m-auto.relative
+      each key in data.tailwind.theme('zIndex')
+        - 
+          backgroundIndex = parseInt(key) % 9 + 1
+          classes = [
+          `bg-blue-${backgroundIndex}`,
+            `top-${key}0p`,
+            `left-${key}0p`,
+            `z-${key}`
+          ]
+        .w-20p.h-20p.absolute.border-001.border-gray.shadow-5.rounded(class=classes)
+          .text-3.bold.bg-white.gray-9.inline-block.px-02.rounded=`.z-${key}`

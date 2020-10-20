@@ -1,0 +1,49 @@
+//- ---
+//- title: If / Then
+//- ---
+
+block content
+  p 
+    | Norska comes with the #[code .if] and the #[code .then_*] classes,
+    | allowing to change the display of an element if a specific checkbox/radio
+    | button is checked.
+
+  p
+    | This can be used to simulate the opening of a menu without needing
+    | JavaScript, as can be seen on this very website.
+
+  p.italic
+    | Note that it requires the #[code .if] element to either be a direct
+    | sibling or the sibling of one of the #[code .then_*] element(s) parents. When in
+    | doubt, place the #[code .if] element at the root of your #[code body] and
+    | trigger its checking through a linked #[code label]
+
+  - 
+    checkboxTests = [
+      ['.bg-green.then_bg-orange', '.bg-orange.then_bg-green'],
+      ['.block.bg-green.then_hidden', '.hidden.bg-orange.then_block'],
+    ]
+    radioTests = [
+      ['.then_bg-green', '.then_bg-blue', '.then_bg-orange']
+    ]
+
+  each testCase, index in checkboxTests
+    .border-t-001.border-gray-3.p-1.bg-checkered
+      input.hidden.if(type="checkbox" id=`checkbox${index}`)
+      .flex.flex-row
+        label.flex.flex-col.justify-center.pointer(for=`checkbox${index}`)
+          .bold.white.bg-blue.px-1.rounded Click to toggle
+        .flex.flex-auto.justify-around
+          each testClasses in testCase
+            - const classesAsArray = testClasses.split('.')
+            .white.text-3.p-1.border-001.border-gray.shadow-3.rounded(class=classesAsArray)=testClasses
+
+  each testCase, testIndex in radioTests
+    .border-t-001.border-gray-3.p-1.bg-checkered
+      .flex.flex-row.justify-around
+        each testClasses, radioIndex in testCase
+          - const classesAsArray = testClasses.split('.')
+          - const id = `radio-${testIndex}-${radioIndex}`
+          label.pointer(for=id)
+            input.hidden.if(type="radio" name=`radio-${testIndex}` value=radioIndex id=id)
+            .bg-gray-8.white.border-001.border-gray.shadow-5.rounded.px-1(class=classesAsArray)=testClasses

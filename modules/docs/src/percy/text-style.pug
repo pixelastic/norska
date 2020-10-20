@@ -1,0 +1,18 @@
+//- ---
+//- layout: percy
+//- title: Text style
+//- ---
+
+block content
+  - 
+    const examples = [
+      ['bold'],
+      ['italic'],
+      ['underline'],
+      ['strike'],
+      ['bold', 'italic', 'underline']
+    ]
+  each key in examples
+    +tailwind_table_line(key.join('.'))
+      .w-100p.h-100p.flex.flex-col.justify-center
+        span(class=key) Hello World

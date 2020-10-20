@@ -85,7 +85,7 @@ block content
     |The #[code .duration-*] classes control both the transition and animation
     |durations.
   +tailwind_table_header("Class", "Duration")
-  each item in data.tailwind.getTheme('duration')
+  each item in data.tailwind.themeWithValues('duration')
     - const className=`duration-${item.key}`;
     +tailwind_table_line(className)
       .w-100p=item.value
@@ -95,7 +95,7 @@ block content
   p 
     |The #[code .delay-*] classes control the time to wait before starting the animation/transition.
   +tailwind_table_header("Class", "Delay")
-  each item in data.tailwind.getTheme('delay')
+  each item in data.tailwind.themeWithValues('delay')
     - const className=`delay-${item.key}`;
     +tailwind_table_line(className)
       .w-100p=item.value
@@ -106,7 +106,7 @@ block content
   p 
     |The #[code .ease-*] classes control the animation/transition easing curve.
   +tailwind_table_header("Class", "Function")
-  each item in data.tailwind.getTheme('timingFunction')
+  each item in data.tailwind.themeWithValues('timingFunction')
     - const className=`ease-${item.key}`;
     +tailwind_table_line(className)
       .w-100p=item.value
@@ -116,7 +116,7 @@ block content
   p 
     |The #[code .loop-*] classes control how many times an animation should run. 
   +tailwind_table_header("Class", "Count")
-  each item in data.tailwind.getTheme('animationIterationCount')
+  each item in data.tailwind.themeWithValues('animationIterationCount')
     - const className=`loop-${item.key}`;
     +tailwind_table_line(className)
       .w-100p=item.value
@@ -126,7 +126,7 @@ block content
     |The following classes can control the animation play state.nimation. They prove most useful when applied on #[code :hover].
 
   +tailwind_table_header("Class", "Play state")
-  each item in data.tailwind.getTheme('animationPlayState')
+  each item in data.tailwind.themeWithValues('animationPlayState')
     - const className=`animate-${item.key}`;
     +tailwind_table_line(className)
       .w-100p=item.value
@@ -137,9 +137,3 @@ block content
     |Due to the nature of animations, not all scenarios can be covered with
     |utility classes. For example, the utility classes provided can only change
     |the easing method of the whole animation, not of a specific keyframe.
-
-
-
-
-  //- Add animations and transitions examples
-  //- Also include .delay-, .duration- and .ease- functions

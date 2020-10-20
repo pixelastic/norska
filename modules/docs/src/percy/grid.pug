@@ -1,0 +1,17 @@
+//- ---
+//- layout: percy
+//- title: Grid
+//- ---
+
+block content
+  each key in data.tailwind.theme('gridColumnWidth')
+    - className = `grid-cols-w-${key}`
+    .border-b-001.border-gray
+      .mono=`.${className}`
+      .w-100p.py-1.bg-checkered.grid.gap-2(class=className)
+        .transparent.bg-blue-2 Aa
+        .transparent.bg-blue-3 Aa
+        .transparent.bg-blue-4 Aa
+        .transparent.bg-blue-5 Aa
+        .transparent.bg-blue-6 Aa
+        .transparent.bg-blue-7 Aa
