@@ -6,8 +6,7 @@
   "dependencies": {},
   "description": "Norska master workspace",
   "devDependencies": {
-    "@percy/agent": "0.28.2",
-    "@percy/script": "1.1.0",
+    "@percy/agent": "0.28.4",
     "aberlaas": "1.13.3",
     "callsites": "3.1.0",
     "firost": "2.0.6",
@@ -26,7 +25,7 @@
     "learn": "lerna",
     "lint": "./scripts/meta/lint",
     "lint:fix": "./scripts/meta/lint-fix",
-    "release": "./scripts/meta/release",
+    "release": "node ./scripts/meta/release.js",
     "test": "./scripts/meta/test",
     "test:watch": "./scripts/meta/test-watch",
     "update-dependencies": "node ./scripts/meta/update-dependencies",
