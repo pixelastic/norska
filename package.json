@@ -8,6 +8,7 @@
   "devDependencies": {
     "@percy/script": "1.1.0",
     "aberlaas": "1.13.3",
+    "minimist": "1.2.5",
     "callsites": "3.1.0",
     "firost": "2.0.6",
     "golgoth": "1.5.0",

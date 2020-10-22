@@ -6,21 +6,30 @@ const _ = require('golgoth/lib/lodash');
 const consoleInfo = require('firost/consoleInfo');
 const consoleSuccess = require('firost/consoleSuccess');
 const consoleError = require('firost/consoleError');
+const minimist = require('minimist');
 
 const release = {
+  setArgs(args) {
+    const skipPercy = !args.percy;
+    const version = args._[0];
+    this.args = { skipPercy, version };
+  },
   async run(args) {
+    this.setArgs(args);
     if (await this.isPercyRequired()) {
       consoleInfo('norska-css has been modified since last release');
-      consoleInfo('Running Percy tests');
       await this.waitForPercy();
     }
 
     await this.runTests();
-    await this.publish(args);
+    await this.publish();
   },
 
   // Check if we need to call Percy
   async isPercyRequired() {
+    if (this.args.skipPercy) {
+      return false;
+    }
     const files = await this.filesChangedSinceLastRelease();
     // We return true whenever the css module has been updated
     return !!_.find(files, (file) => {
@@ -70,10 +79,10 @@ const release = {
   },
 
   // Release the module(s)
-  async release(args) {
+  async release() {
     try {
       consoleInfo('Releasing');
-      await this.runFromRoot(`lerna publish --yes ${args}`);
+      await this.runFromRoot(`lerna publish --yes ${this.args.version}`);
     } catch (err) {
       consoleError('Tests failed, exiting');
       exit(1);
@@ -103,5 +112,6 @@ const release = {
 };
 
 (async () => {
-  await release.run(process.argv.slice(2));
+  const args = minimist(process.argv.slice(2), { boolean: true });
+  await release.run(args);
 })();

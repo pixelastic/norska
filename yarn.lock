@@ -2782,7 +2782,7 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@percy/agent@0.28.4", "@percy/agent@~0":
+"@percy/agent@~0":
   version "0.28.4"
   resolved "https://registry.npmjs.org/@percy/agent/-/agent-0.28.4.tgz#b6929ee7f6d4900751cfd6b8681558e2994f022e"
   integrity sha512-Lw5y26opxhVGDCzRJhs3TzT/ia87flsSluYfAVNcDJ7AZCAUakSMzhUZRvMYxU+B/unc1pbfS2i+//Mttjny6Q==
