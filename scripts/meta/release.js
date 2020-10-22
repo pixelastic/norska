@@ -8,15 +8,15 @@ const consoleSuccess = require('firost/consoleSuccess');
 const consoleError = require('firost/consoleError');
 
 const release = {
-  async run(_args) {
+  async run(args) {
     if (await this.isPercyRequired()) {
       consoleInfo('norska-css has been modified since last release');
       consoleInfo('Running Percy tests');
       await this.waitForPercy();
     }
 
-    // await this.runTests();
-    // await this.publish(args);
+    await this.runTests();
+    await this.publish(args);
   },
 
   // Check if we need to call Percy
@@ -31,6 +31,7 @@ const release = {
   // Run a percy test and wait for the result
   async waitForPercy() {
     await this.runPercy();
+
     consoleInfo('Please, check the link above ⬆️');
     let validation = false;
     while (!validation) {
@@ -48,23 +49,16 @@ const release = {
 
   // Run the Percy tests
   async runPercy() {
-    const command = [
-      'yarn run percy snapshot',
-      './modules/docs/dist',
-      '--snapshot-files "percy/**/index.html"',
-    ].join(' ');
     try {
       consoleInfo('Running Percy tests');
-      await this.runFromRoot(command);
+      await this.runFromRoot('yarn run percy');
     } catch (err) {
-      consoleError('Percy build failed, exiting');
+      consoleError('Percy failed, exiting');
       exit(1);
     }
   },
 
-  /**
-   * Run all the unit tests. Will stop the script if they fail.
-   **/
+  // Run unit tests
   async runTests() {
     try {
       consoleInfo('Running tests');
@@ -109,6 +103,5 @@ const release = {
 };
 
 (async () => {
-  // TODO: Need to pass the args, to specify the version type
   await release.run(process.argv.slice(2));
 })();
