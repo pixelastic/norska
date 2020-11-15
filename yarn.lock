@@ -12083,10 +12083,10 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-norska-theme-docs@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.1.1.tgz#bec2732194b601a69d20ed4ac6b3f5b30cbd8273"
-  integrity sha512-duky66179ZGNc7OMkoh6rI9NmthAR0jvQiCQnAjPAq4m3Rh9h5AId20tLtiOjKYpr+jiCXbd+MY13BPre5VsBg==
+norska-theme-docs@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.2.0.tgz#46f73f499fa8f94b513729cbef677cac051e7343"
+  integrity sha512-bAgMG8dzvl78DEkPPb5vYJxkWx+PkplC5JFwW+ERea/0aBUm7bgxbV40tIyR169VNVOyO703Q1Qn/EAvs2T3Gw==
   dependencies:
     firost "2.0.6"
     parse-github-repo-url "1.4.1"
