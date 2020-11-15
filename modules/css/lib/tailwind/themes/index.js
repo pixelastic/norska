@@ -7,7 +7,6 @@ const borderRadius = require('./borderRadius.js');
 const borderWidth = require('./borderWidth.js');
 const fontSize = require('./fontSize.js');
 const height = require('./height.js');
-const inset = require('./inset.js');
 const maxHeight = require('./maxHeight.js');
 const maxWidth = require('./maxWidth.js');
 const minHeight = require('./minHeight.js');
@@ -18,21 +17,18 @@ const width = require('./width.js');
 const zIndex = require('./zIndex.js');
 
 module.exports = {
-  theme: {
-    borderRadius,
-    borderWidth,
-    colors,
-    fontSize,
-    height,
-    inset,
-    maxHeight,
-    maxWidth,
-    minHeight,
-    width,
-    minWidth,
-    opacity,
-    scale,
-    spacing,
-    zIndex,
-  },
+  borderRadius,
+  borderWidth,
+  colors,
+  fontSize,
+  height,
+  maxHeight,
+  maxWidth,
+  minHeight,
+  width,
+  minWidth,
+  opacity,
+  scale,
+  spacing,
+  zIndex,
 };

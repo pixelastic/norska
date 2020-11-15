@@ -47,12 +47,20 @@ describe('norska-config', () => {
     });
   });
   describe('init', () => {
+    beforeEach(async () => {
+      current.initialized = false;
+    });
     it('should set __config with default values', async () => {
       const defaultConfig = current.defaultConfig();
       await current.init();
 
       expect(current).toHaveProperty('__config.root', defaultConfig.root);
       expect(current).toHaveProperty('__config.port', defaultConfig.port);
+    });
+
+    it('should mark the module as initialized', async () => {
+      await current.init();
+      expect(current.initialized).toEqual(true);
     });
     it('current config should extend base config', async () => {
       await current.init({}, { foo: 'ok', hooks: { foo: 'ok' } });

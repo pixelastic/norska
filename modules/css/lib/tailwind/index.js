@@ -1,11 +1,23 @@
-const defaultConfig = require('tailwindcss/defaultConfig.js');
-const defaultTheme = defaultConfig.theme;
+const defaultTheme = require('tailwindcss/defaultConfig.js').theme;
 const _ = require('golgoth/lib/lodash');
 const themeConfig = require('./themes');
 const pluginConfig = require('./plugins');
 const config = require('norska-config');
 
-const baseConfig = {
+// We only set the purge config when `config` has been initialized and all our
+// paths are setup
+let purge = false;
+if (config.initialized) {
+  purge = {
+    content: [config.toPath('./**/*.html')],
+    preserveHtmlElements: true,
+    options: {
+      keyframes: true,
+    },
+  };
+}
+
+const customConfig = {
   __isNorskaDefaultConfig: true,
   // Pug does not allow the ":" character in shorthand classnames
   separator: '_',
@@ -13,13 +25,7 @@ const baseConfig = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: {
-    content: [config.toPath('./**/*.html')],
-    preserveHtmlElements: true,
-    options: {
-      keyframes: true,
-    },
-  },
+  purge,
   variants: {
     // Base
     backgroundColor: [
@@ -46,26 +52,24 @@ const baseConfig = {
     textColor: ['responsive', 'hover', 'focus', 'focus-within', 'conditionals'],
     textDecoration: ['responsive', 'hover', 'focus'],
   },
+  // We disable some core plugins
+  corePlugins: pluginConfig.corePlugins,
+  // The theme key contains both the default values, plus our custom ones
+  theme: {
+    ...defaultTheme,
+    ...themeConfig,
+    ...pluginConfig.theme,
+  },
 };
 
-// Merge the theme and plugin configs together with the base one
-const fullConfig = _.merge({}, baseConfig, themeConfig, pluginConfig);
-
-// Adds the default theme values to the custom theme, so all keys are defined
-fullConfig.theme = {
-  ...defaultTheme,
-  ...fullConfig.theme,
-};
-
-// At this point, the plugins are only plugin configuration objects, we need to
-// call them
-const rawPlugins = fullConfig.plugins;
-fullConfig.plugins = [];
+// We also add the plugins in the format Tailwind expect
+const rawPlugins = pluginConfig.plugins;
+customConfig.plugins = [];
 _.each(rawPlugins, (plugin) => {
   const { name, method } = plugin;
-  const pluginVariants = _.get(fullConfig, `variants.${name}`, []);
+  const pluginVariants = _.get(customConfig, `variants.${name}`, []);
 
-  fullConfig.plugins.push(method(pluginVariants));
+  customConfig.plugins.push(method(pluginVariants));
 });
 
-module.exports = fullConfig;
+module.exports = customConfig;

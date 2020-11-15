@@ -3,6 +3,8 @@ const config = require('norska-config');
 const helper = require('norska-helper');
 const emptyDir = require('firost/emptyDir');
 const write = require('firost/write');
+// Tests should fail if build takes longer than this time
+const MAX_ALLOWED_BUILD_TIME = 8000;
 
 describe('norska-css > convert [slow]', () => {
   const tmpDirectory = './tmp/norska-css/convert';
@@ -53,8 +55,10 @@ describe('norska-css > convert [slow]', () => {
           config.toPath('index.html')
         );
       });
-      it('should build a clean file', async () => {
-        const input = dedent`
+      it(
+        'should build a clean file',
+        async () => {
+          const input = dedent`
           /* Simple comment */
           /*! Special comment */
 
@@ -80,23 +84,25 @@ describe('norska-css > convert [slow]', () => {
 
           .user-select { user-select: none; }
         `;
-        const expected = [
-          '.import-simple{color:green}',
-          '.import-single-quotes{color:green}',
-          '.import-subdir{color:green}',
-          '.import-theme{color:green}',
-          '.import-theme-single-quotes{color:green}',
-          '.recursive{color:green}',
-          '.bg-green{--bg-opacity:1;background-color:#38a169;background-color:rgba(56,161,105,var(--bg-opacity))}',
-          '.table{display:table}', // Side effect of preserveHtmlElements
-          '.utility-one{color:green}',
-          '.not-in-a-layer{color:green}',
-          'p em{color:green}',
-          '.user-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}',
-        ].join('');
-        const actual = await current.convert(input);
-        expect(actual).toEqual(expected);
-      });
+          const expected = [
+            '.import-simple{color:green}',
+            '.import-single-quotes{color:green}',
+            '.import-subdir{color:green}',
+            '.import-theme{color:green}',
+            '.import-theme-single-quotes{color:green}',
+            '.recursive{color:green}',
+            '.bg-green{--bg-opacity:1;background-color:#38a169;background-color:rgba(56,161,105,var(--bg-opacity))}',
+            '.table{display:table}', // Side effect of preserveHtmlElements
+            '.utility-one{color:green}',
+            '.not-in-a-layer{color:green}',
+            'p em{color:green}',
+            '.user-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}',
+          ].join('');
+          const actual = await current.convert(input);
+          expect(actual).toEqual(expected);
+        },
+        MAX_ALLOWED_BUILD_TIME
+      );
     });
   });
 });

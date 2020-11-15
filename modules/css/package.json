@@ -32,6 +32,7 @@
     "lint:fix": "../../scripts/local/lint-fix",
     "release": "../../scripts/meta/release",
     "test": "../../scripts/local/test",
+    "test:manual": "../../scripts/css/test-manual",
     "test:watch": "../../scripts/local/test-watch"
   },
   "version": "1.1.0"

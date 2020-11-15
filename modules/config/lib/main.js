@@ -197,11 +197,16 @@ module.exports = {
     finalConfig.to = path.resolve(finalConfig.root, finalConfig.to);
 
     this.__config = finalConfig;
+    this.initialized = true;
   },
   /**
    * Internal singleton representation of the config
    **/
   __config: {},
+  /**
+   * Boolean to indicate if it has been initialized
+   **/
+  initialized: false,
   /**
    * Event emitter to emit/listen to events
    **/

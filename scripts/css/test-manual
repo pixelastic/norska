@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+set -e
+cd "$(dirname "$0")/../../modules/css"
+
+rootPath=$PWD;
+testPath="$rootPath/tmp/test-manual";
+inputPath="$testPath/input.css"
+outputPath="$testPath/output.css"
+
+libPath="$rootPath/lib"
+binPath="$(yarn bin tailwindcss)"
+configPath="$libPath/tailwind/index.js"
+
+mkdir -p "$testPath"
+rm -f "$testPath/style.css"
+{
+  echo "@tailwind base;"
+  echo "@tailwind components;"
+  echo "@tailwind utilities;"
+} > "$inputPath"
+
+$binPath build \
+  "$inputPath" \
+  --config "$configPath" \
+  --output "$outputPath"
+
