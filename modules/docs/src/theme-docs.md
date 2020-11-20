@@ -90,8 +90,8 @@ module.exports = {
 
 ### Colors
 
-The default theme in a green color. To change the dominant color(s), you can
-override some CSS classes in your `style.css` file.
+The default theme is using green as its base color. To change the dominant
+color(s), you can override some CSS classes in your `style.css` file.
 
 ```scss
 @import 'theme:style.css';
@@ -113,6 +113,9 @@ body {
   .theme-title {
     @apply border-blue-5;
   }
+
+  // DocSearch main color
+  --docsearch-primary-color: #4299e1;
 }
 .prose a {
   // Change the color of links
