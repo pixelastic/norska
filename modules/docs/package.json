@@ -17,7 +17,7 @@
     "lint": "../../scripts/docs/lint",
     "lint:fix": "../../scripts/docs/lint-fix",
     "serve": "../../scripts/docs/serve",
-    "release": "../../scripts/meta/release"
+    "release": "node ../../scripts/meta/release.js"
   },
   "version": "1.1.0"
 }
