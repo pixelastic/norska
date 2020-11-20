@@ -127,6 +127,9 @@ module.exports = function (keys) {
     if (a === 'default') {
       return -1;
     }
+    if (b === 'default') {
+      return 1;
+    }
     const isNumberA = isNumber(a);
     const isNumberB = isNumber(b);
 
