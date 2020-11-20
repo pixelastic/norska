@@ -10,7 +10,7 @@ const minimist = require('minimist');
 
 const release = {
   setArgs(args) {
-    const skipPercy = !args.percy;
+    const skipPercy = args.percy === false;
     const version = args._[0];
     this.args = { skipPercy, version };
   },
@@ -22,11 +22,12 @@ const release = {
     }
 
     await this.runTests();
-    await this.publish();
+    await this.release();
   },
 
   // Check if we need to call Percy
   async isPercyRequired() {
+    console.info(this.args);
     if (this.args.skipPercy) {
       return false;
     }
