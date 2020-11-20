@@ -7,7 +7,7 @@ By default, all files inherit from the default layout bundled with `norska`.
 ## Overriding the default layout
 
 You can create your own custom layout by creating the
-`./src/_includes/layout/default.pug` file. Any layout saved in
+`./src/_includes/layouts/default.pug` file. Any layout saved in
 `./src/_includes/layouts` will always take precedence over layouts coming from
 themes.
 
