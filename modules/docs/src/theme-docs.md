@@ -88,6 +88,24 @@ module.exports = {
 };
 ```
 
+### DocSearch
+
+To add [DocSearch](https://docsearch.algolia.com/) to your documentation, start
+by [applying through this form](https://docsearch.algolia.com/apply/). 
+
+You'll receive an `apiKey` and `indexName` by email. Add them to your
+`_data/theme.json` config file, under the `docSearch` key like this:
+
+```json
+{
+  [...],
+  "docSearch": {
+    "apiKey": "YOUR_API_KEY",
+    "indexName": "YOUR_INDEX_NAME"
+  }
+}
+```
+
 ### Colors
 
 The default theme is using green as its base color. To change the dominant

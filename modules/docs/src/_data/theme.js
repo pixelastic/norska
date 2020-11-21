@@ -31,55 +31,6 @@ module.exports = {
       ],
     },
     {
-      name: 'Tailwind',
-      links: [
-        {
-          title: 'Spacing scale',
-          href: 'tailwind/spacing',
-        },
-        {
-          title: 'Color palette',
-          href: 'tailwind/colors',
-        },
-        {
-          title: 'Text',
-          href: 'tailwind/text',
-        },
-        {
-          title: 'Animations',
-          href: 'tailwind/animations',
-        },
-        {
-          title: 'Opacity',
-          href: 'tailwind/opacity',
-        },
-        {
-          title: 'Shadows',
-          href: 'tailwind/shadows',
-        },
-        {
-          title: 'Grid',
-          href: 'tailwind/grid',
-        },
-        {
-          title: 'Bullets',
-          href: 'tailwind/bullets',
-        },
-        {
-          title: 'If / Then',
-          href: 'tailwind/if-then',
-        },
-        {
-          title: 'Debug',
-          href: 'tailwind/debug',
-        },
-        {
-          title: 'Misc',
-          href: 'tailwind/misc',
-        },
-      ],
-    },
-    {
       name: 'Conversions',
       links: [
         {
@@ -154,6 +105,55 @@ module.exports = {
         {
           title: 'Hooks',
           href: 'hooks',
+        },
+      ],
+    },
+    {
+      name: 'Tailwind',
+      links: [
+        {
+          title: 'Spacing scale',
+          href: 'tailwind/spacing',
+        },
+        {
+          title: 'Color palette',
+          href: 'tailwind/colors',
+        },
+        {
+          title: 'Text',
+          href: 'tailwind/text',
+        },
+        {
+          title: 'Animations',
+          href: 'tailwind/animations',
+        },
+        {
+          title: 'Opacity',
+          href: 'tailwind/opacity',
+        },
+        {
+          title: 'Shadows',
+          href: 'tailwind/shadows',
+        },
+        {
+          title: 'Grid',
+          href: 'tailwind/grid',
+        },
+        {
+          title: 'Bullets',
+          href: 'tailwind/bullets',
+        },
+        {
+          title: 'If / Then',
+          href: 'tailwind/if-then',
+        },
+        {
+          title: 'Debug',
+          href: 'tailwind/debug',
+        },
+        {
+          title: 'Misc',
+          href: 'tailwind/misc',
         },
       ],
     },
