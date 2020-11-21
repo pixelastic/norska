@@ -20,6 +20,7 @@ describe('norska-html > pug', () => {
     `,
       config.themePath('_includes/layouts/default.pug')
     );
+    await current.init();
   });
   describe('compile', () => {
     beforeEach(async () => {

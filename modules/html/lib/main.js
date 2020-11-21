@@ -136,6 +136,8 @@ module.exports = {
    **/
   async init() {
     await norskaData.warmCache();
+    // Save the pug mixins in cache
+    await pug.init();
 
     const gitCommit = await helper.latestGitCommit();
     config.set('runtime.gitCommit', gitCommit);

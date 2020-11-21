@@ -11,6 +11,13 @@ const mixins = require('./mixins/index.js');
 
 module.exports = {
   /**
+   * Read all mixins from disk and keep them in cache so we can pass them to the
+   * compiler
+   **/
+  async init() {
+    await mixins.init();
+  },
+  /**
    * Compile a pug page into html
    * @param {string} sourcePath Path to the source pug file
    * @param {string} destinationPath Path to the destination html file
@@ -88,6 +95,12 @@ module.exports = {
 
     return compiler(compileData);
   },
+  /**
+   * Wrap the pug source with all the necesary layout and mixins
+   * @param {string} pugSource Raw pug source
+   * @param {string} layoutName Layout to use
+   * @returns {string} Updated pug source
+   **/
   async preflight(pugSource, layoutName = 'default') {
     const withMixins = await this.addMixins(pugSource);
     const withLayout = await this.addLayout(withMixins, layoutName);
@@ -99,7 +112,6 @@ module.exports = {
    * @returns {string} Pug string with mixins added on top
    **/
   async addMixins(pugSource) {
-    await mixins.init();
     const mixinSource = mixins.getSource();
 
     // Add mixins at top

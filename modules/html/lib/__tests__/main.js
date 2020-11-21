@@ -4,6 +4,7 @@ const emptyDir = require('firost/emptyDir');
 const write = require('firost/write');
 const exist = require('firost/exist');
 const glob = require('firost/glob');
+const mixins = require('../pug/mixins');
 
 describe('norska-html', () => {
   const tmpDirectory = './tmp/norska-html/index';
@@ -69,6 +70,13 @@ describe('norska-html', () => {
         const actual = await exist(config.toPath('_foo/index.html'));
         expect(actual).toEqual(false);
       });
+    });
+  });
+  describe('init', () => {
+    it('should fill the mixin cache', async () => {
+      mixins.mixins = {};
+      await current.init();
+      expect(mixins.mixins).not.toBeEmpty();
     });
   });
   describe('getSitemap', () => {

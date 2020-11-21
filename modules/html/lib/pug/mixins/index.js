@@ -12,8 +12,6 @@ module.exports = {
    * Read all mixin files and save their source internally for use later
    **/
   async init() {
-    this.mixins = {};
-
     const mixinDir = path.resolve(__dirname);
     const mixinFiles = await glob(`${mixinDir}/*.pug`);
     await pMap(mixinFiles, async (filepath) => {
