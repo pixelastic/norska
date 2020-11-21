@@ -11,6 +11,7 @@ describe('norska-html > pug > mixins > head', () => {
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
       });
+      await pug.init();
       config.set('runtime.gitCommit', 'abcdef');
       config.set('runtime.productionUrl', 'http://here.com');
       jest.spyOn(helper, 'isProduction').mockReturnValue(true);

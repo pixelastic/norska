@@ -8,6 +8,7 @@ describe('norska-html > pug > methods > include', () => {
     await config.init({
       root: tmpDirectory,
     });
+    await pug.init();
     await write('norska', config.fromPath('repo-name.txt'));
     await write(
       'strong!=_.camelCase("git hub")',

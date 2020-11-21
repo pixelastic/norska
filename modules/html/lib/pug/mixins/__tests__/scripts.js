@@ -7,6 +7,7 @@ describe('norska-html > pug > mixins > scripts', () => {
     await config.init({
       root: tmpDirectory,
     });
+    await pug.init();
   });
   it.each([
     // name, jsFiles, source, destinationPath, expected

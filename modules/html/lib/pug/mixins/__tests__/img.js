@@ -8,6 +8,7 @@ describe('norska-html > pug > mixins > img', () => {
       from: `${tmpDirectory}/src`,
       to: `${tmpDirectory}/dist`,
     });
+    await pug.init();
   });
   it.each([
     // Name, source, output

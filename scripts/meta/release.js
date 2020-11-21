@@ -27,7 +27,6 @@ const release = {
 
   // Check if we need to call Percy
   async isPercyRequired() {
-    console.info(this.args);
     if (this.args.skipPercy) {
       return false;
     }

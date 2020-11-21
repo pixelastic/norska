@@ -7,6 +7,7 @@ describe('norska-html > pug > mixins > times', () => {
     await config.init({
       root: tmpDirectory,
     });
+    await pug.init();
   });
   it.each([
     // name, input, expected
