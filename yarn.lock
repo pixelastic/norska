@@ -12405,10 +12405,10 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-norska-theme-docs@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.2.1.tgz#7830bb43d946358f02ae9185d52dcf638d6085dd"
-  integrity sha512-ZsNCwuYb7kvJGRMyYYv8XVSKK660pARU08GYvNn6TK+yK/Kmp+yXZWTaIT1AkkgYbA+Rji7SFjqqpjZ5wGYxWg==
+norska-theme-docs@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-1.2.2.tgz#344673cfde021c85c363cb9834318b21340184e6"
+  integrity sha512-cGcXv+LxdsH4XuyDdZHAFBehY4BSXp0Bts6dUWYnqih/rbbxmmMZfEZcHDUbt3y0zBQLSn3xBH4ZlTvA+tp4cg==
   dependencies:
     firost "2.0.6"
     parse-github-repo-url "1.4.1"
@@ -13584,10 +13584,10 @@ postcss@7.0.27, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.1
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@8.1.9:
-  version "8.1.9"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-8.1.9.tgz#20ff4b598a6f5015c5f7fe524b8ed5313d7ecade"
-  integrity sha512-oWuBpEl1meaMKkQXn0ic78TUrgsMvrAZLE/6ZY0H3LTteq2O3L8PGWwMbPLctpksTJIHjQeossMUMNQW7qRIHQ==
+postcss@8.1.10:
+  version "8.1.10"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-8.1.10.tgz#129834f94c720554d2cfdaeb27d5542ac4a026ea"
+  integrity sha512-iBXEV5VTTYaRRdxiFYzTtuv2lGMQBExqkZKSzkJe+Fl6rvQrA/49UVGKqB+LG54hpW/TtDBMGds8j33GFNW7pg==
   dependencies:
     colorette "^1.2.1"
     nanoid "^3.1.18"
