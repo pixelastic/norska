@@ -15,25 +15,29 @@ module.exports = {
   },
   /**
    * Data relative to the current URL, to help crafting links
-   * @param {string} destination Path to the file created
+   * @param {object} options Paths to the source and destination files
+   * @param {string} options.sourceFile Path to the source file
+   * @param {string} options.destinationFile Path to the destination file
    * @returns {object} Url Data
    **/
-  async url(destination = 'index.html') {
+  async url(options = {}) {
+    const { sourceFile, destinationFile = 'index.html' } = options;
     const sourceData = await this.data();
 
     const baseUrl = helper.isProduction()
       ? _.get(sourceData, 'site.url', '/')
       : `http://127.0.0.1:${config.get('port')}`;
 
-    const fullPathDir = path.dirname(config.toPath(destination));
+    const fullPathDir = path.dirname(config.toPath(destinationFile));
     const relativePathDir = path.relative(fullPathDir, config.to());
     const pathToRoot = _.isEmpty(relativePathDir)
       ? './'
       : `${relativePathDir}/`;
 
-    const here = destination.replace(/index\.html$/, '');
+    const here = destinationFile.replace(/index\.html$/, '');
 
     return {
+      sourceFile,
       base: baseUrl,
       here: `/${here}`,
       pathToRoot,
@@ -60,14 +64,14 @@ module.exports = {
   },
   /**
    * Return the data to be passed to each compiled file
-   * @param {string} destination Path to the destination file created
+   * @param {object} options Path to the source and destination files
    * @returns {object} Data object
    **/
-  async all(destination) {
+  async all(options) {
     await norskaData.warmCache();
 
     const data = await this.data();
-    const url = await this.url(destination);
+    const url = await this.url(options);
     const runtime = await this.runtime();
     const tweaks = this.tweaks();
 

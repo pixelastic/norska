@@ -46,7 +46,7 @@ describe('norska-html > data', () => {
       it.each([['about/index.html', '/about/']])(
         '%s => %s',
         async (input, expected) => {
-          const actual = await current.url(input);
+          const actual = await current.url({ destinationFile: input });
           expect(actual).toHaveProperty('here', expected);
         }
       );
@@ -58,8 +58,14 @@ describe('norska-html > data', () => {
         ['blog/index.html', '../'],
         ['blog/me/index.html', '../../'],
       ])('%s => %s', async (input, expected) => {
-        const actual = await current.url(input);
+        const actual = await current.url({ destinationFile: input });
         expect(actual).toHaveProperty('pathToRoot', expected);
+      });
+    });
+    describe('sourceFile', () => {
+      it('nominal case', async () => {
+        const actual = await current.url({ sourceFile: 'examples/index.md' });
+        expect(actual).toHaveProperty('sourceFile', 'examples/index.md');
       });
     });
   });

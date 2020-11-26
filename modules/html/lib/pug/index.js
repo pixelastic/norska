@@ -81,7 +81,10 @@ module.exports = {
 
     // Create a recursive compileData object that contains the pugMethods with
     // the right context
-    const siteData = await data.all(options.to);
+    const siteData = await data.all({
+      sourceFile: options.from,
+      destinationFile: options.to,
+    });
     const baseData = _.merge(
       {},
       siteData,
