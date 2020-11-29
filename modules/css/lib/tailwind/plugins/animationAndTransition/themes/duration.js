@@ -8,7 +8,7 @@ module.exports = {
   30: '30s',
   45: '45s',
   60: '60s',
-  default: '1s',
+  default: '200ms',
   '01': '100ms',
   '02': '200ms',
   '03': '300ms',
