@@ -59,4 +59,23 @@ describe('router', () => {
       expect(actualLocation).toEqual(`monsters.com/search/${locationHash}`);
     }
   );
+  describe('routerIgnore', () => {
+    beforeEach(async () => {
+      jest.spyOn(helper, 'configValue').mockReturnValue(['page']);
+    });
+    it('should not add routerIgnore key to URL', async () => {
+      const actual = current.parseURL({
+        location: { hash: '#page:12/query:foo' },
+      });
+      expect(actual).toEqual({ baseIndex: { query: 'foo' } });
+    });
+    it('should not add routerIgnore key to parameters', async () => {
+      const actual = current.createURL({
+        routeState: {
+          baseIndex: { query: 'foo', page: '12' },
+        },
+      });
+      expect(actual).toEqual('monsters.com/search/#/query:foo');
+    });
+  });
 });

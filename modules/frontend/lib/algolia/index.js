@@ -7,6 +7,7 @@ const { filter } = require('lodash-es');
 const hitsWidget = require('./widgets').hits;
 const infiniteHitsWidget = require('./widgets').infiniteHits;
 const configureWidget = require('./widgets').configure;
+const config = require('./config.js');
 
 module.exports = {
   __client: null,
@@ -18,11 +19,14 @@ module.exports = {
    * Init the search with credentials
    * @param {object} userCredentials object. Should include appId,
    * apiKey and indexName
+   * @param {object} options Options to modify behavior
+   * @param {Array} options.routerIgnore List of keys to not track in the router
    * @returns {object} Algolia instance, for chaining
    **/
-  init(userCredentials) {
+  init(userCredentials, options = {}) {
     credentials.init(userCredentials);
     const { appId, apiKey, indexName } = userCredentials;
+    config.options = options;
 
     this.__client = instantsearch({
       indexName,

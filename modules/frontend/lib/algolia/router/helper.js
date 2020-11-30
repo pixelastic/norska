@@ -1,4 +1,5 @@
 const credentials = require('../credentials.js');
+const config = require('../config.js');
 module.exports = {
   metaKeys: ['page', 'query'],
   indexKeys: ['sortBy', 'index'],
@@ -12,6 +13,11 @@ module.exports = {
    * @returns {string} URL part
    **/
   keyValueToString(value, key) {
+    // Skip ignored keys
+    if (this.configValue('routerIgnore').includes(key)) {
+      return null;
+    }
+
     const isMeta = this.metaKeys.includes(key);
     const isIndex = this.indexKeys.includes(key);
 
@@ -46,6 +52,11 @@ module.exports = {
     const [rawKey, rawValue] = input.split(':');
     let key = rawKey;
     let value = rawValue;
+
+    // Skip ignored keys
+    if (this.configValue('routerIgnore').includes(key)) {
+      return null;
+    }
 
     // Stop if a filter than changes the index
     const isIndex = this.indexKeys.includes(key);
@@ -115,6 +126,14 @@ module.exports = {
       return indexKey;
     }
     return null;
+  },
+  /**
+   * Returns a config value passed to the parent init method
+   * @param {string} key Config key
+   * @returns {*} Config value
+   **/
+  configValue(key) {
+    return config.options[key];
   },
   /**
    * Return the current url
