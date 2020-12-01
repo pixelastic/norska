@@ -15,18 +15,22 @@ function __replaceHighlightMarkup(input) {
  * @returns {string|Array} Highlighted string or array
  **/
 module.exports = function highlight(item, key) {
-  let highlightValue = get(item, `_highlightResult.${key}`);
+  let highlightValue =
+    get(item, `_snippetResult.${key}`) || get(item, `_highlightResult.${key}`);
   if (!highlightValue) {
     return get(item, key);
   }
+
+  const rawValue = get(item, key);
   // Highlight all elements of array
-  if (Array.isArray(highlightValue)) {
+  if (Array.isArray(rawValue)) {
     return highlightValue.map(__replaceHighlightMarkup.bind(this));
   }
+
   // Recursively highlight all subkeys of objects
-  if (!highlightValue.matchLevel) {
+  if (typeof rawValue == 'object' && rawValue.constructor == Object) {
     const subItem = {};
-    Object.keys(item[key]).forEach((subKey) => {
+    Object.keys(rawValue).forEach((subKey) => {
       subItem[subKey] = highlight(item, `${key}.${subKey}`);
     });
     return subItem;

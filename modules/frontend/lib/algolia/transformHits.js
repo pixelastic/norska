@@ -1,7 +1,7 @@
 const highlight = require('./highlight.js');
 /**
  * Enhance the hits data:
- *  - auto-highlight fields by default
+ *  - auto-highlight and auto-snippet fields by default
  *  - add new keys defined in transform
  *  - edit exiting keys defined in transform
  * @param {Array} hits List of hits
