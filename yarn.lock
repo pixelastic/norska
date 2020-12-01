@@ -4171,10 +4171,10 @@ atob@^2.1.2:
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-autoprefixer@10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.0.3.tgz#43c8fb60ab095f4b6ff7bc5d24cd05925112f2ce"
-  integrity sha512-SIUDNQlGARsfL69nsmi7OKnDtz1HVwPAiYPGn1Nv9eLMpBywXK5DNwAnvTq6aTjuPx3XKPl2boCQRYcThjJa2A==
+autoprefixer@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.0.4.tgz#f87ac6105d7861e31af794b8ebb1c6d4390d3d55"
+  integrity sha512-hmjYejN/WTyPP9cdNmiwtwqM8/ACVJPD5ExtwoOceQohNbgnFNiwpL2+U4bXS8aXozBL00WvH6WhqbuHf0Fgfg==
   dependencies:
     browserslist "^4.14.7"
     caniuse-lite "^1.0.30001161"
@@ -9193,10 +9193,10 @@ inquirer@^6.2.0, inquirer@^6.2.1, inquirer@^6.5.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-instantsearch.js@4.8.7:
-  version "4.8.7"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.8.7.tgz#efda0fdec7cec989c551b181ddcb1e37e0ec00a0"
-  integrity sha512-oDl896TDB9PsfIGTQkzJ5tWXCiXBQJrBx80Cb/J2Q8s0N60hCGxXo5bSGobDKiSwRDge5uDwlslaGLksVZheng==
+instantsearch.js@4.9.0:
+  version "4.9.0"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.9.0.tgz#086239ce3cd4e86e49737326b30fd0664e823ac9"
+  integrity sha512-2kA6Nzy8hKnbynlWu+4x7e3pK7dNlyANpJ1zqR3/O8w4nMPdHOMYQXfSu7UzBMvzs6+xWLsU3ylkmYVlXZxu+w==
   dependencies:
     "@types/googlemaps" "^3.39.6"
     algoliasearch-helper "^3.2.2"
