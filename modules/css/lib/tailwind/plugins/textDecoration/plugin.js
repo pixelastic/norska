@@ -21,6 +21,11 @@ module.exports = function (variants) {
       };
     });
 
+    // Allow .no-underline to remove all styling
+    baseClasses['.no-underline'] = {
+      textDecoration: 'none',
+    };
+
     const colorClasses = generateClasses(
       textDecorationColor,
       '.underline-',

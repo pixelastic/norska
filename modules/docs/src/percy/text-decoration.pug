@@ -9,3 +9,7 @@ block content
     +tailwind_table_line(`underline.${className}`)
       .w-100p.h-100p.flex.flex-col.justify-center
         span.underline(class=className) Hello World
+
+  +tailwind_table_line(`underline.hover_no-underline`)
+    .w-100p.h-100p.flex.flex-col.justify-center
+      a.underline.hover_no-underline(href="#") Hello World
