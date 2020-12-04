@@ -164,6 +164,10 @@ module.exports = {
           title: 'Docs',
           href: 'theme-docs',
         },
+        {
+          title: 'Infinite Search',
+          href: 'theme-search-infinite',
+        },
       ],
     },
     {
@@ -176,8 +180,8 @@ module.exports = {
       ],
     },
   ],
-  // docSearch: {
-  //   apiKey: '2d2a4ce134f339d2dab57ddbdecd7868',
-  //   indexName: 'pixelastic_on-circle',
-  // },
+  docSearch: {
+    apiKey: '3bd2ad61ba5d497ddcde8be4fede8010',
+    indexName: 'pixelastic_norska',
+  },
 };

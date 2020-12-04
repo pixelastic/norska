@@ -25,4 +25,4 @@ the `norska.config.js` file. Default is `script.js`.
 
 If you're creating your own custom layout, you should use the
 [norska_scripts](/mixins/#norskascripts) mixin to properly include all the
-needed files to your HTLM.
+needed files to your HTML.
