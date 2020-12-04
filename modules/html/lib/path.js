@@ -151,6 +151,7 @@ module.exports = {
       meta: false,
       screenshot: true,
       url: normalizeUrl(pageUrl),
+      waitForTimeout: 5000,
     });
     const microlinkUrl = normalizeUrl(url.toString());
 

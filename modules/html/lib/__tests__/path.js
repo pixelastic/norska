@@ -443,31 +443,31 @@ describe('norska-html > path', () => {
         'Remote page',
         'http://there.com/',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com%2F&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com%2F&waitForTimeout=5000&options=width800',
       ],
       [
         'Remote page with query string',
         'http://there.com/?sort=asc&name=norska',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com%2F%3Fname%3Dnorska%26sort%3Dasc&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com%2F%3Fname%3Dnorska%26sort%3Dasc&waitForTimeout=5000&options=width800',
       ],
       [
         'Local page in subfolder',
         'blog/index.html',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog%2F&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog%2F&waitForTimeout=5000&options=width800',
       ],
       [
         'Current page',
         null,
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2F&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2F&waitForTimeout=5000&options=width800',
       ],
       [
         'Current page, in subfolder',
         null,
         'blog/index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog%2F&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog%2F&waitForTimeout=5000&options=width800',
       ],
     ])('%s', async (_name, target, sourceFile, expected) => {
       const actual = current.screenshot(target, sourceFile);
