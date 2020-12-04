@@ -8,9 +8,11 @@ const MAX_ALLOWED_BUILD_TIME = 8000;
 
 describe('norska-css > convert [slow]', () => {
   const tmpDirectory = './tmp/norska-css/convert';
+  const themeDirectory = './tmp/norska-css/convert/theme';
   beforeEach(async () => {
     await config.init({
       root: tmpDirectory,
+      theme: themeDirectory,
     });
   });
   describe('convert', () => {
