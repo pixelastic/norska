@@ -9,7 +9,7 @@
     "@percy/script": "1.1.0",
     "aberlaas": "1.13.3",
     "callsites": "3.1.0",
-    "firost": "2.1.0",
+    "firost": "2.0.6",
     "golgoth": "2.0.0",
     "http-server": "0.12.3",
     "lerna": "3.22.1",
