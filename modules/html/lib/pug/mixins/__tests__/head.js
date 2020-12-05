@@ -49,9 +49,9 @@ describe('norska-html > pug > mixins > head', () => {
       ['<meta name="twitter:site" content="@pixelastic"/>'],
       ['<meta property="og:title" content="my title"/>'],
       ['<meta property="og:description" content="my description"/>'],
-      ['<meta property="og:url" content="http://here.com/blog/"/>'],
+      ['<meta property="og:url" content="http://here.com/blog"/>'],
       [
-        '<meta property="og:image" content="https://images.weserv.nl?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26norskaGitCommit%3Dabcdef%26screenshot%3Dtrue%26url%3Dhttp%253A%252F%252Fhere.com%252Fblog%252F%26waitForTimeout%3D5000&af&il&w=800"/>',
+        '<meta property="og:image" content="https://images.weserv.nl?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26norskaGitCommit%3Dabcdef%26screenshot%3Dtrue%26url%3Dhttp%253A%252F%252Fhere.com%252Fblog%26waitForTimeout%3D5000&af&il&w=800"/>',
       ],
       ['<script>trailingSlashTweak()</script>'],
       ['<link rel="shortcut icon" href="../favicon.png"/>'],

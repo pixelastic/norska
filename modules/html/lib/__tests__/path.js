@@ -191,9 +191,9 @@ describe('norska-html > path', () => {
   });
   describe('pageUrl', () => {
     it.each([
-      // target, sourceFile, expected
-      ['index.html', 'http://here.com/'],
-      ['blog/index.html', 'http://here.com/blog/'],
+      // sourceFile, expected
+      ['index.html', 'http://here.com'],
+      ['blog/index.html', 'http://here.com/blog'],
     ])('%s from %s', (sourceFile, expected) => {
       const actual = current.pageUrl(sourceFile);
       expect(actual).toEqual(expected);
@@ -443,7 +443,7 @@ describe('norska-html > path', () => {
         'Remote page',
         'http://there.com/',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com%2F&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com&waitForTimeout=5000&options=width800',
       ],
       [
         'Remote page with query string',
@@ -455,19 +455,19 @@ describe('norska-html > path', () => {
         'Local page in subfolder',
         'blog/index.html',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog%2F&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog&waitForTimeout=5000&options=width800',
       ],
       [
         'Current page',
         null,
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2F&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com&waitForTimeout=5000&options=width800',
       ],
       [
         'Current page, in subfolder',
         null,
         'blog/index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog%2F&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog&waitForTimeout=5000&options=width800',
       ],
     ])('%s', async (_name, target, sourceFile, expected) => {
       const actual = current.screenshot(target, sourceFile);
@@ -481,7 +481,8 @@ describe('norska-html > path', () => {
       ['/blog/', 'blog/index.html', '.'],
       ['/projects/', 'blog/index.html', '../projects/'],
       ['2020/', 'blog/index.html', '2020/'],
-      ['http://there.com', 'blog/index.html', 'http://there.com/'],
+      ['http://there.com', 'index.html', 'http://there.com'],
+      ['http://there.com/', 'index.html', 'http://there.com'],
     ])('[%s] %s is %s', async (target, sourceFile, expected) => {
       const actual = current.link(target, sourceFile);
       expect(actual).toEqual(expected);

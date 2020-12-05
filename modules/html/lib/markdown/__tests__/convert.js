@@ -176,14 +176,19 @@ describe('norska-html > markdown > convert', () => {
       });
     });
     describe('links', () => {
-      it.each([
-        ['[blog](blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
-        ['[2020](2020/)', 'blog/index.html', '<p><a href="2020/">2020</a></p>'],
-        ['[blog](/blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+      fit.each([
+        // ['[blog](blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+        // ['[2020](2020/)', 'blog/index.html', '<p><a href="2020/">2020</a></p>'],
+        // ['[blog](/blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+        // [
+        //   '[projects](/projects/)',
+        //   'blog/index.html',
+        //   '<p><a href="../projects/">projects</a></p>',
+        // ],
         [
-          '[projects](/projects/)',
-          'blog/index.html',
-          '<p><a href="../projects/">projects</a></p>',
+          '[got](https://classic.yarnpkg.com/en/package/got)',
+          'index.html',
+          '<p><a href="https://classic.yarnpkg.com/en/package/got">got</a></p>',
         ],
       ])('%s in %s', (markdownSource, sourceFile, expected) => {
         const actual = current.run(markdownSource, sourceFile);

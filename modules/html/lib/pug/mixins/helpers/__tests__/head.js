@@ -45,7 +45,7 @@ describe('norska-html > pug > mixins > helpers > head', () => {
       'Should use the current url if none is passed',
       {},
       {
-        url: 'http://here.com/blog/',
+        url: 'http://here.com/blog',
       },
       'blog/index.html',
     ],

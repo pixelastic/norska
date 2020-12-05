@@ -88,8 +88,8 @@ describe('norska-html', () => {
         'about.md': 'about/index.html',
       });
       const actual = current.getSitemap();
-      expect(actual).toContain('<url><loc>http://here.com/</loc></url>');
-      expect(actual).toContain('<url><loc>http://here.com/about/</loc></url>');
+      expect(actual).toContain('<url><loc>http://here.com</loc></url>');
+      expect(actual).toContain('<url><loc>http://here.com/about</loc></url>');
       expect(actual).not.toContain(
         '<url><loc>http://here.com/404/</loc></url>'
       );
