@@ -4,7 +4,7 @@ const consoleError = require('firost/consoleError');
 const consoleInfo = require('firost/consoleInfo');
 const glob = require('firost/glob');
 const httpServer = require('http-server');
-const pMap = require('golgoth/lib/pMap');
+const pMap = require('golgoth/pMap');
 const path = require('path');
 const run = require('firost/run');
 

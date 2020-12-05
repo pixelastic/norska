@@ -1,6 +1,6 @@
 const config = require('norska-css/lib/tailwind/index.js');
 const sortKeys = require('norska-css/lib/tailwind/helpers/sortKeys.js');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 module.exports = {
   testString:
     'You can cut our wings but we will always remember what it was like to fly.',

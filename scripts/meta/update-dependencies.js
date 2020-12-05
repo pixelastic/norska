@@ -1,5 +1,5 @@
-const _ = require('golgoth/lib/lodash');
-const pMap = require('golgoth/lib/pMap');
+const _ = require('golgoth/lodash');
+const pMap = require('golgoth/pMap');
 const run = require('firost/run');
 const readJson = require('firost/readJson');
 const writeJson = require('firost/writeJson');
