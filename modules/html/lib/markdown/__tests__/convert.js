@@ -37,7 +37,7 @@ describe('norska-html > markdown > convert', () => {
         'Convert text urls',
         'index.html',
         'http://there.com/',
-        '<p><a href="http://there.com/">http://there.com/</a></p>',
+        '<p><a href="http://there.com">http://there.com/</a></p>',
       ],
     ])('%s', async (_name, sourceFile, markdown, expected) => {
       const actual = await current.run(markdown, sourceFile);
@@ -176,15 +176,15 @@ describe('norska-html > markdown > convert', () => {
       });
     });
     describe('links', () => {
-      fit.each([
-        // ['[blog](blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
-        // ['[2020](2020/)', 'blog/index.html', '<p><a href="2020/">2020</a></p>'],
-        // ['[blog](/blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
-        // [
-        //   '[projects](/projects/)',
-        //   'blog/index.html',
-        //   '<p><a href="../projects/">projects</a></p>',
-        // ],
+      it.each([
+        ['[blog](blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+        ['[2020](2020/)', 'blog/index.html', '<p><a href="2020/">2020</a></p>'],
+        ['[blog](/blog/)', 'index.html', '<p><a href="blog/">blog</a></p>'],
+        [
+          '[projects](/projects/)',
+          'blog/index.html',
+          '<p><a href="../projects/">projects</a></p>',
+        ],
         [
           '[got](https://classic.yarnpkg.com/en/package/got)',
           'index.html',
