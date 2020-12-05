@@ -7841,32 +7841,6 @@ firost@2.1.0:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.2.0.tgz#95fc17d8b7bdc64a2a8c59fb2ff3de56a664e7eb"
-  integrity sha512-/W7yqTDq5pTYZ+uP8pxqOeBFypA8/6rJ9CC61t/6fsgC5kZLsU0zK+D4yTpsnLpI29a1/oPC9Ia8Pi/tfAcKLA==
-  dependencies:
-    callsites "3.1.0"
-    chokidar "3.4.3"
-    clear-module "4.1.1"
-    eventemitter2 "6.4.3"
-    execa "4.1.0"
-    find-up "5.0.0"
-    fs-extra "9.0.1"
-    globby "11.0.1"
-    golgoth "2.0.0"
-    inquirer "7.3.3"
-    is-glob "4.0.1"
-    json-stable-stringify "1.0.1"
-    nanoid "3.1.20"
-    normalize-url "5.3.0"
-    ora "5.1.0"
-    std-mocks "1.0.1"
-    strip-ansi "6.0.0"
-    tempy "1.0.0"
-    untildify "4.0.0"
-    which "2.0.2"
-
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
