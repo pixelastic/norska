@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 /**
  * Checks if the key looks like a number

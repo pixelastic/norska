@@ -1,6 +1,6 @@
 const rgbColors = require('../../helpers/rgbColors.js');
 const generateClasses = require('../../helpers/generateClasses.js');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 /**
  * Allow using .purple instead of .font-purple to color text

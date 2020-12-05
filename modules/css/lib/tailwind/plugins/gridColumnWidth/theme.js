@@ -1,5 +1,5 @@
 const width = require('../../themes/width.js');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 module.exports = _.transform(
   width,
   (result, value, key) => {

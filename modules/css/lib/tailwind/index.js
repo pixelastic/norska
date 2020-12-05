@@ -1,5 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultConfig.js').theme;
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const themeConfig = require('./themes');
 const pluginConfig = require('./plugins');
 const config = require('norska-config');

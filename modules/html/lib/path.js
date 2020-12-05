@@ -4,7 +4,7 @@ const imageProxy = require('norska-image-proxy');
 const isUrl = require('is-url-superb');
 const normalizeUrl = require('firost/normalizeUrl');
 const path = require('path');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const placeholderize = require('norska-frontend/lib/lazyload/placeholderize');
 
 module.exports = {

@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const generateClasses = require('../../helpers/generateClasses.js');
 /**
  * Add nested layers of outlines when an element is marked with a .debug class

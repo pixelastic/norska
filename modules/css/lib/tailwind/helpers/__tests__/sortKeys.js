@@ -1,5 +1,5 @@
 const current = require('../sortKeys');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 describe('sortKeys', () => {
   describe('should order two keys', () => {

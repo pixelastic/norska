@@ -33,7 +33,7 @@ Now, let's see how to tweak the theme to make it fit your project.
 
 ### Meta
 
-Open `./src/_data/site.json` and edit the data that defines your project.
+Open `./src/_data/meta.json` and edit the data that defines your project.
 
 ### Sidebar
 
@@ -115,31 +115,31 @@ color(s), you can override some CSS classes in your `style.css` file.
 @import 'theme:style.css';
 
 body {
-  // Change the header backround color
+  /* Change the header backround color */
   .theme-header {
     @apply bg-blue-1;
   }
-  // Change the current page marker color in the sidebar
+  /* Change the current page marker color in the sidebar */
   .theme-navigation-link-active {
     @apply border-blue-4;
   }
-  // Change the color of links on hover in the sidebar
+  /* Change the color of links on hover in the sidebar */
   .theme-navigation-link:hover {
     @apply blue-5;
   }
-  // Change the color of the title underline
+  /* Change the color of the title underline */
   .theme-title {
     @apply border-blue-5;
   }
 
-  // DocSearch main color
+  /* DocSearch main color */
   --docsearch-primary-color: #4299e1;
 }
 .prose a {
-  // Change the color of links
+  /* Change the color of links */
   @apply blue-5;
   &:hover {
-    // Change the color of the underline of hovered links
+    /* Change the color of the underline of hovered links */
     @apply underline-blue-5;
   }
 }

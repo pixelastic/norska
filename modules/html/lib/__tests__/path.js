@@ -1,7 +1,7 @@
 const current = require('../path');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const imageProxy = require('norska-image-proxy');
 jest.mock('norska-image-proxy');
 

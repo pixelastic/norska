@@ -1,7 +1,7 @@
 const current = require('../convert');
 const config = require('norska-config');
 const helper = require('norska-helper');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 describe('norska-html > markdown > convert', () => {
   const tmpDirectory = './tmp/norska-html/markdown/convert';

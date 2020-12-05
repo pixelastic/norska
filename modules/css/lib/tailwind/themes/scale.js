@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const defaultConfig = require('tailwindcss/defaultConfig.js');
 const defaultScale = defaultConfig.theme.scale;
 

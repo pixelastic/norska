@@ -3,7 +3,7 @@ const consoleSuccess = require('firost/consoleSuccess');
 const consoleError = require('firost/consoleError');
 const run = require('firost/run');
 const helper = require('./helper/index.js');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 module.exports = {
   /**
    * Enable Netlify on the current repo

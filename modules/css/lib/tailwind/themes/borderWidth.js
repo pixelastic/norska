@@ -5,7 +5,7 @@
  * does not make sense in the context of borders: percentage, vh, vw, auto
  **/
 const spacing = require('./shared/spacing.js');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 const borderWidth = _.pickBy(spacing, (value, key) => {
   const isPercentage = _.includes(value, '%');

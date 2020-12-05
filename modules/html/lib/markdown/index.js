@@ -1,9 +1,9 @@
 const config = require('norska-config');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const write = require('firost/write');
 const read = require('firost/read');
 const firostError = require('firost/error');
-const dedent = require('golgoth/lib/dedent');
+const dedent = require('golgoth/dedent');
 const frontMatter = require('front-matter');
 const pug = require('../pug/index.js');
 

@@ -1,5 +1,5 @@
-const _ = require('golgoth/lib/lodash');
-const pMap = require('golgoth/lib/pMap');
+const _ = require('golgoth/lodash');
+const pMap = require('golgoth/pMap');
 const path = require('path');
 const cms = require('../main.js');
 const config = require('norska-config');

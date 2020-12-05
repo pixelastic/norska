@@ -1,6 +1,6 @@
 const path = require('../../../path.js');
 const he = require('he');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 /**
  * This method is used only by the +img() mixin

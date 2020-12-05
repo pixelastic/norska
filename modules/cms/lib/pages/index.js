@@ -1,6 +1,6 @@
 const glob = require('firost/glob');
 const path = require('path');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const config = require('norska-config');
 
 /**

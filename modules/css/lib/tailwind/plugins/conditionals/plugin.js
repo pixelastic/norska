@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 /**
  * Set .if to a checkbox and .then_bg-red to another element and the element

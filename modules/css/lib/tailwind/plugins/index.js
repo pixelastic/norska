@@ -16,7 +16,7 @@ const textColor = require('./textColor');
 const textDecoration = require('./textDecoration');
 const textShadow = require('./textShadow');
 const typography = require('./typography');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 const pluginList = [
   animationAndTransition,

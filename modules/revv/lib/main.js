@@ -2,17 +2,17 @@ const config = require('norska-config');
 const helper = require('norska-helper');
 const copy = require('firost/copy');
 const glob = require('firost/glob');
-const pMap = require('golgoth/lib/pMap');
-const pProps = require('golgoth/lib/pProps');
+const pMap = require('golgoth/pMap');
+const pProps = require('golgoth/pProps');
 const path = require('path');
 const read = require('firost/read');
 const revHash = require('rev-hash');
 const spinner = require('firost/spinner');
-const timeSpan = require('golgoth/lib/timeSpan');
+const timeSpan = require('golgoth/timeSpan');
 const write = require('firost/write');
 const defaultConfig = require('./config.js');
-const pMapSeries = require('golgoth/lib/pMapSeries');
-const _ = require('golgoth/lib/lodash');
+const pMapSeries = require('golgoth/pMapSeries');
+const _ = require('golgoth/lodash');
 
 module.exports = {
   /**

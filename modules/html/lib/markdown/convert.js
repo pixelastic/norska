@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const markdownIt = require('markdown-it');
 const markdownItHighlight = require('markdown-it-highlightjs');
 const highlightJsPug = require('highlightjs-pug');

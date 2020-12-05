@@ -4,7 +4,7 @@ const gitHelper = require('../helper/git');
 const netlifyHelper = require('../helper/index');
 const norskaHelper = require('norska-helper');
 const config = require('norska-config');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 describe('norska-netlify > build', () => {
   describe('shouldBuild', () => {

@@ -1,7 +1,7 @@
 const height = require('../height.js');
 const minHeight = require('../minHeight.js');
 const maxHeight = require('../maxHeight.js');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const chValue = expect.stringMatching(/ch$/);
 
 describe('dimensions', () => {

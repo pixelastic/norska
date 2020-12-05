@@ -1,6 +1,6 @@
 const config = require('norska-config');
 const pug = require('pug');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const write = require('firost/write');
 const read = require('firost/read');
 const firostError = require('firost/error');

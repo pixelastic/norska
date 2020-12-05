@@ -1,13 +1,13 @@
 const config = require('norska-config');
 const copy = require('firost/copy');
 const glob = require('firost/glob');
-const pMap = require('golgoth/lib/pMap');
+const pMap = require('golgoth/pMap');
 const path = require('path');
 const remove = require('firost/remove');
 const spinner = require('firost/spinner');
-const timeSpan = require('golgoth/lib/timeSpan');
+const timeSpan = require('golgoth/timeSpan');
 const watch = require('firost/watch');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const defaultConfig = require('./config.js');
 
 module.exports = {

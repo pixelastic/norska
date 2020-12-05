@@ -1,7 +1,7 @@
 const current = require('../form');
 const emptyDir = require('firost/emptyDir');
 const writeJson = require('firost/writeJson');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const objectWith = expect.objectContaining;
 
 describe('helpers/form', () => {

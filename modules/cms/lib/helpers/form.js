@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const isFile = require('firost/isFile');
 const readJson = require('firost/readJson');
 /**

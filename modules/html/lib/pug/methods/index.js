@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const include = require('./include.js');
 const mixinHelperHead = require('../mixins/helpers/head.js');
 const mixinHelperImg = require('../mixins/helpers/img.js');

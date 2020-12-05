@@ -2,8 +2,8 @@ const NetlifyAPI = require('netlify');
 const config = require('norska-config');
 const exists = require('firost/exists');
 const readJson = require('firost/readJson');
-const got = require('golgoth/lib/got');
-const _ = require('golgoth/lib/lodash');
+const got = require('golgoth/got');
+const _ = require('golgoth/lodash');
 module.exports = {
   /**
    * Returns the Netlify token saved in ENV

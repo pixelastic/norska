@@ -3,8 +3,8 @@ const read = require('firost/read');
 const path = require('path');
 const glob = require('firost/glob');
 const exists = require('firost/exists');
-const pMap = require('golgoth/lib/pMap');
-const _ = require('golgoth/lib/lodash');
+const pMap = require('golgoth/pMap');
+const _ = require('golgoth/lodash');
 
 module.exports = {
   mixins: {},

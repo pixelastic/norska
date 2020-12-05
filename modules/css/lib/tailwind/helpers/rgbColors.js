@@ -1,4 +1,4 @@
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const hexToRGB = require('./hexToRGB.js');
 /**
  * Converts an object of colors to their RGB values, excluding those that can't

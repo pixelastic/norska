@@ -3,7 +3,7 @@ const ensureUrlTrailingSlash = require('ensure-url-trailing-slash');
 const helper = require('norska-helper');
 const norskaData = require('norska-data');
 const path = require('path');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 
 module.exports = {
   /**

@@ -1,7 +1,7 @@
 const EventEmitter = require('events');
 const exists = require('firost/exists');
 const path = require('path');
-const _ = require('golgoth/lib/lodash');
+const _ = require('golgoth/lodash');
 const consoleWarn = require('firost/consoleWarn');
 const defaultTheme = require('norska-theme-default');
 

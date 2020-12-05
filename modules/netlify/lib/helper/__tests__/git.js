@@ -7,7 +7,7 @@ const mkdirp = require('firost/mkdirp');
 const remove = require('firost/remove');
 const emptyDir = require('firost/emptyDir');
 const tmpDirectory = require('firost/tmpDirectory');
-const pAll = require('golgoth/lib/pAll');
+const pAll = require('golgoth/pAll');
 
 const testRepo = async function () {
   await current.runCommand('init');
