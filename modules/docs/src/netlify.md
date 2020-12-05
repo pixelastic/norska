@@ -17,10 +17,10 @@ It starts by getting the list of files in the repo that where changed since the
 last Netlify deploy. The SHA-1 of the last deployed commit is provided by
 Netlify; the rest is extracted from the git history.
 
-It then cancels the build if no _relevant_ file was changed since the last
+It then cancels the build if no **relevant** file was changed since the last
 deploy.
 
-_Relevant_ files include anything in `./src`, but also config files like
+**Relevant** files include anything in `./src`, but also config files like
 `netlify.toml`, `.nvmrc`, `tailwind.config.js`, `norska.config.js`, etc.
 
 If no such file was changed, it means that all changes since the last deploy
@@ -37,7 +37,7 @@ the build.
 ## Configuration
 
 You can change the list of files and keys of `package.json` considered
-_relevant_ by editing the `norska.config.js` file.
+**relevant** by editing the `norska.config.js` file.
 
 The default configuration is as follow:
 

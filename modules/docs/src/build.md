@@ -3,17 +3,13 @@ title: norska build
 ---
 
 The `norska build` command will build the website. This means converting all
-source files in `./src` into final compiled files in `./dist`.
-
-The command is aliased to `yarn run build` for convenience.
+source files in `./src` into final compiled files in `./dist`. The command is aliased to `yarn run build` for convenience.
 
 ## Types of files
 
-`.pug` and `.md` files will be converted to HTML.
-
-`style.css` will be processed by PostCSS and `script.js` by Webpack.
-
-All static assets (images, fonts, etc) will be copied to `./dist`.
+`*.pug` and `*.md` files will be converted to HTML, `style.css` will be processed
+by PostCSS and `script.js` by Webpack. All static assets (images, fonts, etc)
+will be copied to `./dist`.
 
 ## Building for production
 
@@ -31,7 +27,7 @@ The generated CSS file is purged, prefixed and compressed This means that only
 CSS classes that are actually used in the markup are kept, then vendor-specific
 prefixes are added, and the whole file is compressed.
 
-## On Netlify
+## Deploying on Netlify
 
 This command is smart enough to know if it's running as part of a Netlify build
 or locally while developing.
