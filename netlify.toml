@@ -1,7 +1,7 @@
 # Build website
 [build]
   command = "yarn run build:prod"
-  publish = "./modules/docs/dist/"
+  publish = "modules/docs/dist/"
 
 # Custom 404
 [[redirects]]
