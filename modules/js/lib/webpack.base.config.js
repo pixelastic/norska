@@ -1,4 +1,5 @@
 const path = require('path');
+const config = require('norska-config');
 
 module.exports = {
   // Loader are imported relative to the files they load. We need to
@@ -13,6 +14,12 @@ module.exports = {
       path.join(__dirname, '../node_modules'), // norska-js deps
       path.join(__dirname, '../../../node_modules'), // norska workspace deps
     ],
+  },
+  /* Allow loading theme files with the norskaTheme prefix */
+  resolve: {
+    alias: {
+      norskaTheme: config.themeRoot(),
+    },
   },
   output: {
     library: 'script',
