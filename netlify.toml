@@ -3,6 +3,12 @@
   command = "yarn run build:prod"
   publish = "./modules/docs/dist/"
 
+# Custom 404
+[[redirects]]
+  from = "/*"
+  to = "/404/"
+  status = 404
+
 # Terry Pratchett homage
 [[headers]]
   for = "/*"
