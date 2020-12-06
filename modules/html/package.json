@@ -11,10 +11,10 @@
     "jstransformer-markdown-it": "2.1.0",
     "markdown-it": "11.0.1",
     "markdown-it-highlightjs": "3.3.1",
-    "norska-config": "^1.5.2",
-    "norska-data": "^1.5.2",
+    "norska-config": "^1.6.1",
+    "norska-data": "^1.6.1",
     "norska-frontend": "^1.5.2",
-    "norska-helper": "^1.5.2",
+    "norska-helper": "^1.6.1",
     "norska-image-proxy": "^1.5.2",
     "pug": "3.0.0",
     "slug": "3.5.2"
@@ -44,5 +44,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.6.0"
+  "version": "1.6.1"
 }
