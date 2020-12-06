@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "golgoth": "2.0.0",
-    "norska": "^1.6.1",
-    "norska-css": "^1.6.1",
+    "norska": "^1.7.0",
+    "norska-css": "^1.7.0",
     "norska-theme-docs": "1.2.4"
   },
   "files": [],
@@ -19,5 +19,5 @@
     "serve": "../../scripts/docs/serve",
     "release": "node ../../scripts/meta/release.js"
   },
-  "version": "1.6.1"
+  "version": "1.7.0"
 }
