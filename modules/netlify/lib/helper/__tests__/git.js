@@ -112,5 +112,20 @@ describe('norska-netlify > git', () => {
       );
       expect(actual).toEqual(null);
     });
+    it('should work with absolute paths', async () => {
+      const repo = await testRepo();
+      await writeJson({ key: 'One' }, config.rootPath('myfile.json'));
+      const commitRef = await repo.commitAll('Initial commit');
+
+      await writeJson({ key: 'Two' }, config.rootPath('myfile.json'));
+
+      await repo.commitAll('Modifications');
+
+      const actual = await current.jsonContentAtCommit(
+        config.rootPath('myfile.json'),
+        commitRef
+      );
+      expect(actual).toHaveProperty('key', 'One');
+    });
   });
 });

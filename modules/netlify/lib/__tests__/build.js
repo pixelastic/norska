@@ -163,18 +163,6 @@ describe('norska-netlify > build', () => {
         { dependencies: { norska: '1.0' } },
         [],
       ],
-      [
-        '✔ scripts.build:prod changed',
-        { scripts: { 'build:prod': './scripts/build-prod' } },
-        { scripts: { 'build:prod': './scripts/build-prod-new' } },
-        [
-          {
-            before: './scripts/build-prod',
-            after: './scripts/build-prod-new',
-            name: 'scripts.build:prod',
-          },
-        ],
-      ],
     ])('%s', async (_title, packageBefore, packageNow, expected) => {
       await config.init({
         netlify: netlifyConfig,

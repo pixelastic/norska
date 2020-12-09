@@ -133,7 +133,7 @@ module.exports = {
    **/
   async importantKeysChanged(lastDeployCommit) {
     const packageBefore = await gitHelper.jsonContentAtCommit(
-      'package.json',
+      config.rootPath('package.json'),
       lastDeployCommit
     );
     const packageNow = await this.getPackageJson();

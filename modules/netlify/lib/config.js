@@ -12,8 +12,8 @@ module.exports = {
       '<projectRoot>/tailwind.config.js',
       '<from>/**/*',
     ],
-    // If any of those keys in package.json  has been modified since the last
-    // deploy, we deploy again
-    keys: ['dependencies', 'scripts.build:prod'],
+    // Deploy again if any of these keys in the project package.json were
+    // changed since the last deploy
+    keys: ['dependencies'],
   },
 };

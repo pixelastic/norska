@@ -47,8 +47,9 @@ module.exports = {
    * @returns {string} Content of the file
    **/
   async jsonContentAtCommit(filepath, commit) {
+    const relativePath = path.relative(this.root(), config.rootPath(filepath));
     try {
-      const command = `show ${commit}:${filepath}`;
+      const command = `show ${commit}:${relativePath}`;
       const result = await this.runCommand(command);
       return JSON.parse(result);
     } catch (err) {
