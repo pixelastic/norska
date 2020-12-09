@@ -1,13 +1,15 @@
 module.exports = {
   deploy: {
-    // Deploy again if any of those files were changed since the last deploy
-    // <from> will be replaced with the source directory (defaults to ./src)
+    // Deploy again if any of those files were changed since the last deploy:
+    // - All path are relative to the repo root
+    // - <projectRoot> is where the package.json holding norska is
+    // - <from> is the source folder, relative to the <projectRoot>
     files: [
       'lambda/**/*',
       'netlify.toml',
-      'norska.config.js',
-      'tailwind.config.js',
       '.nvmrc',
+      '<projectRoot>/norska.config.js',
+      '<projectRoot>/tailwind.config.js',
       '<from>/**/*',
     ],
     // If any of those keys in package.json  has been modified since the last

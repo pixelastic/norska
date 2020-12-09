@@ -105,11 +105,18 @@ module.exports = {
 
     // Convert glob patterns to absolute globs
     const gitRoot = gitHelper.root();
-    const from = path.relative(config.root(), config.from());
+    const projectRoot = path.relative(gitRoot, config.root());
+    const from = path.relative(gitRoot, config.from());
     const rawGlobs = config.get('netlify.deploy.files');
-    const globPatterns = _.map(rawGlobs, (globPattern) => {
-      return path.resolve(gitRoot, _.replace(globPattern, '<from>', from));
-    });
+    const globPatterns = _.chain(rawGlobs)
+      .map((rawGlob) => {
+        return _.chain(`${gitRoot}/${rawGlob}`)
+          .replace('<projectRoot>', projectRoot)
+          .replace('<from>', from)
+          .thru(path.resolve)
+          .value();
+      })
+      .value();
 
     return _.chain(multimatch(changedFiles, globPatterns))
       .map((filepath) => {

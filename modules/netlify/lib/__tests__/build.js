@@ -4,7 +4,6 @@ const gitHelper = require('../helper/git');
 const netlifyHelper = require('../helper/index');
 const norskaHelper = require('norska-helper');
 const config = require('norska-config');
-const _ = require('golgoth/lodash');
 
 describe('norska-netlify > build', () => {
   describe('shouldBuild', () => {
@@ -61,65 +60,79 @@ describe('norska-netlify > build', () => {
     });
   });
   describe('importantFilesChanged', () => {
-    it('should find all important files', async () => {
-      await config.init({
-        netlify: netlifyConfig,
-      });
+    beforeEach(async () => {
       jest.spyOn(gitHelper, 'root').mockReturnValue('/norska/');
-      const changedFiles = [
-        '/norska/.nvmrc',
-        '/norska/lambda/index.js',
-        '/norska/netlify.toml',
-        '/norska/norska.config.js',
-        '/norska/src/assets/deep/file.png',
-        '/norska/src/index.pug',
-        '/norska/tailwind.config.js',
-        '/norska/.prettierrc.js',
-        '/norska/README.md',
-        '/norska/scripts/test',
-      ];
-      const expected = [
-        '.nvmrc',
-        'lambda/index.js',
-        'netlify.toml',
-        'norska.config.js',
-        'src/assets/deep/file.png',
-        'src/index.pug',
-        'tailwind.config.js',
-      ];
-      jest
-        .spyOn(gitHelper, 'filesChangedSinceCommit')
-        .mockReturnValue(changedFiles);
-      const actual = await current.importantFilesChanged('abcdef');
-      expect(actual).toEqual(expected);
     });
-    it('in a monorepo context', async () => {
-      const customConfig = _.clone(netlifyConfig);
-      _.set(customConfig, 'deploy.files', [
-        'netlify.toml',
-        'modules/library/lib/*.js',
-        'modules/docs/src/**/*',
-      ]);
-      await config.init({
-        netlify: customConfig,
+    describe('in a classic setup', () => {
+      it('should find all important files', async () => {
+        await config.init({
+          root: '/norska/',
+          netlify: netlifyConfig,
+        });
+        const changedFiles = [
+          '/norska/.nvmrc',
+          '/norska/lambda/index.js',
+          '/norska/netlify.toml',
+          '/norska/norska.config.js',
+          '/norska/src/assets/deep/file.png',
+          '/norska/src/index.pug',
+          '/norska/tailwind.config.js',
+          '/norska/.prettierrc.js',
+          '/norska/README.md',
+          '/norska/scripts/test',
+        ];
+        const expected = [
+          '.nvmrc',
+          'lambda/index.js',
+          'netlify.toml',
+          'norska.config.js',
+          'src/assets/deep/file.png',
+          'src/index.pug',
+          'tailwind.config.js',
+        ];
+        jest
+          .spyOn(gitHelper, 'filesChangedSinceCommit')
+          .mockReturnValue(changedFiles);
+        const actual = await current.importantFilesChanged('abcdef');
+        expect(actual).toEqual(expected);
       });
-      jest.spyOn(gitHelper, 'root').mockReturnValue('/norska/');
-      const changedFiles = [
-        '/norska/modules/docs/src/index.pug',
-        '/norska/modules/library/lib/main.js',
-        '/norska/netlify.toml',
-        '/norska/.prettierrc.js',
-      ];
-      const expected = [
-        'modules/docs/src/index.pug',
-        'modules/library/lib/main.js',
-        'netlify.toml',
-      ];
-      jest
-        .spyOn(gitHelper, 'filesChangedSinceCommit')
-        .mockReturnValue(changedFiles);
-      const actual = await current.importantFilesChanged('abcdef');
-      expect(actual).toEqual(expected);
+    });
+    describe('in a monorepo setup', () => {
+      it('should find all important files', async () => {
+        await config.init({
+          root: '/norska/docs',
+          netlify: netlifyConfig,
+        });
+        jest.spyOn(gitHelper, 'root').mockReturnValue('/norska/');
+        const changedFiles = [
+          '/norska/README.md',
+          '/norska/docs/norska.config.js',
+          '/norska/docs/src/assets/deep/file.png',
+          '/norska/docs/src/index.pug',
+          '/norska/docs/tailwind.config.js',
+          '/norska/lambda/index.js',
+          '/norska/lib/README.md',
+          '/norska/lib/main.js',
+          '/norska/netlify.toml',
+          '/norska/scripts/test',
+          '/norska/.nvmrc',
+          '/norska/.prettierrc.js',
+        ];
+        const expected = [
+          '.nvmrc',
+          'docs/norska.config.js',
+          'docs/src/assets/deep/file.png',
+          'docs/src/index.pug',
+          'docs/tailwind.config.js',
+          'lambda/index.js',
+          'netlify.toml',
+        ];
+        jest
+          .spyOn(gitHelper, 'filesChangedSinceCommit')
+          .mockReturnValue(changedFiles);
+        const actual = await current.importantFilesChanged('abcdef');
+        expect(actual).toEqual(expected);
+      });
     });
   });
   describe('importantKeysChanged', () => {
