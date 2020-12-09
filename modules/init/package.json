@@ -4,7 +4,7 @@
     "firost": "2.2.0",
     "golgoth": "2.0.0",
     "norska-config": "^1.7.0",
-    "norska-netlify": "^1.7.0"
+    "norska-netlify": "^1.8.0"
   },
   "description": "Initialize a new Norska project",
   "files": [
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.7.0"
+  "version": "1.8.0"
 }
