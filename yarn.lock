@@ -4065,6 +4065,11 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
+
 arr-diff@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/arr-diff/-/arr-diff-4.0.0.tgz#d6461074febfec71e7e15235761a329a5dc7c520"
@@ -6944,10 +6949,15 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.npmjs.org/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
-entities@^2.0.0, entities@~2.0.0:
+entities@^2.0.0:
   version "2.0.3"
   resolved "https://registry.npmjs.org/entities/-/entities-2.0.3.tgz#5c487e5742ab93c15abb5da22759b8590ec03b7f"
   integrity sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==
+
+entities@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/entities/-/entities-2.1.0.tgz#992d3129cf7df6870b96c57858c249a120f8b8b5"
+  integrity sha512-hCx1oky9PFrJ611mf0ifBLBRW8lUUVRlFolb5gWRfIELabBlbp9xZvrqZLZAs+NxFnbfQoeGd8wDkygjg7U85w==
 
 env-paths@^2.2.0:
   version "2.2.0"
@@ -9929,7 +9939,12 @@ is-typedarray@^1.0.0, is-typedarray@~1.0.0:
   resolved "https://registry.npmjs.org/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
 
-is-url-superb@4.0.0, is-url-superb@^4.0.0:
+is-url-superb@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/is-url-superb/-/is-url-superb-5.0.0.tgz#8b3c0ce1ceacaa7561fefb9510018106091dccf5"
+  integrity sha512-jGkG59ra7/JlcV8ap3dsc0M79IgpuFU/obfsSf6X5D0z1NVvFTFuzt4ob7nfBTZEPbTwjGXVKNQDfWfPghapKQ==
+
+is-url-superb@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/is-url-superb/-/is-url-superb-4.0.0.tgz#b54d1d2499bb16792748ac967aa3ecb41a33a8c2"
   integrity sha512-GI+WjezhPPcbM+tqE9LnmsY5qqjwHzTvjJ36wxYX5ujNXefSUJ/T17r5bqDV8yLhcgB59KTPNOc9O9cmHTPWsA==
@@ -11591,13 +11606,13 @@ markdown-it-highlightjs@3.4.0:
     highlight.js "^10.2.0"
     lodash.flow "^3.5.0"
 
-markdown-it@11.0.1:
-  version "11.0.1"
-  resolved "https://registry.npmjs.org/markdown-it/-/markdown-it-11.0.1.tgz#b54f15ec2a2193efa66dda1eb4173baea08993d6"
-  integrity sha512-aU1TzmBKcWNNYvH9pjq6u92BML+Hz3h5S/QpfTFwiQF852pLT+9qHsrhM9JYipkOXZxGn+sGH8oyJE9FD9WezQ==
+markdown-it@12.0.3:
+  version "12.0.3"
+  resolved "https://registry.npmjs.org/markdown-it/-/markdown-it-12.0.3.tgz#8d1e47daf1d716d63610495eb93f6665573e4abe"
+  integrity sha512-M57RsMv+QQmJHz1yCu0gTJRMx/LlxRPtrrw+2kb/CpDVK/graCmWO0qfNnz/SE1FCNdyq3pkMMZ+itTnyT/YGA==
   dependencies:
-    argparse "^1.0.7"
-    entities "~2.0.0"
+    argparse "^2.0.1"
+    entities "~2.1.0"
     linkify-it "^3.0.1"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
@@ -15569,10 +15584,10 @@ slide@^1.1.6:
   resolved "https://registry.npmjs.org/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
   integrity sha1-VusCfWW00tzmyy4tMsTUr8nh1wc=
 
-slug@3.5.2:
-  version "3.5.2"
-  resolved "https://registry.npmjs.org/slug/-/slug-3.5.2.tgz#8b7549ea160b0c6d43af35d4cd499c32cfc5e3a3"
-  integrity sha512-D6tuxY0zG97rbU9E2g2dRmPBWDF/DjnfM7c4mc+OHXM+oS1muIWntOp5Mu5tsnTRtCmSURyx+CclUPnWwv2JmQ==
+slug@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/slug/-/slug-4.0.2.tgz#35a62b4e71582778ac08bb30a1bf439fd0a43ea7"
+  integrity sha512-c5XbWkwxHU13gAdSvBHQgnGy2sxv/REMz0ugcM0SOSBCO/N4wfU0TDBC3pgdOwVGjZwGnLBTRljXzdVYE+KYNw==
 
 smart-buffer@^4.1.0:
   version "4.1.0"

@@ -7,9 +7,9 @@
     "golgoth": "2.0.0",
     "he": "1.2.0",
     "highlightjs-pug": "0.0.2",
-    "is-url-superb": "4.0.0",
+    "is-url-superb": "5.0.0",
     "jstransformer-markdown-it": "2.1.0",
-    "markdown-it": "11.0.1",
+    "markdown-it": "12.0.3",
     "markdown-it-highlightjs": "3.4.0",
     "norska-config": "^1.7.0",
     "norska-data": "^1.7.0",
@@ -17,7 +17,7 @@
     "norska-helper": "^1.6.1",
     "norska-image-proxy": "^1.5.2",
     "pug": "3.0.0",
-    "slug": "3.5.2"
+    "slug": "4.0.2"
   },
   "description": "Convert sources to .html files",
   "devDependencies": {

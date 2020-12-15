@@ -4,7 +4,7 @@ const markdownItHighlight = require('markdown-it-highlightjs');
 const highlightJsPug = require('highlightjs-pug');
 const mixinHelperImg = require('../pug/mixins/helpers/img.js');
 const path = require('../path.js');
-const slug = require('slug');
+const slug = require('./slug.js');
 
 module.exports = {
   /**
