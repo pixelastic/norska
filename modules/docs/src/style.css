@@ -13,6 +13,8 @@ body {
   .theme-title {
     @apply border-blue-5;
   }
+
+  --docsearch-primary-color: #63b3ed;
 }
 .prose a {
   @apply blue-5;

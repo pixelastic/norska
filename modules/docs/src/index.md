@@ -26,10 +26,11 @@ documented on the [official website][1].
 
 Here is a list of websites built with norska
 
-| [![Pixelastic][15]][14]              | [![D&D Maps][5]][4]                  | [![D&D Monsters][3]][2]  |
-| ------------------------------------ | ------------------------------------ | ------------------------ |
-| [![Painting][17]][16]                | [![Pathfinder Society Search][7]][6] | [![Magic Trick][13]][12] |
-| [![Baldur's Gate Artefacts][11]][10] |                                      |                          |
+| [![Pixelastic][15]][14]  | [![D&D Maps][5]][4]                  |
+| ------------------------ | ------------------------------------ |
+| [![Painting][17]][16]    | [![Pathfinder Society Search][7]][6] |
+| [![D&D Monsters][3]][2]  | [![Baldur's Gate Artefacts][11]][10] |
+| [![Magic Trick][13]][12] |                                      |
 
 [1]: https://projects.pixelastic.com/norska/
 [2]: https://gamemaster.pixelastic.com/monsters/dnd/
