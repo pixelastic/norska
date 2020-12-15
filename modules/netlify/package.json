@@ -5,7 +5,7 @@
     "golgoth": "2.0.0",
     "multimatch": "4.0.0",
     "netlify": "4.9.0",
-    "netlify-cli": "2.69.1",
+    "netlify-cli": "2.69.9",
     "norska-config": "^1.7.0",
     "norska-helper": "^1.6.1"
   },
