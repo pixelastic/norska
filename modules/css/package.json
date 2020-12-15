@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "@tailwindcss/typography": "0.2.0",
-    "autoprefixer": "10.0.4",
+    "autoprefixer": "10.1.0",
     "firost": "2.2.0",
     "golgoth": "2.0.0",
     "hex-rgb": "4.2.0",
