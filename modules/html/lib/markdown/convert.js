@@ -137,7 +137,7 @@ module.exports = {
       .compact()
       .join('')
       .thru(slug)
-      .camelCase()
+      .kebabCase()
       .value();
 
     return `<${tag} id="${id}"><a href="#${id}">`;

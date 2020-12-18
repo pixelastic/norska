@@ -204,15 +204,15 @@ describe('norska-html > markdown > convert', () => {
         ],
         [
           '# Getting Started',
-          '<h1 id="gettingStarted"><a href="#gettingStarted">Getting Started</a></h1>',
+          '<h1 id="getting-started"><a href="#getting-started">Getting Started</a></h1>',
         ],
         [
           '# We ♥ you',
-          '<h1 id="weLoveYou"><a href="#weLoveYou">We ♥ you</a></h1>',
+          '<h1 id="we-love-you"><a href="#we-love-you">We ♥ you</a></h1>',
         ],
         [
           '# `require` **is** _important_',
-          '<h1 id="requireIsImportant"><a href="#requireIsImportant"><code>require</code> <strong>is</strong> <em>important</em></a></h1>',
+          '<h1 id="require-is-important"><a href="#require-is-important"><code>require</code> <strong>is</strong> <em>important</em></a></h1>',
         ],
       ])('%s', (markdownSource, expected) => {
         const actual = current.run(markdownSource);
