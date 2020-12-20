@@ -165,6 +165,10 @@ module.exports = {
           href: 'theme-docs',
         },
         {
+          title: 'Search',
+          href: 'theme-search',
+        },
+        {
           title: 'Infinite Search',
           href: 'theme-search-infinite',
         },
