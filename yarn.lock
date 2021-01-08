@@ -7948,10 +7948,10 @@ firost@2.2.0:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.5.0.tgz#d291bf89e3171734588c3a646c62666d589d88a1"
-  integrity sha512-wvMdWjDmw9EB5QU/59OJNv5F0kIiLWLVqYyTBwwDTZ5d5nle7rRtnWI4y9Qu2fUICVkV35zzLJcJ8CStGIXYhA==
+firost@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.6.1.tgz#138873e3c99dd3dc0ca8d1a04a5a23136237a4d3"
+  integrity sha512-WQN2DyL8f07YVcq/Sqi+gIZea5prqvzS0E8FqTskyJ8zhScGyCcUXLXc2pKcN5gSKgQorK1VuDScErdT+gtM8g==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.0"
@@ -7960,7 +7960,7 @@ firost@2.5.0:
     execa "5.0.0"
     find-up "5.0.0"
     fs-extra "9.0.1"
-    globby "11.0.2"
+    globby "11.0.1"
     golgoth "2.0.0"
     inquirer "7.3.3"
     is-glob "4.0.1"
@@ -8537,18 +8537,6 @@ globby@11.0.1, globby@^11.0.1:
   version "11.0.1"
   resolved "https://registry.npmjs.org/globby/-/globby-11.0.1.tgz#9a2bf107a068f3ffeabc49ad702c79ede8cfd357"
   integrity sha512-iH9RmgwCmUJHi2z5o2l3eTtGBtXek1OYlHrbcxOYugyHLmAsZrPj43OtHThd62Buh/Vv6VyCBD2bdyWcGNQqoQ==
-  dependencies:
-    array-union "^2.1.0"
-    dir-glob "^3.0.1"
-    fast-glob "^3.1.1"
-    ignore "^5.1.4"
-    merge2 "^1.3.0"
-    slash "^3.0.0"
-
-globby@11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/globby/-/globby-11.0.2.tgz#1af538b766a3b540ebfb58a32b2e2d5897321d83"
-  integrity sha512-2ZThXDvvV8fYFRVIxnrMQBipZQDr7MxKAmQK1vujaj9/7eF0efG7BPUKJ7jP7G5SLF37xKDXvO4S/KKLj/Z0og==
   dependencies:
     array-union "^2.1.0"
     dir-glob "^3.0.1"

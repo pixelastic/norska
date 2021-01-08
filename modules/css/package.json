@@ -3,7 +3,7 @@
   "dependencies": {
     "@tailwindcss/typography": "0.2.0",
     "autoprefixer": "10.1.0",
-    "firost": "2.5.0",
+    "firost": "2.6.1",
     "golgoth": "2.0.0",
     "hex-rgb": "4.2.0",
     "norska-config": "^1.7.0",
