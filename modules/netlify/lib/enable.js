@@ -74,7 +74,7 @@ module.exports = {
   },
   /**
    * Returns the name of the scoped token
-   * @returns {string} Name of the scoped token*
+   * @returns {string} Name of the scoped token
    **/
   async scopedTokenName() {
     const siteName = await helper.siteName();

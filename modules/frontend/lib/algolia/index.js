@@ -26,7 +26,7 @@ module.exports = {
   init(userCredentials, options = {}) {
     credentials.init(userCredentials);
     const { appId, apiKey, indexName } = userCredentials;
-    config.options = options;
+    config.options = { ...config.options, ...options };
 
     this.__client = instantsearch({
       indexName,

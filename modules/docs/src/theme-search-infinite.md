@@ -24,19 +24,21 @@ module.exports = {
 };
 ```
 
-You then need to replace the content of your `script.js` with this:
+You'll also need to add a `_data/config.js` file with your Algolia credentials:
 
-```javascript
-const theme = require('norska-theme-search-infinite/src/script.js');
-
-(async () => {
-  await theme.init();
-})();
+```js
+module.exports = {
+  algolia: {
+    appId: 'YOUR_APP_ID',
+    apiKey: 'your_search_only_api_key',
+    indexName: 'your_index_name',
+  },
+};
 ```
-
 ## Options
 
-You can pass an `options` object to the call to `theme.init`.
+You can pass an `options` object to the call to `theme.init` in your `script.js`
+file.
 
 | Key           | Usage                                                        | Default value         |
 | ------------- | ------------------------------------------------------------ | --------------------- |
