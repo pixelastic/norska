@@ -10,6 +10,9 @@ const glob = require('firost/glob');
 const readJson = require('firost/readJson');
 const spinner = require('firost/spinner');
 const writeJson = require('firost/writeJson');
+const prompt = require('firost/prompt');
+const consoleInfo = require('firost/consoleInfo');
+const consoleWarn = require('firost/consoleWarn');
 
 module.exports = {
   /**
@@ -98,7 +101,18 @@ module.exports = {
 
     await writeJson(currentPackage, packagePath);
   },
+  /**
+   * Configure Netlify to deploy this project. Asks for confirmation first
+   **/
   async enableNetlify() {
+    consoleInfo('Configuring Netlify...');
+    try {
+      await prompt('Press Enter to continue, or CTRL-C to skip');
+    } catch (err) {
+      consoleWarn('Skipping Netlify configuration');
+      return;
+    }
+
     await netlify.enable();
   },
   __spinner: spinner,
