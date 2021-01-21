@@ -29,7 +29,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.9.0",
+  "version": "1.10.0",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
