@@ -25,7 +25,7 @@ module.exports = {
       return false;
     }
 
-    await this.setEnvVariables();
+    await this.configureSite();
   },
   /**
    * Link the current repository to a Netlify site
@@ -81,11 +81,13 @@ module.exports = {
     return `NETLIFY_AUTH_TOKEN (${siteName})`;
   },
   /**
-   * Set the required ENV variables on Netlify
-   * NETLIFY_AUTH_TOKEN: Newly generated token to cancel the build
-   * NODE_ENV: Set to prod to not install devDependencies
+   * Configure the Netlify site with the following settings:
+   * - Disable deploy preview
+   * - Set the required ENV variables on Netlify
+   *    - NETLIFY_AUTH_TOKEN: Newly generated token to cancel the build
+   *    - NODE_ENV: Set to prod to not install devDependencies
    **/
-  async setEnvVariables() {
+  async configureSite() {
     const client = helper.apiClient();
     const siteId = await helper.siteId();
 
@@ -107,10 +109,11 @@ module.exports = {
       body: {
         build_settings: {
           env: newVars,
+          skip_prs: true,
         },
       },
     });
-    this.__consoleSuccess('Environment variables saved to Netlify');
+    this.__consoleSuccess('Netlify configured');
   },
   __run: run,
   __consoleInfo: consoleInfo,

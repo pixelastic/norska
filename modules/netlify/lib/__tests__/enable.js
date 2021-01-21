@@ -19,7 +19,7 @@ describe('norska-netlify > enable', () => {
     beforeEach(async () => {
       jest.spyOn(helper, 'hasToken').mockReturnValue();
       jest.spyOn(current, 'linkRepository').mockReturnValue();
-      jest.spyOn(current, 'setEnvVariables').mockReturnValue();
+      jest.spyOn(current, 'configureSite').mockReturnValue();
     });
     it('should fail early if no token', async () => {
       helper.hasToken.mockReturnValue(false);
@@ -32,10 +32,10 @@ describe('norska-netlify > enable', () => {
       await current.run();
       expect(current.linkRepository).toHaveBeenCalled();
     });
-    it('should set the env variables', async () => {
+    it('should configure the website', async () => {
       helper.hasToken.mockReturnValue(true);
       await current.run();
-      expect(current.setEnvVariables).toHaveBeenCalled();
+      expect(current.configureSite).toHaveBeenCalled();
     });
   });
   describe('linkRepository', () => {
