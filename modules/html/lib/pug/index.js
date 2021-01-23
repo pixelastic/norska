@@ -62,7 +62,8 @@ module.exports = {
       },
       {
         pugError: "Cannot read property 'call' of undefined",
-        humanError: 'You seem to be calling a mixin that is not defined',
+        humanError:
+          'You seem to be calling a mixin that is not defined. Add your mixins to {source}/_includes/mixins.pug.',
       },
     ];
 
