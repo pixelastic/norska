@@ -39,20 +39,41 @@ module.exports = {
       };
       result = await this.convert(pugSource, options);
     } catch (err) {
-      let errorMessage = err.toString();
-      const mustBeInBlockError = errorMessage.includes(
-        'Only named blocks and mixins can appear at the top level'
-      );
-      if (mustBeInBlockError) {
-        errorMessage +=
-          "\n\nPotential solution: Your pug content must be defined in a 'block content'";
-      }
+      const errorMessage = this.humanCompilationErrorMessage(err);
       throw firostError('ERROR_PUG_COMPILATION_FAILED', errorMessage);
     }
 
     await write(result, absoluteDestinationPath);
     config.set(['runtime', 'htmlFiles', sourcePath], destinationPath);
     return true;
+  },
+  /**
+   * Returns a human readable error message from a pug compilation error
+   * It will try to match the error to common issues and add helpful information
+   * @param {object} rawError Error as thrown by pug
+   * @returns {string} Readable error message
+   **/
+  humanCompilationErrorMessage(rawError) {
+    const errorMessage = rawError.toString();
+    const knownErrors = [
+      {
+        pugError: 'Only named blocks and mixins can appear at the top level',
+        humanError: "Your pug content must be defined in a 'block content'",
+      },
+      {
+        pugError: "Cannot read property 'call' of undefined",
+        humanError: 'You seem to be calling a mixin that is not defined',
+      },
+    ];
+
+    const humanError = _.chain(knownErrors)
+      .find((error) => {
+        return errorMessage.includes(error.pugError);
+      })
+      .get('humanError')
+      .value();
+
+    return humanError ? `${errorMessage}\n\n${humanError}` : errorMessage;
   },
   /**
    * Convert a pug string into HTML
