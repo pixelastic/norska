@@ -55,7 +55,7 @@ module.exports = {
    * Syntactic sugar to get the root of the theme directory
    * @returns {string} Path to the theme directory
    **/
-  themeRoot() {
+  theme() {
     return path.resolve(this.get('theme'));
   },
   /**
@@ -64,7 +64,7 @@ module.exports = {
    * @returns {string} Absolute path to the file
    **/
   themePath(relativePath = '') {
-    return path.resolve(this.themeRoot(), relativePath);
+    return path.resolve(this.theme(), relativePath);
   },
   /**
    * Returns paths to a file, either from the theme, or from the source

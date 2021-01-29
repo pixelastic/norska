@@ -103,9 +103,9 @@ module.exports = {
     };
     const compiler = await this.getCompiler();
 
-    const themeRoot = config.themeRoot();
+    const themePath = config.theme();
     const regexp = /@import ("|')theme:(?<filepath>.*)("|')/g;
-    const withTheme = cssSource.replace(regexp, `@import "${themeRoot}/$2"`);
+    const withTheme = cssSource.replace(regexp, `@import "${themePath}/$2"`);
 
     try {
       const compilationResult = await compiler(withTheme, {

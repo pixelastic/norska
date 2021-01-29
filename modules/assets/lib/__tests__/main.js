@@ -9,10 +9,13 @@ const waitForWatchers = require('firost/waitForWatchers');
 const write = require('firost/write');
 const remove = require('firost/remove');
 const read = require('firost/read');
+const pMap = require('golgoth/pMap');
+const glob = require('firost/glob');
+const _ = require('golgoth/lodash');
 
 describe('norska-assets', () => {
   describe('globs', () => {
-    it('should prepend the from path to all entries', async () => {
+    it('should find the globs in both source and theme', async () => {
       await config.init({
         from: './tmp/norska-assets/src',
         to: './tmp/norska-assets/dist',
@@ -23,6 +26,8 @@ describe('norska-assets', () => {
       const actual = current.globs();
 
       expect(actual).toEqual([
+        config.themePath('**/*.foo'),
+        config.themePath('**/*.bar'),
         config.fromPath('**/*.foo'),
         config.fromPath('**/*.bar'),
       ]);
@@ -33,31 +38,24 @@ describe('norska-assets', () => {
       await config.init({
         from: './tmp/norska-assets/src',
         to: './tmp/norska-assets/dist',
+        theme: './tmp/norska-assets/theme',
         assets: current.defaultConfig(),
       });
       await emptyDir('./tmp/norska-assets');
     });
-    it('should copy file to root of destination', async () => {
-      const filename = 'favicon.ico';
+    it.each([
+      ['from:/favicon.ico', 'favicon.ico'],
+      ['from:/sub/folder/favicon.ico', 'sub/folder/favicon.ico'],
+      ['theme:/assets/logo.png', 'assets/logo.png'],
+    ])('%s', async (input, expected) => {
+      const sourceFilename = _.chain(input)
+        .replace('from:', config.from())
+        .replace('theme:', config.from())
+        .value();
 
-      const input = config.fromPath(filename);
-      const output = config.toPath(filename);
-      await write('dummy', input);
-      await current.compile(input);
-
-      const actual = await isFile(output);
-      expect(actual).toEqual(true);
-    });
-    it('should copy file to subfolder', async () => {
-      const filename = 'deep/folder/favicon.ico';
-
-      const input = config.fromPath(filename);
-      const output = config.toPath(filename);
-      await write('dummy', input);
-      await current.compile(input);
-
-      const actual = await isFile(output);
-      expect(actual).toEqual(true);
+      await write('dummy content', sourceFilename);
+      await current.compile(sourceFilename);
+      expect(await isFile(config.toPath(expected))).toEqual(true);
     });
   });
   describe('run', () => {
@@ -65,6 +63,7 @@ describe('norska-assets', () => {
       await config.init({
         from: './tmp/norska-assets/src',
         to: './tmp/norska-assets/dist',
+        theme: './tmp/norska-assets/theme',
         assets: current.defaultConfig(),
       });
       await emptyDir('./tmp/norska-assets');
@@ -72,130 +71,76 @@ describe('norska-assets', () => {
         .spyOn(current, '__spinner')
         .mockReturnValue({ text() {}, tick() {}, success() {}, failure() {} });
     });
-    describe('images', () => {
-      it('should copy gif files', async () => {
-        const filepath = 'images/foo.gif';
+    it('should copy only needed files', async () => {
+      const input = {
+        from: [
+          'assets/fonts/verdana.eot',
+          'assets/fonts/verdana.otf',
+          'assets/fonts/verdana.ttf',
+          'assets/fonts/verdana.woff2',
+          'assets/fonts/verdana.woff',
+          'assets/images/funny.gif',
+          'assets/images/icon.svg',
+          'assets/images/picture.png',
+          'awesome/structure/with/keywords/seo.html',
+          'documents/invoice.pdf',
+          'favicon.ico',
+          'favicon.png',
+          'download.part',
+          'index.pug',
+          'robots.txt',
+          '.envrc',
+        ],
+        theme: [
+          'script.js',
+          'style.css',
+          'assets/fonts/amaranth.eot',
+          'assets/fonts/amaranth.svg',
+          'assets/fonts/amaranth.ttf',
+          'assets/fonts/amaranth.woff',
+        ],
+      };
 
-        await write('foo', config.fromPath(filepath));
-        await current.run();
+      const expected = [
+        'assets/fonts/amaranth.eot',
+        'assets/fonts/amaranth.svg',
+        'assets/fonts/amaranth.ttf',
+        'assets/fonts/amaranth.woff',
+        'assets/fonts/verdana.eot',
+        'assets/fonts/verdana.otf',
+        'assets/fonts/verdana.ttf',
+        'assets/fonts/verdana.woff',
+        'assets/fonts/verdana.woff2',
+        'assets/images/funny.gif',
+        'assets/images/icon.svg',
+        'assets/images/picture.png',
+        'awesome/structure/with/keywords/seo.html',
+        'documents/invoice.pdf',
+        'favicon.ico',
+        'favicon.png',
+        'robots.txt',
+      ];
 
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
+      // Write all files in source directories
+      await pMap(input.from, async (filepath) => {
+        await write('dummy content', config.fromPath(filepath));
       });
-      it('should copy jpg files', async () => {
-        const filepath = 'images/foo.jpg';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
+      await pMap(input.theme, async (filepath) => {
+        await write('dummy content', config.themePath(filepath));
       });
-      it('should copy png files', async () => {
-        const filepath = 'images/foo.png';
 
-        await write('foo', config.fromPath(filepath));
-        await current.run();
+      await current.run();
 
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy svg files', async () => {
-        const filepath = 'images/foo.svg';
+      // Get list of files in output directory
+      const actual = _.chain(
+        await glob(config.toPath('**/*'), { directories: false })
+      )
+        .map((filepath) => {
+          return _.replace(filepath, `${config.to()}/`, '');
+        })
+        .value();
 
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy ico files', async () => {
-        const filepath = 'images/foo.ico';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-    });
-    describe('fonts', () => {
-      it('should copy eot files', async () => {
-        const filepath = 'fonts/foo.eot';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy otf files', async () => {
-        const filepath = 'fonts/foo.otf';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy ttf files', async () => {
-        const filepath = 'fonts/foo.ttf';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy woff files', async () => {
-        const filepath = 'fonts/foo.woff';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-    });
-    describe('documents', () => {
-      it('should copy pdf files', async () => {
-        const filepath = 'documents/foo.pdf';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-    });
-    describe('misc', () => {
-      it('should not copy unknown files', async () => {
-        const filepath = 'foo.weird';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(false);
-      });
-      it('should copy html files', async () => {
-        const filepath = 'index.html';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
-      it('should copy txt files', async () => {
-        const filepath = 'robots.txt';
-
-        await write('foo', config.fromPath(filepath));
-        await current.run();
-
-        const actual = await isFile(config.toPath(filepath));
-        expect(actual).toEqual(true);
-      });
+      expect(actual).toEqual(expected);
     });
     describe('spinner', () => {
       it('should contain the total number of files', async () => {

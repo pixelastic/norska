@@ -13,7 +13,7 @@ describe('norska-data', () => {
       root: tmpDirectory,
     });
     jest
-      .spyOn(config, 'themeRoot')
+      .spyOn(config, 'theme')
       .mockReturnValue(path.resolve(tmpDirectory, 'theme'));
     await emptyDir(config.root());
     current.__cache = {};

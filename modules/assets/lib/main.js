@@ -19,29 +19,35 @@ module.exports = {
     return defaultConfig;
   },
   /**
-   * Copy a static file from source to destination, keeping the same directory
-   * structure
-   * @param {string} inputFile Relative path to the source file
+   * Copy a static file from source (or theme) to destination, keeping the same
+   * directory structure
+   * @param {string} inputFile Absolute path to the source file
    * */
   async compile(inputFile) {
-    const source = config.fromPath(inputFile);
-    const relativePath = path.relative(config.from(), source);
-    const destination = config.toPath(relativePath);
+    const sourcePath = config.from();
+    const themePath = config.theme();
+    const isFromTheme = _.startsWith(inputFile, themePath);
 
-    await copy(source, destination);
+    const pathPrefix = isFromTheme ? themePath : sourcePath;
+    const relativePath = path.relative(pathPrefix, inputFile);
+    const outputFile = config.toPath(relativePath);
+
+    await copy(inputFile, outputFile);
   },
   /**
-   * Returns a list of all absolute globs to copy
+   * Returns a list of all absolute globs to copy, both from the source and the
+   * theme
    * @returns {Array} List of all absolute glob patterns
    **/
   globs() {
-    return _.map(config.get('assets.files'), (filepath) => {
-      return config.fromPath(filepath);
-    });
+    const configAssetFiles = config.get('assets.files');
+    const sourceGlobs = _.map(configAssetFiles, config.fromPath.bind(config));
+    const themeGlobs = _.map(configAssetFiles, config.themePath.bind(config));
+    return [...themeGlobs, ...sourceGlobs];
   },
   /**
-   * Copy static assets from source to destination, keeping same directory
-   * structure but not performing any transformation
+   * Copy static assets from source and theme to destination, keeping same
+   * directory structure but not performing any transformation
    **/
   async run() {
     const inputFiles = await glob(this.globs());
