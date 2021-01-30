@@ -6,13 +6,12 @@ For convenience, several postCSS plugins are automatically added.
 
 ### Tailwind CSS
 
-This might be the most important plugin of all.
-[Tailwind][1] is an incredible utility-first framework
-that allows very quick designing in the browser.
+This might be the most important plugin of all.  [Tailwind][1] is an incredible
+utility-first framework that allows very quick designing in the browser.
 
 `norska` comes bundled with it, and extends it with [its own custom
-config][2].You can also edit the `tailwind.config.js` file to add your
-own configuration on top of it.
+config][2].You can also edit the `tailwind.config.js` file to add your own
+configuration on top of it.
 
 Most of the time, you won't need to edit any CSS files as you'll be able to
 style things directly from the HTML. But in the rare cases you'll need it, you

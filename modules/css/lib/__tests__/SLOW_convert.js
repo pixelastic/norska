@@ -6,7 +6,7 @@ const write = require('firost/write');
 // Tests should fail if build takes longer than this time
 const MAX_ALLOWED_BUILD_TIME = 8000;
 
-describe('norska-css > convert [slow]', () => {
+describe.slow('norska-css > convert [slow]', () => {
   const tmpDirectory = './tmp/norska-css/convert';
   const themeDirectory = './tmp/norska-css/convert/theme';
   beforeEach(async () => {
@@ -35,11 +35,11 @@ describe('norska-css > convert [slow]', () => {
         );
         await write(
           '.import-theme { color: green; }',
-          config.themePath('theme.css')
+          config.themeFromPath('_styles/theme.css')
         );
         await write(
           '.import-theme-single-quotes { color: green; }',
-          config.themePath('theme-single-quotes.css')
+          config.themeFromPath('_styles/theme-single-quotes.css')
         );
         await write(
           '.recursive { color: green; }',
@@ -67,8 +67,8 @@ describe('norska-css > convert [slow]', () => {
           @import "include.css";
           @import 'include-single-quotes.css';
           @import "_styles/include.css";
-          @import "theme:theme.css";
-          @import "theme:theme-single-quotes.css";
+          @import "theme:_styles/theme.css";
+          @import "theme:_styles/theme-single-quotes.css";
           @import "recursive-up.css";
 
           @tailwind utilities;

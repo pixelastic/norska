@@ -3,6 +3,7 @@
   "description": "Default norska theme",
   "files": [
     "main.js",
+    "tailwind.config.js",
     "src/"
   ],
   "homepage": "https://github.com/pixelastic/norska/",

@@ -11,10 +11,8 @@ describe('norska-data', () => {
   beforeEach(async () => {
     await config.init({
       root: tmpDirectory,
+      theme: path.resolve(tmpDirectory, 'theme')
     });
-    jest
-      .spyOn(config, 'theme')
-      .mockReturnValue(path.resolve(tmpDirectory, 'theme'));
     await emptyDir(config.root());
     current.__cache = {};
   });
@@ -32,7 +30,7 @@ describe('norska-data', () => {
       expect(actual).toEqual(true);
     });
   });
-  describe('getAll', () => {
+ describe('getAll', () => {
     it('should return the current cache', async () => {
       current.__cache = { foo: 'bar' };
 
@@ -123,7 +121,7 @@ describe('norska-data', () => {
     ])('[%s] %s => %s', async (type, input, expected) => {
       const typeHash = {
         project: config.fromPath.bind(config),
-        theme: config.themePath.bind(config),
+        theme: config.themeFromPath.bind(config),
       };
 
       const actual = current.key(typeHash[type](input));
@@ -149,7 +147,10 @@ describe('norska-data', () => {
   });
   describe('from a file in the theme', () => {
     it('should read from theme if available', async () => {
-      await writeJson({ name: 'docs' }, config.themePath('_data/theme.json'));
+      await writeJson(
+        { name: 'docs' },
+        config.themeFromPath('_data/theme.json')
+      );
 
       await current.updateCache();
       const actual = current.getAll();
@@ -158,7 +159,10 @@ describe('norska-data', () => {
     });
 
     it('should prefer project file if one has the same name', async () => {
-      await writeJson({ name: 'docs' }, config.themePath('_data/theme.json'));
+      await writeJson(
+        { name: 'docs' },
+        config.themeFromPath('_data/theme.json')
+      );
       await writeJson({ name: 'project' }, config.fromPath('_data/theme.json'));
 
       await current.updateCache();

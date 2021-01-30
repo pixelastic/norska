@@ -78,7 +78,7 @@ module.exports = {
     // Reload everything whenever the data in _data is changed
     const dataPatterns = [
       config.fromPath('_data/**/*.{js,json}'),
-      config.themePath('_data/**/*.{js,json}'),
+      config.themeFromPath('_data/**/*.{js,json}'),
     ];
     await watch(dataPatterns, async () => {
       await norskaData.updateCache();
@@ -88,7 +88,7 @@ module.exports = {
     // Rebuild everything whenever an included file changes
     const includePatterns = [
       config.fromPath('_includes/**/*'),
-      config.themePath('_includes/**/*'),
+      config.themeFromPath('_includes/**/*'),
     ];
     await watch(includePatterns, async () => {
       await this.run();

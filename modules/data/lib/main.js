@@ -43,7 +43,7 @@ module.exports = {
     });
 
     // Add theme values if not yet set
-    const themeFiles = await glob(config.themePath('_data/**/*.{js,json}'));
+    const themeFiles = await glob(config.themeFromPath('_data/**/*.{js,json}'));
     await pMap(themeFiles, async (filepath) => {
       const key = await this.key(filepath);
       if (_.has(this.__cache, key)) {
@@ -81,7 +81,7 @@ module.exports = {
    **/
   async readJs(filepath) {
     const content = await this.__require(filepath, { forceReload: true });
-    const configAllowlist = ['fromPath', 'toPath', 'themePath', 'rootPath'];
+    const configAllowlist = ['rootPath', 'fromPath', 'toPath', 'themeRootPath','themeFromPath'];
     const dataConfig = _.transform(
       configAllowlist,
       (result, methodName) => {

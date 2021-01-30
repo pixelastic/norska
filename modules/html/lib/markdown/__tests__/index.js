@@ -16,7 +16,7 @@ describe('norska-html > markdown > index', () => {
         .default
           block content
     `,
-      config.themePath('_includes/layouts/default.pug')
+      config.themeFromPath('_includes/layouts/default.pug')
     );
     config.set('runtime.productionUrl', 'http://here.com');
   });

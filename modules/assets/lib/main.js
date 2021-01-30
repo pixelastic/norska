@@ -24,11 +24,11 @@ module.exports = {
    * @param {string} inputFile Absolute path to the source file
    * */
   async compile(inputFile) {
-    const sourcePath = config.from();
-    const themePath = config.theme();
-    const isFromTheme = _.startsWith(inputFile, themePath);
+    const fromPath = config.from();
+    const themeFromPath = config.themeFrom();
+    const isFromTheme = _.startsWith(inputFile, themeFromPath);
 
-    const pathPrefix = isFromTheme ? themePath : sourcePath;
+    const pathPrefix = isFromTheme ? themeFromPath : fromPath;
     const relativePath = path.relative(pathPrefix, inputFile);
     const outputFile = config.toPath(relativePath);
 
@@ -42,7 +42,10 @@ module.exports = {
   globs() {
     const configAssetFiles = config.get('assets.files');
     const sourceGlobs = _.map(configAssetFiles, config.fromPath.bind(config));
-    const themeGlobs = _.map(configAssetFiles, config.themePath.bind(config));
+    const themeGlobs = _.map(
+      configAssetFiles,
+      config.themeFromPath.bind(config)
+    );
     return [...themeGlobs, ...sourceGlobs];
   },
   /**

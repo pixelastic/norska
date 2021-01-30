@@ -10,7 +10,7 @@ describe('norska-html > pug', () => {
   beforeEach(async () => {
     await config.init({
       root: tmpDirectory,
-      theme: `${tmpDirectory}/node_modules/norska-theme-something/src`,
+      theme: `${tmpDirectory}/node_modules/norska-theme-something`,
     });
     // Default layout in theme
     await write(
@@ -18,7 +18,7 @@ describe('norska-html > pug', () => {
         .default
           block content
     `,
-      config.themePath('_includes/layouts/default.pug')
+      config.themeFromPath('_includes/layouts/default.pug')
     );
     await current.init();
   });
@@ -85,7 +85,7 @@ describe('norska-html > pug', () => {
           .docs
             block content
       `,
-        config.themePath('_includes/layouts/docs.pug')
+        config.themeFromPath('_includes/layouts/docs.pug')
       );
       // Custom mixins in project
       await write(

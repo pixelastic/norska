@@ -26,3 +26,17 @@ global.tailwindPluginClasses = (relativePluginPath) => {
   plugin.plugin.method()({ addUtilities, theme });
   return addUtilities.mock.calls[0][0];
 };
+
+// We do not run tests marked as "slow" by default, unless NORSKA_RUN_SLOW_TESTS
+// is set:
+// - when running yarn run test:slow
+// - when running tests through lint staged
+
+const shouldRunSlowTests = process.env.NORSKA_RUN_SLOW_TESTS;
+
+global.describe.slow = shouldRunSlowTests
+  ? global.describe
+  : global.describe.skip;
+global.it.slow = shouldRunSlowTests
+  ? global.it
+  : global.it.skip;

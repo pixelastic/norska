@@ -25,6 +25,7 @@
   "files": [
     "lib/*.js",
     "bin/",
+    "tailwind.config.js",
     "frontend/",
     "theme/"
   ],

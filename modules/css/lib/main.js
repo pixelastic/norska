@@ -103,9 +103,12 @@ module.exports = {
     };
     const compiler = await this.getCompiler();
 
-    const themePath = config.theme();
+    const themeSourcePath = config.themeFrom();
     const regexp = /@import ("|')theme:(?<filepath>.*)("|')/g;
-    const withTheme = cssSource.replace(regexp, `@import "${themePath}/$2"`);
+    const withTheme = cssSource.replace(
+      regexp,
+      `@import "${themeSourcePath}/$2"`
+    );
 
     try {
       const compilationResult = await compiler(withTheme, {
@@ -150,7 +153,7 @@ module.exports = {
     const watchPatterns = [
       entrypoint,
       `${config.from()}/_styles/**/*.css`, // Included files
-      config.themePath('**/*.css'), // Theme files
+      config.themeFromPath('**/*.css'), // Theme files
       config.rootPath('tailwind.config.js'), // Tailwind config
     ];
 

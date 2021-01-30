@@ -33,8 +33,8 @@ describe('norska-html > watch', () => {
     await write(uuid(), config.fromPath(filepath));
     await waitForWatchers();
   };
-  const writeTemplateFile = async (filepath) => {
-    await write(uuid(), config.themePath(filepath));
+  const writeThemeFile = async (filepath) => {
+    await write(uuid(), config.themeFromPath(filepath));
     await waitForWatchers();
   };
   // Execute code while watching and stops after watchers have finished
@@ -70,10 +70,10 @@ describe('norska-html > watch', () => {
       await writeFile('_data/projects.js');
       await writeFile('_data/users.json');
       await writeFile('_data/blog/tags.json');
-      await writeTemplateFile('_data/themeMethods.js');
+      await writeThemeFile('_data/themeMethods.js');
 
       await writeFile('_includes/templates/hit.pug');
-      await writeTemplateFile('_includes/layouts/default.pug');
+      await writeThemeFile('_includes/layouts/default.pug');
 
       config.set('runtime.jsFiles', ['new files']);
     });

@@ -341,7 +341,7 @@ describe('norska-config', () => {
     beforeEach(async () => {
       const themePath = path.resolve(
         tmpDirectory,
-        'node_modules/norska-theme-default/src'
+        'node_modules/norska-theme-default'
       );
       await current.init({
         root: tmpDirectory,
@@ -389,14 +389,14 @@ describe('norska-config', () => {
       ],
     ])('%s', async (_name, files, input, expectedType) => {
       if (files.theme) {
-        await write('', path.resolve(current.get('theme'), files.theme));
+        await write('', current.themeFromPath(files.theme));
       }
       if (files.project) {
         await write('', current.fromPath(files.project));
       }
       const actual = await current.findFile(input);
       const expectedHash = {
-        theme: current.themePath.bind(current),
+        theme: current.themeFromPath.bind(current),
         project: current.fromPath.bind(current),
         false: () => {
           return false;

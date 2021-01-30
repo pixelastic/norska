@@ -7,7 +7,7 @@ const waitForWatchers = require('firost/waitForWatchers');
 const uuid = require('firost/uuid');
 const unwatchAll = require('firost/unwatchAll');
 
-describe('norska-css', () => {
+describe.slow('norska-css', () => {
   const tmpDirectory = './tmp/norska-css/watch';
   beforeEach(async () => {
     await config.init({
@@ -33,8 +33,8 @@ describe('norska-css', () => {
       await write(uuid(), config.rootPath(filepath));
       await waitForWatchers();
     };
-    const writeTemplateFile = async (filepath) => {
-      await write(uuid(), config.themePath(filepath));
+    const writeThemeFile = async (filepath) => {
+      await write(uuid(), config.themeFromPath(filepath));
       await waitForWatchers();
     };
     const whileWatching = async (callback) => {
@@ -48,8 +48,8 @@ describe('norska-css', () => {
         await writeFile('src/_styles/fonts.css');
         await writeFile('tailwind.config.js');
 
-        await writeTemplateFile('style.css');
-        await writeTemplateFile('_includes/theme/fonts.css');
+        await writeThemeFile('style.css');
+        await writeThemeFile('_includes/theme/fonts.css');
       });
 
       expect(current.compile).toHaveBeenCalledTimes(5);

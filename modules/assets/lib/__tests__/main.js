@@ -26,8 +26,8 @@ describe('norska-assets', () => {
       const actual = current.globs();
 
       expect(actual).toEqual([
-        config.themePath('**/*.foo'),
-        config.themePath('**/*.bar'),
+        config.themeFromPath('**/*.foo'),
+        config.themeFromPath('**/*.bar'),
         config.fromPath('**/*.foo'),
         config.fromPath('**/*.bar'),
       ]);
@@ -50,7 +50,7 @@ describe('norska-assets', () => {
     ])('%s', async (input, expected) => {
       const sourceFilename = _.chain(input)
         .replace('from:', config.from())
-        .replace('theme:', config.from())
+        .replace('theme:', config.themeFrom())
         .value();
 
       await write('dummy content', sourceFilename);
@@ -126,7 +126,7 @@ describe('norska-assets', () => {
         await write('dummy content', config.fromPath(filepath));
       });
       await pMap(input.theme, async (filepath) => {
-        await write('dummy content', config.themePath(filepath));
+        await write('dummy content', config.themeFromPath(filepath));
       });
 
       await current.run();

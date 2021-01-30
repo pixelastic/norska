@@ -30,6 +30,7 @@
     "release": "node ./scripts/meta/release.js",
     "percy": "percy exec -- node ./scripts/meta/percy.js",
     "test": "./scripts/meta/test",
+    "test:slow": "./scripts/meta/test-slow",
     "test:watch": "./scripts/meta/test-watch",
     "update-dependencies": "node ./scripts/meta/update-dependencies",
     "build": "./scripts/docs/build",

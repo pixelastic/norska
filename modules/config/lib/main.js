@@ -55,20 +55,35 @@ module.exports = {
    * Syntactic sugar to get the root of the theme directory
    * @returns {string} Path to the theme directory
    **/
-  theme() {
+  themeRoot() {
     return path.resolve(this.get('theme'));
   },
   /**
    * Return an absolute path to a file in the theme directory
-   * @param {string} relativePath Relative path from the source directory
+   * @param {string} relativePath Relative path from the theme root directory
    * @returns {string} Absolute path to the file
    **/
-  themePath(relativePath = '') {
-    return path.resolve(this.theme(), relativePath);
+  themeRootPath(relativePath = '') {
+    return path.resolve(this.themeRoot(), relativePath);
   },
   /**
-   * Returns paths to a file, either from the theme, or from the source
-   * directory
+   * Syntactic sugar to get the source folder of the theme directory
+   * @returns {string} Path to the source folder of the theme
+   **/
+  themeFrom() {
+    return this.themeRootPath('src');
+  },
+  /**
+   * Return an absolute path to a file in the source folder of the theme
+   * @param {string} relativePath Relative path from the source folder of the theme
+   * @returns {string} Absolute path to the file
+   **/
+  themeFromPath(relativePath = '') {
+    return path.resolve(this.themeFrom(), relativePath);
+  },
+  /**
+   * Returns paths to a file either from the source directory or the theme
+   * source directory
    * @param {string} relativePath Relative path from the source directory
    * @returns {string|boolean} Full path to the file, or false if not found
    */
@@ -78,9 +93,9 @@ module.exports = {
       return fromPath;
     }
 
-    const themePath = this.themePath(relativePath);
-    if (await exists(themePath)) {
-      return themePath;
+    const themeFromPath = this.themeFromPath(relativePath);
+    if (await exists(themeFromPath)) {
+      return themeFromPath;
     }
 
     return false;
