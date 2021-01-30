@@ -72,6 +72,7 @@ const release = {
     try {
       consoleInfo('Running tests');
       await this.runFromRoot('yarn run test');
+      await this.runFromRoot('yarn run test:slow');
     } catch (err) {
       consoleError('Tests failed, exiting');
       exit(1);
