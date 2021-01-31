@@ -172,7 +172,8 @@ module.exports = {
     });
   },
   async getTailwindConfig() {
-    // First check in the host
+    // Use Tailwind config from host, but if not found, default to the builtin
+    // one
     const configFromHost = config.rootPath('tailwind.config.js');
     const tailwindConfig = (await exists(configFromHost))
       ? require(configFromHost)

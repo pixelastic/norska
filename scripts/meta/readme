@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -e
+
+aberlaas readme \
+  --lib=./modules/lib \
+  --docs=./modules/docs/src

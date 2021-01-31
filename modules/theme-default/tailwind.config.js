@@ -1,4 +1,3 @@
 /* eslint-disable */
-const config = require('norska/tailwind.config.js');
+const config = require('norska-css/lib/tailwind');
 module.exports = config;
-

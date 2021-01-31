@@ -7,7 +7,7 @@ let resolve = {};
 if (config.initialized) {
   resolve = {
     alias: {
-      norskaTheme: config.theme(),
+      norskaTheme: config.themeRoot(),
     },
   };
 }

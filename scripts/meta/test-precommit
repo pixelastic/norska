@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+set -e
+
+NORSKA_RUN_SLOW_TESTS=1 \
+  aberlaas test \
+    --failFast \
+    --findRelatedTests \
+    "$@"
