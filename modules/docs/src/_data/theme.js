@@ -181,6 +181,10 @@ module.exports = {
           title: 'Monorepo',
           href: 'monorepo',
         },
+        {
+          title: 'Development',
+          href: 'development',
+        },
       ],
     },
   ],

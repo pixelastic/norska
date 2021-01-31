@@ -1,3 +1,12 @@
+<!--
+  This page was automatically generated.
+  DO NOT EDIT IT MANUALLY.
+  Instead, update .github/README.template.md
+  and run aberlaas readme
+-->
+
+# norska
+
 Norska is a static website generator. It takes source files (pug, markdown, css
 and JavaScript) and compile them into static files. The resulting directory can
 then be served by services like Netlify.
@@ -13,8 +22,7 @@ websites.
 
 ## Quick install
 
-Start by adding Norska as part of your dev dependencies with `yarn add --dev
-norska`. Then scaffold your project with `yarn run init`. Norska will create
+Start by adding Norska as part of your dev dependencies with `yarn add --dev norska`. Then scaffold your project with `yarn run init`. Norska will create
 a bunch of files for you, so now would be a good time to commit.
 
 You can then run `yarn run serve` to serve local version of your website. Start
@@ -27,10 +35,11 @@ documented on the [official website][1].
 
 Here is a list of websites built with norska
 
-| [![Pixelastic][15]][14]              | [![D&D Maps][5]][4]                  | [![D&D Monsters][3]][2]  |
-| ------------------------------------ | ------------------------------------ | ------------------------ |
-| [![Painting][17]][16]                | [![Pathfinder Society Search][7]][6] | [![Magic Trick][13]][12] |
-| [![Baldur's Gate Artefacts][11]][10] | [![NPC Avatars][9]][8]               |                          |
+| [![Pixelastic][15]][14]  | [![D&D Maps][5]][4]                  |
+| ------------------------ | ------------------------------------ |
+| [![Painting][17]][16]    | [![Pathfinder Society Search][7]][6] |
+| [![D&D Monsters][3]][2]  | [![Baldur's Gate Artefacts][11]][10] |
+| [![Magic Trick][13]][12] |                                      |
 
 [1]: https://projects.pixelastic.com/norska/
 [2]: https://gamemaster.pixelastic.com/monsters/dnd/
@@ -39,8 +48,6 @@ Here is a list of websites built with norska
 [5]: https://images.weserv.nl/?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fgamemaster.pixelastic.com%252Fmaps%252F%26waitForTimeout%3D5000&af&il&w=300
 [6]: https://gamemaster.pixelastic.com/society/
 [7]: https://images.weserv.nl/?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fgamemaster.pixelastic.com%252Fsociety%252F%26waitForTimeout%3D5000&af&il&w=300
-[8]: https://gamemaster.pixelastic.com/npcs/
-[9]: https://images.weserv.nl/?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fgamemaster.pixelastic.com%252Fnpcs%252F%26waitForTimeout%3D5000&af&il&w=300
 [10]: https://gamemaster.pixelastic.com/artefacts/
 [11]: https://res.cloudinary.com/pixelastic-artefacts/image/fetch/f_auto,w_300/https://api.microlink.io/%3Fembed=screenshot.url&meta=false&screenshot=true&url=https%3A%2F%2Fgamemaster.pixelastic.com%2Fartefacts&waitForTimeout=5000
 [12]: https://projects.pixelastic.com/magic/
@@ -49,3 +56,7 @@ Here is a list of websites built with norska
 [15]: https://images.weserv.nl/?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fpixelastic.com%252F%26waitForTimeout%3D5000&af&il&w=300
 [16]: https://painting.pixelastic.com/
 [17]: https://images.weserv.nl?url=https%3A%2F%2Fapi.microlink.io%2F%3Fembed%3Dscreenshot.url%26meta%3Dfalse%26screenshot%3Dtrue%26url%3Dhttps%253A%252F%252Fpainting.pixelastic.com%26waitForTimeout%3D5000&af&il&w=300
+
+## Documentation
+
+The complete documentation can be found on https://projects.pixelastic.com/norska/
