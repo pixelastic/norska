@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 set -e
 
 NORSKA_RUN_SLOW_TESTS=1 \
