@@ -11,7 +11,7 @@ describe('norska-data', () => {
   beforeEach(async () => {
     await config.init({
       root: tmpDirectory,
-      theme: path.resolve(tmpDirectory, 'theme')
+      theme: path.resolve(tmpDirectory, 'theme'),
     });
     await emptyDir(config.root());
     current.__cache = {};
@@ -30,7 +30,7 @@ describe('norska-data', () => {
       expect(actual).toEqual(true);
     });
   });
- describe('getAll', () => {
+  describe('getAll', () => {
     it('should return the current cache', async () => {
       current.__cache = { foo: 'bar' };
 

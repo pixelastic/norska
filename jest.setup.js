@@ -37,6 +37,4 @@ const shouldRunSlowTests = process.env.NORSKA_RUN_SLOW_TESTS;
 global.describe.slow = shouldRunSlowTests
   ? global.describe
   : global.describe.skip;
-global.it.slow = shouldRunSlowTests
-  ? global.it
-  : global.it.skip;
+global.it.slow = shouldRunSlowTests ? global.it : global.it.skip;

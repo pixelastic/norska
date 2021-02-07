@@ -81,7 +81,13 @@ module.exports = {
    **/
   async readJs(filepath) {
     const content = await this.__require(filepath, { forceReload: true });
-    const configAllowlist = ['rootPath', 'fromPath', 'toPath', 'themeRootPath','themeFromPath'];
+    const configAllowlist = [
+      'rootPath',
+      'fromPath',
+      'toPath',
+      'themeRootPath',
+      'themeFromPath',
+    ];
     const dataConfig = _.transform(
       configAllowlist,
       (result, methodName) => {
