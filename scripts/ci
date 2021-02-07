@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 set -e
 
-aberlaas ci "$@"
+NORSKA_RUN_SLOW_TESTS=1 \
+  aberlaas ci "$@"
