@@ -1,6 +1,5 @@
 /**
- * Use tachyon-inspired classes for handling flexboxes, instead of the default
- * ones
+ * Adding missing flex box helpers from Tailwind
  * @param {Array} variants Tailwind potential variants
  * @returns {Function} Plugin function
  **/

@@ -140,6 +140,10 @@ module.exports = {
           href: 'tailwind/grid',
         },
         {
+          title: 'Flexbox',
+          href: 'tailwind/flexbox',
+        },
+        {
           title: 'Bullets',
           href: 'tailwind/bullets',
         },
