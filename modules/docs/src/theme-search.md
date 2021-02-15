@@ -124,9 +124,11 @@ keys.
 The theme will look for specific template files in your `_includes/templates`
 folder, and use them instead of its default implementation.
 
-| Filepath                          | Usage                                                            |
-| --------------------------------- | ---------------------------------------------------------------- |
-| `_includes/templates/hit.pug`     | Each hit returned by Algolia.                                    |
+| Filepath                        | Usage                                         |
+| ------------------------------- | --------------------------------------------- |
+| `_includes/templates/hit.pug`   | Each hit returned by Algolia.                 |
+| `_includes/templates/empty.pug` | Page to display when no results are matching. |
+| `_includes/templates/logo.pug`  | Logo in the top left corner of the header.    |
 
 Also note that the content of the layout will be added after the pagination.
 
@@ -194,4 +196,5 @@ body {
 ```
 
 [1]: https://gamemaster.pixelastic.com/monsters/dnd/
+
 [2]: https://gamemaster.pixelastic.com/society/
