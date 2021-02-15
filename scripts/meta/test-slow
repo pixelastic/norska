@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -e
+shopt -s nullglob
+shopt -s globstar
 
 slowTests=(./modules/*/lib/**/__tests__/SLOW_*.js)
 

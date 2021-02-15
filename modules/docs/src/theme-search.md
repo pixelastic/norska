@@ -196,5 +196,4 @@ body {
 ```
 
 [1]: https://gamemaster.pixelastic.com/monsters/dnd/
-
 [2]: https://gamemaster.pixelastic.com/society/
