@@ -175,9 +175,10 @@ module.exports = {
     // Use Tailwind config from host, but if not found, default to the builtin
     // one
     const configFromHost = config.rootPath('tailwind.config.js');
-    const tailwindConfig = (await exists(configFromHost))
-      ? require(configFromHost)
-      : require('./tailwind/index.js');
+    const tailwindConfigPath = (await exists(configFromHost))
+      ? configFromHost
+      : './tailwind/index.js';
+    const tailwindConfig = require(tailwindConfigPath);
 
     _.set(tailwindConfig, 'purge.enabled', helper.isProduction());
     return tailwindConfig;
