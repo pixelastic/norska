@@ -35,5 +35,5 @@
     "test:manual": "../../scripts/css/test-manual",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.12.0"
+  "version": "1.13.0"
 }
