@@ -11,8 +11,9 @@ const minimist = require('minimist');
 const release = {
   setArgs(args) {
     const skipPercy = args.percy === false;
+    const skipTests = args.tests === false;
     const version = args._[0];
-    this.args = { skipPercy, version };
+    this.args = { skipPercy, skipTests, version };
   },
   async run(args) {
     this.setArgs(args);
@@ -21,7 +22,9 @@ const release = {
       await this.waitForPercy();
     }
 
-    await this.runTests();
+    if (!this.args.skipTests) {
+      await this.runTests();
+    }
     await this.release();
   },
 
