@@ -60,7 +60,7 @@ const config = require('./_scripts/config.js');
 })();
 ```
 
-### Load it during statisc generation
+### Load it during static generation
 
 Add a `_data/theme.js` file with the following content:
 
@@ -114,6 +114,7 @@ keys.
 | Key                | Usage                                                          | Default value         |
 | ------------------ | -------------------------------------------------------------- | --------------------- |
 | `credentials`      | `appId`, `apiKey` and `indexName` credentials to query Algolia | `{}`                  |
+| `hitName`          | Name of the items to search, used in the `XXX items found`     | `item`                |
 | `placeholder`      | Text displayed in the searchbar when query is empty            | `Search for anything` |
 | `searchParamaters` | Optional `searchParameters` to pass                            | `{}`                  |
 | `transforms`       | Object of transforms to apply to each hit                      | `{}`                  |
