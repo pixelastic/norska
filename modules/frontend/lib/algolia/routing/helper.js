@@ -1,5 +1,6 @@
 const credentials = require('../credentials.js');
 const config = require('../config.js');
+const { get } = require('lodash-es');
 module.exports = {
   metaKeys: ['page', 'query'],
   indexKeys: ['sortBy', 'index'],
@@ -133,7 +134,7 @@ module.exports = {
    * @returns {*} Config value
    **/
   configValue(key) {
-    return config.options[key];
+    return get(config.options, key);
   },
   /**
    * Return the current url

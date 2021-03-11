@@ -1,6 +1,6 @@
 const algolia = require('algoliasearch/lite');
 const instantsearch = require('instantsearch.js/cjs').default;
-const router = require('./router');
+const routing = require('./routing');
 const credentials = require('./credentials');
 const transformHits = require('./transformHits');
 const { filter } = require('lodash-es');
@@ -26,14 +26,15 @@ module.exports = {
   init(userCredentials, options = {}) {
     credentials.init(userCredentials);
     const { appId, apiKey, indexName } = userCredentials;
-    config.options = { ...config.options, ...options };
+    config.options = {
+      ...config.options,
+      ...options,
+    };
 
     this.__client = instantsearch({
       indexName,
       searchClient: algolia(appId, apiKey),
-      routing: {
-        router: instantsearch.routers.history(router),
-      },
+      routing,
       searchFunction: (helper) => {
         return this.searchFunction(helper);
       },

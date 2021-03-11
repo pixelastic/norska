@@ -11,7 +11,7 @@
   "files": [
     "lib/*.js",
     "lib/algolia/*.js",
-    "lib/algolia/router/*.js",
+    "lib/algolia/routing/*.js",
     "lib/lazyload/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",

@@ -1,4 +1,4 @@
-const current = require('../index.js');
+const current = require('../router.js');
 const helper = require('../helper.js');
 const credentials = require('../../credentials.js');
 
