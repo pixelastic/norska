@@ -85,6 +85,7 @@ module.exports = {
   widgets: [
     {
       title: 'Author',
+      defaultValue: ['Tim Carry'],
       options: {
         attribute: 'author',
       },
@@ -92,6 +93,9 @@ module.exports = {
     {
       title: 'Price',
       type: 'rangeSlider',
+      hidden(data) {
+        return data.meta.layout === 'no-price';
+      },
       options: {
         attribute: 'price',
       },
@@ -100,11 +104,13 @@ module.exports = {
 };
 ```
 
-| Key       | Usage                                                                  | Default value    |
-| --------- | ---------------------------------------------------------------------- | ---------------- |
-| `title`   | Title displayed in the sidebar                                         | N/A              |
-| `type`    | Type of the widget. Can be passed either as a string, or a real widget | `refinementList` |
-| `options` | Widget options to be passed to the widget                              | `{}`             |
+| Key            | Usage                                                                                                                                                                        | Default value    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `title`        | Title displayed in the sidebar                                                                                                                                               | N/A              |
+| `type`         | Type of the widget. Can be passed either as a string, or a real widget                                                                                                       | `refinementList` |
+| `options`      | Widget options to be passed to the widget                                                                                                                                    | `{}`             |
+| `defaultValue` | Value(s) to be pre-filled on initial page load                                                                                                                               | N/A              |
+| `hidden`       | If this method returns `true`, then the widget will not be added to the page. The method is called with the current `data` object used for rendering as its unique argument? | N/A              |
 
 ## Options
 
