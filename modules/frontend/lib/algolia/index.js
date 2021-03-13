@@ -60,7 +60,7 @@ module.exports = {
    * Define the list of widgets to use
    * @param {Array} widgets List of widgets
    * @returns {object} Algolia instance, for chaining
-   **/
+   */
   setWidgets(widgets) {
     this.__widgets = filter(widgets, this.hasContainer.bind(this));
     return this;
@@ -115,13 +115,10 @@ module.exports = {
    * Starts the search, initializing the widgets and sending the initial query
    **/
   start() {
-    // Finding the hits record and enhancing the results
+    // Enhancing some widgets
     const widgets = this.__widgets.map((widget) => {
-      const isHitWidget = widget.type === hitsWidget;
-      const isInfiniteHitWidget = widget.type === infiniteHitsWidget;
-
       // Transforming hits before display
-      if (isHitWidget || isInfiniteHitWidget) {
+      if (this.isHitWidget(widget)) {
         widget.options.transformItems = (items) => {
           return transformHits(items, this.__transforms, this.__onDisplay);
         };
@@ -140,6 +137,16 @@ module.exports = {
    **/
   isConfigureWidget(widget) {
     return widget.type === configureWidget;
+  },
+  /**
+   * Checks if the given widget is a hit widget
+   * @param {object} widget Widget definition
+   * @returns {boolean} true if hit widget, false otherwise
+   **/
+  isHitWidget(widget) {
+    const isHitWidget = widget.type === hitsWidget;
+    const isInfiniteHitWidget = widget.type === infiniteHitsWidget;
+    return isHitWidget || isInfiniteHitWidget;
   },
   __documentQuerySelector(selector) {
     return document.querySelector(selector);
