@@ -10,9 +10,21 @@ const imageProxy = require('norska-image-proxy');
 module.exports = function (url, userOptions = {}) {
   const placeholderOptions = userOptions.placeholder || {};
 
-  const options = {
+  // Different default options based on the service used
+  const weservOptions = {
     blur: 5,
     quality: 50,
+  };
+  const cloudinaryOptions = {
+    blur: 300,
+    quality: 'auto:low',
+  };
+  const defaultOptions = placeholderOptions.cloudinary
+    ? cloudinaryOptions
+    : weservOptions;
+
+  const options = {
+    ...defaultOptions,
     ...userOptions,
     ...placeholderOptions,
   };
