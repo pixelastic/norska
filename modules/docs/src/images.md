@@ -20,14 +20,14 @@ Remote images will always be served through our image CDN, both in dev and prod.
 
 ## Image CDN
 
-`norska` uses [images.weserve.nl](https://images.weserv.nl/) as its image CDN.
+`norska` uses [images.weserv.nl](https://images.weserv.nl/) as its image CDN.
 This is a free service, based on top of Cloudflare, that allows dynamic
 manipulation of images it serves, on the fly.
 
 Thanks to this CDN, images can be resized, compressed, blurred and turned into
 grayscale directly from the Pug markup.
 
-## Options
+### Options
 
 The `options` parameter of the `+img(target, options)` mixin accepts the
 following values:
@@ -41,3 +41,15 @@ following values:
 And additional key of `placeholder` accepts the same options but only affects
 the placeholder used during the lazyloading of the images. If left empty, its
 values will be derived from the main image.
+
+## Cloudinary
+
+Alternatively, Cloudinary can be used in place of `images.weserv.nl`. If you
+pass a `cloudinary` key to the `options` object, the value of the `cloudinary`
+key will be used as your bucket name for Cloudinary.
+
+In addition to the previous `options`, the following keys can be used as well:
+
+- `pixelify` to render a pixellated image. The size of the pixels can be any
+  number between `1` (large pixels) to `200` (small pixels)
+
