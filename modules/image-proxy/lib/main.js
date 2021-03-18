@@ -10,7 +10,12 @@ const weserv = require('./services/weserv.js');
  **/
 module.exports = function (url, options = {}) {
   if (options.cloudinary) {
-    return cloudinary(url, { bucketName: options.cloudinary, ...options });
+    const cloudinaryOptions = {
+      bucketName: options.cloudinary,
+      ...options,
+    };
+    delete cloudinaryOptions.cloudinary;
+    return cloudinary(url, cloudinaryOptions);
   }
 
   return weserv(url, options);
