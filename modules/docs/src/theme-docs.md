@@ -10,7 +10,7 @@ the one you see on this very website.
 To enable the theme, start by adding the theme to your dependencies:
 
 ```sh
-yarn add --dev norska-theme-docs
+yarn add norska-theme-docs
 ```
 
 Then, update your `norska.config.js`:

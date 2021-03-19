@@ -12,7 +12,7 @@ You can see examples on these fantasy [maps][1] and [pantheon][2] searches.
 To enable the theme, start by adding the theme to your dependencies:
 
 ```sh
-yarn add --dev norska-theme-search-infinite
+yarn add norska-theme-search-infinite
 ```
 
 Then, update your `norska.config.js`:

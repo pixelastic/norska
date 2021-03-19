@@ -14,7 +14,7 @@ You can see examples on these fantasy [monsters][1] and [modules][2] searches.
 To enable the theme, start by adding the theme to your dependencies:
 
 ```sh
-yarn add --dev norska-theme-search
+yarn add norska-theme-search
 ```
 
 ### Set the theme in your config
