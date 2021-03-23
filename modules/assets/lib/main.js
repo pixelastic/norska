@@ -41,12 +41,29 @@ module.exports = {
    **/
   globs() {
     const configAssetFiles = config.get('assets.files');
-    const sourceGlobs = _.map(configAssetFiles, config.fromPath.bind(config));
-    const themeGlobs = _.map(
-      configAssetFiles,
-      config.themeFromPath.bind(config)
-    );
+    const sourceGlobs = _.map(configAssetFiles, (globPattern) => {
+      return this.absoluteGlob(globPattern, 'fromPath');
+    });
+    const themeGlobs = _.map(configAssetFiles, (globPattern) => {
+      return this.absoluteGlob(globPattern, 'themeFromPath');
+    });
     return [...themeGlobs, ...sourceGlobs];
+  },
+  /**
+   * Convert a relative glob pattern to an absolute one by passing it through
+   * one of the config method. Handles negated patterns
+   * @param {string} globPattern Relative glob pattern
+   * @param {string} configMethodName Name of a method to call on config, that
+   * converts the path
+   * @returns {string} Absolute glob pattern
+   */
+  absoluteGlob(globPattern, configMethodName) {
+    const startsWithNegation = _.startsWith(globPattern, '!');
+    const normalizedGlobPattern = _.trim(globPattern, '!');
+
+    const method = config[configMethodName].bind(config);
+    const absoluteGlobPattern = method(normalizedGlobPattern);
+    return startsWithNegation ? `!${absoluteGlobPattern}` : absoluteGlobPattern;
   },
   /**
    * Copy static assets from source and theme to destination, keeping same

@@ -8,5 +8,9 @@ module.exports = {
     '**/*.{eot,otf,ttf,woff,woff2}',
     // Documents
     '**/*.pdf',
+    // Custom data
+    '**/*.json',
+    // Exclude files on folders starting with an underscore
+    '!_*/**',
   ],
 };

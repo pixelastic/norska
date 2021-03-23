@@ -27,6 +27,10 @@ By default it will copy the following files:
       '**/*.{eot,otf,ttf,woff,woff2}',
       // Documents
       '**/*.pdf',
+      // Custom data
+      '**/*.json',
+      // Exclude files in folders starting with an underscore
+      '!_*/**',
     ],
   }
 }

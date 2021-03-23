@@ -74,6 +74,7 @@ describe('norska-assets', () => {
     it('should copy only needed files', async () => {
       const input = {
         from: [
+          'api/posts.json',
           'assets/fonts/verdana.eot',
           'assets/fonts/verdana.otf',
           'assets/fonts/verdana.ttf',
@@ -84,12 +85,14 @@ describe('norska-assets', () => {
           'assets/images/picture.png',
           'awesome/structure/with/keywords/seo.html',
           'documents/invoice.pdf',
+          'download.part',
           'favicon.ico',
           'favicon.png',
-          'download.part',
           'index.pug',
           'robots.txt',
           '.envrc',
+          '_data/config.json',
+          '_includes/icons/github.svg',
         ],
         theme: [
           'script.js',
@@ -102,6 +105,7 @@ describe('norska-assets', () => {
       };
 
       const expected = [
+        'api/posts.json',
         'assets/fonts/amaranth.eot',
         'assets/fonts/amaranth.svg',
         'assets/fonts/amaranth.ttf',
