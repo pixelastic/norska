@@ -93,6 +93,7 @@ describe('norska-assets', () => {
           '.envrc',
           '_data/config.json',
           '_includes/icons/github.svg',
+          '_scripts/__tests__/containerId.js',
         ],
         theme: [
           'script.js',
