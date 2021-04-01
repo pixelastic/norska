@@ -26,27 +26,33 @@ otherwise it's handled as relative to the file doing the `include`.
 Also note that you can recursively include `.pug` files, and they will be
 correctly compiled and transformed to HTML.
 
-## `markdown(content)`
+## `markdown(content, options)`
 
-The `markdown()` methods converts any markdown text into its HTML version. This
+The `markdown()` methods converts any Markdown text into its HTML version. This
 can prove incredibly useful when a simple `.md` file is not enough and you need
-to add some markdown content as part of a more complex layout.
+to add some Markdown content as part of a more complex layout.
+
+The optional second argument, `options` can accept the following keys
+
+| Key            | Description                                                                | Default |
+| -------------- | -------------------------------------------------------------------------- | ------- |
+| `imgUrlPrefix` | Prefix to add to all `img` `src` values, for when image links are relative | `''`    |
 
 ## `screenshot([url])`
 
-The `screenshot()` methods returns the url to an image representing a screenshot
-of the specified page. If no argument is passed, it will use the current page. 
+The `screenshot()` methods returns the URL to an image representing a screenshot
+of the specified page. If no argument is passed, it will use the current page.
 
 `norska` uses it internally for building OpenGraph previews of pages, but you
-can use it for any url.
+can use it for any URL.
 
-It internally uses [microlink](https://microlink.io/) to take the screenshot.
+It internally uses [microlink][1] to take the screenshot.
 
 ## `link(target)`
 
 As its name implies, the `link()` method will return the shortest link to the
 `target`. It will always return a relative link from the page calling it to the
-target. 
+target.
 
 Any target starting with a `/` is considered relative to the `./src` root,
 otherwise it's handled as relative to the file doing the `include`.
@@ -61,10 +67,12 @@ Use this to style links to the current page, for example.
 
 ## `img(pathOrUrl, [options])`
 
-The `img()` method can be used to get the url of any image (either local or
+The `img()` method can be used to get the URL of any image (either local or
 remote). The `options` argument can be used to pass additional transformation to
 the image.
 
 If you just need to display an `<img>` tag, you should use the `+img()` mixin
 instead. It accepts the exact same arguments, but will also lazy load the image
 for you.
+
+[1]: https://microlink.io/
