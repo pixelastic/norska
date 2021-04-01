@@ -52,4 +52,8 @@ module.exports = {
   '75ch': '75ch',
   '100ch': '100ch',
   prose: '65ch',
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
 };
