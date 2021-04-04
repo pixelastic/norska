@@ -1,16 +1,4 @@
 const path = require('path');
-const config = require('norska-config');
-
-// Allow loading theme files with the norskaTheme prefix
-// We skip it when config is not yet set, for example in tests
-let resolve = {};
-if (config.initialized) {
-  resolve = {
-    alias: {
-      norskaTheme: config.themeRoot(),
-    },
-  };
-}
 
 module.exports = {
   // Loader are imported relative to the files they load. We need to
@@ -26,7 +14,6 @@ module.exports = {
       path.join(__dirname, '../../../node_modules'), // norska workspace deps
     ],
   },
-  resolve,
   output: {
     library: 'script',
     libraryTarget: 'umd',

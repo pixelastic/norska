@@ -1,10 +1,9 @@
 const config = require('norska-config');
 const helper = require('norska-helper');
 const netlify = require('norska-netlify');
-const liveServer = require('live-server');
+const serve = require('norska-serve');
 const _ = require('golgoth/lodash');
 const chalk = require('golgoth/chalk');
-const pAll = require('golgoth/pAll');
 const consoleError = require('firost/consoleError');
 const exit = require('firost/exit');
 const mkdirp = require('firost/mkdirp');
@@ -103,24 +102,7 @@ module.exports = {
    **/
   async serve() {
     await this.build();
-
-    const js = require('norska-js');
-    const html = require('norska-html');
-    const css = require('norska-css');
-    const assets = require('norska-assets');
-
-    await pAll([
-      async () => await html.watch(),
-      async () => await css.watch(),
-      async () => await js.watch(),
-      async () => await assets.watch(),
-    ]);
-
-    liveServer.start({
-      root: config.to(),
-      port: config.get('port'),
-      open: config.get('open'),
-    });
+    await serve.run();
   },
   /**
    * Start the local CMS, to edit _data files

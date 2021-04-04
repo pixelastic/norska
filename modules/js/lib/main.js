@@ -25,7 +25,7 @@ module.exports = {
   /**
    * Return the correct Webpack config object
    * Note: The config is slightly different if we're building for production or
-   * for dev (dev is faster), and it also correctly set the input and ouput
+   * for dev (dev is faster), and it also correctly set the input and output
    * field based on what is defined in the configuration
    * @returns {object} Webpack configuration object
    **/
@@ -38,11 +38,18 @@ module.exports = {
     } else {
       baseConfig = webpackDevConfig;
     }
+
     const webpackConfig = _.merge({}, baseConfig, {
       entry: config.fromPath(config.get('js.input')),
       output: {
         path: config.to(),
         filename: outputFilename,
+      },
+      // Add a norskaTheme alias to the current theme
+      resolve: {
+        alias: {
+          norskaTheme: config.themeRoot(),
+        },
       },
     });
     // Check that entry file exists, and fail early if it does not

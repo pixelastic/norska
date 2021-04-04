@@ -1,10 +1,19 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
-  "dependencies": {},
+  "dependencies": {
+    "express": "4.17.1",
+    "firost": "2.6.1",
+    "golgoth": "2.0.0",
+    "norska-assets": "^1.16.0",
+    "norska-config": "^1.11.0",
+    "norska-css": "^1.13.0",
+    "norska-html": "^1.16.0",
+    "norska-js": "^1.11.0",
+    "open": "7.3.0"
+  },
   "description": "Local build for development, with live-reload",
   "files": [
-    "lib/*.js",
-    "server/"
+    "lib/*.js"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
