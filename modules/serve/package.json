@@ -1,0 +1,22 @@
+{
+  "author": "Pixelastic <tim@pixelastic.com>",
+  "dependencies": {},
+  "description": "Local build for development, with live-reload",
+  "files": [
+    "lib/*.js",
+    "server/"
+  ],
+  "homepage": "https://github.com/pixelastic/norska/",
+  "license": "MIT",
+  "main": "./lib/main.js",
+  "name": "norska-serve",
+  "repository": "https://github.com/pixelastic/norska/modules/norska-serve",
+  "scripts": {
+    "lint": "../../scripts/local/lint",
+    "lint:fix": "../../scripts/local/lint-fix",
+    "release": "node ../../scripts/meta/release.js",
+    "test": "../../scripts/local/test",
+    "test:watch": "../../scripts/local/test-watch"
+  },
+  "version": "1.0.0"
+}
