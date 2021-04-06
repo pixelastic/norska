@@ -8,7 +8,7 @@ const revv = require('norska-revv');
 const netlify = require('norska-netlify');
 const config = require('norska-config');
 const init = require('norska-init');
-const liveServer = require('live-server');
+const serve = require('norska-serve');
 const emptyDir = require('firost/emptyDir');
 const exist = require('firost/exist');
 const write = require('firost/write');
@@ -199,66 +199,16 @@ describe('norska', () => {
     });
   });
   describe('serve', () => {
-    const defaultConfig = {
-      from: './tmp/norska/src',
-      to: './tmp/norska/dist',
-      port: 1234,
-      assets: assets.defaultConfig(),
-    };
     beforeEach(async () => {
       jest.spyOn(current, 'build').mockReturnValue();
-      jest.spyOn(html, 'watch').mockReturnValue();
-      jest.spyOn(css, 'watch').mockReturnValue();
-      jest.spyOn(js, 'watch').mockReturnValue();
-      jest.spyOn(assets, 'watch').mockReturnValue();
-      jest.spyOn(liveServer, 'start').mockReturnValue();
-      await config.init(defaultConfig);
-    });
-    it('should build the website', async () => {
-      await current.serve();
-      expect(current.build).toHaveBeenCalled();
-    });
-    it('should watch for changes on html files', async () => {
-      await current.serve();
-      expect(html.watch).toHaveBeenCalled();
-    });
-    it('should watch for changes on css files', async () => {
-      await current.serve();
-      expect(css.watch).toHaveBeenCalled();
-    });
-    it('should watch for changes on js files', async () => {
-      await current.serve();
-      expect(js.watch).toHaveBeenCalled();
-    });
-    it('should start a live server in the dist folder', async () => {
-      await current.serve();
-      expect(liveServer.start).toHaveBeenCalledWith(
-        expect.objectContaining({
-          root: config.to(),
-          port: 1234,
-          open: true,
-        })
-      );
-    });
-    it('should prevent opening the browser if --no-open passed', async () => {
-      const specificConfig = {
-        ...defaultConfig,
-        open: false,
-      };
-      await config.init(specificConfig);
-      await current.serve();
-      expect(liveServer.start).toHaveBeenCalledWith(
-        expect.objectContaining({
-          open: false,
-        })
-      );
+      jest.spyOn(serve, 'run').mockReturnValue();
     });
     it('should build before running the live server', async () => {
       const callStack = [];
       jest.spyOn(current, 'build').mockImplementation(() => {
         callStack.push('build');
       });
-      jest.spyOn(liveServer, 'start').mockImplementation(() => {
+      jest.spyOn(serve, 'run').mockImplementation(() => {
         callStack.push('serve');
       });
 

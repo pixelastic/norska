@@ -6,7 +6,6 @@
   "dependencies": {
     "firost": "2.6.1",
     "golgoth": "2.0.0",
-    "live-server": "1.2.1",
     "minimist": "1.2.5",
     "norska-assets": "^1.16.0",
     "norska-cms": "^1.13.0",
