@@ -1,9 +1,11 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
+    "connect-livereload": "0.6.1",
     "express": "4.17.1",
     "firost": "2.6.1",
     "golgoth": "2.0.0",
+    "livereload": "0.9.3",
     "norska-assets": "^1.16.0",
     "norska-config": "^1.11.0",
     "norska-css": "^1.13.0",
