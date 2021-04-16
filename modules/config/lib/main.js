@@ -177,6 +177,7 @@ module.exports = {
     _.set(this.__config, key, value);
     this.pulse.emit('set', key, value);
   },
+
   /**
    * Init the config singleton by merging all possible sources of config.
    * We start with the default config and extend it with module-specific

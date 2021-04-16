@@ -13,4 +13,6 @@ module.exports = {
     // Exclude files on folders starting with an underscore
     '!_*/**',
   ],
+  // Files to be considered as images for lazyloading
+  imageExtensions: ['.png', '.jpg'],
 };

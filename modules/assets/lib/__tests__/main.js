@@ -14,11 +14,12 @@ const glob = require('firost/glob');
 const _ = require('golgoth/lodash');
 
 describe('norska-assets', () => {
+  const tmpDirectory = './tmp/norska-assets';
   describe('globs', () => {
     it('should find the globs in both source and theme', async () => {
       await config.init({
-        from: './tmp/norska-assets/src',
-        to: './tmp/norska-assets/dist',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
         assets: {
           files: ['**/*.foo', '**/*.bar'],
         },
@@ -36,12 +37,12 @@ describe('norska-assets', () => {
   describe('compile', () => {
     beforeEach(async () => {
       await config.init({
-        from: './tmp/norska-assets/src',
-        to: './tmp/norska-assets/dist',
-        theme: './tmp/norska-assets/theme',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
+        theme: `${tmpDirectory}/theme`,
         assets: current.defaultConfig(),
       });
-      await emptyDir('./tmp/norska-assets');
+      await emptyDir(tmpDirectory);
     });
     it.each([
       ['from:/favicon.ico', 'favicon.ico'],
@@ -52,8 +53,8 @@ describe('norska-assets', () => {
         .replace('from:', config.from())
         .replace('theme:', config.themeFrom())
         .value();
+      await writeDummyFile(sourceFilename);
 
-      await write('dummy content', sourceFilename);
       await current.compile(sourceFilename);
       expect(await isFile(config.toPath(expected))).toEqual(true);
     });
@@ -61,12 +62,12 @@ describe('norska-assets', () => {
   describe('run', () => {
     beforeEach(async () => {
       await config.init({
-        from: './tmp/norska-assets/src',
-        to: './tmp/norska-assets/dist',
-        theme: './tmp/norska-assets/theme',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
+        theme: `${tmpDirectory}/theme`,
         assets: current.defaultConfig(),
       });
-      await emptyDir('./tmp/norska-assets');
+      await emptyDir(tmpDirectory);
       jest
         .spyOn(current, '__spinner')
         .mockReturnValue({ text() {}, tick() {}, success() {}, failure() {} });
@@ -128,10 +129,10 @@ describe('norska-assets', () => {
 
       // Write all files in source directories
       await pMap(input.from, async (filepath) => {
-        await write('dummy content', config.fromPath(filepath));
+        await writeDummyFile(config.fromPath(filepath));
       });
       await pMap(input.theme, async (filepath) => {
-        await write('dummy content', config.themeFromPath(filepath));
+        await writeDummyFile(config.themeFromPath(filepath));
       });
 
       await current.run();
@@ -151,7 +152,7 @@ describe('norska-assets', () => {
       it('should contain the total number of files', async () => {
         const filepath = './subdir/foo.gif';
 
-        await write('foo', config.fromPath(filepath));
+        await writeDummyFile(config.fromPath(filepath));
         await current.run();
 
         expect(current.__spinner).toHaveBeenCalledWith(1);
@@ -161,61 +162,61 @@ describe('norska-assets', () => {
   describe('watch', () => {
     beforeEach(async () => {
       await config.init({
-        from: './tmp/norska-assets/src',
-        to: './tmp/norska-assets/dist',
+        from: `${tmpDirectory}/src`,
+        to: `${tmpDirectory}/dist`,
         assets: current.defaultConfig(),
       });
-      await emptyDir('./tmp/norska-assets');
+      await emptyDir(tmpDirectory);
       await mkdirp(config.from());
     });
     afterEach(async () => {
       await unwatchAll();
     });
     it('should not copy files initially', async () => {
-      await write('foo', config.fromPath('foo.jpg'));
+      await writeDummyFile(config.fromPath('test.txt'));
       await current.watch();
 
-      const actual = await exists(config.toPath('foo.jpg'));
+      const actual = await exists(config.toPath('test.txt'));
       expect(actual).toEqual(false);
     });
     it('should update files modified', async () => {
-      await write('foo', config.fromPath('foo.jpg'));
+      await write('some content', config.fromPath('test.txt'));
       await current.watch();
 
-      await write('bar', config.fromPath('foo.jpg'));
+      await write('updated content', config.fromPath('test.txt'));
       await waitForWatchers();
 
-      const actual = await read(config.toPath('foo.jpg'));
+      const actual = await read(config.toPath('test.txt'));
 
-      expect(actual).toEqual('bar');
+      expect(actual).toEqual('updated content');
     });
     it('should copy files added', async () => {
       await current.watch();
 
-      await write('foo', config.fromPath('foo.jpg'));
+      await writeDummyFile(config.fromPath('test.txt'));
       await waitForWatchers();
 
-      const actual = await read(config.toPath('foo.jpg'));
-      expect(actual).toEqual('foo');
+      const actual = await exists(config.toPath('test.txt'));
+      expect(actual).toEqual(true);
     });
     it('should copy files added in subfolder', async () => {
       await current.watch();
 
-      await write('foo', config.fromPath('./images/foo.jpg'));
+      await writeDummyFile(config.fromPath('blog/test.txt'));
       await waitForWatchers();
 
-      const actual = await read(config.toPath('./images/foo.jpg'));
-      expect(actual).toEqual('foo');
+      const actual = await exists(config.toPath('blog/test.txt'));
+      expect(actual).toEqual(true);
     });
     it('should delete files deleted', async () => {
       await current.watch();
 
-      await write('foo', config.fromPath('foo.jpg'));
+      await writeDummyFile(config.fromPath('test.txt'));
       await waitForWatchers();
-      await remove(config.fromPath('foo.jpg'));
+      await remove(config.fromPath('test.txt'));
       await waitForWatchers();
 
-      const actual = await exists(config.toPath('foo.jpg'));
+      const actual = await exists(config.toPath('test.txt'));
       expect(actual).toEqual(false);
     });
   });

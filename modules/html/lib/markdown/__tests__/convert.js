@@ -1,5 +1,6 @@
 const current = require('../convert');
 const config = require('norska-config');
+const assets = require('norska-assets');
 const helper = require('norska-helper');
 const _ = require('golgoth/lodash');
 
@@ -44,15 +45,26 @@ describe('norska-html > markdown > convert', () => {
       expect(actual).toEqual(expected);
     });
     describe('images', () => {
+      beforeEach(async () => {
+        jest
+          .spyOn(assets, 'readImageManifest')
+          .mockImplementation((filepath) => {
+            return {
+              height: 10,
+              width: 20,
+              base64: `base64:${filepath}`,
+            };
+          });
+      });
       const testCases = [
         [
           '![](http://there.com/cover.png)',
           'index.html',
           {
             dev:
-              '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+              '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
             prod:
-              '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+              '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
           },
         ],
         [
@@ -60,9 +72,9 @@ describe('norska-html > markdown > convert', () => {
           'index.html',
           {
             dev:
-              '<p><img alt="" class="lazyload" data-src="cover.png" loading="lazy" src="cover.png"></p>',
+              '<p><img alt="" class="lazyload lazyload-local" data-src="cover.png" height="10" loading="lazy" src="base64:cover.png" width="20"></p>',
             prod:
-              '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fcover.png%7D&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fcover.png%7D&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+              '<p><img alt="" class="lazyload lazyload-local" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fcover.png%7D&amp;af&amp;il" height="10" loading="lazy" src="base64:cover.png" width="20"></p>',
           },
         ],
         [
@@ -70,9 +82,9 @@ describe('norska-html > markdown > convert', () => {
           'blog/index.html',
           {
             dev:
-              '<p><img alt="" class="lazyload" data-src="../cover.png" loading="lazy" src="../cover.png"></p>',
+              '<p><img alt="" class="lazyload lazyload-local" data-src="../cover.png" height="10" loading="lazy" src="base64:cover.png" width="20"></p>',
             prod:
-              '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fcover.png%7D&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fcover.png%7D&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+              '<p><img alt="" class="lazyload lazyload-local" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fcover.png%7D&amp;af&amp;il" height="10" loading="lazy" src="base64:cover.png" width="20"></p>',
           },
         ],
         [
@@ -80,9 +92,9 @@ describe('norska-html > markdown > convert', () => {
           'blog/index.html',
           {
             dev:
-              '<p><img alt="" class="lazyload" data-src="cover.png" loading="lazy" src="cover.png"></p>',
+              '<p><img alt="" class="lazyload lazyload-local" data-src="cover.png" height="10" loading="lazy" src="base64:blog/cover.png" width="20"></p>',
             prod:
-              '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fblog%2Fcover.png%7D&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fblog%2Fcover.png%7D&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+              '<p><img alt="" class="lazyload lazyload-local" data-src="https://images.weserv.nl?url=http%3A%2F%2Fhere.com%2F%7Brevv%3A%20%2Fblog%2Fcover.png%7D&amp;af&amp;il" height="10" loading="lazy" src="base64:blog/cover.png" width="20"></p>',
           },
         ],
       ];
@@ -104,9 +116,9 @@ describe('norska-html > markdown > convert', () => {
             null,
             {
               dev:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
               prod:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=http%3A%2F%2Fthere.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
             },
           ],
           [
@@ -115,9 +127,9 @@ describe('norska-html > markdown > convert', () => {
             'https://assets.com',
             {
               dev:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
               prod:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
             },
           ],
           [
@@ -126,9 +138,9 @@ describe('norska-html > markdown > convert', () => {
             'https://assets.com',
             {
               dev:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
               prod:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
             },
           ],
           [
@@ -137,9 +149,9 @@ describe('norska-html > markdown > convert', () => {
             'https://assets.com',
             {
               dev:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
               prod:
-                '<p><img alt="" class="lazyload" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
+                '<p><img alt="" class="lazyload lazyload-remote" data-src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;il" loading="lazy" src="https://images.weserv.nl?url=https%3A%2F%2Fassets.com%2Fcover.png&amp;af&amp;blur=5&amp;il&amp;q=50"></p>',
             },
           ],
         ];

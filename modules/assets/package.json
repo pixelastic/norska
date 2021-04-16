@@ -1,9 +1,11 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "2.6.1",
+    "firost": "2.10.0",
     "golgoth": "2.0.0",
-    "norska-config": "^1.11.0"
+    "image-size": "0.9.7",
+    "norska-config": "^1.11.0",
+    "sharp": "0.28.1"
   },
   "description": "Copy assets from source to destination",
   "files": [

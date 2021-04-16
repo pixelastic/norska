@@ -1,5 +1,10 @@
 const callsites = require('callsites');
 const path = require('path');
+const _ = require('golgoth/lodash');
+const exists = require('firost/exists');
+const copy = require('firost/copy');
+const write = require('firost/write');
+const mkdirp = require('firost/mkdirp');
 
 /**
  * Helper function to simulate generating the classes of a Tailwind plugin
@@ -38,3 +43,28 @@ global.describe.slow = shouldRunSlowTests
   ? global.describe
   : global.describe.skip;
 global.it.slow = shouldRunSlowTests ? global.it : global.it.skip;
+
+/**
+ * Allow create valid dummy files of various extensions based on https://github.com/mathiasbynens/small
+ * @param {string} filepath Where to create the file
+ */
+global.writeDummyFile = async (filepath) => {
+  const extension = _.trim(path.extname(filepath), '.');
+
+  // Only create a folder if a folder path is given
+  if (!extension) {
+    await mkdirp(filepath);
+    return;
+  }
+
+  // Create a file based on the fixture we have for this extensions if we have
+  // one
+  const dummyFilepath = path.resolve(`./fixtures/${extension}.${extension}`);
+  if (await exists(dummyFilepath)) {
+    await copy(dummyFilepath, filepath);
+    return;
+  }
+
+  // Otherwise, create an empty text file
+  await write('', filepath);
+};

@@ -1,4 +1,5 @@
 const config = require('norska-config');
+const assets = require('norska-assets');
 const helper = require('norska-helper');
 const imageProxy = require('norska-image-proxy');
 const isUrl = require('is-url-superb');
@@ -92,7 +93,15 @@ module.exports = {
   },
   /**
    * Returns the .full and .placeholder urls to be used for lazyloading
-   
+   *
+   * |                    | Local image | Remote image |
+   * | ------------------ | ----------- | ------------ |
+   * | Dev (placeholder)  | base64      | proxy small  |
+   * | Dev (full)         | direct      | proxy full   |
+   * | Prod (placeholder) | base64      | proxy small  |
+   * | Prod (full)        | proxy full  | proxy full   |
+   * | Disabled           | direct      | direct       |
+   *
    * @param {string} target URL or local path
    * @param {string} sourceFile Path to the file to resolve relative paths from
    * @param {object} options Image CDN option
@@ -103,25 +112,33 @@ module.exports = {
    **/
   lazyload(target, sourceFile, options) {
     const fullOptions = _.omit(options, ['disable', 'placeholder']);
-    const fullUrl = this.img(target, sourceFile, fullOptions);
+    let fullUrl = this.img(target, sourceFile, fullOptions);
 
     const isDisabled = _.get(options, 'disable', false);
-    const isDev = !helper.isProduction();
-    const isLocal = !this.isUrl(target);
+    const isLocal = this.isLocal(target);
 
-    // When disabled or when targeting local files in dev, placeholder is the same as the full url
-    if (isDisabled || (isDev && isLocal)) {
+    // When disabled placeholder is the same as the full url
+    if (isDisabled) {
       return {
         full: fullUrl,
         placeholder: fullUrl,
       };
     }
 
-    const placeholderOptions = _.omit(options, ['disable']);
-    const placeholderUrl = placeholderize(
-      this.remoteUrl(target, sourceFile),
-      placeholderOptions
-    );
+    // Placeholder of local images is a blurry base64 image
+    // For remote images, it's going through the proxy
+    let placeholderUrl;
+    if (isLocal) {
+      const runtimeKey = this.pathFromRoot(target, sourceFile);
+      const { base64 } = assets.readImageManifest(runtimeKey);
+      placeholderUrl = base64;
+    } else {
+      const placeholderOptions = _.omit(options, ['disable']);
+      placeholderUrl = placeholderize(
+        this.remoteUrl(target, sourceFile),
+        placeholderOptions
+      );
+    }
 
     return {
       full: fullUrl,
@@ -172,6 +189,14 @@ module.exports = {
    **/
   isUrl(target) {
     return isUrl(target);
+  },
+  /**
+   * Check if the given target is to a local file
+   * @param {string} target URL or local path
+   * @returns {boolean} True if a local file
+   **/
+  isLocal(target) {
+    return !this.isUrl(target);
   },
   /**
    * Check if the given target should be considered coming from the root (ie.

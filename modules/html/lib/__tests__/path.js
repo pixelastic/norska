@@ -1,5 +1,6 @@
 const current = require('../path');
 const config = require('norska-config');
+const assets = require('norska-assets');
 const helper = require('norska-helper');
 const _ = require('golgoth/lodash');
 const imageProxy = require('norska-image-proxy');
@@ -309,6 +310,13 @@ describe('norska-html > path', () => {
     });
   });
   describe('lazyload', () => {
+    beforeEach(async () => {
+      jest.spyOn(assets, 'readImageManifest').mockImplementation((filepath) => {
+        return {
+          base64: `base64:${filepath}`,
+        };
+      });
+    });
     const testCases = [
       // target, sourceFile, options, expecteds
       [
@@ -335,13 +343,12 @@ describe('norska-html > path', () => {
         {
           dev: {
             full: 'cover.png',
-            placeholder: 'cover.png',
+            placeholder: 'base64:cover.png',
           },
           prod: {
             full:
               'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=',
-            placeholder:
-              'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=blur5Quality50',
+            placeholder: 'base64:cover.png',
           },
         },
       ],
@@ -352,13 +359,12 @@ describe('norska-html > path', () => {
         {
           dev: {
             full: '../cover.png',
-            placeholder: '../cover.png',
+            placeholder: 'base64:cover.png',
           },
           prod: {
             full:
               'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=',
-            placeholder:
-              'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=blur5Quality50',
+            placeholder: 'base64:cover.png',
           },
         },
       ],
@@ -369,13 +375,12 @@ describe('norska-html > path', () => {
         {
           dev: {
             full: 'cover.png',
-            placeholder: 'cover.png',
+            placeholder: 'base64:blog/cover.png',
           },
           prod: {
             full:
               'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=',
-            placeholder:
-              'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=blur5Quality50',
+            placeholder: 'base64:blog/cover.png',
           },
         },
       ],
@@ -403,6 +408,7 @@ describe('norska-html > path', () => {
         'blog/index.html',
         {
           blur: 42,
+          // Placeholder options are ignored for local files
           placeholder: {
             blur: 142,
           },
@@ -410,13 +416,36 @@ describe('norska-html > path', () => {
         {
           dev: {
             full: 'cover.png',
-            placeholder: 'cover.png',
+            placeholder: 'base64:blog/cover.png',
           },
           prod: {
             full:
               'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=blur42',
+            placeholder: 'base64:blog/cover.png',
+          },
+        },
+      ],
+      [
+        'https://www.example.com/picture.png',
+        'index.html',
+        {
+          blur: 42,
+          placeholder: {
+            blur: 142,
+          },
+        },
+        {
+          dev: {
+            full:
+              'http://proxy.com/?url=https://example.com/picture.png&options=blur42',
             placeholder:
-              'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=blur142Quality50',
+              'http://proxy.com/?url=https://example.com/picture.png&options=blur142Quality50',
+          },
+          prod: {
+            full:
+              'http://proxy.com/?url=https://example.com/picture.png&options=blur42',
+            placeholder:
+              'http://proxy.com/?url=https://example.com/picture.png&options=blur142Quality50',
           },
         },
       ],

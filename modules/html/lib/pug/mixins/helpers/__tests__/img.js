@@ -37,7 +37,7 @@ describe('norska-html > pug > mixins > helpers > img', () => {
       },
       {
         alt: 'Alternative text',
-        class: 'lazyload',
+        class: 'lazyload lazyload-remote',
         src: '__PLACEHOLDER__',
         'data-src': '__FULL__',
         loading: 'lazy',

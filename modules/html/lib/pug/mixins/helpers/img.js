@@ -1,3 +1,4 @@
+const assets = require('norska-assets');
 const path = require('../../../path.js');
 const he = require('he');
 const _ = require('golgoth/lodash');
@@ -21,24 +22,41 @@ module.exports = function (attributes, sourceFile) {
   const options = attributes.options || {};
   delete attributes.options;
 
+  // Stop if no src
+  if (!attributes.src) {
+    return attributes;
+  }
+
+  const { src } = attributes;
+  const isLocal = path.isLocal(src);
+
   let finalAttributes = attributes;
 
-  // Enable lazyloading if src is set
-  if (attributes.src) {
-    const originUrl = he.decode(attributes.src); // Pug encodes ? and & in urls
-    const lazyloadAttributes = path.lazyload(originUrl, sourceFile, options);
-    finalAttributes.src = lazyloadAttributes.placeholder;
-    finalAttributes['data-src'] = lazyloadAttributes.full;
-    finalAttributes.loading = 'lazy';
+  const originUrl = he.decode(src); // Pug encodes ? and & in urls
+  const lazyloadAttributes = path.lazyload(originUrl, sourceFile, options);
+  finalAttributes.src = lazyloadAttributes.placeholder;
+  finalAttributes['data-src'] = lazyloadAttributes.full;
+  finalAttributes.loading = 'lazy';
 
-    finalAttributes.class = _.chain(finalAttributes)
-      .get('class', '')
-      .split(' ')
-      .concat(['lazyload'])
-      .compact()
-      .join(' ')
-      .value();
+  // Local images have a set width and height
+  // Additional styling (blurry, gray background) is done through the CSS class
+  if (isLocal) {
+    const runtimeKey = path.pathFromRoot(src, sourceFile);
+    const { width, height } = assets.readImageManifest(runtimeKey);
+    finalAttributes.width = width;
+    finalAttributes.height = height;
   }
+
+  const cssClass = isLocal ? 'lazyload-local' : 'lazyload-remote';
+
+  finalAttributes.class = _.chain(finalAttributes)
+    .get('class', '')
+    .split(' ')
+    .concat(['lazyload', cssClass])
+    .compact()
+    .sort()
+    .join(' ')
+    .value();
 
   return finalAttributes;
 };

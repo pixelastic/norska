@@ -167,7 +167,7 @@ describe('norska', () => {
 
       await current.build();
 
-      expect(stack).toEqual(['js', 'html', 'css', 'assets', 'revv']);
+      expect(stack).toEqual(['assets', 'js', 'html', 'css', 'revv']);
     });
     it('should create the destination directory', async () => {
       await current.build();

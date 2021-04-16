@@ -12,7 +12,8 @@
     "lib/*.js",
     "lib/algolia/*.js",
     "lib/algolia/routing/*.js",
-    "lib/lazyload/*.js"
+    "lib/lazyload/*.js",
+    "style.css"
   ],
   "homepage": "https://github.com/pixelastic/norska/",
   "license": "MIT",
