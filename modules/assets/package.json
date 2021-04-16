@@ -4,7 +4,7 @@
     "firost": "2.10.0",
     "golgoth": "2.0.0",
     "image-size": "0.9.7",
-    "norska-config": "^1.11.0",
+    "norska-config": "^2.0.0",
     "sharp": "0.28.1"
   },
   "description": "Copy assets from source to destination",
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.16.0"
+  "version": "2.0.0"
 }

@@ -3,8 +3,8 @@
   "dependencies": {
     "firost": "2.10.0",
     "golgoth": "2.0.0",
-    "norska-helper": "^1.9.0",
-    "norska-theme-default": "^1.11.0"
+    "norska-helper": "^2.0.0",
+    "norska-theme-default": "^2.0.0"
   },
   "description": "Configuration object shared across Norska modules",
   "files": [
@@ -22,5 +22,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "1.11.0"
+  "version": "2.0.0"
 }
