@@ -96,10 +96,10 @@ module.exports = {
    *
    * |                    | Local image | Remote image |
    * | ------------------ | ----------- | ------------ |
-   * | Dev (placeholder)  | base64      | proxy small  |
-   * | Dev (full)         | direct      | proxy full   |
-   * | Prod (placeholder) | base64      | proxy small  |
-   * | Prod (full)        | proxy full  | proxy full   |
+   * | Dev (placeholder)  | base64 LQIP | proxy LQIP   |
+   * | Dev (full)         | direct      | proxy        |
+   * | Prod (placeholder) | base64 LQIP | proxy LQIP   |
+   * | Prod (full)        | proxy       | proxy        |
    * | Disabled           | direct      | direct       |
    *
    * @param {string} target URL or local path
@@ -130,8 +130,8 @@ module.exports = {
     let placeholderUrl;
     if (isLocal) {
       const runtimeKey = this.pathFromRoot(target, sourceFile);
-      const { base64 } = assets.readImageManifest(runtimeKey);
-      placeholderUrl = base64;
+      const { base64Lqip } = assets.readImageManifest(runtimeKey);
+      placeholderUrl = base64Lqip;
     } else {
       const placeholderOptions = _.omit(options, ['disable']);
       placeholderUrl = placeholderize(

@@ -52,7 +52,7 @@ describe('norska-html > markdown > convert', () => {
             return {
               height: 10,
               width: 20,
-              base64: `base64:${filepath}`,
+              base64Lqip: `base64:${filepath}`,
             };
           });
       });

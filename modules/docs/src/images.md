@@ -19,9 +19,9 @@ The following table gives an overview of the choices made:
 |                    | Local image | Remote image |
 | ------------------ | ----------- | ------------ |
 | Dev (placeholder)  | base64 LQIP | proxy LQIP   |
-| Dev (full)         | direct      | proxy full   |
+| Dev (full)         | direct      | proxy        |
 | Prod (placeholder) | base64 LQIP | proxy LQIP   |
-| Prod (full)        | proxy       | proxy full   |
+| Prod (full)        | proxy       | proxy        |
 
 - **base64 LQIP** The LQIP is generated at build time and directly inlined in
   the `img` tag while the real image is loading

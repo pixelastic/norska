@@ -9,7 +9,6 @@ const timeSpan = require('golgoth/timeSpan');
 const watch = require('firost/watch');
 const _ = require('golgoth/lodash');
 const defaultConfig = require('./config.js');
-const imageSize = require('image-size');
 const sharp = require('sharp');
 
 const PLACEHOLDER_MAX_DIMENSION = 8;
@@ -127,28 +126,24 @@ module.exports = {
    * @param {string} filepath Path to the image
    **/
   async registerImage(filepath) {
-    const { width, height } = imageSize(filepath);
-    const placeholder = await this.getLowQualityImagePlaceholder(filepath);
-    const key = path.relative(config.to(), filepath);
-    this.writeImageManifest(key, {
-      width,
-      height,
-      base64: placeholder,
-    });
-  },
-  /**
-   * Returns a base64 encoded string of a LQIP (Low Quality Image Placeholder)
-   * of the image
-   * @param {string} filepath Path to the image
-   * @returns {string} Base64 string of the placeholder
-   **/
-  async getLowQualityImagePlaceholder(filepath) {
-    const buffer = await sharp(filepath)
+    const image = sharp(filepath);
+    const { width, height } = await image.metadata();
+
+    const buffer = await image
       .resize(PLACEHOLDER_MAX_DIMENSION, PLACEHOLDER_MAX_DIMENSION, {
         fit: 'inside',
       })
       .toBuffer();
-    return `data:image/png;base64,${buffer.toString('base64')}`;
+    const extname = _.trim(path.extname(filepath), '.');
+    const base64Prefix = `data:image/${extname};`;
+    const base64Lqip = `${base64Prefix};base64,${buffer.toString('base64')}`;
+
+    const key = path.relative(config.to(), filepath);
+    this.writeImageManifest(key, {
+      width,
+      height,
+      base64Lqip,
+    });
   },
   /**
    * Write metadata information about a specific image in runtime config
