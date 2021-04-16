@@ -69,6 +69,22 @@ module.exports = {
     return `{revv: ${revvPath}}`;
   },
   /**
+   * Wrapper around the image proxy, to automatically include the Cloudinary
+   * bucket if one is defined
+   * @param {string} url Image url
+   * @param {object} userOptions Image proxy options
+   * @returns {string} Full url with transforms applied
+   **/
+  imageProxy(url, userOptions) {
+    const options = userOptions;
+
+    const cloudinary = config.get('cloudinary');
+    if (cloudinary) {
+      options.cloudinary = cloudinary;
+    }
+    return imageProxy(url, options);
+  },
+  /**
    * Cast a target into an image URL, through the image proxy
    * If image is local, it will revv it first
    *
@@ -80,7 +96,7 @@ module.exports = {
   img(target, sourceFile, options) {
     // Remote url goes through proxy
     if (this.isUrl(target)) {
-      return imageProxy(normalizeUrl(target), options);
+      return this.imageProxy(normalizeUrl(target), options);
     }
 
     // No proxy in development for local files
@@ -89,7 +105,7 @@ module.exports = {
     }
 
     const remoteUrl = this.remoteUrl(target, sourceFile);
-    return imageProxy(remoteUrl, options);
+    return this.imageProxy(remoteUrl, options);
   },
   /**
    * Returns the .full and .placeholder urls to be used for lazyloading
@@ -180,7 +196,7 @@ module.exports = {
 
     // Pass through the image proxy
     const options = { width: 800 };
-    return imageProxy(revvedUrl, options);
+    return this.imageProxy(revvedUrl, options);
   },
   /**
    * Check if the given target is a url

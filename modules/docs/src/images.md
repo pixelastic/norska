@@ -41,15 +41,10 @@ dynamic manipulation of images it serves, on the fly.
 Thanks to this CDN, images can be resized, compressed, blurred and turned into
 grayscale directly from the Pug markup.
 
-Alternatively, Cloudinary can be used in place of `images.weserv.nl`, but you
-need to have a Cloudinary account for that. If you pass a `cloudinary` key to
-the `options` object, the value of the `cloudinary` key will be used as your
-bucket name for Cloudinary.
-
-In addition to the previous `options`, the following keys can be used as well:
-
-- `pixelify` to render a pixellated image. The size of the pixels can be any
-  number between `1` (large pixels) to `200` (small pixels)
+If you have a Cloudinary bucket, you can alternatively use it instead of Weserv
+but setting your `cloudinary` key in `norska.config.js` to your Cloudinary
+bucket name. You can overwrite it on a per-image basis by passing a `cloudinary`
+key to your `+img` options if needed.
 
 ### Options
 
@@ -65,5 +60,10 @@ following values:
 And additional key of `placeholder` accepts the same options but only affects
 the placeholder used during the lazyloading of the images. If left empty, its
 values will be derived from the main image.
+
+If using Cloudinary, the following keys can be used as well:
+
+- `pixelify` to render a pixellated image. The size of the pixels can be any
+  number between `1` (large pixels) to `200` (small pixels)
 
 [1]: https://images.weserv.nl/
