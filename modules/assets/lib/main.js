@@ -13,6 +13,7 @@ const imageSize = require('image-size');
 const sharp = require('sharp');
 
 const PLACEHOLDER_MAX_DIMENSION = 8;
+const PLACEHOLDER_IMAGE_EXTENSIONS = ['.png', '.jpg'];
 
 module.exports = {
   /**
@@ -118,8 +119,7 @@ module.exports = {
    **/
   isImage(filepath) {
     const extname = path.extname(filepath);
-    const allowlist = config.get('assets.imageExtensions');
-    return _.includes(allowlist, extname);
+    return _.includes(PLACEHOLDER_IMAGE_EXTENSIONS, extname);
   },
   /**
    * Store in runtime.imageManifest information about the given image for later

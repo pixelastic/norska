@@ -2,30 +2,54 @@
 title: Images
 ---
 
-Images in `norska` are first class citizen and a lot of attention is given into
-displaying them in the most optimal way.
+Images in `norska` are first class citizen. I spent a lot of effort into making
+sure image loading is performant and seems fast.
 
 The recommended way to add an image to a page is to use the `+img()` Pug mixin.
-Note that adding images in markdown files automatically uses this mixin
-internally.
+Note that adding images in Markdown files automatically uses this mixin
+internally. This will always attempt to load the image, but also provide
+a LQIP (Low Quality Image Placeholder) while the image is loading.
 
-## Development Vs Production
+The specific strategy used is different based if the image is local (in the
+build), or remote (with a `http(s)` url), as well if running in production or in
+development.
 
-The exact behavior of the mixin is dependent on several factors including if the
-image is local or remote, and if we're running in production or not.
+The following table gives an overview of the choices made:
 
-In development, all local images are served directly, with no magic added. In
-production, they will be first revved and then served through an image CDN.
-Remote images will always be served through our image CDN, both in dev and prod.
+|                    | Local image | Remote image |
+| ------------------ | ----------- | ------------ |
+| Dev (placeholder)  | base64 LQIP | proxy LQIP   |
+| Dev (full)         | direct      | proxy full   |
+| Prod (placeholder) | base64 LQIP | proxy LQIP   |
+| Prod (full)        | proxy       | proxy full   |
 
-## Image CDN
+- **base64 LQIP** The LQIP is generated at build time and directly inlined in
+  the `img` tag while the real image is loading
+- **proxy LQIP** The LQIP is generated on the fly by an image proxy and
+  displayed while the full image is loading. Because it is not instant, a gray
+  placeholder will be added while the LQIP is loading.
+- **direct** This is a direct link to the image, with no proxy involved
+- **proxy full** The displayed image is passed through an image proxy on demand,
+  compressing it on the fly.
 
-`norska` uses [images.weserv.nl](https://images.weserv.nl/) as its image CDN.
-This is a free service, based on top of Cloudflare, that allows dynamic
-manipulation of images it serves, on the fly.
+## Image proxy
+
+By default, `norska` uses [images.weserv.nl][1] as its
+image proxy. This is a free service, based on top of Cloudflare, that allows
+dynamic manipulation of images it serves, on the fly.
 
 Thanks to this CDN, images can be resized, compressed, blurred and turned into
 grayscale directly from the Pug markup.
+
+Alternatively, Cloudinary can be used in place of `images.weserv.nl`, but you
+need to have a Cloudinary account for that. If you pass a `cloudinary` key to
+the `options` object, the value of the `cloudinary` key will be used as your
+bucket name for Cloudinary.
+
+In addition to the previous `options`, the following keys can be used as well:
+
+- `pixelify` to render a pixellated image. The size of the pixels can be any
+  number between `1` (large pixels) to `200` (small pixels)
 
 ### Options
 
@@ -42,14 +66,4 @@ And additional key of `placeholder` accepts the same options but only affects
 the placeholder used during the lazyloading of the images. If left empty, its
 values will be derived from the main image.
 
-## Cloudinary
-
-Alternatively, Cloudinary can be used in place of `images.weserv.nl`. If you
-pass a `cloudinary` key to the `options` object, the value of the `cloudinary`
-key will be used as your bucket name for Cloudinary.
-
-In addition to the previous `options`, the following keys can be used as well:
-
-- `pixelify` to render a pixellated image. The size of the pixels can be any
-  number between `1` (large pixels) to `200` (small pixels)
-
+[1]: https://images.weserv.nl/
