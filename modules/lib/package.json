@@ -13,13 +13,13 @@
     "norska-css": "^2.0.0",
     "norska-frontend": "^2.0.0",
     "norska-helper": "^2.0.0",
-    "norska-html": "^2.1.0",
+    "norska-html": "^2.2.0",
     "norska-image-proxy": "^2.0.0",
     "norska-init": "^2.0.0",
     "norska-js": "^2.0.0",
     "norska-netlify": "^2.0.0",
     "norska-revv": "^2.0.0",
-    "norska-serve": "^2.1.0"
+    "norska-serve": "^2.2.0"
   },
   "description": "Opinionated static website generator",
   "files": [
@@ -41,5 +41,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.1.0"
+  "version": "2.2.0"
 }
