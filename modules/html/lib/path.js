@@ -170,29 +170,17 @@ module.exports = {
    * @returns {string} Url to the screenshot
    **/
   screenshot(target, sourceFile) {
-    let url;
-
     // Use the specified target if passed (local or remote), or use the current
     // url if not
     const urlTarget = target || sourceFile;
     const pageUrl = this.isUrl(urlTarget) ? urlTarget : this.pageUrl(urlTarget);
 
-    // Pass to microlink API
-    url = new URL('https://api.microlink.io/');
-    url.search = new URLSearchParams({
-      embed: 'screenshot.url',
-      meta: false,
-      screenshot: true,
-      url: normalizeUrl(pageUrl),
-      waitForTimeout: 5000,
-    });
-    const microlinkUrl = normalizeUrl(url.toString());
-
-    // Add the latest git commit, to force a unique url on deploy
-    url = new URL(microlinkUrl);
     const gitCommit = config.get('runtime.gitCommit');
-    url.searchParams.append('norskaGitCommit', gitCommit);
-    const revvedUrl = normalizeUrl(url.toString());
+    const revvedUrl = [
+      'https://api.pixelastic.com/screenshots/',
+      `revv:${gitCommit}/`,
+      pageUrl.replace('://', '/').replace(/\?/g, '%3F').replace(/&/g, '%3D'),
+    ].join('');
 
     // Pass through the image proxy
     const options = { width: 800 };

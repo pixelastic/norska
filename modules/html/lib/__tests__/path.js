@@ -472,31 +472,31 @@ describe('norska-html > path', () => {
         'Remote page',
         'http://there.com/',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.pixelastic.com/screenshots/revv:abcdef/http/there.com/&options=width800',
       ],
       [
         'Remote page with query string',
-        'http://there.com/?sort=asc&name=norska',
+        'http://there.com/?sort=asc&name=norska&type=search',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fthere.com%2F%3Fname%3Dnorska%26sort%3Dasc&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.pixelastic.com/screenshots/revv:abcdef/http/there.com/%3Fsort=asc%3Dname=norska%3Dtype=search&options=width800',
       ],
       [
         'Local page in subfolder',
         'blog/index.html',
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.pixelastic.com/screenshots/revv:abcdef/http/here.com/blog&options=width800',
       ],
       [
         'Current page',
         null,
         'index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.pixelastic.com/screenshots/revv:abcdef/http/here.com&options=width800',
       ],
       [
         'Current page, in subfolder',
         null,
         'blog/index.html',
-        'http://proxy.com/?url=https://api.microlink.io/?embed=screenshot.url&meta=false&norskaGitCommit=abcdef&screenshot=true&url=http%3A%2F%2Fhere.com%2Fblog&waitForTimeout=5000&options=width800',
+        'http://proxy.com/?url=https://api.pixelastic.com/screenshots/revv:abcdef/http/here.com/blog&options=width800',
       ],
     ])('%s', async (_name, target, sourceFile, expected) => {
       const actual = current.screenshot(target, sourceFile);
