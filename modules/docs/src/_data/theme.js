@@ -106,6 +106,10 @@ module.exports = {
           title: 'Hooks',
           href: 'hooks',
         },
+        {
+          title: 'Favicon',
+          href: 'favicon',
+        },
       ],
     },
     {
