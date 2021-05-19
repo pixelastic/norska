@@ -18,7 +18,7 @@ mixin norska_head()
     //- Netlify redirect if missing trailing slash
     script!=tweaks.ensureUrlTrailingSlashSource
     //- Favicon
-    link(rel="shortcut icon", href=`${url.pathToRoot}favicon.png`)
+    link(rel="icon" type="image/svg+xml" href=`${url.pathToRoot}favicon.svg`)
     //- CSS
     link(type="text/css", rel="stylesheet", href=revv(`${url.pathToRoot}style.css`))
     //- Custom content

@@ -1,0 +1,13 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text {
+      fill: #1a202c;
+
+      font-weight: bolder;
+      font-size: 100px;
+      dominant-baseline: middle;
+      text-anchor:middle;
+    }
+  </style>
+  <text y="50%" x="50%">⛰</text>
+</svg>
