@@ -43,6 +43,78 @@ module.exports = {
     }
   },
   /**
+   * Copy static assets from source and theme to destination, keeping same
+   * directory structure but not performing any transformation
+   **/
+  async run() {
+    const files = await this.getFiles();
+    const timer = timeSpan();
+    const progress = this.__spinner(files.length);
+    progress.text('Copying assets');
+
+    await pMap(
+      files,
+      async (filepath) => {
+        const relativePath = path.relative(config.from(), filepath);
+        progress.tick(`Copying ${relativePath}`);
+        await this.compile(filepath);
+      },
+      { concurrency: 500 }
+    );
+    progress.success(`Assets copied in ${timer.rounded()}ms`);
+  },
+  /**
+   * Listen for any changes in assets and copy them to destination
+   **/
+  async watch() {
+    await watch(this.globs(), async (filepath, type) => {
+      // When removing a file in source, we remove it in destination as well
+      if (type === 'removed') {
+        const sourceFolder = config.from();
+        const relativeSource = path.relative(sourceFolder, filepath);
+        const absoluteDestination = config.toPath(relativeSource);
+        await remove(absoluteDestination);
+        return;
+      }
+      // Otherwise, we simply copy it
+      await this.compile(filepath);
+    });
+  },
+  /**
+   * Returns a list of all files to copy (from source and theme) into
+   * destination.
+   * Priority is given to files in source over files in theme. Directories
+   * startinsg with an underscore are ignored
+   * @returns {Array} List of filepath to copy to dist
+   **/
+  async getFiles() {
+    const allFiles = await glob(this.globs());
+    const fromPath = config.from();
+    const themeFromPath = config.themeFrom();
+    return _.chain(allFiles)
+      .map((source) => {
+        const isFromSource = _.startsWith(source, fromPath);
+
+        const pathPrefix = isFromSource ? fromPath : themeFromPath;
+        const relativePath = path.relative(pathPrefix, source);
+        const destination = config.toPath(relativePath);
+        return {
+          source,
+          destination,
+          isFromSource,
+        };
+      })
+      .groupBy('destination')
+      .map((instructions) => {
+        if (instructions.length === 1) {
+          return instructions[0];
+        }
+        return _.find(instructions, { isFromSource: true });
+      })
+      .map('source')
+      .value();
+  },
+  /**
    * Returns a list of all absolute globs to copy, both from the source and the
    * theme
    * @returns {Array} List of all absolute glob patterns
@@ -72,44 +144,6 @@ module.exports = {
     const method = config[configMethodName].bind(config);
     const absoluteGlobPattern = method(normalizedGlobPattern);
     return startsWithNegation ? `!${absoluteGlobPattern}` : absoluteGlobPattern;
-  },
-  /**
-   * Copy static assets from source and theme to destination, keeping same
-   * directory structure but not performing any transformation
-   **/
-  async run() {
-    const inputFiles = await glob(this.globs());
-    const timer = timeSpan();
-    const progress = this.__spinner(inputFiles.length);
-    progress.text('Copying assets');
-
-    await pMap(
-      inputFiles,
-      async (filepath) => {
-        const relativePath = path.relative(config.from(), filepath);
-        progress.tick(`Copying ${relativePath}`);
-        await this.compile(filepath);
-      },
-      { concurrency: 500 }
-    );
-    progress.success(`Assets copied in ${timer.rounded()}ms`);
-  },
-  /**
-   * Listen for any changes in assets and copy them to destination
-   **/
-  async watch() {
-    await watch(this.globs(), async (filepath, type) => {
-      // When removing a file in source, we remove it in destination as well
-      if (type === 'removed') {
-        const sourceFolder = config.from();
-        const relativeSource = path.relative(sourceFolder, filepath);
-        const absoluteDestination = config.toPath(relativeSource);
-        await remove(absoluteDestination);
-        return;
-      }
-      // Otherwise, we simply copy it
-      await this.compile(filepath);
-    });
   },
   /**
    * Check if given filepath is an image, because it needs special treatment

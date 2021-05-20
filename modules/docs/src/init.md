@@ -22,12 +22,12 @@ it will activate the lazyloading of any image in the page by default.
 The `style.css` file loads the default CSS rules of the page (mostly loading
 Tailwind), but you can add you own rules inside as well.
 
-The `_data/site.json` file contains default information about your website (like
+The `_data/meta.json` file contains default information about your website (like
 title, description, author, etc). Those values will be used to populate the
 `<head>` default meta information.
 
-Two default favicons (`favicon.ico` and `favicon.png`) are created as well, but
-you should update them with you own.
+A default `favicon.ico` is added because most browsers still look for one, not
+matter what you define in your `<head>`
 
 ## Custom scripts
 

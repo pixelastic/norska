@@ -22,6 +22,7 @@ module.exports = function (meta, sourceFile) {
     .value();
   const image = _.get(meta, 'image', path.screenshot(sourceFile));
   const url = _.get(meta, 'url', currentUrl);
+  const favicon = _.get(meta, 'favicon', 'favicon.svg');
 
   return {
     description,
@@ -29,5 +30,6 @@ module.exports = function (meta, sourceFile) {
     title,
     twitter,
     url,
+    favicon,
   };
 };

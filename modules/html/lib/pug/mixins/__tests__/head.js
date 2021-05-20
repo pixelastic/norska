@@ -54,7 +54,7 @@ describe('norska-html > pug > mixins > head', () => {
         '<meta property="og:image" content="https://images.weserv.nl?url=https%3A%2F%2Fapi.pixelastic.com%2Fscreenshots%2Frevv%3Aabcdef%2Fhttp%2Fhere.com%2Fblog&af&il&w=800"/>',
       ],
       ['<script>trailingSlashTweak()</script>'],
-      ['<link rel="shortcut icon" href="../favicon.png"/>'],
+      ['<link rel="icon" href="../favicon.svg"/>'],
       ['<link type="text/css" rel="stylesheet" href="{revv: style.css}"/>'],
       ['<meta name="custom" content="my value"/>'],
     ])('%s', async (expected) => {

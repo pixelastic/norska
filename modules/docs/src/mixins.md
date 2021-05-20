@@ -25,7 +25,7 @@ This mixin is meant to be used as part of a layout and will render the whole
 
 It will set all the basic HTML meta tags including `<title>` and `<meta
 name="description">` as well as the OpenGraph ones. All data will be read from the pages frontmatter, or fallback to anything
-defined in `./src/_data/site.json`.
+defined in `./src/_data/meta.json`.
 
 Additionally, it will define the favicon and load the CSS file.
 

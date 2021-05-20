@@ -2,7 +2,6 @@ module.exports = {
   extends: ['./node_modules/aberlaas/lib/configs/eslint.js'],
   globals: {
     tailwindPluginClasses: false,
-    writeDummyFile: false,
   },
   overrides: [
     {

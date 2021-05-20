@@ -49,6 +49,24 @@ describe('norska-html > pug > mixins > helpers > head', () => {
       },
       'blog/index.html',
     ],
+    [
+      'Should use favicon.svg by default',
+      {},
+      {
+        favicon: 'favicon.svg',
+      },
+      'blog/index.html',
+    ],
+    [
+      'Should allow overriding the favicon',
+      {
+        favicon: 'favicon.png',
+      },
+      {
+        favicon: 'favicon.png',
+      },
+      'blog/index.html',
+    ],
   ])('%s', (_name, meta, expected, sourceFile) => {
     jest.spyOn(path, 'screenshot').mockReturnValue('http://screenshot.com');
     config.set('runtime.productionUrl', 'http://here.com');

@@ -8,30 +8,74 @@ const unwatchAll = require('firost/unwatchAll');
 const waitForWatchers = require('firost/waitForWatchers');
 const write = require('firost/write');
 const remove = require('firost/remove');
+const newFile = require('firost/newFile');
 const read = require('firost/read');
 const pMap = require('golgoth/pMap');
 const glob = require('firost/glob');
 const _ = require('golgoth/lodash');
+const path = require('path');
 
 describe('norska-assets', () => {
-  const tmpDirectory = './tmp/norska-assets';
-  describe('globs', () => {
-    it('should find the globs in both source and theme', async () => {
+  const tmpDirectory = path.resolve('./tmp/norska-assets');
+  describe('getFiles', () => {
+    beforeEach(async () => {
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
-        assets: {
-          files: ['**/*.foo', '**/*.bar'],
-        },
+        theme: `${tmpDirectory}/theme`,
+        assets: current.defaultConfig(),
       });
-      const actual = current.globs();
+      await emptyDir(tmpDirectory);
+    });
+    it.each([
+      [
+        'different files from theme and source',
+        [
+          `${tmpDirectory}/src/index.html`,
+          `${tmpDirectory}/theme/src/favicon.svg`,
+        ],
+        [
+          `${tmpDirectory}/src/index.html`,
+          `${tmpDirectory}/theme/src/favicon.svg`,
+        ],
+      ],
+      [
+        'overlapping files from theme and source',
+        [
+          `${tmpDirectory}/src/favicon.svg`,
+          `${tmpDirectory}/theme/src/favicon.svg`,
+        ],
+        [`${tmpDirectory}/src/favicon.svg`],
+      ],
+      [
+        'ignoring files from directories starting with an underscore',
+        [
+          `${tmpDirectory}/src/index.html`,
+          `${tmpDirectory}/src/_includes/ignored.html`,
+          `${tmpDirectory}/src/_styles/style.css`,
+        ],
+        [`${tmpDirectory}/src/index.html`],
+      ],
+      [
+        'files at the root as well as deeply nested',
+        [
+          `${tmpDirectory}/src/index.html`,
+          `${tmpDirectory}/src/very/deep/nested/file.html`,
+        ],
+        [
+          `${tmpDirectory}/src/index.html`,
+          `${tmpDirectory}/src/very/deep/nested/file.html`,
+        ],
+      ],
+    ])('%s', async (_title, files, expected) => {
+      await pMap(files, newFile);
 
-      expect(actual).toEqual([
-        config.themeFromPath('**/*.foo'),
-        config.themeFromPath('**/*.bar'),
-        config.fromPath('**/*.foo'),
-        config.fromPath('**/*.bar'),
-      ]);
+      const actual = await current.getFiles();
+
+      expect(actual).toHaveLength(expected.length);
+      _.each(expected, (filepath) => {
+        expect(actual).toContainEqual(filepath);
+      });
     });
   });
   describe('compile', () => {
@@ -53,7 +97,7 @@ describe('norska-assets', () => {
         .replace('from:', config.from())
         .replace('theme:', config.themeFrom())
         .value();
-      await writeDummyFile(sourceFilename);
+      await newFile(sourceFilename);
 
       await current.compile(sourceFilename);
       expect(await isFile(config.toPath(expected))).toEqual(true);
@@ -129,10 +173,10 @@ describe('norska-assets', () => {
 
       // Write all files in source directories
       await pMap(input.from, async (filepath) => {
-        await writeDummyFile(config.fromPath(filepath));
+        await newFile(config.fromPath(filepath));
       });
       await pMap(input.theme, async (filepath) => {
-        await writeDummyFile(config.themeFromPath(filepath));
+        await newFile(config.themeFromPath(filepath));
       });
 
       await current.run();
@@ -152,7 +196,7 @@ describe('norska-assets', () => {
       it('should contain the total number of files', async () => {
         const filepath = './subdir/foo.gif';
 
-        await writeDummyFile(config.fromPath(filepath));
+        await newFile(config.fromPath(filepath));
         await current.run();
 
         expect(current.__spinner).toHaveBeenCalledWith(1);
@@ -173,7 +217,7 @@ describe('norska-assets', () => {
       await unwatchAll();
     });
     it('should not copy files initially', async () => {
-      await writeDummyFile(config.fromPath('test.txt'));
+      await newFile(config.fromPath('test.txt'));
       await current.watch();
 
       const actual = await exists(config.toPath('test.txt'));
@@ -193,7 +237,7 @@ describe('norska-assets', () => {
     it('should copy files added', async () => {
       await current.watch();
 
-      await writeDummyFile(config.fromPath('test.txt'));
+      await newFile(config.fromPath('test.txt'));
       await waitForWatchers();
 
       const actual = await exists(config.toPath('test.txt'));
@@ -202,7 +246,7 @@ describe('norska-assets', () => {
     it('should copy files added in subfolder', async () => {
       await current.watch();
 
-      await writeDummyFile(config.fromPath('blog/test.txt'));
+      await newFile(config.fromPath('blog/test.txt'));
       await waitForWatchers();
 
       const actual = await exists(config.toPath('blog/test.txt'));
@@ -211,7 +255,7 @@ describe('norska-assets', () => {
     it('should delete files deleted', async () => {
       await current.watch();
 
-      await writeDummyFile(config.fromPath('test.txt'));
+      await newFile(config.fromPath('test.txt'));
       await waitForWatchers();
       await remove(config.fromPath('test.txt'));
       await waitForWatchers();

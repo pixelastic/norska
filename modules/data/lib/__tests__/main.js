@@ -110,14 +110,14 @@ describe('norska-data', () => {
   });
   describe('key', () => {
     it.each([
-      ['project', '_data/site.json', 'site'],
+      ['project', '_data/meta.json', 'meta'],
       ['project', '_data/projects/firost.json', 'projects.firost'],
       ['project', '_data/projects/2020/firost.json', 'projects.2020.firost'],
-      ['project', '_data/site.js', 'site'],
+      ['project', '_data/meta.js', 'meta'],
       ['theme', '_data/firost.json', 'firost'],
       ['theme', '_data/projects/firost.json', 'projects.firost'],
       ['theme', '_data/projects/2020/firost.json', 'projects.2020.firost'],
-      ['theme', '_data/site.js', 'site'],
+      ['theme', '_data/meta.js', 'meta'],
     ])('[%s] %s => %s', async (type, input, expected) => {
       const typeHash = {
         project: config.fromPath.bind(config),
