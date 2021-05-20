@@ -19,15 +19,3 @@ mostly used to populate the `<head>` of your pages.
 
 Any value added to this file will be available in pug files as `data.meta.*`.
 
-### Favicon
-
-The default favicon file used by `norska` is `favicon.svg`, but you can override
-it by adding a `favicon` key to this file.
-
-For example:
-```json
-{
-  […],
-  "favicon": "assets/favicon.png"
-}
-```
