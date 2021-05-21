@@ -6,11 +6,11 @@
     "firost": "2.13.0",
     "golgoth": "2.0.0",
     "livereload": "0.9.3",
-    "norska-assets": "^2.1.0",
-    "norska-config": "^2.0.0",
-    "norska-css": "^2.0.0",
-    "norska-html": "^2.2.0",
-    "norska-js": "^2.0.0",
+    "norska-assets": "^2.3.0",
+    "norska-config": "^2.3.0",
+    "norska-css": "^2.3.0",
+    "norska-html": "^2.3.0",
+    "norska-js": "^2.3.0",
     "open": "7.3.0"
   },
   "description": "Local build for development, with live-reload",
@@ -29,7 +29,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.2.0",
+  "version": "2.3.0",
   "devDependencies": {
     "get-port": "5.1.1"
   }
