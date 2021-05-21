@@ -18,7 +18,7 @@ Here is an example code you can use as a basis:
 <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
   <style>
     text {
-      fill: #FFFFFF;
+      fill: #000000;
 
       font-weight: bolder;
       font-size: 100px;
