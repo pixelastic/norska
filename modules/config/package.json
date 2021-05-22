@@ -1,7 +1,7 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "firost": "2.13.0",
+    "firost": "2.13.1",
     "golgoth": "2.0.0",
     "norska-helper": "^2.3.0",
     "norska-theme-default": "^2.3.0"

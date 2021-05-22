@@ -7936,10 +7936,10 @@ firost@2.12.0:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.13.0:
-  version "2.13.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.13.0.tgz#3c1e677db9ca0ffdbe28a9e5cb8a5c1c81ee2a75"
-  integrity sha512-7tIsDEDv3mKwCIaHh1XBtUnqu/Dpow97VbPt+0FCkdDXx413WhnJyuolCgms7to78PRyYyMhadtaYBDoqNTRzQ==
+firost@2.13.1:
+  version "2.13.1"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.13.1.tgz#0471291f9a7944b3d7e581220427eac7a0387176"
+  integrity sha512-fqVa1vX35/zmgrbJb5+WJ1I1UFW1ah0zH2Xy/KCwBQ3Lp9urEJ1epQI4U8G7sZwkHGzg/mJpIdqn9PlNq6XHvA==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.1"
