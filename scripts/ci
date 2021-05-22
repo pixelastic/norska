@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 set -e
 
-NORSKA_RUN_SLOW_TESTS=1 \
-  aberlaas ci "$@"
+yarn run lint
+NORSKA_RUN_SLOW_TESTS=1 yarn run jest --maxWorkers=2
+yarn run build:prod
