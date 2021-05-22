@@ -1,10 +1,10 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
-    "algoliasearch": "4.8.3",
-    "instantsearch.js": "4.9.2",
-    "lazysizes": "5.2.2",
-    "lodash-es": "4.17.15",
+    "algoliasearch": "4.9.1",
+    "instantsearch.js": "4.22.0",
+    "lazysizes": "5.3.2",
+    "lodash-es": "4.17.21",
     "norska-image-proxy": "^2.3.0"
   },
   "description": "Frontend helpers to be used in live website",
