@@ -11,7 +11,7 @@
     "norska-css": "^2.3.0",
     "norska-html": "^2.3.0",
     "norska-js": "^2.3.0",
-    "open": "7.3.0"
+    "open": "8.1.0"
   },
   "description": "Local build for development, with live-reload",
   "files": [
