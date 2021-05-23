@@ -5,10 +5,9 @@ const chalk = require('golgoth/chalk');
 const timeSpan = require('golgoth/timeSpan');
 const helper = require('norska-helper');
 const postcss = require('postcss');
-const postcssAutoprefixer = require('autoprefixer');
 const postcssImport = require('postcss-import');
 const postcssNested = require('postcss-nested');
-const postcssClean = require('postcss-clean');
+const cssnano = require('cssnano');
 const tailwind = require('tailwindcss');
 const firostError = require('firost/error');
 const consoleError = require('firost/consoleError');
@@ -44,21 +43,23 @@ module.exports = {
       return basePlugins;
     }
 
-    const productionPlugins = [
-      this.__pluginAutoprefixer(),
-      this.__pluginClean(),
-    ];
+    const productionPlugins = [this.__pluginCssNano()];
 
-    return _.concat(basePlugins, productionPlugins);
+    return [...basePlugins, ...productionPlugins];
   },
   /**
    * Returns a postCSS compiler instance, initialized with all the plugins
    * @returns {object} postCSS Compiler
    **/
   async getCompiler() {
-    const plugins = await this.getPlugins();
+    const postcssInstance = this.__postcss();
 
-    const postcssInstance = this.__postcss(plugins);
+    // Init each plugin
+    const plugins = await this.getPlugins();
+    _.each(plugins, ({ plugin, options }) => {
+      postcssInstance.use(plugin(options));
+    });
+
     return _.bind(postcssInstance.process, postcssInstance);
   },
 
@@ -190,49 +191,59 @@ module.exports = {
    **/
   __postcss: postcss,
   /**
-   * Wrapper around the postcss import plugin, to make it easier to mock in
-   * tests
-   * @returns {object} A postcss-import plugin instance
+   * Postcss Import plugin and options
+   * @returns {object} An object with a .plugin method, and its .options
    **/
-  __pluginImport: postcssImport,
+  __pluginImport() {
+    return {
+      plugin: postcssImport,
+      options: {},
+    };
+  },
   /**
-   * Wrapper around the postcss nested plugin, to make it easier to mock in
-   * tests
-   * @returns {object} A postcss-nested plugin object
+   * Postcss Nested plugin and options
+   * @returns {object} An object with a .plugin method, and its .options
    **/
   __pluginNested() {
-    return postcssNested;
+    return {
+      plugin: postcssNested,
+      options: {},
+    };
   },
   /**
-   * Wrapper around the postcss autoprefixer plugin, to make it easier to mock in
-   * tests
-   * @returns {object} A postcss-autoprefixer plugin object
+   * CSSNano plugin and options
+   * @returns {object} An object with a .plugin method, and its .options
    **/
-  __pluginAutoprefixer() {
-    return postcssAutoprefixer;
-  },
-  /**
-   * Wrapper around the postcss clean plugin, to make it easier to mock in
-   * tests
-   * @returns {object} A postcss-clean plugin instance
-   **/
-  __pluginClean() {
-    const options = {
-      level: {
-        1: {
-          specialComments: false,
-        },
+  __pluginCssNano() {
+    return {
+      plugin: cssnano,
+      options: {
+        preset: [
+          'advanced',
+          // See https://www.npmjs.com/package/cssnano-preset-advanced
+          // for details about each preset options
+          {
+            // Add and remove vendor prefixes
+            autoprefixer: {
+              add: true,
+            },
+            // Do not merge .a,.b{}, keep .a{} and .b{}
+            mergeRules: false,
+          },
+        ],
       },
     };
-    return postcssClean(options);
   },
   /**
-   * Wrapper around Tailwindcss
+   * Tailwind plugin and options
    * @returns {object} A tailwind plugin instance
    **/
   async __pluginTailwind() {
-    const tailwindConfig = await this.getTailwindConfig();
-    return tailwind(tailwindConfig);
+    const options = await this.getTailwindConfig();
+    return {
+      plugin: tailwind,
+      options,
+    };
   },
   __consoleSuccess: consoleSuccess,
   __consoleError: consoleError,

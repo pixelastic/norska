@@ -14,37 +14,24 @@ describe('norska-css', () => {
   });
   describe('getPlugins', () => {
     beforeEach(() => {
-      jest.spyOn(current, '__pluginImport').mockReturnValue('pluginImport');
-      jest.spyOn(current, '__pluginNested').mockReturnValue('pluginNested');
-      jest.spyOn(current, '__pluginTailwind').mockReturnValue('pluginTailwind');
-      jest.spyOn(current, '__pluginClean').mockReturnValue('pluginClean');
-      jest
-        .spyOn(current, '__pluginAutoprefixer')
-        .mockReturnValue('pluginAutoprefixer');
+      jest.spyOn(current, '__pluginImport').mockReturnValue('import');
+      jest.spyOn(current, '__pluginTailwind').mockReturnValue('tailwind');
+      jest.spyOn(current, '__pluginCssNano').mockReturnValue('cssnano');
+      jest.spyOn(current, '__pluginNested').mockReturnValue('nested');
     });
-    it('should contain 3 plugins', async () => {
+    it('should contain dev plugins', async () => {
       const actual = await current.getPlugins();
 
-      expect(actual).toEqual([
-        'pluginImport',
-        'pluginNested',
-        'pluginTailwind',
-      ]);
+      expect(actual).toEqual(['import', 'nested', 'tailwind']);
     });
     describe('in production', () => {
       beforeEach(() => {
         jest.spyOn(helper, 'isProduction').mockReturnValue(true);
       });
-      it('should contain 5 plugins', async () => {
+      it('should contain production plugins', async () => {
         const actual = await current.getPlugins();
 
-        expect(actual).toEqual([
-          'pluginImport',
-          'pluginNested',
-          'pluginTailwind',
-          'pluginAutoprefixer',
-          'pluginClean',
-        ]);
+        expect(actual).toEqual(['import', 'nested', 'tailwind', 'cssnano']);
       });
     });
   });
@@ -65,23 +52,6 @@ describe('norska-css', () => {
       const actual = await current.getTailwindConfig();
 
       expect(actual).toHaveProperty('__isNorskaDefaultConfig', true);
-    });
-  });
-  describe('getCompiler', () => {
-    it('should return the postcss().process method, correctly bound', async () => {
-      jest.spyOn(current, 'getPlugins').mockReturnValue('my plugins');
-      jest.spyOn(current, '__postcss').mockImplementation(function (plugins) {
-        return {
-          plugins,
-          process: jest.fn().mockImplementation(function () {
-            return this.plugins;
-          }),
-        };
-      });
-
-      const actual = await current.getCompiler();
-
-      expect(actual()).toEqual('my plugins');
     });
   });
   describe('compile', () => {

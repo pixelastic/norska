@@ -80,13 +80,17 @@ describe.slow('norska-css > convert [slow]', () => {
             .utility-two { color: red; }
           }
 
-          p { 
-            em { color: green; }
+          p {
+            em {
+              color: green;
+            }
           }
 
           .user-select { user-select: none; }
         `;
+
           const expected = [
+            '/*! Special comment */',
             '.import-simple{color:green}',
             '.import-single-quotes{color:green}',
             '.import-subdir{color:green}',

@@ -6,11 +6,11 @@ For convenience, several postCSS plugins are automatically added.
 
 ### Tailwind CSS
 
-This might be the most important plugin of all.  [Tailwind][1] is an incredible
+This might be the most important plugin of all. [Tailwind][1] is an incredible
 utility-first framework that allows very quick designing in the browser.
 
 `norska` comes bundled with it, and extends it with [its own custom
-config][2].You can also edit the `tailwind.config.js` file to add your own
+config][2]. You can also edit the `tailwind.config.js` file to add your own
 configuration on top of it.
 
 Most of the time, you won't need to edit any CSS files as you'll be able to
@@ -61,22 +61,12 @@ in a fashion similar to what SCSS does.
 
 ## Production plugins
 
-When running in production (through `yarn run build:prod`), additional plugins
-are added.
-
-### Autoprefixer
-
-[postcss-autoprefixer][5] will add all the
-vendor prefixes needed for browser compatibility.
-
-### Clean
-
-[postcss-clean][6] will minify the final
-CSS to reduce its size.
+When running in production (through `yarn run build:prod`),
+[cssnano][5] is called as well. It will minify the output, and
+add the required vendor prefixes.
 
 [1]: https://tailwindcss.com/
 [2]: /tailwind/
 [3]: https://github.com/postcss/postcss-import
 [4]: https://github.com/postcss/postcss-nested
-[5]: https://github.com/postcss/autoprefixer
-[6]: https://github.com/leodido/postcss-clean
+[5]: https://cssnano.co/
