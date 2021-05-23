@@ -12,7 +12,7 @@
     "firost": "2.13.1",
     "golgoth": "2.0.0",
     "http-server": "0.12.3",
-    "lerna": "3.22.1",
+    "lerna": "4.0.0",
     "minimist": "1.2.5"
   },
   "files": [],
