@@ -3461,10 +3461,10 @@ abbrev@1:
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-aberlaas@1.20.0:
-  version "1.20.0"
-  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.20.0.tgz#e2c9a502ab4fac701616edf6a420efb85df80d20"
-  integrity sha512-G5f5yujVzcklY40lFAWTjONxaUBDdBNKX7jyqkA6xBzN98XVTGS91s10O81Lz0hb44QwM1CGaVMOcjVdd/XGAA==
+aberlaas@1.22.0:
+  version "1.22.0"
+  resolved "https://registry.npmjs.org/aberlaas/-/aberlaas-1.22.0.tgz#b5794cbc726bfe05d66d2db798b88278337d757b"
+  integrity sha512-IY3P89xuLdiH56QBBlPV1/KqmQgPc4R5jq2pkvRAsXrWmTJxDXtcC9kIjK27YnN224dbWh+wCb93U+29gqQ7UQ==
   dependencies:
     "@octokit/rest" "18.5.3"
     ci-info "2.0.0"
@@ -3476,7 +3476,7 @@ aberlaas@1.20.0:
     eslint-plugin-node "11.1.0"
     eslint-plugin-prettier "3.4.0"
     find-up "5.0.0"
-    firost "2.12.0"
+    firost "2.13.1"
     front-matter "4.0.2"
     golgoth "2.0.0"
     husky "4.3.8"
@@ -7851,32 +7851,6 @@ find-versions@^4.0.0:
   dependencies:
     semver-regex "^3.1.2"
 
-firost@2.12.0:
-  version "2.12.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.12.0.tgz#3575c57bc817c3b8039d3fa887a8a990e3efff7f"
-  integrity sha512-dqA5gMwqkscooKaE6yoo04e/cEyzcMw+z65/ESO5KSOQi4eHNgefwYpMNGoDCIjJlvwFGraXYaZiFaLUkaM59g==
-  dependencies:
-    callsites "3.1.0"
-    chokidar "3.5.1"
-    clear-module "4.1.1"
-    eventemitter2 "6.4.4"
-    execa "5.0.0"
-    find-up "5.0.0"
-    fs-extra "10.0.0"
-    globby "11.0.3"
-    golgoth "2.0.0"
-    inquirer "7.3.3"
-    is-glob "4.0.1"
-    json-stable-stringify "1.0.1"
-    nanoid "3.1.22"
-    normalize-url "5.3.0"
-    ora "5.4.0"
-    std-mocks "1.0.1"
-    strip-ansi "6.0.0"
-    tempy "1.0.1"
-    untildify "4.0.0"
-    which "2.0.2"
-
 firost@2.13.0:
   version "2.13.0"
   resolved "https://registry.npmjs.org/firost/-/firost-2.13.0.tgz#3c1e677db9ca0ffdbe28a9e5cb8a5c1c81ee2a75"
@@ -9334,25 +9308,6 @@ inquirer-autosubmit-prompt@^0.2.0:
     inquirer "^6.2.1"
     rxjs "^6.3.3"
 
-inquirer@7.3.3, inquirer@^7.0.0, inquirer@^7.3.3:
-  version "7.3.3"
-  resolved "https://registry.npmjs.org/inquirer/-/inquirer-7.3.3.tgz#04d176b2af04afc157a83fd7c100e98ee0aad003"
-  integrity sha512-JG3eIAj5V9CwcGvuOmoo6LB9kbAYT8HXffUl6memuszlwDC/qvFAJw49XJ5NROSFNPxp3iQg1GqkFhaY/CR0IA==
-  dependencies:
-    ansi-escapes "^4.2.1"
-    chalk "^4.1.0"
-    cli-cursor "^3.1.0"
-    cli-width "^3.0.0"
-    external-editor "^3.0.3"
-    figures "^3.0.0"
-    lodash "^4.17.19"
-    mute-stream "0.0.8"
-    run-async "^2.4.0"
-    rxjs "^6.6.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-    through "^2.3.6"
-
 inquirer@8.1.0:
   version "8.1.0"
   resolved "https://registry.npmjs.org/inquirer/-/inquirer-8.1.0.tgz#68ce5ce5376cf0e89765c993d8b7c1e62e184d69"
@@ -9390,6 +9345,25 @@ inquirer@^6.2.1, inquirer@^6.5.1:
     rxjs "^6.4.0"
     string-width "^2.1.0"
     strip-ansi "^5.1.0"
+    through "^2.3.6"
+
+inquirer@^7.0.0, inquirer@^7.3.3:
+  version "7.3.3"
+  resolved "https://registry.npmjs.org/inquirer/-/inquirer-7.3.3.tgz#04d176b2af04afc157a83fd7c100e98ee0aad003"
+  integrity sha512-JG3eIAj5V9CwcGvuOmoo6LB9kbAYT8HXffUl6memuszlwDC/qvFAJw49XJ5NROSFNPxp3iQg1GqkFhaY/CR0IA==
+  dependencies:
+    ansi-escapes "^4.2.1"
+    chalk "^4.1.0"
+    cli-cursor "^3.1.0"
+    cli-width "^3.0.0"
+    external-editor "^3.0.3"
+    figures "^3.0.0"
+    lodash "^4.17.19"
+    mute-stream "0.0.8"
+    run-async "^2.4.0"
+    rxjs "^6.6.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
     through "^2.3.6"
 
 instantsearch.js@4.22.0:
@@ -12138,11 +12112,6 @@ nan@^2.12.1:
   resolved "https://registry.npmjs.org/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
   integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
 
-nanoid@3.1.22:
-  version "3.1.22"
-  resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.22.tgz#b35f8fb7d151990a8aebd5aa5015c03cf726f844"
-  integrity sha512-/2ZUaJX2ANuLtTvqTlgqBQNJoQO398KyJgZloL0PZkC0dpysjncRUPsFe3DUPzz/y3h+u7C46np8RMuvF3jsSQ==
-
 nanoid@3.1.23, nanoid@^3.1.23:
   version "3.1.23"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
@@ -12640,11 +12609,6 @@ normalize-url@2.0.1:
     prepend-http "^2.0.0"
     query-string "^5.0.1"
     sort-keys "^2.0.0"
-
-normalize-url@5.3.0:
-  version "5.3.0"
-  resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-5.3.0.tgz#8959b3cdaa295b61592c1f245dded34b117618dd"
-  integrity sha512-9/nOVLYYe/dO/eJeQUNaGUF4m4Z5E7cb9oNTKabH+bNf19mqj60txTcveQxL0GlcWLXCxkOu2/LwL8oW0idIDA==
 
 normalize-url@6.0.0:
   version "6.0.0"
