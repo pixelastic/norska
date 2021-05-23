@@ -7872,10 +7872,10 @@ firost@2.12.0:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.13.1:
-  version "2.13.1"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.13.1.tgz#0471291f9a7944b3d7e581220427eac7a0387176"
-  integrity sha512-fqVa1vX35/zmgrbJb5+WJ1I1UFW1ah0zH2Xy/KCwBQ3Lp9urEJ1epQI4U8G7sZwkHGzg/mJpIdqn9PlNq6XHvA==
+firost@2.13.0:
+  version "2.13.0"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.13.0.tgz#3c1e677db9ca0ffdbe28a9e5cb8a5c1c81ee2a75"
+  integrity sha512-7tIsDEDv3mKwCIaHh1XBtUnqu/Dpow97VbPt+0FCkdDXx413WhnJyuolCgms7to78PRyYyMhadtaYBDoqNTRzQ==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.1"
@@ -7898,10 +7898,10 @@ firost@2.13.1:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.9.0.tgz#abe5bdab6123f82da61e0a9d188d7d6d29a63d1c"
-  integrity sha512-pz+hX7cbG2ODNYoJn9lhXtFeKm+KNzzYMJtUjWAZakSEbfxr7RjEnpfuCDDVBNVX5na/zLZZuPzb5093Sj4T5w==
+firost@2.13.1:
+  version "2.13.1"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.13.1.tgz#0471291f9a7944b3d7e581220427eac7a0387176"
+  integrity sha512-fqVa1vX35/zmgrbJb5+WJ1I1UFW1ah0zH2Xy/KCwBQ3Lp9urEJ1epQI4U8G7sZwkHGzg/mJpIdqn9PlNq6XHvA==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.1"
@@ -7909,14 +7909,14 @@ firost@2.9.0:
     eventemitter2 "6.4.4"
     execa "5.0.0"
     find-up "5.0.0"
-    fs-extra "9.1.0"
+    fs-extra "10.0.0"
     globby "11.0.3"
     golgoth "2.0.0"
-    inquirer "7.3.3"
+    inquirer "8.1.0"
     is-glob "4.0.1"
     json-stable-stringify "1.0.1"
-    nanoid "3.1.22"
-    normalize-url "5.3.0"
+    nanoid "3.1.23"
+    normalize-url "6.0.0"
     ora "5.4.0"
     std-mocks "1.0.1"
     strip-ansi "6.0.0"
@@ -8078,16 +8078,6 @@ fs-extra@10.0.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
-fs-extra@9.1.0, fs-extra@^9.1.0:
-  version "9.1.0"
-  resolved "https://registry.npmjs.org/fs-extra/-/fs-extra-9.1.0.tgz#5954460c764a8da2094ba3554bf839e6b9a7c86d"
-  integrity sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==
-  dependencies:
-    at-least-node "^1.0.0"
-    graceful-fs "^4.2.0"
-    jsonfile "^6.0.1"
-    universalify "^2.0.0"
-
 fs-extra@^7.0.0, fs-extra@^7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/fs-extra/-/fs-extra-7.0.1.tgz#4f189c44aa123b895f722804f55ea23eadc348e9"
@@ -8115,6 +8105,16 @@ fs-extra@^9.0.1:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
     universalify "^1.0.0"
+
+fs-extra@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.npmjs.org/fs-extra/-/fs-extra-9.1.0.tgz#5954460c764a8da2094ba3554bf839e6b9a7c86d"
+  integrity sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==
+  dependencies:
+    at-least-node "^1.0.0"
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
 
 fs-minipass@^1.2.5:
   version "1.2.7"
@@ -12656,12 +12656,12 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-norska-theme-docs@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-3.0.0.tgz#42a838663305cdfb25443bcea830a719968653fb"
-  integrity sha512-/KkyzZyWfzGdlgxQqH6I8glVKjk1BAiBs0fPTmmGOcyRwADmniWkAjTNy1iJ9JE1nloHiIqxwzqKjJmry6cXow==
+norska-theme-docs@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-4.0.0.tgz#a1c609686b4bb5e77f77799fc3030b554f039a16"
+  integrity sha512-/3fJ6nuWRQODbSgwh8MRkMg5DSpvKCZjhRjWUl65Ej79nPewRO4ufybU7xauzvCTA3EE1uSQU3ebLIdQZo27xQ==
   dependencies:
-    firost "2.9.0"
+    firost "2.13.0"
     parse-github-repo-url "1.4.1"
 
 np@7.5.0:
