@@ -4,7 +4,7 @@
     "firost": "2.13.1",
     "golgoth": "2.0.0",
     "norska-config": "^2.3.0",
-    "sharp": "0.28.2"
+    "sharp": "0.28.3"
   },
   "description": "Copy assets from source to destination",
   "files": [
