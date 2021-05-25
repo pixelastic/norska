@@ -2043,10 +2043,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@netlify/build@^11.20.0":
-  version "11.20.0"
-  resolved "https://registry.npmjs.org/@netlify/build/-/build-11.20.0.tgz#d5f97caefce52e05c06e1326d49ec4cdaa5d971e"
-  integrity sha512-BFdAyr/XIVvIpO2ETbgRYyWabR0BcMiJ+pSR9pPeuw1leO5JNOSoL1IS6ywA2MocfNaaIeYCkpl4P744wt+qyQ==
+"@netlify/build@^11.21.0":
+  version "11.22.0"
+  resolved "https://registry.npmjs.org/@netlify/build/-/build-11.22.0.tgz#4ac88043f1d816662d32f297002194e585910e1c"
+  integrity sha512-ToxF7NTR/Xhp2ihMdTpf/qjaG77OXAjBDX4o5AnhwhwEbmZFF55elegqO/CIwFXivL8oECnkGd2JULkdENemSw==
   dependencies:
     "@bugsnag/js" "^7.0.0"
     "@netlify/cache-utils" "^1.0.7"
@@ -12202,12 +12202,12 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.npmjs.org/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@3.31.2:
-  version "3.31.2"
-  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-3.31.2.tgz#19c24f2e6c5221d2a4ef1c94f07d8c2be63b3cb9"
-  integrity sha512-ynng/2syYrbXVnqVTvaNqkhWKT7JFykZ+9mCaGdlPjS/Wl4bOsYkzlNXFcqPdUWGQ3S9l5Ji96y9f22pJ5Sgeg==
+netlify-cli@3.31.3:
+  version "3.31.3"
+  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-3.31.3.tgz#64c4fa3fabcb0e063c745a10fd836fabb4db24fa"
+  integrity sha512-yZaQlzmo96X89DqHuF23GRva8HnaQdDtzkjnFk+vlXgYMtjSlAQmF7TXsKSgpzd5cWITEyXgNp6CkzO56JX7AQ==
   dependencies:
-    "@netlify/build" "^11.20.0"
+    "@netlify/build" "^11.21.0"
     "@netlify/config" "^6.7.0"
     "@netlify/framework-info" "^4.1.0"
     "@netlify/plugin-edge-handlers" "^1.11.12"
