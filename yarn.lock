@@ -2173,10 +2173,10 @@
     validate-npm-package-name "^3.0.0"
     yargs "^15.3.0"
 
-"@netlify/framework-info@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/@netlify/framework-info/-/framework-info-4.1.0.tgz#752c7f49b22af14aede919853a66a5681a6b8a4e"
-  integrity sha512-6FyNdWrDd/49jSEQHr/R81k99ese7kzaaIHsgSmgUJgAeSocJLGSqByWCJnRsrBkmJ7jzdGDy3OUBzChqJc1qg==
+"@netlify/framework-info@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/@netlify/framework-info/-/framework-info-5.0.0.tgz#785a13399f5b4a1cec538e8578828db8b858f344"
+  integrity sha512-EVyCVfSi9SKI7siVqAggQ4gsgkjzIxpUgUwh6ChNw7wQ8UykZ4gqYJjtw81VrxNqGV37yyI3Upy1u3MeusLLig==
   dependencies:
     ajv "^8.0.0"
     filter-obj "^2.0.1"
@@ -12234,14 +12234,14 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.npmjs.org/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@3.31.7:
-  version "3.31.7"
-  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-3.31.7.tgz#03a5ab85d079d8b2b10fc1ec10753ad32ce2f077"
-  integrity sha512-Q29oR0q6WEzIELOHeM1WzmCuDhXnoCK/4K6PsJBFoVXhNMgZ5h3j2oG+TsPnwx33V1oBLGpKPCFcq/ZW4I8RhA==
+netlify-cli@3.31.11:
+  version "3.31.11"
+  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-3.31.11.tgz#6cb740ce02bf2854a053d062d1d903b61de99f30"
+  integrity sha512-dGBK4uif2xVJp1nqEm0coZgcI+tmA6xBvYSkihv4zhnJPhxhRHA92CUMwy7gnV3QGLd9yn+xm4/jIJV6wl4lSA==
   dependencies:
     "@netlify/build" "^11.24.0"
     "@netlify/config" "^6.7.0"
-    "@netlify/framework-info" "^4.1.0"
+    "@netlify/framework-info" "^5.0.0"
     "@netlify/plugin-edge-handlers" "^1.11.12"
     "@netlify/plugins-list" "^2.14.2"
     "@netlify/traffic-mesh-agent" "^0.27.10"
@@ -12312,7 +12312,7 @@ netlify-cli@3.31.7:
     memoize-one "^5.2.1"
     minimist "^1.2.5"
     multiparty "^4.2.1"
-    netlify "^6.1.29"
+    netlify "^7.0.0"
     netlify-redirect-parser "^3.0.28"
     netlify-redirector "^0.2.1"
     node-fetch "^2.6.0"
@@ -12391,6 +12391,19 @@ netlify@6.1.29, netlify@^6.1.29:
     tempy "^0.3.0"
     through2-filter "^3.0.0"
     through2-map "^3.0.0"
+
+netlify@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/netlify/-/netlify-7.0.0.tgz#17b7e4cb0c31c3c55c3ce0a571a8502a11fb6a2b"
+  integrity sha512-s454O7JRqrIo90c6rX+um1Xp7B0dGZBAYaIXYtA3em8DXJ0uWoglDeQSul8qGT1goAAF/9oMPo0T9KTM/XrjqA==
+  dependencies:
+    "@netlify/open-api" "^2.4.0"
+    lodash.camelcase "^4.3.0"
+    micro-api-client "^3.3.0"
+    node-fetch "^2.6.1"
+    omit.js "^2.0.2"
+    p-wait-for "^3.2.0"
+    qs "^6.9.6"
 
 new-github-release-url@^1.0.0:
   version "1.0.0"
