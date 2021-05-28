@@ -75,7 +75,7 @@ module.exports = {
    * @param {object} userOptions Image proxy options
    * @returns {string} Full url with transforms applied
    **/
-  imageProxy(url, userOptions) {
+  imageProxy(url, userOptions = {}) {
     const options = userOptions;
 
     const cloudinary = config.get('cloudinary');
