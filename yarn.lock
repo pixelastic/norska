@@ -12365,7 +12365,20 @@ netlify-redirector@^0.2.1:
   resolved "https://registry.npmjs.org/netlify-redirector/-/netlify-redirector-0.2.1.tgz#efdb761ea2c52edb3ecb5f237db0e10861f2ff0e"
   integrity sha512-17vDR9p1Loanp+vd57y+b6WlKb5X+qb0LZ44oTYsKJbdonz4Md+Ybv1lzH1w1aKm5YWWXHR8LMpWyY9bjlAJKw==
 
-netlify@6.1.29, netlify@^6.1.29:
+netlify@7.0.0, netlify@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/netlify/-/netlify-7.0.0.tgz#17b7e4cb0c31c3c55c3ce0a571a8502a11fb6a2b"
+  integrity sha512-s454O7JRqrIo90c6rX+um1Xp7B0dGZBAYaIXYtA3em8DXJ0uWoglDeQSul8qGT1goAAF/9oMPo0T9KTM/XrjqA==
+  dependencies:
+    "@netlify/open-api" "^2.4.0"
+    lodash.camelcase "^4.3.0"
+    micro-api-client "^3.3.0"
+    node-fetch "^2.6.1"
+    omit.js "^2.0.2"
+    p-wait-for "^3.2.0"
+    qs "^6.9.6"
+
+netlify@^6.1.29:
   version "6.1.29"
   resolved "https://registry.npmjs.org/netlify/-/netlify-6.1.29.tgz#64ad7ee704165cb4e71667347a993cc5dcfb1418"
   integrity sha512-Xr26CcTLt7ChN2cWysCWbAItJHmTufVhVkF3VEd25uOtBNufvg674Amw6bkyWwvfGJzrNP+tj07YVtsQGdlOZQ==
@@ -12391,19 +12404,6 @@ netlify@6.1.29, netlify@^6.1.29:
     tempy "^0.3.0"
     through2-filter "^3.0.0"
     through2-map "^3.0.0"
-
-netlify@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/netlify/-/netlify-7.0.0.tgz#17b7e4cb0c31c3c55c3ce0a571a8502a11fb6a2b"
-  integrity sha512-s454O7JRqrIo90c6rX+um1Xp7B0dGZBAYaIXYtA3em8DXJ0uWoglDeQSul8qGT1goAAF/9oMPo0T9KTM/XrjqA==
-  dependencies:
-    "@netlify/open-api" "^2.4.0"
-    lodash.camelcase "^4.3.0"
-    micro-api-client "^3.3.0"
-    node-fetch "^2.6.1"
-    omit.js "^2.0.2"
-    p-wait-for "^3.2.0"
-    qs "^6.9.6"
 
 new-github-release-url@^1.0.0:
   version "1.0.0"
