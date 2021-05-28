@@ -2368,6 +2368,38 @@
     unixify "^1.0.0"
     yargs "^15.4.1"
 
+"@netlify/zip-it-and-ship-it@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.npmjs.org/@netlify/zip-it-and-ship-it/-/zip-it-and-ship-it-4.2.1.tgz#302afaa42505f120d922a4bb7f75c1014a2e86ce"
+  integrity sha512-IWh/VhLOH1412Mm1eBBKktV1SeSJHAiBehhdFMTrKJfFdK7vh+TylNImc/wuGCAdci85FXOWQ+YpnMOibhGvng==
+  dependencies:
+    archiver "^5.3.0"
+    array-flat-polyfill "^1.0.1"
+    common-path-prefix "^2.0.0"
+    cp-file "^7.0.0"
+    del "^5.1.0"
+    elf-cam "^0.1.1"
+    end-of-stream "^1.4.4"
+    esbuild "0.11.10"
+    filter-obj "^2.0.1"
+    find-up "^5.0.0"
+    glob "^7.1.6"
+    junk "^3.1.0"
+    locate-path "^6.0.0"
+    make-dir "^3.1.0"
+    merge-options "^3.0.4"
+    minimatch "^3.0.4"
+    p-map "^3.0.0"
+    path-exists "^4.0.0"
+    pkg-dir "^4.2.0"
+    precinct "^6.3.1"
+    read-package-json-fast "^2.0.2"
+    require-package-name "^2.0.1"
+    resolve "^2.0.0-next.1"
+    semver "^6.3.0"
+    unixify "^1.0.0"
+    yargs "^15.4.1"
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -12234,10 +12266,10 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.npmjs.org/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-netlify-cli@3.31.14:
-  version "3.31.14"
-  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-3.31.14.tgz#aafee50a3394f29b3ae16ce2d27f4a4d23a31198"
-  integrity sha512-PMKk/xWgAiSsbgi1oObfa9hpOhkJG5Opj2muB4j5ByLsa6i9ThPbplOY5/El3YyOeoXTb6Rmkiul53U/VQMk6A==
+netlify-cli@3.31.15:
+  version "3.31.15"
+  resolved "https://registry.npmjs.org/netlify-cli/-/netlify-cli-3.31.15.tgz#c726a91f855b1a5c840024127d77a9473fc4af9c"
+  integrity sha512-atlPURY4Ud5jFQqLbiNcdUTx7uFwiajDf3tGdiQyUdx/MRZGB3KAZRjejIdeI9bPsDaxvlqQvJSH3vNsIAGvig==
   dependencies:
     "@netlify/build" "^11.26.0"
     "@netlify/config" "^6.7.1"
@@ -12245,7 +12277,7 @@ netlify-cli@3.31.14:
     "@netlify/plugin-edge-handlers" "^1.11.12"
     "@netlify/plugins-list" "^2.14.2"
     "@netlify/traffic-mesh-agent" "^0.27.10"
-    "@netlify/zip-it-and-ship-it" "^4.2.0"
+    "@netlify/zip-it-and-ship-it" "^4.2.1"
     "@oclif/command" "^1.6.1"
     "@oclif/config" "^1.15.1"
     "@oclif/errors" "^1.3.4"
