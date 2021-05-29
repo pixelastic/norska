@@ -18,6 +18,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.0",
-  "dependencies": {}
+  "version": "2.3.1"
 }
