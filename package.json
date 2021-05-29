@@ -32,7 +32,7 @@
     "lint:fix": "./scripts/meta/lint-fix",
     "percy": "percy exec -- node ./scripts/meta/percy.js",
     "readme": "./scripts/readme",
-    "release": "node ./scripts/meta/release.js --skip-percy",
+    "release": "node ./scripts/meta/release.js --no-percy",
     "serve": "./scripts/docs/serve",
     "test": "./scripts/meta/test",
     "test:precommit": "./scripts/meta/test-precommit",
