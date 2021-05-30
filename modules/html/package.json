@@ -45,5 +45,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.1"
+  "version": "2.3.2"
 }
