@@ -464,6 +464,16 @@ describe('norska-html > path', () => {
         }
       );
     });
+    it('with a cloudinary bucket defined globally', async () => {
+      config.set('cloudinary', 'bucket-name');
+      jest.spyOn(helper, 'isProduction').mockReturnValue(true);
+
+      const target = 'http://there.com/cover.png';
+      const actual = current.lazyload(target, 'index.html', {});
+
+      expect(actual.full).toContain('cloudinarybucketName');
+      expect(actual.placeholder).toContain('CloudinarybucketName');
+    });
   });
   describe('screenshot', () => {
     it.each([

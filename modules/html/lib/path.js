@@ -76,13 +76,18 @@ module.exports = {
    * @returns {string} Full url with transforms applied
    **/
   imageProxy(url, userOptions = {}) {
-    const options = userOptions;
-
-    const cloudinary = config.get('cloudinary');
-    if (cloudinary) {
-      options.cloudinary = cloudinary;
-    }
+    const options = this.imageProxyOptions(userOptions);
     return imageProxy(url, options);
+  },
+  imageProxyOptions(options = {}) {
+    const cloudinary = config.get('cloudinary');
+    if (!cloudinary) {
+      return options;
+    }
+    return {
+      ...options,
+      cloudinary,
+    };
   },
   /**
    * Cast a target into an image URL, through the image proxy
@@ -149,7 +154,10 @@ module.exports = {
       const { base64Lqip } = assets.readImageManifest(runtimeKey);
       placeholderUrl = base64Lqip;
     } else {
-      const placeholderOptions = _.omit(options, ['disable']);
+      const placeholderOptions = _.chain(options)
+        .thru(this.imageProxyOptions)
+        .omit(['disable'])
+        .value();
       placeholderUrl = placeholderize(
         this.remoteUrl(target, sourceFile),
         placeholderOptions
