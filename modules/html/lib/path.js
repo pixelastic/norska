@@ -2,7 +2,6 @@ const config = require('norska-config');
 const assets = require('norska-assets');
 const helper = require('norska-helper');
 const imageProxy = require('norska-image-proxy');
-const isUrl = require('is-url-superb');
 const normalizeUrl = require('firost/normalizeUrl');
 const path = require('path');
 const _ = require('golgoth/lodash');
@@ -200,7 +199,8 @@ module.exports = {
    * @returns {boolean} True if a URL
    **/
   isUrl(target) {
-    return isUrl(target);
+    const regexp = /^https?:\/\//;
+    return regexp.test(target);
   },
   /**
    * Check if the given target is to a local file

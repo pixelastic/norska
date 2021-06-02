@@ -33,9 +33,12 @@ describe('norska-html > path', () => {
     it.each([
       ['http://here.com', true],
       ['https://here.com', true],
+      ['https://here.com/cover.png', true],
+      ['https://here.com/cover with spaces.png', true],
       ['./cover.png', false],
       ['cover.png', false],
       ['/cover.png', false],
+      ['http.png', false],
     ])('%s', async (input, expected) => {
       const actual = current.isUrl(input);
       expect(actual).toEqual(expected);
@@ -346,8 +349,7 @@ describe('norska-html > path', () => {
             placeholder: 'base64:cover.png',
           },
           prod: {
-            full:
-              'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=',
+            full: 'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=',
             placeholder: 'base64:cover.png',
           },
         },
@@ -362,8 +364,7 @@ describe('norska-html > path', () => {
             placeholder: 'base64:cover.png',
           },
           prod: {
-            full:
-              'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=',
+            full: 'http://proxy.com/?url=http://here.com/{revv: /cover.png}&options=',
             placeholder: 'base64:cover.png',
           },
         },
@@ -378,8 +379,7 @@ describe('norska-html > path', () => {
             placeholder: 'base64:blog/cover.png',
           },
           prod: {
-            full:
-              'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=',
+            full: 'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=',
             placeholder: 'base64:blog/cover.png',
           },
         },
@@ -396,8 +396,7 @@ describe('norska-html > path', () => {
             placeholder: 'cover.png',
           },
           prod: {
-            full:
-              'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=',
+            full: 'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=',
             placeholder:
               'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=',
           },
@@ -419,8 +418,7 @@ describe('norska-html > path', () => {
             placeholder: 'base64:blog/cover.png',
           },
           prod: {
-            full:
-              'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=blur42',
+            full: 'http://proxy.com/?url=http://here.com/{revv: /blog/cover.png}&options=blur42',
             placeholder: 'base64:blog/cover.png',
           },
         },
@@ -436,16 +434,31 @@ describe('norska-html > path', () => {
         },
         {
           dev: {
-            full:
-              'http://proxy.com/?url=https://example.com/picture.png&options=blur42',
+            full: 'http://proxy.com/?url=https://example.com/picture.png&options=blur42',
             placeholder:
               'http://proxy.com/?url=https://example.com/picture.png&options=blur142Quality50',
           },
           prod: {
-            full:
-              'http://proxy.com/?url=https://example.com/picture.png&options=blur42',
+            full: 'http://proxy.com/?url=https://example.com/picture.png&options=blur42',
             placeholder:
               'http://proxy.com/?url=https://example.com/picture.png&options=blur142Quality50',
+          },
+        },
+      ],
+      [
+        'https://www.example.com/picture and space.png',
+        'index.html',
+        {},
+        {
+          dev: {
+            full: 'http://proxy.com/?url=https://example.com/picture%20and%20space.png&options=',
+            placeholder:
+              'http://proxy.com/?url=https://example.com/picture%20and%20space.png&options=blur5Quality50',
+          },
+          prod: {
+            full: 'http://proxy.com/?url=https://example.com/picture%20and%20space.png&options=',
+            placeholder:
+              'http://proxy.com/?url=https://example.com/picture%20and%20space.png&options=blur5Quality50',
           },
         },
       ],

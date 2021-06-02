@@ -40,6 +40,11 @@ describe('norska-html > pug > mixins > img', () => {
       '+img(src="https://there.com/foo.png" options={placeholder: {blur:100}})',
       '<img class="lazyload lazyload-remote" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&blur=100&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo.png&af&il" loading="lazy"/>',
     ],
+    [
+      'With a space in the remote url',
+      '+img(src="https://there.com/foo bar.png")',
+      '<img class="lazyload lazyload-remote" src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo%2520bar.png&af&blur=5&il&q=50" data-src="https://images.weserv.nl?url=https%3A%2F%2Fthere.com%2Ffoo%2520bar.png&af&il" loading="lazy"/>',
+    ],
   ])('%s', async (_name, source, expected) => {
     const actual = await pug.convert(dedent`
     block content
