@@ -74,8 +74,8 @@ const release = {
   async runTests() {
     try {
       consoleInfo('Running tests');
-      await this.runFromRoot('yarn run test');
-      await this.runFromRoot('yarn run test:slow');
+      await this.runFromRoot('yarn run test --colors');
+      await this.runFromRoot('yarn run test:slow --colors');
     } catch (err) {
       consoleError('Tests failed, exiting');
       exit(1);
