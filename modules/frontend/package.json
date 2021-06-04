@@ -5,7 +5,7 @@
     "instantsearch.js": "4.23.0",
     "lazysizes": "5.3.2",
     "lodash-es": "4.17.21",
-    "norska-image-proxy": "^2.3.1"
+    "norska-image-proxy": "^2.3.4"
   },
   "description": "Frontend helpers to be used in live website",
   "files": [
@@ -27,5 +27,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.1"
+  "version": "2.3.4"
 }
