@@ -23,12 +23,10 @@ allModules.forEach((moduleName) => {
 });
 
 // Update watch and test ignore patterns
-const watchPathIgnorePatterns = jestConfig.watchPathIgnorePatterns.concat(
-  ignorePatterns
-);
-const testPathIgnorePatterns = jestConfig.testPathIgnorePatterns.concat(
-  ignorePatterns
-);
+const watchPathIgnorePatterns =
+  jestConfig.watchPathIgnorePatterns.concat(ignorePatterns);
+const testPathIgnorePatterns =
+  jestConfig.testPathIgnorePatterns.concat(ignorePatterns);
 
 module.exports = {
   ...jestConfig,
