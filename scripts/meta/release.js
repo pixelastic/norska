@@ -10,7 +10,9 @@ const minimist = require('minimist');
 
 const release = {
   setArgs(args) {
-    const skipPercy = args.percy === false;
+    // We always skip percy for now, it adds more problems than it solves
+    const skipPercy = true;
+    // args.percy === false;
     const skipTests = args.tests === false;
     const version = args._[0];
     this.args = { skipPercy, skipTests, version };
