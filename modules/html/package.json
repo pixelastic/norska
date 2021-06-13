@@ -13,7 +13,7 @@
     "norska-assets": "^2.3.4",
     "norska-config": "^2.3.4",
     "norska-data": "^2.3.4",
-    "norska-frontend": "^2.3.4",
+    "norska-frontend": "^2.3.5",
     "norska-helper": "^2.3.4",
     "norska-image-proxy": "^2.3.4",
     "pug": "3.0.2",
@@ -44,5 +44,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.4"
+  "version": "2.3.5"
 }

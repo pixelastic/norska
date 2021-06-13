@@ -8,8 +8,8 @@
     "livereload": "0.9.3",
     "norska-assets": "^2.3.4",
     "norska-config": "^2.3.4",
-    "norska-css": "^2.3.4",
-    "norska-html": "^2.3.4",
+    "norska-css": "^2.3.5",
+    "norska-html": "^2.3.5",
     "norska-js": "^2.3.4",
     "open": "8.2.0"
   },
@@ -29,7 +29,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.4",
+  "version": "2.3.5",
   "devDependencies": {
     "get-port": "5.1.1"
   }
