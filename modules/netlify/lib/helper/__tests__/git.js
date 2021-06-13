@@ -5,6 +5,7 @@ const write = require('firost/write');
 const writeJson = require('firost/writeJson');
 const mkdirp = require('firost/mkdirp');
 const remove = require('firost/remove');
+const move = require('firost/move');
 const emptyDir = require('firost/emptyDir');
 const tmpDirectory = require('firost/tmpDirectory');
 const pAll = require('golgoth/pAll');
@@ -126,6 +127,52 @@ describe('norska-netlify > git', () => {
         commitRef
       );
       expect(actual).toHaveProperty('key', 'One');
+    });
+  });
+  describe('diffOverview', () => {
+    beforeEach(async () => {
+      jest.spyOn(current, 'colorModified').mockImplementation((input) => {
+        return `modified:${input}`;
+      });
+      jest.spyOn(current, 'colorAdded').mockImplementation((input) => {
+        return `added:${input}`;
+      });
+      jest.spyOn(current, 'colorDeleted').mockImplementation((input) => {
+        return `deleted:${input}`;
+      });
+      jest.spyOn(current, 'colorRenamed').mockImplementation((input) => {
+        return `renamed:${input}`;
+      });
+    });
+    it('should display colored output of changed files', async () => {
+      const repo = await testRepo();
+      await pAll([
+        () => write('This will not change', config.rootPath('unchanged')),
+        () => write('This will be removed', config.rootPath('removed')),
+        () => write('This will be renamed', config.rootPath('renamed')),
+        () => write('This will be modified', config.rootPath('modified')),
+        () => write('This will be reverted', config.rootPath('reverted')),
+      ]);
+      const commitReference = await repo.commitAll('Initial commit');
+
+      await pAll([
+        () => write('This will be added', config.rootPath('added')),
+        () => remove(config.rootPath('removed')),
+        () => move(config.rootPath('renamed'), config.rootPath('renamed-bis')),
+        () => write('This is modified', config.rootPath('modified')),
+        () => write('This is modified', config.rootPath('reverted')),
+      ]);
+      await repo.commitAll('Modifications');
+
+      await write('This will be reverted', config.rootPath('reverted'));
+      await repo.commitAll('Revert modification');
+
+      const actual = await current.diffOverview(commitReference);
+      expect(actual).toEqual(dedent`
+added:A  added
+modified:M  modified
+deleted:D  removed
+renamed:R100  renamed  renamed-bis`);
     });
   });
 });

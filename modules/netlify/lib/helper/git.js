@@ -3,6 +3,7 @@ const gitRoot = require('firost/gitRoot');
 const run = require('firost/run');
 const _ = require('golgoth/lodash');
 const path = require('path');
+const chalk = require('golgoth/chalk');
 module.exports = {
   /**
    * Run a git command in the repo
@@ -37,6 +38,31 @@ module.exports = {
       })
       .value();
   },
+  /**
+   * Returns a colored overview of the file diff since the reference commit
+   * @param {string} referenceCommit SHA of the reference commit
+   * @returns {string} Colored diff
+   **/
+  async diffOverview(referenceCommit) {
+    const command = `diff --name-status ${referenceCommit} HEAD`;
+    const result = await this.runCommand(command);
+    return _.chain(result)
+      .split('\n')
+      .compact()
+      .map((line) => {
+        const colors = {
+          M: this.colorModified,
+          D: this.colorDeleted,
+          A: this.colorAdded,
+          R: this.colorRenamed,
+        };
+        const firstLetter = line[0];
+        return colors[firstLetter](line);
+      })
+      .join('\n')
+      .replace(/\t/g, '  ')
+      .value();
+  },
   root() {
     return gitRoot(config.root());
   },
@@ -62,5 +88,17 @@ module.exports = {
    **/
   async getCurrentCommit() {
     return await this.runCommand('rev-parse HEAD');
+  },
+  colorModified(input) {
+    return chalk.magenta(input)
+  },
+  colorDeleted(input) {
+    return chalk.red(input)
+  },
+  colorAdded(input) {
+    return chalk.green(input)
+  },
+  colorRenamed(input) {
+    return chalk.yellow(input)
   },
 };

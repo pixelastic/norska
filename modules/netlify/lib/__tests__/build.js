@@ -11,6 +11,7 @@ describe('norska-netlify > build', () => {
       jest.spyOn(current, '__consoleInfo').mockReturnValue();
       jest.spyOn(current, '__consoleSuccess').mockReturnValue();
       jest.spyOn(current, '__consoleError').mockReturnValue();
+      jest.spyOn(gitHelper, 'diffOverview').mockReturnValue();
     });
     it('should always build if not in production', async () => {
       jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(false);
