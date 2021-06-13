@@ -90,15 +90,15 @@ module.exports = {
     return await this.runCommand('rev-parse HEAD');
   },
   colorModified(input) {
-    return chalk.magenta(input)
+    return chalk.blue(input);
   },
   colorDeleted(input) {
-    return chalk.red(input)
+    return chalk.red(input);
   },
   colorAdded(input) {
-    return chalk.green(input)
+    return chalk.green(input);
   },
   colorRenamed(input) {
-    return chalk.yellow(input)
+    return chalk.yellow(input);
   },
 };

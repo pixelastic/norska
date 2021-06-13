@@ -37,7 +37,7 @@ module.exports = {
 
     // Display a diff of changed files
     const diffOverview = await gitHelper.diffOverview(lastDeployCommit);
-    this.__consoleInfo(diffOverview);
+    this.__consoleInfo(`Files modified since last deploy:\n${diffOverview}`);
 
     // Build if important files were changed since last build
     const importantFilesChanged = await this.importantFilesChanged(
