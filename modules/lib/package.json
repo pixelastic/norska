@@ -15,9 +15,9 @@
     "norska-helper": "^2.3.4",
     "norska-html": "^2.3.5",
     "norska-image-proxy": "^2.3.4",
-    "norska-init": "^2.3.5",
+    "norska-init": "^2.3.6",
     "norska-js": "^2.3.4",
-    "norska-netlify": "^2.3.5",
+    "norska-netlify": "^2.3.6",
     "norska-revv": "^2.3.4",
     "norska-serve": "^2.3.5"
   },
@@ -41,5 +41,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.5"
+  "version": "2.3.6"
 }
