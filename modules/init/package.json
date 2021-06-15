@@ -3,8 +3,8 @@
   "dependencies": {
     "firost": "2.13.1",
     "golgoth": "2.0.0",
-    "norska-config": "^2.3.4",
-    "norska-netlify": "^2.3.6"
+    "norska-config": "^2.4.0",
+    "norska-netlify": "^2.4.0"
   },
   "description": "Initialize a new Norska project",
   "files": [
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.3.6"
+  "version": "2.4.0"
 }
