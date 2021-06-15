@@ -2,6 +2,9 @@ const current = require('../path');
 const config = require('norska-config');
 const assets = require('norska-assets');
 const helper = require('norska-helper');
+const path = require('path');
+const emptyDir = require('firost/emptyDir');
+const write = require('firost/write');
 const _ = require('golgoth/lodash');
 const imageProxy = require('norska-image-proxy');
 jest.mock('norska-image-proxy');
@@ -9,9 +12,15 @@ jest.mock('norska-image-proxy');
 describe('norska-html > path', () => {
   beforeEach(async () => {
     const tmpDirectory = './tmp/norska-html/path';
+    const themePath = path.resolve(
+      tmpDirectory,
+      'node_modules/norska-theme-default'
+    );
     await config.init({
       root: tmpDirectory,
+      theme: themePath,
     });
+    await emptyDir(tmpDirectory);
     config.set('runtime.productionUrl', 'http://here.com');
     config.set('runtime.gitCommit', 'abcdef');
 
@@ -537,6 +546,64 @@ describe('norska-html > path', () => {
       ['http://there.com/', 'index.html', 'http://there.com'],
     ])('[%s] %s is %s', async (target, sourceFile, expected) => {
       const actual = current.link(target, sourceFile);
+      expect(actual).toEqual(expected);
+    });
+  });
+  describe('findFile', () => {
+    it.each([
+      // test name | files to create | input | expected key
+      [
+        'File only in theme',
+        {
+          theme: 'assets/logo.svg',
+          project: null,
+        },
+        'assets/logo.svg',
+        'theme',
+      ],
+      [
+        'File in theme and project',
+        {
+          theme: 'assets/logo.svg',
+          project: 'assets/logo.svg',
+        },
+        'assets/logo.svg',
+        'project',
+      ],
+      [
+        'File only in project',
+        {
+          theme: null,
+          project: 'assets/logo.svg',
+        },
+        'assets/logo.svg',
+        'project',
+      ],
+      [
+        'File not found',
+        {
+          theme: null,
+          project: null,
+        },
+        'assets/logo.svg',
+        'false',
+      ],
+    ])('%s', async (_name, files, input, expectedType) => {
+      if (files.theme) {
+        await write('<svg />', config.themeFromPath(files.theme));
+      }
+      if (files.project) {
+        await write('<svg />', config.fromPath(files.project));
+      }
+      const actual = current.findFile(input);
+      const expectedHash = {
+        theme: config.themeFromPath.bind(config),
+        project: config.fromPath.bind(config),
+        false: () => {
+          return false;
+        },
+      };
+      const expected = expectedHash[expectedType](input);
       expect(actual).toEqual(expected);
     });
   });

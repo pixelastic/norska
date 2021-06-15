@@ -5,6 +5,7 @@ const imageProxy = require('norska-image-proxy');
 const normalizeUrl = require('firost/normalizeUrl');
 const path = require('path');
 const _ = require('golgoth/lodash');
+const fs = require('fs');
 const placeholderize = require('norska-frontend/lib/lazyload/placeholderize');
 
 module.exports = {
@@ -275,5 +276,24 @@ module.exports = {
     // Add a final slash for directories
     const hasExtension = !!path.extname(target);
     return hasExtension ? fromFile : `${fromFile}/`;
+  },
+  /**
+   * Returns paths to a file either from the source directory or the theme
+   * source directory
+   * @param {string} relativePath Relative path from the source directory
+   * @returns {string|boolean} Full path to the file, or false if not found
+   */
+  findFile(relativePath = '') {
+    const fromPath = config.fromPath(relativePath);
+    if (fs.existsSync(fromPath)) {
+      return fromPath;
+    }
+
+    const themeFromPath = config.themeFromPath(relativePath);
+    if (fs.existsSync(themeFromPath)) {
+      return themeFromPath;
+    }
+
+    return false;
   },
 };

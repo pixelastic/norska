@@ -16,6 +16,7 @@ describe('norska-html > pug > methods > include', () => {
     );
     await write('ul!=include("li.pug")', config.fromPath('ul.pug'));
     await write('li List element', config.fromPath('li.pug'));
+    await write('<svg />', config.themeFromPath('assets/logo.svg'));
   });
   it.each([
     // name, source, expected
@@ -34,6 +35,11 @@ describe('norska-html > pug > methods > include', () => {
       'Included files have default mixins',
       '+times(3)\n    p item',
       '<p>item</p><p>item</p><p>item</p>',
+    ],
+    [
+      'Include file from theme',
+      '.h-5!=include("assets/logo.svg")',
+      '<div class="h-5"><svg /></div>',
     ],
   ])('%s', async (_name, source, expected) => {
     const pugSource = `block content\n  ${source}`;
