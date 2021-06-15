@@ -20,8 +20,7 @@ a variable).
 `norska` adds this missing piece of functionality. Just
 `include('path/to/file.svg')` whenever you need to include another file.
 
-Any path starting with a `/` is considered relative to the `./src` root,
-otherwise it's handled as relative to the file doing the `include`.
+Paths are considered relative to the `./src` root.
 
 Also note that you can recursively include `.pug` files, and they will be
 correctly compiled and transformed to HTML.
@@ -55,7 +54,7 @@ As its name implies, the `link()` method will return the shortest link to the
 target.
 
 Any target starting with a `/` is considered relative to the `./src` root,
-otherwise it's handled as relative to the file doing the `include`.
+otherwise it's handled as relative to the file doing the `link`.
 
 ## `isCurrentPage(target)`
 
