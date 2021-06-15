@@ -76,10 +76,14 @@ body {
 
 ### Logos
 
-The logo displayed in the header can be configured by creating the files
-`./src/_includes/logo.pug`, `./src/_includes/logo_md.pug` and
-`./src/_includes/logo_lg.pug`. The `_md` and `_lg` variant represent the logo to
-be displayed on medium and large viewports, respectively.
+To change the logo of the website, create a `./src/assets/logo.svg` file. This
+will be used as both the logo in the header, and the favicon.
+
+You can also create a `./src/_includes/logo.pug` to overwrite the logo displayed
+in the header. By default it tries to adapt to screen sizes by hiding the
+project title and only keeping the logo on small screens, but depending on your
+logo/title, you might have to adjust it. Have a look [at the theme file][1] for
+inspiration.
 
 ### Sidebar
 
@@ -136,8 +140,8 @@ module.exports = {
 
 ### DocSearch
 
-To add [DocSearch](https://docsearch.algolia.com/) to your documentation, start
-by [applying through this form](https://docsearch.algolia.com/apply/). 
+To add [DocSearch][2] to your documentation, start
+by [applying through this form][3].
 
 You'll receive an `apiKey` and `indexName` by email. Add them to your
 `_data/theme.json` config file, under the `docSearch` key like this:
@@ -151,3 +155,7 @@ You'll receive an `apiKey` and `indexName` by email. Add them to your
   }
 }
 ```
+
+[1]: https://github.com/pixelastic/norska-theme-docs/blob/master/src/_includes/logo.pug
+[2]: https://docsearch.algolia.com/
+[3]: https://docsearch.algolia.com/apply/
