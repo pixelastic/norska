@@ -35,6 +35,52 @@ Now, let's see how to tweak the theme to make it fit your project.
 
 Open `./src/_data/meta.json` and edit the data that defines your project.
 
+### Colors
+
+The default theme is using green as its base color. To change the dominant
+color(s), you can override some CSS classes in your `style.css` file.
+
+```scss
+@import 'theme:style.css';
+
+body {
+  /* Change the header backround color */
+  .theme-header {
+    @apply bg-blue-1;
+  }
+  /* Change the current page marker color in the sidebar */
+  .theme-navigation-link-active {
+    @apply border-blue-4;
+  }
+  /* Change the color of links on hover in the sidebar */
+  .theme-navigation-link:hover {
+    @apply blue-5;
+  }
+  /* Change the color of the title underline */
+  .theme-title {
+    @apply border-blue-5;
+  }
+
+  /* DocSearch main color */
+  --docsearch-primary-color: #4299e1;
+}
+.prose a {
+  /* Change the color of links */
+  @apply blue-5;
+  &:hover {
+    /* Change the color of the underline of hovered links */
+    @apply underline-blue-5;
+  }
+}
+```
+
+### Logos
+
+The logo displayed in the header can be configured by creating the files
+`./src/_includes/logo.pug`, `./src/_includes/logo_md.pug` and
+`./src/_includes/logo_lg.pug`. The `_md` and `_lg` variant represent the logo to
+be displayed on medium and large viewports, respectively.
+
 ### Sidebar
 
 Create a `./src/_data/theme.js` file to define the links of your sidebar. The
@@ -105,51 +151,3 @@ You'll receive an `apiKey` and `indexName` by email. Add them to your
   }
 }
 ```
-
-### Colors
-
-The default theme is using green as its base color. To change the dominant
-color(s), you can override some CSS classes in your `style.css` file.
-
-```scss
-@import 'theme:style.css';
-
-body {
-  /* Change the header backround color */
-  .theme-header {
-    @apply bg-blue-1;
-  }
-  /* Change the current page marker color in the sidebar */
-  .theme-navigation-link-active {
-    @apply border-blue-4;
-  }
-  /* Change the color of links on hover in the sidebar */
-  .theme-navigation-link:hover {
-    @apply blue-5;
-  }
-  /* Change the color of the title underline */
-  .theme-title {
-    @apply border-blue-5;
-  }
-
-  /* DocSearch main color */
-  --docsearch-primary-color: #4299e1;
-}
-.prose a {
-  /* Change the color of links */
-  @apply blue-5;
-  &:hover {
-    /* Change the color of the underline of hovered links */
-    @apply underline-blue-5;
-  }
-}
-```
-
-### Logos
-
-The logo displayed in the header can be configured by creating the files
-`./src/_includes/logo.pug`, `./src/_includes/logo_md.pug` and
-`./src/_includes/logo_lg.pug`. The `_md` and `_lg` variant represent the logo to
-be displayed on medium and large viewports, respectively.
-
-
