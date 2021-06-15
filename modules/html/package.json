@@ -17,7 +17,7 @@
     "norska-helper": "^2.3.4",
     "norska-image-proxy": "^2.3.4",
     "pug": "3.0.2",
-    "slug": "5.0.1"
+    "slug": "5.1.0"
   },
   "description": "Convert sources to .html files",
   "devDependencies": {
