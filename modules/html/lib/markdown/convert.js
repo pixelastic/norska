@@ -5,6 +5,7 @@ const highlightJsPug = require('highlightjs-pug');
 const mixinHelperImg = require('../pug/mixins/helpers/img.js');
 const path = require('../path.js');
 const slug = require('./slug.js');
+const isUrl = require('firost/isUrl');
 
 module.exports = {
   /**
@@ -72,7 +73,7 @@ module.exports = {
     const token = tokens[tokenIndex];
     const tokenAttributes = _.fromPairs(token.attrs);
     const srcAttribute = tokenAttributes.src;
-    const isLocal = !path.isUrl(srcAttribute);
+    const isLocal = !isUrl(srcAttribute);
 
     if (imgUrlPrefix && isLocal) {
       tokenAttributes.src = `${imgUrlPrefix}/${srcAttribute}`;

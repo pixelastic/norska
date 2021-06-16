@@ -6,6 +6,7 @@ const normalizeUrl = require('firost/normalizeUrl');
 const path = require('path');
 const _ = require('golgoth/lodash');
 const fs = require('fs');
+const isUrl = require('firost/isUrl');
 const placeholderize = require('norska-frontend/lib/lazyload/placeholderize');
 
 module.exports = {
@@ -19,7 +20,7 @@ module.exports = {
    * @returns {string} Remote url
    */
   remoteUrl(target, sourceFile) {
-    if (this.isUrl(target)) {
+    if (isUrl(target)) {
       return normalizeUrl(target);
     }
 
@@ -100,7 +101,7 @@ module.exports = {
    */
   img(target, sourceFile, options) {
     // Remote url goes through proxy
-    if (this.isUrl(target)) {
+    if (isUrl(target)) {
       return this.imageProxy(normalizeUrl(target), options);
     }
 
@@ -181,7 +182,7 @@ module.exports = {
     // Use the specified target if passed (local or remote), or use the current
     // url if not
     const urlTarget = target || sourceFile;
-    const pageUrl = this.isUrl(urlTarget) ? urlTarget : this.pageUrl(urlTarget);
+    const pageUrl = isUrl(urlTarget) ? urlTarget : this.pageUrl(urlTarget);
 
     const gitCommit = config.get('runtime.gitCommit');
     const revvedUrl = [
@@ -195,21 +196,12 @@ module.exports = {
     return this.imageProxy(revvedUrl, options);
   },
   /**
-   * Check if the given target is a url
-   * @param {string} target URL or local path
-   * @returns {boolean} True if a URL
-   **/
-  isUrl(target) {
-    const regexp = /^https?:\/\//;
-    return regexp.test(target);
-  },
-  /**
    * Check if the given target is to a local file
    * @param {string} target URL or local path
    * @returns {boolean} True if a local file
    **/
   isLocal(target) {
-    return !this.isUrl(target);
+    return !isUrl(target);
   },
   /**
    * Check if the given target should be considered coming from the root (ie.
@@ -263,7 +255,7 @@ module.exports = {
    **/
   link(target, sourceFile) {
     // Remote url are kept remote
-    if (this.isUrl(target)) {
+    if (isUrl(target)) {
       return normalizeUrl(target);
     }
 
