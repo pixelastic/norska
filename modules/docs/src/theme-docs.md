@@ -85,6 +85,10 @@ project title and only keeping the logo on small screens, but depending on your
 logo/title, you might have to adjust it. Have a look [at the theme file][1] for
 inspiration.
 
+[The noun project][4] is a great ressource for finding simple SVG icons to use,
+and [this CodePen][5] can help in removing the whitespace around the actual
+icon.
+
 ### Sidebar
 
 Create a `./src/_data/theme.js` file to define the links of your sidebar. The
@@ -159,3 +163,5 @@ You'll receive an `apiKey` and `indexName` by email. Add them to your
 [1]: https://github.com/pixelastic/norska-theme-docs/blob/master/src/_includes/logo.pug
 [2]: https://docsearch.algolia.com/
 [3]: https://docsearch.algolia.com/apply/
+[4]: https://thenounproject.com/
+[5]: https://codepen.io/mkmueller/pen/vpJmEK
