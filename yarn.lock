@@ -9550,10 +9550,10 @@ image-size@^0.8.2:
   dependencies:
     queue "6.0.1"
 
-imoen@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/imoen/-/imoen-0.3.0.tgz#73ca5c3cec9b2e7dce407226ca9ced4764494299"
-  integrity sha512-RzO5ZA/IzYZMkfic0mmWIT1eohMflTKFQtnhbjr0ie1eWh8U0gzcKdNk0ynGU5RnhVSoF97BN4BrCGBJrO6+SQ==
+imoen@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/imoen/-/imoen-0.4.0.tgz#69e61f33938007bc9d2b24732c849dc554019ff1"
+  integrity sha512-kNCYW/3NtQkLl/7lKWefqpvuQ+BE+2QPxdbVAjJAALv1H48p7UlFHXOhABAksSviOkfm27eIXC9wUOB5PyWwng==
   dependencies:
     firost "2.14.0"
     sharp "0.28.3"

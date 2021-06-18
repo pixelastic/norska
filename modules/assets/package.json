@@ -3,7 +3,7 @@
   "dependencies": {
     "firost": "2.14.0",
     "golgoth": "2.0.0",
-    "imoen": "0.3.0",
+    "imoen": "0.4.0",
     "norska-config": "^2.4.0",
     "sharp": "0.28.3"
   },
