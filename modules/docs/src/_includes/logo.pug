@@ -1,2 +1,3 @@
-.flex.items-center
-  +logo.w-5.h-5()
+.flex.items-center.blue-5
+  .w-5.h-5.fill-current!=include("assets/logo.svg")
+  .hidden.md_block.text-6.ml-1.black=data.package.name

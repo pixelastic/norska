@@ -2,6 +2,5 @@
   "description": "Norska is an opinionated static website generator.",
   "title": "norska",
   "twitter": "pixelastic",
-  "productionUrl": "https://projects.pixelastic.com/norska/",
-  "favicon": "assets/logo.svg"
+  "productionUrl": "https://projects.pixelastic.com/norska/"
 }
