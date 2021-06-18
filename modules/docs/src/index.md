@@ -13,7 +13,8 @@ websites.
 
 ## Quick install
 
-Start by adding Norska as part of your dev dependencies with `yarn add --dev norska`. Then scaffold your project with `yarn run init`. Norska will create
+Start by adding Norska as part of your dev dependencies with `yarn add --dev
+norska`. Then scaffold your project with `yarn run init`. Norska will create
 a bunch of files for you, so now would be a good time to commit.
 
 You can then run `yarn run serve` to serve local version of your website. Start
