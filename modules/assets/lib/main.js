@@ -1,4 +1,5 @@
 const config = require('norska-config');
+const imoen = require('imoen');
 const copy = require('firost/copy');
 const glob = require('firost/glob');
 const pMap = require('golgoth/pMap');
@@ -9,9 +10,7 @@ const timeSpan = require('golgoth/timeSpan');
 const watch = require('firost/watch');
 const _ = require('golgoth/lodash');
 const defaultConfig = require('./config.js');
-const sharp = require('sharp');
 
-const PLACEHOLDER_MAX_DIMENSION = 8;
 const PLACEHOLDER_IMAGE_EXTENSIONS = ['.png', '.jpg'];
 
 module.exports = {
@@ -160,23 +159,12 @@ module.exports = {
    * @param {string} filepath Path to the image
    **/
   async registerImage(filepath) {
-    const image = sharp(filepath);
-    const { width, height } = await image.metadata();
-
-    const buffer = await image
-      .resize(PLACEHOLDER_MAX_DIMENSION, PLACEHOLDER_MAX_DIMENSION, {
-        fit: 'inside',
-      })
-      .toBuffer();
-    const extname = _.trim(path.extname(filepath), '.');
-    const base64Prefix = `data:image/${extname};`;
-    const base64Lqip = `${base64Prefix};base64,${buffer.toString('base64')}`;
-
+    const { width, height, base64 } = await imoen(filepath);
     const key = path.relative(config.to(), filepath);
     this.writeImageManifest(key, {
       width,
       height,
-      base64Lqip,
+      base64Lqip: base64,
     });
   },
   /**
