@@ -14,6 +14,6 @@ module.exports = {
     ],
     // Deploy again if any of these keys in the project package.json were
     // changed since the last deploy
-    keys: ['dependencies'],
+    keys: ['version', 'dependencies'],
   },
 };

@@ -139,7 +139,18 @@ describe('norska-netlify > build', () => {
   describe('importantKeysChanged', () => {
     it.each([
       // title | before | now | expected
-      ['✘ version changed', { version: '1.0' }, { version: '1.1' }, []],
+      [
+        '✔ version changed',
+        { version: '1.0' },
+        { version: '1.1' },
+        [
+          {
+            before: '1.0',
+            after: '1.1',
+            name: 'version',
+          },
+        ],
+      ],
       [
         '✘ devDependencies changed',
         { devDependencies: { aberlaas: '1.0' } },
