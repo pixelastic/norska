@@ -11,7 +11,7 @@
     "norska-config": "^2.4.1",
     "norska-css": "^2.4.1",
     "norska-helper": "^2.4.1",
-    "open": "8.2.0"
+    "open": "8.2.1"
   },
   "description": "Edit _data folder interactively",
   "files": [
