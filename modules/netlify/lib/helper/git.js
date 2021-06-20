@@ -51,10 +51,14 @@ module.exports = {
       .compact()
       .map((line) => {
         const colors = {
-          M: this.colorModified,
-          D: this.colorDeleted,
-          A: this.colorAdded,
-          R: this.colorRenamed,
+          A: this.colorAdded, // Added
+          C: this.colorRenamed, // Moved
+          D: this.colorDeleted, // Deleted
+          M: this.colorModified, // Modified
+          R: this.colorRenamed, // Renamed
+          T: this.colorModified, // Type changed (submodule/symlink)
+          U: this.colorDeleted, // Unmerged file (should not happen)
+          X: this.colorDeleted, // Error
         };
         const firstLetter = line[0];
         return colors[firstLetter](line);
