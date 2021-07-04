@@ -7292,10 +7292,10 @@ enquirer@^2.3.5, enquirer@^2.3.6:
   dependencies:
     ansi-colors "^4.1.1"
 
-ensure-url-trailing-slash@0.1.5:
-  version "0.1.5"
-  resolved "https://registry.npmjs.org/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.5.tgz#a6e6bac4c36200d632248e5bdd4fd03816edbfb4"
-  integrity sha512-OSMrwv4ot6z8qCEt1hhGjkpdsYTck/NhaXtV4XQ1TlhpC4UkdeRwFH9zdL5/nbqCvjlPL7qNAodp5C6Ril85Ow==
+ensure-url-trailing-slash@0.1.6:
+  version "0.1.6"
+  resolved "https://registry.npmjs.org/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.6.tgz#15bd8c763625ab9e3a5e07e49af4307820a05f48"
+  integrity sha512-ktJZ6YBFCXdRVLRrG0sraQoTW5qwEz4W5HcWW4xOxQax/c04SO0So9cuLzmYW2Py+5Bj3qkUKx63JKknknPOlA==
 
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.2"
@@ -13080,12 +13080,12 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-norska-theme-docs@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-5.0.1.tgz#20ba20f8512a1f6dffc00ea155bb5eee092cf7b6"
-  integrity sha512-9w5kWtjRBdXiB1CvLOqHKYqFys0XutOCm5wx/TaXcX018LWV5hcB4biHv71l8uQVUc1K/kVpColbhNyrmAC5nQ==
+norska-theme-docs@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-5.0.2.tgz#b5ee037e3efaf9965180422c3a045f3fff55a0f8"
+  integrity sha512-i1HmExob5ZeMnr40dQ5RImOVfQ8mg8QfM9LrK+FT9OKSOr3X82ZVd7M4E0QeVd34tDCDQeyR9QlAgyqqQ3104Q==
   dependencies:
-    firost "2.14.0"
+    firost "2.14.1"
     parse-github-repo-url "1.4.1"
 
 np@7.5.0:
