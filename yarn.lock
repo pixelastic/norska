@@ -7292,10 +7292,10 @@ enquirer@^2.3.5, enquirer@^2.3.6:
   dependencies:
     ansi-colors "^4.1.1"
 
-ensure-url-trailing-slash@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.4.tgz#dc59c09bf1bc4482a0e90d6abfceb9095f42b126"
-  integrity sha512-kyxqon4xxQcvTPStoizkuLjUJn5GQweO3ANvLozAG9fbb2SFxbS0/N9d1Paf7V5n+eRLxQZ9pZ2oULU9YVXj6w==
+ensure-url-trailing-slash@0.1.5:
+  version "0.1.5"
+  resolved "https://registry.npmjs.org/ensure-url-trailing-slash/-/ensure-url-trailing-slash-0.1.5.tgz#a6e6bac4c36200d632248e5bdd4fd03816edbfb4"
+  integrity sha512-OSMrwv4ot6z8qCEt1hhGjkpdsYTck/NhaXtV4XQ1TlhpC4UkdeRwFH9zdL5/nbqCvjlPL7qNAodp5C6Ril85Ow==
 
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.2"
