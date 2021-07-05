@@ -8271,32 +8271,6 @@ find-versions@^4.0.0:
   dependencies:
     semver-regex "^3.1.2"
 
-firost@2.14.0:
-  version "2.14.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.14.0.tgz#06cb09b989faf3a9ceb944f8e50f13a5f9456178"
-  integrity sha512-ipNoWU6tmVkdR5DSGhU0ubmDa5pfAym8vcAKeueZE4W6PcZlnyyL5hOczOgXsMjDMxziL77wOKHkJPvCcZVrtQ==
-  dependencies:
-    callsites "3.1.0"
-    chokidar "3.5.2"
-    clear-module "4.1.1"
-    eventemitter2 "6.4.4"
-    execa "5.1.1"
-    find-up "5.0.0"
-    fs-extra "10.0.0"
-    globby "11.0.4"
-    golgoth "2.0.0"
-    inquirer "8.1.1"
-    is-glob "4.0.1"
-    json-stable-stringify "1.0.1"
-    nanoid "3.1.23"
-    normalize-url "6.0.1"
-    ora "5.4.1"
-    std-mocks "1.0.1"
-    strip-ansi "6.0.0"
-    tempy "1.0.1"
-    untildify "4.0.0"
-    which "2.0.2"
-
 firost@2.14.1:
   version "2.14.1"
   resolved "https://registry.npmjs.org/firost/-/firost-2.14.1.tgz#df2cd8cb6385e5efb916824fb97e9c688db1a9c7"
@@ -9600,12 +9574,12 @@ image-size@^0.8.2:
   dependencies:
     queue "6.0.1"
 
-imoen@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/imoen/-/imoen-0.4.0.tgz#69e61f33938007bc9d2b24732c849dc554019ff1"
-  integrity sha512-kNCYW/3NtQkLl/7lKWefqpvuQ+BE+2QPxdbVAjJAALv1H48p7UlFHXOhABAksSviOkfm27eIXC9wUOB5PyWwng==
+imoen@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.npmjs.org/imoen/-/imoen-0.4.1.tgz#b188a6b280457893eeb9c361696d1ca7d49b368f"
+  integrity sha512-3TXe5YmyzHQueawOJVhtxMc6tOX+fmO0YVGkMdWdibxU0ZQLz7IcO13sqDlCwMhqDVWqlUlxUt8GBE/Gy4FXKg==
   dependencies:
-    firost "2.14.0"
+    firost "2.14.1"
     sharp "0.28.3"
 
 import-fresh@^2.0.0:
@@ -13054,11 +13028,6 @@ normalize-url@2.0.1:
     query-string "^5.0.1"
     sort-keys "^2.0.0"
 
-normalize-url@6.0.1, normalize-url@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-6.0.1.tgz#a4f27f58cf8c7b287b440b8a8201f42d0b00d256"
-  integrity sha512-VU4pzAuh7Kip71XEmO9aNREYAdMHFGTVj/i+CaTImS8x0i1d3jUZkXhqluy/PRgjPLMgsLQulYY3PJ/aSbSjpQ==
-
 normalize-url@6.1.0:
   version "6.1.0"
   resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
@@ -13073,6 +13042,11 @@ normalize-url@^4.1.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-4.5.0.tgz#453354087e6ca96957bd8f5baf753f5982142129"
   integrity sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ==
+
+normalize-url@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-6.0.1.tgz#a4f27f58cf8c7b287b440b8a8201f42d0b00d256"
+  integrity sha512-VU4pzAuh7Kip71XEmO9aNREYAdMHFGTVj/i+CaTImS8x0i1d3jUZkXhqluy/PRgjPLMgsLQulYY3PJ/aSbSjpQ==
 
 normalize.css@^8.0.1:
   version "8.0.1"
