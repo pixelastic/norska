@@ -61,6 +61,10 @@ folder, and use them instead of its default implementation.
 Also note that the content of the layout will be added between the search bar
 and the hits.
 
+If your hit template contains an image, you should add the class
+`js-masonryImage` to it so the theme correctly resize the brick once the image
+is loaded.
+
 ## Styling
 
 To change the styling of the default theme, you'll have to overwrite it. The
