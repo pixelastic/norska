@@ -9626,12 +9626,13 @@ image-size@^0.8.2:
   dependencies:
     queue "6.0.1"
 
-imoen@0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/imoen/-/imoen-0.4.1.tgz#b188a6b280457893eeb9c361696d1ca7d49b368f"
-  integrity sha512-3TXe5YmyzHQueawOJVhtxMc6tOX+fmO0YVGkMdWdibxU0ZQLz7IcO13sqDlCwMhqDVWqlUlxUt8GBE/Gy4FXKg==
+imoen@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/imoen/-/imoen-0.5.0.tgz#7d3ba4cadb9f460e6d5981f5b0722bac575106ca"
+  integrity sha512-pSjlUPKqki4p8nIkbi1mAwljKOoT68PtuWAOU89mFiIJ6ioOhTz78hY272yD+qJ1+xp/LYZwr/cbMisyEKKAUg==
   dependencies:
     firost "2.14.1"
+    fs-extra "10.0.0"
     sharp "0.28.3"
 
 import-fresh@^2.0.0:
