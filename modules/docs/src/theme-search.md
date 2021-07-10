@@ -153,7 +153,7 @@ body {
     @apply bg-black;
   }
   .theme-sidebar-title {
-    @apply nodesto text-5 bg-black;
+    @apply text-5 bg-black;
   }
   .theme-menu-icon:hover {
     @apply red-7;
