@@ -122,7 +122,7 @@ keys.
 | `credentials`      | `appId`, `apiKey` and `indexName` credentials to query Algolia | `{}`                  |
 | `hitName`          | Name of the items to search, used in the `XXX items found`     | `item`                |
 | `placeholder`      | Text displayed in the searchbar when query is empty            | `Search for anything` |
-| `searchParamaters` | Optional `searchParameters` to pass                            | `{}`                  |
+| `searchParameters` | Optional `searchParameters` to pass                            | `{}`                  |
 | `transforms`       | Object of transforms to apply to each hit                      | `{}`                  |
 | `widgets`          | Array of additional InstantSearch widgets to add               | `[]`                  |
 
