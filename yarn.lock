@@ -8323,10 +8323,10 @@ firost@2.15.0:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.16.1:
-  version "2.16.1"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.16.1.tgz#f9e033eeba33e48b1c5097c1ff2e17ecbf7e8635"
-  integrity sha512-2mmrYhezVsj9MDc7dhfWEb9V968T7f23BLXlNX+oZG0dreNX+lScFMqpRpNF6MZjs0lT5wTyD+uv0dC4fqtnig==
+firost@2.16.2:
+  version "2.16.2"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.16.2.tgz#d829062bb28b6d93be329cadf0d0608299ebb328"
+  integrity sha512-ghOY9ZBlm8aGWM8tN611YAPS4yA8ZVoLsLvBdspNMjuSrQBQnHnC5Mnajurqjp3+VGAkI3M7ZRMlJt6DWUz3Mg==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.2"
@@ -8345,7 +8345,7 @@ firost@2.16.1:
     ora "5.4.1"
     std-mocks "1.0.1"
     strip-ansi "6.0.0"
-    tempy "1.0.1"
+    temp-dir "2.0.0"
     untildify "4.0.0"
     which "2.0.2"
 
@@ -17147,15 +17147,15 @@ tar@^6.0.2, tar@^6.1.0:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
+temp-dir@2.0.0, temp-dir@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/temp-dir/-/temp-dir-2.0.0.tgz#bde92b05bdfeb1516e804c9c00ad45177f31321e"
+  integrity sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==
+
 temp-dir@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/temp-dir/-/temp-dir-1.0.0.tgz#0a7c0ea26d3a39afa7e0ebea9c1fc0bc4daa011d"
   integrity sha1-CnwOom06Oa+n4OvqnB/AvE2qAR0=
-
-temp-dir@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/temp-dir/-/temp-dir-2.0.0.tgz#bde92b05bdfeb1516e804c9c00ad45177f31321e"
-  integrity sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==
 
 temp-write@^4.0.0:
   version "4.0.0"
