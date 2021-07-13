@@ -3513,6 +3513,11 @@
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-2.2.3.tgz#ef65165aea2924c9359205bf748865b8881753c0"
   integrity sha512-PijRCG/K3s3w1We6ynUKdxEc5AcuuH3NBmMDP8uvKVp6X43UY7NQlTzczakXP3DJR0F4dfNQIGjU2cUeRYs2AA==
 
+"@types/qs@^6.5.3":
+  version "6.9.7"
+  resolved "https://registry.npmjs.org/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
+  integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
+
 "@types/resolve@1.17.1":
   version "1.17.1"
   resolved "https://registry.npmjs.org/@types/resolve/-/resolve-1.17.1.tgz#3afd6ad8967c77e4376c598a82ddd58f46ec45d6"
@@ -9825,19 +9830,20 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.25.0:
-  version "4.25.0"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.25.0.tgz#0c631479afa0826af0adee120dc2bbb68e1caeb3"
-  integrity sha512-146u/zlu+lHjMgykKnvYr5yvM4xB/CHN8jmf5872gYNfjoZlmQ6GAoYwrgRjQrbLAbIZ6hhpXkDhwmoptmvUgQ==
+instantsearch.js@4.25.1:
+  version "4.25.1"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.25.1.tgz#7288376705630994d064a69294743edc2f913351"
+  integrity sha512-RVJsV0wMric9ilLsZqJ3+Mw7ekKOLV5tvy7hEJlIwarWwidTEtvtdQBq3t/0zJrryRUVKJHR8YCwx6xERAtXhQ==
   dependencies:
     "@types/google.maps" "^3.45.3"
     "@types/hogan.js" "^3.0.0"
+    "@types/qs" "^6.5.3"
     algoliasearch-helper "^3.5.4"
     classnames "^2.2.5"
     events "^1.1.0"
     hogan.js "^3.0.2"
     preact "^10.0.0"
-    qs "^6.5.1"
+    qs "^6.5.1 < 6.10"
 
 interpret@^1.0.0:
   version "1.4.0"
@@ -15123,10 +15129,10 @@ qs@^6.4.0:
   resolved "https://registry.npmjs.org/qs/-/qs-6.9.4.tgz#9090b290d1f91728d3c22e54843ca44aea5ab687"
   integrity sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
 
-qs@^6.5.1:
-  version "6.9.3"
-  resolved "https://registry.npmjs.org/qs/-/qs-6.9.3.tgz#bfadcd296c2d549f1dffa560619132c977f5008e"
-  integrity sha512-EbZYNarm6138UKKq46tdx08Yo/q9ZhFoAXAI1meAFd2GtbRDhbZY2WQSICskT0c5q99aFzLG1D4nvTk9tqfXIw==
+"qs@^6.5.1 < 6.10":
+  version "6.9.6"
+  resolved "https://registry.npmjs.org/qs/-/qs-6.9.6.tgz#26ed3c8243a431b2924aca84cc90471f35d5a0ee"
+  integrity sha512-TIRk4aqYLNoJUbd+g2lEdz5kLWIuTMRagAXxl78Q0RiVjAOugHmeKNGdd3cwo/ktpf9aL9epCfFqWDEKysUlLQ==
 
 qs@^6.9.6:
   version "6.10.1"
