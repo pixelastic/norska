@@ -117,14 +117,15 @@ module.exports = {
 The `options` object passed to the call to `theme.init` accepts the following
 keys.
 
-| Key                | Usage                                                          | Default value         |
-| ------------------ | -------------------------------------------------------------- | --------------------- |
-| `credentials`      | `appId`, `apiKey` and `indexName` credentials to query Algolia | `{}`                  |
-| `hitName`          | Name of the items to search, used in the `XXX items found`     | `item`                |
-| `placeholder`      | Text displayed in the searchbar when query is empty            | `Search for anything` |
-| `searchParameters` | Optional `searchParameters` to pass                            | `{}`                  |
-| `transforms`       | Object of transforms to apply to each hit                      | `{}`                  |
-| `widgets`          | Array of additional InstantSearch widgets to add               | `[]`                  |
+| Key                | Usage                                                                     | Default value         |
+| ------------------ | ------------------------------------------------------------------------- | --------------------- |
+| `credentials`      | `appId`, `apiKey` and `indexName` credentials to query Algolia            | `{}`                  |
+| `hitName`          | Name of the items to search, used in the `XXX items found`                | `item`                |
+| `placeholder`      | Text displayed in the searchbar when query is empty                       | `Search for anything` |
+| `onSearch`         | Optional method to call on each search. Called with `query` and `helper`. | `() => {}`            |
+| `searchParameters` | Optional `searchParameters` to pass                                       | `{}`                  |
+| `transforms`       | Object of transforms to apply to each hit                                 | `{}`                  |
+| `widgets`          | Array of additional InstantSearch widgets to add                          | `[]`                  |
 
 ## Templates
 

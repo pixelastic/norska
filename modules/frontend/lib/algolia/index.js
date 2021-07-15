@@ -52,7 +52,7 @@ module.exports = {
   searchFunction(helper) {
     const query = helper.state.query;
     if (this.__onSearch) {
-      this.__onSearch(query);
+      this.__onSearch(query, helper);
     }
     helper.search();
   },
