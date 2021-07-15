@@ -4,7 +4,7 @@
     "firost": "2.16.2",
     "golgoth": "2.0.0",
     "imoen": "0.5.0",
-    "norska-config": "^2.4.2",
+    "norska-config": "^2.5.0",
     "sharp": "0.28.3"
   },
   "description": "Copy assets from source to destination",
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.4.2"
+  "version": "2.5.0"
 }
