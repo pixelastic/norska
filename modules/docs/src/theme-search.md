@@ -160,6 +160,13 @@ body {
     @apply red-7;
   }
 
+  /* Number of hits per row on desktop */
+  @screen xl {
+    .ais-Hits-item {
+      @apply w-50p;
+    }
+  }
+
   /* Refinement List */
   .ais-RefinementList-label {
     &:hover {
