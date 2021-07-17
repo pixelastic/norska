@@ -175,6 +175,36 @@ module.exports = {
         {
           title: 'Search',
           href: 'theme-search',
+          links: [
+            {
+              title: 'Installation',
+              href: 'theme-search/installation',
+            },
+            {
+              title: 'Configuration',
+              href: 'theme-search/configuration',
+            },
+            {
+              title: 'Templates',
+              href: 'theme-search/templates',
+            },
+            {
+              title: 'Sidebar',
+              href: 'theme-search/sidebar',
+            },
+            {
+              title: 'Transforms',
+              href: 'theme-search/transforms',
+            },
+            {
+              title: 'Styling',
+              href: 'theme-search/styling',
+            },
+            {
+              title: 'Helpers',
+              href: 'theme-search/helpers',
+            },
+          ],
         },
         {
           title: 'Infinite Search',
