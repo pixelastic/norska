@@ -1,3 +1,5 @@
+const sharTeel = require('shar-teel');
+
 /**
  * Pass an image url through the Cloudinary image proxy
  * @param {string} url Image url
@@ -52,7 +54,11 @@ module.exports = function (url, userOptions = {}) {
     ...userOptions,
   };
 
-  const baseUrl = `https://res.cloudinary.com/${bucketName}/image/fetch/`;
+  // If bucketName is an array, we need to shard it (picking one randomly but
+  // consistently based on the input url)
+  const shardedBucketName = sharTeel(bucketName, url);
+
+  const baseUrl = `https://res.cloudinary.com/${shardedBucketName}/image/fetch/`;
   const originUrl = url.replace('?', '%3F');
 
   const availableOptions = {

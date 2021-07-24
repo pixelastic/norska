@@ -42,9 +42,10 @@ Thanks to this CDN, images can be resized, compressed, blurred and turned into
 grayscale directly from the Pug markup.
 
 If you have a Cloudinary bucket, you can alternatively use it instead of Weserv
-but setting your `cloudinary` key in `norska.config.js` to your Cloudinary
+by setting your `cloudinary` key in `norska.config.js` to your Cloudinary
 bucket name. You can overwrite it on a per-image basis by passing a `cloudinary`
-key to your `+img` options if needed.
+key to your `+img` options if needed. Also note that passing an array of bucket
+names will shard your requests accross those buckets.
 
 ### Options
 

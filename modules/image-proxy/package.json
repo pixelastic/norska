@@ -27,5 +27,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "shar-teel": "0.0.3"
   }
 }
