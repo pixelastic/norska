@@ -34,7 +34,7 @@ theme.init({
         imoen: record.picture,
         // A unique ID to represent that record
         uuid: record.objectID,
-        // An optional cloudinary bucket
+        // An optional cloudinary bucket or list of buckets
         cloudinary: 'myBucket'
       }
 
