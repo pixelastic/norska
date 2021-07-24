@@ -7,11 +7,18 @@ const config = require('norska-config');
 const emptyDir = require('firost/emptyDir');
 const readUrl = require('firost/readUrl');
 const write = require('firost/write');
-const getPort = require('get-port');
 
 describe('norska-serve', () => {
   const tmpDirectory = './tmp/norska-serve';
-  let staticServerUrl;
+
+  // Static server port is only set once the static server is launched
+  /**
+   *
+   */
+  function staticServerUrl() {
+    const staticServerPort = config.get('port');
+    return `http://127.0.0.1:${staticServerPort}`;
+  }
 
   describe('watchFiles', () => {
     it('should listen to changes', async () => {
@@ -32,12 +39,9 @@ describe('norska-serve', () => {
     beforeEach(async () => {
       await emptyDir(tmpDirectory);
 
-      const staticServerPort = await getPort();
-      staticServerUrl = `http://127.0.0.1:${staticServerPort}`;
       await config.init({
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
-        port: staticServerPort,
       });
 
       jest.spyOn(current, '__consoleInfo').mockReturnValue();
@@ -51,18 +55,20 @@ describe('norska-serve', () => {
 
       await current.startStaticServer();
 
-      const actual = await readUrl(staticServerUrl);
+      const actual = await readUrl(staticServerUrl());
       expect(actual).toEqual('some content');
     });
     it('should serve fresh content', async () => {
       await write('some content', config.toPath('index.html'));
       await current.startStaticServer();
 
-      const firstRead = await readUrl(staticServerUrl);
+      const firstRead = await readUrl(staticServerUrl());
       expect(firstRead).toEqual('some content');
 
       await write('updated content', config.toPath('index.html'));
-      const secondRead = await readUrl(staticServerUrl, { memoryCache: false });
+      const secondRead = await readUrl(staticServerUrl(), {
+        memoryCache: false,
+      });
       expect(secondRead).toEqual('updated content');
     });
     it('should serve content added after server starts', async () => {
@@ -70,7 +76,7 @@ describe('norska-serve', () => {
 
       await write('some content', config.toPath('index.html'));
 
-      const actual = await readUrl(staticServerUrl);
+      const actual = await readUrl(staticServerUrl());
       expect(actual).toEqual('some content');
     });
     it('should add liveReload script to html pages', async () => {
@@ -81,12 +87,34 @@ describe('norska-serve', () => {
 
       await current.startStaticServer();
 
-      const actual = await readUrl(staticServerUrl, {
+      const actual = await readUrl(staticServerUrl(), {
         headers: { Accept: 'text/html' },
       });
       expect(actual).toInclude(
         '<script src="//127.0.0.1:35729/livereload.js?snipver=1"'
       );
+    });
+  });
+
+  describe('assignPort', () => {
+    beforeEach(async () => {
+      await config.init({});
+    });
+    it('should do nothing if the port is already set', async () => {
+      await config.init({
+        port: 1234,
+      });
+
+      await current.assignPort();
+
+      const actual = config.get('port');
+      expect(actual).toEqual(1234);
+    });
+    it('should pick a random port if no port is set', async () => {
+      await current.assignPort();
+
+      const actual = config.get('port');
+      expect(actual).not.toBeNull();
     });
   });
 });

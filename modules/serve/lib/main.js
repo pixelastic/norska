@@ -17,7 +17,6 @@ module.exports = {
    * Listen to file changes, serve them locally, and refresh browser on change
    **/
   async run() {
-    await this.assignPort();
     await this.watchFiles();
     await this.startStaticServer();
     await this.startLivereloadServer();
@@ -53,6 +52,8 @@ module.exports = {
    * @returns {Promise} Resolves when the server is started
    **/
   async startStaticServer() {
+    await this.assignPort();
+
     return new Promise((resolve, _reject) => {
       const app = express();
 
