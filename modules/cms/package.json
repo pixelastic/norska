@@ -8,8 +8,8 @@
     "livereload": "0.9.3",
     "multer": "1.4.2",
     "nodemon": "2.0.12",
-    "norska-config": "^2.5.0",
-    "norska-css": "^2.5.0",
+    "norska-config": "^2.6.0",
+    "norska-css": "^2.6.0",
     "norska-helper": "^2.5.0",
     "open": "8.2.1"
   },
@@ -33,5 +33,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.5.0"
+  "version": "2.6.0"
 }

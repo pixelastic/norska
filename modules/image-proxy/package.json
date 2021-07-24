@@ -20,7 +20,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.4.1",
+  "version": "2.6.0",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
