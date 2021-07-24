@@ -16142,10 +16142,10 @@ shallow-clone@^3.0.0:
   dependencies:
     kind-of "^6.0.2"
 
-shar-teel@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/shar-teel/-/shar-teel-0.0.3.tgz#918ee163d25f42004ee742b4ea32a76df549ef07"
-  integrity sha512-EP/jx1Rql0NZc4W4FxIFTaU7KGOwUN39wc5ldltjp/14f4cJ9Cda6RK+2PAVjeiUjeKWEjBdaL31plfE5ILHDw==
+shar-teel@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/shar-teel/-/shar-teel-0.0.4.tgz#0c4115c25217b0632a5d4eb7cee86e8b88e41f38"
+  integrity sha512-8iZ3XeAyv/BLePBAZFpcmIG0m7suwYkfggj8Xdl4B6WJUSo7EwBO/aYkkYy7ngFE+QFdPDiwbAftWMkxaesczQ==
   dependencies:
     md5.js "1.3.5"
 
