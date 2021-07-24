@@ -110,7 +110,7 @@ module.exports = {
     return {
       from: './src',
       open: true,
-      port: 8083,
+      port: null,
       root,
       to: './dist',
       theme: defaultTheme,

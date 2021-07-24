@@ -9,6 +9,7 @@ const open = require('open');
 const livereload = require('livereload');
 const connectLivereload = require('connect-livereload');
 const consoleInfo = require('firost/consoleInfo');
+const getPort = require('get-port');
 
 module.exports = {
   /**
@@ -16,9 +17,25 @@ module.exports = {
    * Listen to file changes, serve them locally, and refresh browser on change
    **/
   async run() {
+    await this.assignPort();
     await this.watchFiles();
     await this.startStaticServer();
     await this.startLivereloadServer();
+  },
+  /**
+   * Assign the config port to either the one specified, or an available one
+   **/
+  async assignPort() {
+    // If a port is specified, we keep it
+    const configPort = config.get('port');
+    if (configPort) {
+      return;
+    }
+
+    // If no port specified, we pick and available one
+    const preferredPort = 8083;
+    const availablePort = await getPort({ port: preferredPort });
+    config.set('port', availablePort);
   },
   /**
    * Watch for changes in any source file and rebuild them in destination folder
@@ -45,9 +62,9 @@ module.exports = {
       app.use(express.static(config.toPath()));
 
       // Start the server
-      const cmsPort = config.get('port');
-      this.__staticServer = app.listen(cmsPort, async () => {
-        const serverUrl = `http://127.0.0.1:${cmsPort}/`;
+      const port = config.get('port');
+      this.__staticServer = app.listen(port, async () => {
+        const serverUrl = `http://127.0.0.1:${port}/`;
         this.__consoleInfo(`Dev server available at ${serverUrl}`);
         await this.__open(serverUrl);
         resolve();
