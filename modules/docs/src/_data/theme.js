@@ -209,6 +209,32 @@ module.exports = {
         {
           title: 'Infinite Search',
           href: 'theme-search-infinite',
+          links: [
+            {
+              title: 'Installation',
+              href: 'theme-search-infinite/installation',
+            },
+            {
+              title: 'Configuration',
+              href: 'theme-search-infinite/configuration',
+            },
+            {
+              title: 'Templates',
+              href: 'theme-search-infinite/templates',
+            },
+            {
+              title: 'Transforms',
+              href: 'theme-search-infinite/transforms',
+            },
+            {
+              title: 'Styling',
+              href: 'theme-search-infinite/styling',
+            },
+            {
+              title: 'Helpers',
+              href: 'theme-search-infinite/helpers',
+            },
+          ],
         },
       ],
     },
