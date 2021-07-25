@@ -1,27 +1,20 @@
 const current = require('../weserv');
 
 describe('weserv', () => {
-  it('should pass the url through image proxy', async () => {
-    const input = 'http://www.example.com/foo.png';
-    const actual = current(input);
-
-    expect(actual).toStartWith('https://images.weserv.nl?url=');
-  });
-  it('should set af (compressPng) and il (progressive) by default', async () => {
-    const input = 'http://www.example.com/foo.png';
-    const actual = current(input);
-
-    expect(actual).toEqual(
-      'https://images.weserv.nl?url=http%3A%2F%2Fwww.example.com%2Ffoo.png&af&il'
-    );
-  });
-  it('should encode query string', async () => {
-    const input = 'http://www.example.com/foo.png?v=42';
-    const actual = current(input);
-
-    expect(actual).toEqual(
-      'https://images.weserv.nl?url=http%3A%2F%2Fwww.example.com%2Ffoo.png%3Fv%3D42&af&il'
-    );
+  describe('various urls', () => {
+    it.each([
+      [
+        'http://www.example.com/foo.png',
+        'https://images.weserv.nl?url=http%3A%2F%2Fwww.example.com%2Ffoo.png&af&il',
+      ],
+      [
+        'http://www.example.com/foo.png?v=42',
+        'https://images.weserv.nl?url=http%3A%2F%2Fwww.example.com%2Ffoo.png%3Fv%3D42&af&il',
+      ],
+    ])('%s', async (input, expected) => {
+      const actual = current(input);
+      expect(actual).toEqual(expected);
+    });
   });
   it('should throw an error if url is not remote', async () => {
     const input = './foo.png';

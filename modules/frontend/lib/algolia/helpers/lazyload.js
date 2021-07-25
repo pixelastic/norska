@@ -34,16 +34,19 @@ module.exports = {
    * @returns {object} Object of HTML attributes to add to an <img /> tag
    **/
   attributes(originUrl, options = {}) {
-    const { cloudinary, imoen, uuid } = {
+    const { cloudinary, imoen, uuid, cacheBusting } = {
       cloudinary: null,
       imoen: {},
       uuid: originUrl,
+      cacheBusting: true,
       ...options,
     };
     const { hash, width, height, lqip } = imoen;
 
-    const revvedUrl = `${originUrl}?v=${hash}`;
-    const fullUrl = imageProxy(revvedUrl, {
+    // Add the image hash to the url if cacheBusting is set to true
+    const url = cacheBusting ? `${originUrl}?v=${hash}` : originUrl;
+
+    const fullUrl = imageProxy(url, {
       cloudinary,
     });
 
