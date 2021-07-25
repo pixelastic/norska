@@ -53,12 +53,13 @@ module.exports = {
    **/
   async startStaticServer() {
     await this.assignPort();
+    const livereloadPort = await this.getLivereloadPort();
 
     return new Promise((resolve, _reject) => {
       const app = express();
 
       // Add the livereload.js script to the pages
-      app.use(connectLivereload());
+      app.use(connectLivereload({ port: livereloadPort }));
 
       app.use(express.static(config.toPath()));
 
@@ -87,9 +88,29 @@ module.exports = {
       this.__staticServer.close();
     });
   },
+  /**
+   * Returns the port of the livereload server
+   * @returns {number} Port number
+   **/
+  async getLivereloadPort() {
+    // Use the one set in the config if already set
+    const configPort = config.get('livereloadPort');
+    if (configPort) {
+      return configPort;
+    }
+
+    // Find an available one otherwise
+    const livereloadPort = await getPort({ port: 35729 });
+    config.set('livereloadPort', livereloadPort);
+    return livereloadPort;
+  },
+  /**
+   * Start the livereload server
+   **/
   async startLivereloadServer() {
     const livereloadOptions = {
       delay: 200,
+      port: await this.getLivereloadPort(),
     };
     const watchedDirectories = [config.to()];
 

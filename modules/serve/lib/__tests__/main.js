@@ -84,6 +84,7 @@ describe('norska-serve', () => {
         '<!DOCTYPE html><html><body>some content</body></html>',
         config.toPath('index.html')
       );
+      jest.spyOn(current, 'getLivereloadPort').mockReturnValue(35729);
 
       await current.startStaticServer();
 

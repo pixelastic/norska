@@ -34,6 +34,12 @@ The `port` key defines the port used for running the website during development.
 Default value is `8083`, but it will fallback to a random available port if this
 one is unavailable.
 
+### `livereloadPort`
+
+The `livereloadPort` defines the port on which the livereload server will run.
+Default is `35729`, but it will fallback to a random available port if this one
+is unavailable.
+
 ### `js.input`
 
 The `js.input` key defines the entrypoint used for compiling the JavaScript,

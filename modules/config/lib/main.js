@@ -111,6 +111,7 @@ module.exports = {
       from: './src',
       open: true,
       port: null,
+      livereloadPort: null,
       root,
       to: './dist',
       theme: defaultTheme,
