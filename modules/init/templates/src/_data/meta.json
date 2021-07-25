@@ -2,5 +2,5 @@
   "description": "Your website description. You can overwrite it in any pug file",
   "title": "Default page title. You can overwrite it in any pug file",
   "twitter": "yourusername",
-  "productionUrl": "http://www.your-production-url.com/"
+  "productionUrl": "https://www.your-production-url.com/"
 }
