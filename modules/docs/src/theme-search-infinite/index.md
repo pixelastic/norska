@@ -2,11 +2,11 @@
 title: norska-theme-search-infinite
 ---
 
-This theme allows you to build a search interface to browse data pushed
-to an Algolia index.
+This theme allows you to quickly build an infinite list of Algolia search
+results, displayed as a Pinterest-like wall.
 
 Use this if you have a large number of records, represented by images of varying
-dimensions.
+varying dimensions.
 
 Below are examples of websites built with this theme:
 
