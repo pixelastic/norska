@@ -12,5 +12,9 @@ below:
 | `transforms`  | [Transforms][2] to apply to each hit                              | `{}`                  |
 | `widgets`     | Array of additional InstantSearch [widgets][1] to add to the page | `[]`                  |
 
+Also have a look at the [Algolia frontend helper][3] to lazyload your search
+result images.
+
 [1]: ./widgets
-[2]: ./transforms
+[2]: ../../frontend/algolia/transforms
+[3]: ../../frontend/algolia/lazyload

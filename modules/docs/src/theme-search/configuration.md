@@ -15,5 +15,9 @@ below:
 | `sidebar`          | Array of additional InstantSearch widgets to add in the [Sidebar][1] | `[]`                  |
 | `transforms`       | [Transforms][2] to apply to each hit                                 | `{}`                  |
 
+Also have a look at the [Algolia frontend helper][3] to lazyload your search
+result images.
+
 [1]: ./sidebar
-[2]: ./transforms
+[2]: ../../frontend/algolia/transforms
+[3]: ../../frontend/algolia/lazyload

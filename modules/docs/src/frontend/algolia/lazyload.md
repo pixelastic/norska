@@ -1,5 +1,5 @@
 ---
-title: Helpers
+title: Lazyload helper
 ---
 
 A `lazyloadHelper` is available for convenience. It helps in handling the
@@ -13,7 +13,7 @@ _You need to have a key in your record representing metadata about the image
 Start by including the helper.
 
 ```javascript
-const lazyloadHelper = require('norska-theme-search/lazyloadHelper');
+const lazyloadHelper = require('norska/frontend/algolia/lazyload');
 ```
 
 Then define a custom transform (for example, `img`):
@@ -34,8 +34,10 @@ theme.init({
         imoen: record.picture,
         // A unique ID to represent that record
         uuid: record.objectID,
-        // An optional cloudinary bucket or list of buckets
+        // (optional) A cloudinary bucket or list of buckets
         cloudinary: 'myBucket'
+        // (optional) Set to false if you don't want to append v={revHash}
+        cacheBusting: false
       }
 
       return lazyloadHelper.attributes(originUrl, options);

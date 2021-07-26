@@ -166,6 +166,29 @@ module.exports = {
       ],
     },
     {
+      name: 'Frontend',
+      links: [
+        {
+          title: 'Lazyload',
+          href: 'frontend/lazyload',
+        },
+        {
+          title: 'Algolia',
+          href: 'frontend/algolia',
+          links: [
+            {
+              title: 'Transforms',
+              href: 'frontend/algolia/transforms',
+            },
+            {
+              title: 'Lazyload',
+              href: 'frontend/algolia/lazyload',
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'Themes',
       links: [
         {
@@ -193,16 +216,8 @@ module.exports = {
               href: 'theme-search/sidebar',
             },
             {
-              title: 'Transforms',
-              href: 'theme-search/transforms',
-            },
-            {
               title: 'Styling',
               href: 'theme-search/styling',
-            },
-            {
-              title: 'Helpers',
-              href: 'theme-search/helpers',
             },
           ],
         },
@@ -223,16 +238,8 @@ module.exports = {
               href: 'theme-search-infinite/templates',
             },
             {
-              title: 'Transforms',
-              href: 'theme-search-infinite/transforms',
-            },
-            {
               title: 'Styling',
               href: 'theme-search-infinite/styling',
-            },
-            {
-              title: 'Helpers',
-              href: 'theme-search-infinite/helpers',
             },
           ],
         },

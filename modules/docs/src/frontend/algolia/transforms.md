@@ -2,8 +2,13 @@
 title: Transforms
 ---
 
-To transform your records before rendering them, you can add a `transforms` key
-to your `theme.init`.
+Both the `norska-theme-search` and `norska-theme-search-infinite` allow setting
+a custom `transforms` key to add computed keys to your records before displaying
+them.
+
+Displaying data through a mustache-like templating language can be frustrating;
+those transforms are here to allow you to update your data through JavaScript
+before sending them to the rendering engine.
 
 ```javascript
 // When initializing the theme
