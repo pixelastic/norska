@@ -11,7 +11,7 @@
     "norska-helper": "^2.5.0",
     "postcss": "8.3.6",
     "postcss-import": "14.0.2",
-    "postcss-nested": "5.0.5",
+    "postcss-nested": "5.0.6",
     "tailwindcss": "1.9.6"
   },
   "description": "Compile .css files through postcss and Tailwind",
