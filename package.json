@@ -7,7 +7,7 @@
   "description": "Norska master workspace",
   "devDependencies": {
     "@percy/script": "1.1.0",
-    "aberlaas": "1.24.1",
+    "aberlaas": "1.24.3",
     "callsites": "3.1.0",
     "firost": "2.16.2",
     "golgoth": "2.0.0",
