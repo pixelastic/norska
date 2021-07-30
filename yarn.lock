@@ -8284,10 +8284,10 @@ find-versions@^4.0.0:
   dependencies:
     semver-regex "^3.1.2"
 
-firost@2.14.1:
-  version "2.14.1"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.14.1.tgz#df2cd8cb6385e5efb916824fb97e9c688db1a9c7"
-  integrity sha512-tG0Z2mfllWqRrMyNVZcBj7MRquXd73f43WJ81l1znO38t3b2Q/8kSnhaOzqf7kamltWP4a3X4Kpv9S96Kq7bTQ==
+firost@2.15.0:
+  version "2.15.0"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.15.0.tgz#f0439f7bb60a61762116f0857ee3cb8f0a45a203"
+  integrity sha512-+EqznGfNiB7S5ZgZKH0jvX8kuTAfMMsBdA9DQQCEJEeWJWmibXA2rXQBjRAKlDMjeQlC+GIK4gCSzbpBRhmsXg==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.2"
@@ -8310,10 +8310,10 @@ firost@2.14.1:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.15.0:
-  version "2.15.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.15.0.tgz#f0439f7bb60a61762116f0857ee3cb8f0a45a203"
-  integrity sha512-+EqznGfNiB7S5ZgZKH0jvX8kuTAfMMsBdA9DQQCEJEeWJWmibXA2rXQBjRAKlDMjeQlC+GIK4gCSzbpBRhmsXg==
+firost@2.16.1:
+  version "2.16.1"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.16.1.tgz#f9e033eeba33e48b1c5097c1ff2e17ecbf7e8635"
+  integrity sha512-2mmrYhezVsj9MDc7dhfWEb9V968T7f23BLXlNX+oZG0dreNX+lScFMqpRpNF6MZjs0lT5wTyD+uv0dC4fqtnig==
   dependencies:
     callsites "3.1.0"
     chokidar "3.5.2"
@@ -9639,13 +9639,14 @@ image-size@^0.8.2:
   dependencies:
     queue "6.0.1"
 
-imoen@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.npmjs.org/imoen/-/imoen-0.5.0.tgz#7d3ba4cadb9f460e6d5981f5b0722bac575106ca"
-  integrity sha512-pSjlUPKqki4p8nIkbi1mAwljKOoT68PtuWAOU89mFiIJ6ioOhTz78hY272yD+qJ1+xp/LYZwr/cbMisyEKKAUg==
+imoen@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/imoen/-/imoen-1.1.1.tgz#cb7b7913db3b25334db2430dc70b732b87d2dd27"
+  integrity sha512-V4SfRRCcA7HxikdK+yXL72ZNDDYjeW9q5AeBTCNNdNRdiXaUxYbONUWwLaGQn6bbyGAKBP+U+8I0yE94yPjGKw==
   dependencies:
-    firost "2.14.1"
+    firost "2.16.1"
     fs-extra "10.0.0"
+    rev-hash "3.0.0"
     sharp "0.28.3"
 
 import-fresh@^2.0.0:
@@ -15815,7 +15816,7 @@ reusify@^1.0.4:
   resolved "https://registry.npmjs.org/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
-rev-hash@^3.0.0:
+rev-hash@3.0.0, rev-hash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/rev-hash/-/rev-hash-3.0.0.tgz#951d73d02b9606ea4bbb7ee3d93c252cd8556ce5"
   integrity sha512-s+87HfEKAu95TaTxnbCobn0/BkbzR23LHSwVdYvr8mn5+PPjzy+hTWyh92b5oaLgig9TKPe5d6ZcubsVBtUrZg==
