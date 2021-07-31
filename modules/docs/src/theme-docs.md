@@ -64,14 +64,6 @@ body {
   /* DocSearch main color */
   --docsearch-primary-color: #4299e1;
 }
-.prose a {
-  /* Change the color of links */
-  @apply blue-5;
-  &:hover {
-    /* Change the color of the underline of hovered links */
-    @apply underline-blue-5;
-  }
-}
 ```
 
 ### Logos
