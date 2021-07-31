@@ -44,7 +44,7 @@ color(s), you can override some CSS classes in your `style.css` file.
 @import 'theme:style.css';
 
 body {
-  /* Change the header backround color */
+  /* Change the header background color */
   .theme-header {
     @apply bg-blue-1;
   }
