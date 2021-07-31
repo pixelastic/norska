@@ -102,6 +102,16 @@ describe('norska-assets', () => {
       await current.compile(sourceFilename);
       expect(await isFile(config.toPath(expected))).toEqual(true);
     });
+    it('should save image manifest in runtime config', async () => {
+      const picturePath = 'assets/picture.png';
+      const sourcePicturePath = config.fromPath(picturePath);
+      await newFile(sourcePicturePath);
+
+      await current.compile(sourcePicturePath);
+
+      const actual = current.readImageManifest(picturePath);
+      expect(actual.lqip).toStartWith('data:image/png;base64,');
+    });
   });
   describe('run', () => {
     beforeEach(async () => {

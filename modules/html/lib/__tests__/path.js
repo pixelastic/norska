@@ -310,7 +310,7 @@ describe('norska-html > path', () => {
     beforeEach(async () => {
       jest.spyOn(assets, 'readImageManifest').mockImplementation((filepath) => {
         return {
-          base64Lqip: `base64:${filepath}`,
+          lqip: `base64:${filepath}`,
         };
       });
     });

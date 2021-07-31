@@ -159,12 +159,12 @@ module.exports = {
    * @param {string} filepath Path to the image
    **/
   async registerImage(filepath) {
-    const { width, height, base64 } = await imoen(filepath);
+    const { width, height, lqip } = await imoen(filepath);
     const key = path.relative(config.to(), filepath);
     this.writeImageManifest(key, {
       width,
       height,
-      base64Lqip: base64,
+      lqip,
     });
   },
   /**

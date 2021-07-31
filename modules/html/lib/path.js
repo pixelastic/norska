@@ -152,8 +152,8 @@ module.exports = {
     let placeholderUrl;
     if (isLocal) {
       const runtimeKey = this.pathFromRoot(target, sourceFile);
-      const { base64Lqip } = assets.readImageManifest(runtimeKey);
-      placeholderUrl = base64Lqip;
+      const { lqip } = assets.readImageManifest(runtimeKey);
+      placeholderUrl = lqip;
     } else {
       const placeholderOptions = _.chain(options)
         .thru(this.imageProxyOptions)
