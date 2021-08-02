@@ -1,2 +1,10 @@
-.default
-  block content
+doctype html
+html(lang='en')
+  +norska_head
+
+  body.bg-gray-2
+    .container.mx-auto
+      .prose.lg_prose-lg.xl_prose-2xl.pt-5.overflow-hidden
+        block content
+
+    +norska_scripts
