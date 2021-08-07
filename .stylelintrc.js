@@ -1,4 +1,4 @@
-const config = require('aberlaas/lib/configs/stylelint.js');
+const config = require('aberlaas/configs/stylelint.js');
 module.exports = {
   ...config,
 };

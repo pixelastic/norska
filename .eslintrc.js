@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['./node_modules/aberlaas/lib/configs/eslint.js'],
+  extends: ['./node_modules/aberlaas/configs/eslint.js'],
   globals: {
     tailwindPluginClasses: false,
   },
