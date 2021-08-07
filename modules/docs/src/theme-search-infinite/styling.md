@@ -14,6 +14,9 @@ html {
   .bg-theme {
     @apply bg-indigo-8;
   }
+  .from-theme {
+    @apply from-indigo-8;
+  }
   /* Minimum card width */
   .js-masonryWall {
     @apply grid-cols-w-16;
