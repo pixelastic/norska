@@ -1,6 +1,6 @@
 const readmeCommands = [
   'yarn run readme',
-  'git add ./README.md ./modules/lib/README.md',
+  'git add ./README.md ./modules/README.md',
 ];
 module.exports = {
   '*.css': 'yarn run lint --css --fix',

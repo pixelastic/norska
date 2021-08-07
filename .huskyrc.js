@@ -1,4 +1,4 @@
-const config = require('aberlaas/lib/configs/husky.js');
+const config = require('aberlaas/configs/husky.js');
 module.exports = {
   ...config,
 };
