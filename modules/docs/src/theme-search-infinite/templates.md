@@ -19,7 +19,7 @@ If your hit template contains an image, you should add the class
 `js-masonryImage` to it so the theme correctly resize the brick once the image
 is loaded.
 
-[1]: https://github.com/pixelastic/norska-theme-search/blob/master/src/_includes/templates/hit.pug
-[2]: https://github.com/pixelastic/norska-theme-search/blob/master/src/_includes/templates/logo.pug
-[3]: https://github.com/pixelastic/norska-theme-search/blob/master/src/_includes/templates/filters.pug
-[4]: https://github.com/pixelastic/norska-theme-search/blob/master/src/_includes/templates/footer.pug
+[1]: https://github.com/pixelastic/norska-theme-search-infinite/blob/master/src/_includes/templates/hit.pug
+[2]: https://github.com/pixelastic/norska-theme-search-infinite/blob/master/src/_includes/templates/logo.pug
+[3]: https://github.com/pixelastic/norska-theme-search-infinite/blob/master/src/_includes/templates/filters.pug
+[4]: https://github.com/pixelastic/norska-theme-search-infinite/blob/master/src/_includes/templates/footer.pug
