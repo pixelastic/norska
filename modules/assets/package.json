@@ -3,7 +3,7 @@
   "dependencies": {
     "firost": "2.16.2",
     "golgoth": "2.0.0",
-    "imoen": "1.1.1",
+    "imoen": "1.2.0",
     "norska-config": "^2.7.0"
   },
   "description": "Copy assets from source to destination",

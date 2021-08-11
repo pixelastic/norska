@@ -8359,32 +8359,6 @@ firost@2.15.0:
     untildify "4.0.0"
     which "2.0.2"
 
-firost@2.16.1:
-  version "2.16.1"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.16.1.tgz#f9e033eeba33e48b1c5097c1ff2e17ecbf7e8635"
-  integrity sha512-2mmrYhezVsj9MDc7dhfWEb9V968T7f23BLXlNX+oZG0dreNX+lScFMqpRpNF6MZjs0lT5wTyD+uv0dC4fqtnig==
-  dependencies:
-    callsites "3.1.0"
-    chokidar "3.5.2"
-    clear-module "4.1.1"
-    eventemitter2 "6.4.4"
-    execa "5.1.1"
-    find-up "5.0.0"
-    fs-extra "10.0.0"
-    globby "11.0.4"
-    golgoth "2.0.0"
-    inquirer "8.1.1"
-    is-glob "4.0.1"
-    json-stable-stringify "1.0.1"
-    nanoid "3.1.23"
-    normalize-url "6.1.0"
-    ora "5.4.1"
-    std-mocks "1.0.1"
-    strip-ansi "6.0.0"
-    tempy "1.0.1"
-    untildify "4.0.0"
-    which "2.0.2"
-
 firost@2.16.2:
   version "2.16.2"
   resolved "https://registry.npmjs.org/firost/-/firost-2.16.2.tgz#d829062bb28b6d93be329cadf0d0608299ebb328"
@@ -9690,12 +9664,12 @@ image-size@^0.8.2:
   dependencies:
     queue "6.0.1"
 
-imoen@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/imoen/-/imoen-1.1.1.tgz#cb7b7913db3b25334db2430dc70b732b87d2dd27"
-  integrity sha512-V4SfRRCcA7HxikdK+yXL72ZNDDYjeW9q5AeBTCNNdNRdiXaUxYbONUWwLaGQn6bbyGAKBP+U+8I0yE94yPjGKw==
+imoen@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/imoen/-/imoen-1.2.0.tgz#a995af603f4d74dc775bb1e49db955bb45410300"
+  integrity sha512-uU4flwTGy4s49ZFeM1q8u8N4MvNzIpx6qbIg8WjT5dILN8aVfEj8YgWzHKOfOHpCQT0oVPvFugNwE6acnE1hLA==
   dependencies:
-    firost "2.16.1"
+    firost "2.16.2"
     fs-extra "10.0.0"
     rev-hash "3.0.0"
     sharp "0.28.3"
