@@ -13,7 +13,7 @@ module.exports = {
     return this.getEnvVar('NETLIFY_AUTH_TOKEN');
   },
   /**
-   * Check if a Netfliy token is available
+   * Check if a Netlify token is available
    * @returns {boolean} True if a token is defined
    **/
   hasToken() {
