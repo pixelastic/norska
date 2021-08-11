@@ -1,6 +1,6 @@
 ---
 title: Typography
-layout: percy
+layout: visual-tests
 ---
 
 <div class="prose lg_prose-lg xl_prose-2xl mx-auto lato">

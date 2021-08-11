@@ -1,75 +1,24 @@
 const run = require('firost/run');
 const exit = require('firost/exit');
-const prompt = require('firost/prompt');
 const gitRoot = require('firost/gitRoot')();
 const _ = require('golgoth/lodash');
 const consoleInfo = require('firost/consoleInfo');
-const consoleSuccess = require('firost/consoleSuccess');
 const consoleError = require('firost/consoleError');
 const minimist = require('minimist');
 
 const release = {
   setArgs(args) {
-    // We always skip percy for now, it adds more problems than it solves
-    const skipPercy = true;
-    // args.percy === false;
     const skipTests = args.tests === false;
     const version = args._[0];
-    this.args = { skipPercy, skipTests, version };
+    this.args = { skipTests, version };
   },
   async run(args) {
     this.setArgs(args);
-    if (await this.isPercyRequired()) {
-      consoleInfo('norska-css has been modified since last release');
-      await this.waitForPercy();
-    }
 
     if (!this.args.skipTests) {
       await this.runTests();
     }
     await this.release();
-  },
-
-  // Check if we need to call Percy
-  async isPercyRequired() {
-    if (this.args.skipPercy) {
-      return false;
-    }
-    const files = await this.filesChangedSinceLastRelease();
-    // We return true whenever the css module has been updated
-    return !!_.find(files, (file) => {
-      return _.startsWith(file, 'modules/css/');
-    });
-  },
-
-  // Run a percy test and wait for the result
-  async waitForPercy() {
-    await this.runPercy();
-
-    consoleInfo('Please, check the link above ⬆️');
-    let validation = false;
-    while (!validation) {
-      const answer = await prompt('Is Percy build ok? [yes/no]');
-      if (answer === 'no') {
-        consoleError('Percy build failed, exiting');
-        exit(1);
-      }
-      if (answer === 'yes') {
-        consoleSuccess('Percy build ok, continuing');
-        validation = true;
-      }
-    }
-  },
-
-  // Run the Percy tests
-  async runPercy() {
-    try {
-      consoleInfo('Running Percy tests');
-      await this.runFromRoot('yarn run percy');
-    } catch (err) {
-      consoleError('Percy failed, exiting');
-      exit(1);
-    }
   },
 
   // Run unit tests
