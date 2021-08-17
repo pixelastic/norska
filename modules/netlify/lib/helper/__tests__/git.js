@@ -8,6 +8,7 @@ const remove = require('firost/remove');
 const move = require('firost/move');
 const emptyDir = require('firost/emptyDir');
 const tmpDirectory = require('firost/tmpDirectory');
+const newFile = require('firost/newFile');
 const pAll = require('golgoth/pAll');
 
 const testRepo = async function () {
@@ -173,6 +174,22 @@ added:A  added
 modified:M  modified
 deleted:D  removed
 renamed:R100  renamed  renamed-bis`);
+    });
+  });
+  describe('commitExists', () => {
+    it('true if in the history', async () => {
+      const repo = await testRepo();
+      await newFile(config.rootPath('myfile.json'));
+      const commitRef = await repo.commitAll('Initial commit');
+
+      const actual = await current.commitExists(commitRef);
+      expect(actual).toEqual(true);
+    });
+    it('false if not in the history', async () => {
+      await testRepo();
+
+      const actual = await current.commitExists('bad-commit');
+      expect(actual).toEqual(false);
     });
   });
 });

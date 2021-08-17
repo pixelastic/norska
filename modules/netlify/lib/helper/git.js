@@ -93,6 +93,21 @@ module.exports = {
   async getCurrentCommit() {
     return await this.runCommand('rev-parse HEAD');
   },
+  /**
+   * Checks if the specified commit exists in the history
+   * @param {string} referenceCommit Commit sha
+   * @returns {boolean} True if commit exists
+   **/
+  async commitExists(referenceCommit) {
+    try {
+      const output = await this.runCommand(
+        `rev-parse --quiet --verify ${referenceCommit}`
+      );
+      return !!output;
+    } catch (_err) {
+      return false;
+    }
+  },
   colorModified(input) {
     return chalk.blue(input);
   },
