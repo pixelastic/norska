@@ -2,6 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "firost": "2.16.2",
+    "gilmore": "0.0.2",
     "golgoth": "2.1.0",
     "multimatch": "5.0.0",
     "netlify": "8.0.0",

@@ -4,6 +4,11 @@ const gitHelper = require('../helper/git');
 const netlifyHelper = require('../helper/index');
 const norskaHelper = require('norska-helper');
 const config = require('norska-config');
+const Gilmore = require('gilmore');
+
+const { emptyDir, tmpDirectory } = require('firost');
+const testDirectory = tmpDirectory('norska/netlify/build');
+const repo = new Gilmore(testDirectory);
 
 describe('norska-netlify > build', () => {
   describe('shouldBuild', () => {
@@ -58,6 +63,40 @@ describe('norska-netlify > build', () => {
       jest.spyOn(current, 'importantKeysChanged').mockReturnValue([]);
       const actual = await current.shouldBuild();
       expect(actual).toEqual(false);
+    });
+  });
+  fdescribe('getLastDeployCommit', () => {
+    const mockListSiteDeploys = jest.fn();
+    beforeEach(async () => {
+      // Init git directory
+      await config.init({
+        root: testDirectory,
+      });
+      await emptyDir(testDirectory);
+
+      // Mock Netlify calls
+      jest
+        .spyOn(netlifyHelper, 'apiClient')
+        .mockReturnValue({ listSiteDeploys: mockListSiteDeploys });
+      jest.spyOn(netlifyHelper, 'siteId').mockReturnValue('site-id');
+    });
+    afterEach(async () => {
+      await emptyDir(testDirectory);
+    });
+    it('should return the last deploy on master branch that is not the current one', async () => {
+      mockListSiteDeploys.mockReturnValue([
+        { state: 'failed', branch: 'master', commit_ref: 'bad' },
+        { state: 'ready', branch: 'feat/something', commit_ref: 'bad' },
+        { state: 'ready', branch: 'master', commit_ref: 'current-commit' },
+        { state: 'ready', branch: 'master', commit_ref: 'good' },
+        { state: 'ready', branch: 'master', commit_ref: 'bad' },
+      ]);
+
+      const actual = await current.getLastDeployCommit();
+      expect(mockListSiteDeploys).toHaveBeenCalledWith({ site_id: 'site-id' });
+      expect(actual).toEqual('good');
+    });
+    it('should return false if the commit is not from this repo', async () => {
     });
   });
   describe('importantFilesChanged', () => {
@@ -185,31 +224,6 @@ describe('norska-netlify > build', () => {
       jest.spyOn(current, 'getPackageJson').mockReturnValue(packageNow);
       const actual = await current.importantKeysChanged('abcdef');
       expect(actual).toEqual(expected);
-    });
-  });
-  describe('getLastDeployCommit', () => {
-    const mockListSiteDeploys = jest.fn();
-    beforeEach(async () => {
-      jest
-        .spyOn(netlifyHelper, 'apiClient')
-        .mockReturnValue({ listSiteDeploys: mockListSiteDeploys });
-      jest.spyOn(netlifyHelper, 'siteId').mockReturnValue('site-id');
-      jest
-        .spyOn(gitHelper, 'getCurrentCommit')
-        .mockReturnValue('current-commit');
-    });
-    it('should return the last deploy on master branch that is not the current one', async () => {
-      mockListSiteDeploys.mockReturnValue([
-        { state: 'failed', branch: 'master', commit_ref: 'bad' },
-        { state: 'ready', branch: 'feat/something', commit_ref: 'bad' },
-        { state: 'ready', branch: 'master', commit_ref: 'current-commit' },
-        { state: 'ready', branch: 'master', commit_ref: 'good' },
-        { state: 'ready', branch: 'master', commit_ref: 'bad' },
-      ]);
-
-      const actual = await current.getLastDeployCommit();
-      expect(mockListSiteDeploys).toHaveBeenCalledWith({ site_id: 'site-id' });
-      expect(actual).toEqual('good');
     });
   });
 });

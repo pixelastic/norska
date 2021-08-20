@@ -26,7 +26,7 @@ const testRepo = async function () {
   };
 };
 
-const tmpRepoPath = tmpDirectory('norska/norska-netlify/helpers/git/');
+const tmpRepoPath = tmpDirectory('norskr/norska-netlify/helpers/git/');
 describe('norska-netlify > git', () => {
   beforeEach(async () => {
     jest.spyOn(config, 'root').mockReturnValue(tmpRepoPath);

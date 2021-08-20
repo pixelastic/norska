@@ -10,6 +10,8 @@ const exit = require('firost/exit');
 const consoleInfo = require('firost/consoleInfo');
 const consoleSuccess = require('firost/consoleSuccess');
 const consoleError = require('firost/consoleError');
+const Gilmore = require('gilmore');
+
 module.exports = {
   /**
    * Check if the current build should happen based on the deploy history and
@@ -88,15 +90,30 @@ module.exports = {
    * @returns {string} Commit sha
    **/
   async getLastDeployCommit() {
+    // Get the list of all past deploys
     const client = helper.apiClient();
     const siteId = await helper.siteId();
     const response = await client.listSiteDeploys({ site_id: siteId });
-    const currentCommit = await gitHelper.getCurrentCommit();
-    return _.chain(response)
+
+    // Get current commit
+    const repo = new Gilmore(config.root());
+    const currentCommit = await repo.currentCommit();
+    const currentBranch = await repo.currentBranch();
+
+    // Pick the first successful deploy on this branch
+    const commit = _.chain(response)
       .reject({ commit_ref: currentCommit })
-      .find({ state: 'ready', branch: 'master' })
+      .find({ state: 'ready', branch: currentBranch })
       .get('commit_ref')
       .value();
+
+    // Double check the commit is in the history (a force push or a change in
+    // the origin repo might make the commit unavailable)
+    if (!(await repo.commitExists(commit))) {
+      return false;
+    }
+
+    return commit;
   },
   /**
    * Returns the list of important files changed
@@ -163,4 +180,5 @@ module.exports = {
   __consoleInfo: consoleInfo,
   __consoleSuccess: consoleSuccess,
   __consoleError: consoleError,
+  __gilmore: gilmore,
 };
