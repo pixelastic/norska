@@ -1,5 +1,6 @@
 const pug = require('../../index.js');
 const config = require('norska-config');
+const { write } = require('firost');
 
 describe('norska-html > pug > methods > isCurrentPage', () => {
   const tmpDirectory = './tmp/norska-html/pug/methods/isCurrentPage';
@@ -7,6 +8,11 @@ describe('norska-html > pug > methods > isCurrentPage', () => {
     await config.init({
       root: tmpDirectory,
     });
+    // Bare layout
+    await write(
+      'block content',
+      config.fromPath('_includes/layouts/default.pug')
+    );
   });
   it.each([
     ['index.html', '/'],
