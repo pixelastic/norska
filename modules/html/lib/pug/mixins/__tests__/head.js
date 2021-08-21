@@ -1,6 +1,7 @@
 const pug = require('../../index.js');
 const config = require('norska-config');
 const helper = require('norska-helper');
+const { write, emptyDir } = require('firost');
 
 describe('norska-html > pug > mixins > head', () => {
   const tmpDirectory = './tmp/norska-html/pug/mixins/head';
@@ -11,6 +12,7 @@ describe('norska-html > pug > mixins > head', () => {
         from: `${tmpDirectory}/src`,
         to: `${tmpDirectory}/dist`,
       });
+      await emptyDir(tmpDirectory);
       await pug.init();
       config.set('runtime.gitCommit', 'abcdef');
       config.set('runtime.productionUrl', 'http://here.com');
@@ -39,6 +41,11 @@ describe('norska-html > pug > mixins > head', () => {
           },
         },
       };
+      // Bare layout, otherwise it will render the <head> twice
+      await write(
+        'block content',
+        config.fromPath('_includes/layouts/default.pug')
+      );
       actual = await pug.convert(source, options);
     });
     it.each([
