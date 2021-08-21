@@ -8491,10 +8491,10 @@ gh-release-fetch@^2.0.0:
     node-fetch "^2.3.0"
     semver "^7.0.0"
 
-gilmore@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.npmjs.org/gilmore/-/gilmore-0.0.2.tgz#fc18896f06eb0382b3c49c115948454c670f82b0"
-  integrity sha512-LbwUSvOau/fufszDdnHCsqvMLl0GTh9jILGvJJjt1iXuI9rpUQCze9dZa1hCCIo4MlhthnurtjuIadcZcuSNMA==
+gilmore@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/gilmore/-/gilmore-0.0.3.tgz#12e6e378a64c5d739e8156cb7dc8ae8bdf18ad7e"
+  integrity sha512-lKMtrZQ5pVMyhcsyxOaZhztt2ZnVoCopLfY+aYx3US1RokPeAtDajzl9iiSum2MW9+ihQjm4LAuvjZIG91d2SA==
   dependencies:
     callsites "3.1.0"
     find-up "5.0.0"

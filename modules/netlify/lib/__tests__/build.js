@@ -1,9 +1,9 @@
 const netlifyConfig = require('../config');
 const current = require('../build');
-const gitHelper = require('../helper/git');
 const netlifyHelper = require('../helper/index');
 const norskaHelper = require('norska-helper');
 const config = require('norska-config');
+const path = require('path');
 const Gilmore = require('gilmore');
 
 const { emptyDir, tmpDirectory } = require('firost');
@@ -11,12 +11,15 @@ const testDirectory = tmpDirectory('norska/netlify/build');
 const repo = new Gilmore(testDirectory);
 
 describe('norska-netlify > build', () => {
+  beforeEach(async () => {
+    jest.spyOn(current, 'gitRoot').mockReturnValue(testDirectory);
+    await emptyDir(testDirectory);
+  });
   describe('shouldBuild', () => {
     beforeEach(async () => {
       jest.spyOn(current, '__consoleInfo').mockReturnValue();
       jest.spyOn(current, '__consoleSuccess').mockReturnValue();
       jest.spyOn(current, '__consoleError').mockReturnValue();
-      jest.spyOn(gitHelper, 'diffOverview').mockReturnValue();
     });
     it('should always build if not in production', async () => {
       jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(false);
@@ -37,89 +40,108 @@ describe('norska-netlify > build', () => {
       expect(actual).toEqual(true);
     });
     it('should build if an important file has been changed', async () => {
+      await config.init({
+        root: testDirectory,
+        netlify: netlifyConfig,
+      });
+
+      await repo.init();
+      await repo.writeFile('# norska', 'src/index.pug');
+      const initialCommit = await repo.commitAll('initial commit');
+      await repo.writeFile('v14.17.0', '.nvmrc');
+      await repo.commitAll('update version');
+
       jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
       jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
-      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue('abcdef');
-      jest
-        .spyOn(current, 'importantFilesChanged')
-        .mockReturnValue(['src/index.pug']);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue(initialCommit);
       const actual = await current.shouldBuild();
       expect(actual).toEqual(true);
     });
     it('should build if an important key has been modified', async () => {
+      await config.init({
+        root: testDirectory,
+        netlify: netlifyConfig,
+      });
+
+      await repo.init();
+      await repo.writeFileJson({ version: '0.1' }, 'package.json');
+      const initialCommit = await repo.commitAll('initial commit');
+      await repo.writeFileJson({ version: '0.2' }, 'package.json');
+      await repo.commitAll('update version');
+
       jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
       jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
-      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue('abcdef');
-      jest.spyOn(current, 'importantFilesChanged').mockReturnValue([]);
-      jest.spyOn(current, 'importantKeysChanged').mockReturnValue([{}]);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue(initialCommit);
       const actual = await current.shouldBuild();
       expect(actual).toEqual(true);
     });
     it('should not build if nothing important happened', async () => {
+      await config.init({
+        root: testDirectory,
+        netlify: netlifyConfig,
+      });
+
+      await repo.init();
+      await repo.writeFile('# norska', 'README.md');
+      const initialCommit = await repo.commitAll('initial commit');
+      await repo.writeFileJson({ randomKey: 'something' }, 'package.json');
+      await repo.commitAll('update version');
+
       jest.spyOn(norskaHelper, 'isProduction').mockReturnValue(true);
       jest.spyOn(netlifyHelper, 'isRunningRemotely').mockReturnValue(true);
-      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue('abcdef');
-      jest.spyOn(current, 'importantFilesChanged').mockReturnValue([]);
-      jest.spyOn(current, 'importantKeysChanged').mockReturnValue([]);
+      jest.spyOn(current, 'getLastDeployCommit').mockReturnValue(initialCommit);
       const actual = await current.shouldBuild();
       expect(actual).toEqual(false);
     });
   });
-  fdescribe('getLastDeployCommit', () => {
-    const mockListSiteDeploys = jest.fn();
-    beforeEach(async () => {
-      // Init git directory
-      await config.init({
-        root: testDirectory,
-      });
-      await emptyDir(testDirectory);
-
-      // Mock Netlify calls
-      jest
-        .spyOn(netlifyHelper, 'apiClient')
-        .mockReturnValue({ listSiteDeploys: mockListSiteDeploys });
-      jest.spyOn(netlifyHelper, 'siteId').mockReturnValue('site-id');
-    });
-    afterEach(async () => {
-      await emptyDir(testDirectory);
-    });
-    it('should return the last deploy on master branch that is not the current one', async () => {
-      mockListSiteDeploys.mockReturnValue([
-        { state: 'failed', branch: 'master', commit_ref: 'bad' },
-        { state: 'ready', branch: 'feat/something', commit_ref: 'bad' },
-        { state: 'ready', branch: 'master', commit_ref: 'current-commit' },
-        { state: 'ready', branch: 'master', commit_ref: 'good' },
-        { state: 'ready', branch: 'master', commit_ref: 'bad' },
-      ]);
-
-      const actual = await current.getLastDeployCommit();
-      expect(mockListSiteDeploys).toHaveBeenCalledWith({ site_id: 'site-id' });
-      expect(actual).toEqual('good');
-    });
-    it('should return false if the commit is not from this repo', async () => {
-    });
-  });
   describe('importantFilesChanged', () => {
-    beforeEach(async () => {
-      jest.spyOn(gitHelper, 'root').mockReturnValue('/norska/');
-    });
     describe('in a classic setup', () => {
       it('should find all important files', async () => {
         await config.init({
-          root: '/norska/',
+          root: testDirectory,
           netlify: netlifyConfig,
         });
         const changedFiles = [
-          '/norska/.nvmrc',
-          '/norska/lambda/index.js',
-          '/norska/netlify.toml',
-          '/norska/norska.config.js',
-          '/norska/src/assets/deep/file.png',
-          '/norska/src/index.pug',
-          '/norska/tailwind.config.js',
-          '/norska/.prettierrc.js',
-          '/norska/README.md',
-          '/norska/scripts/test',
+          {
+            name: '.nvmrc',
+            status: 'added',
+          },
+          {
+            name: 'lambda/index.js',
+            status: 'modified',
+          },
+          {
+            name: 'netlify.toml',
+            status: 'deleted',
+          },
+          {
+            name: 'norska.config.js',
+            status: 'modified',
+          },
+          {
+            name: 'src/assets/deep/file.png',
+            status: 'modified',
+          },
+          {
+            name: 'src/index.pug',
+            status: 'modified',
+          },
+          {
+            name: 'tailwind.config.js',
+            status: 'modified',
+          },
+          {
+            name: '.prettierrc.js',
+            status: 'modified',
+          },
+          {
+            name: 'README.md',
+            status: 'modified',
+          },
+          {
+            name: 'scripts/test',
+            status: 'modified',
+          },
         ];
         const expected = [
           '.nvmrc',
@@ -130,33 +152,65 @@ describe('norska-netlify > build', () => {
           'src/index.pug',
           'tailwind.config.js',
         ];
-        jest
-          .spyOn(gitHelper, 'filesChangedSinceCommit')
-          .mockReturnValue(changedFiles);
-        const actual = await current.importantFilesChanged('abcdef');
+        const actual = await current.importantFilesChanged(changedFiles);
         expect(actual).toEqual(expected);
       });
     });
     describe('in a monorepo setup', () => {
       it('should find all important files', async () => {
         await config.init({
-          root: '/norska/docs',
+          root: path.resolve(testDirectory, 'docs'),
           netlify: netlifyConfig,
         });
-        jest.spyOn(gitHelper, 'root').mockReturnValue('/norska/');
         const changedFiles = [
-          '/norska/README.md',
-          '/norska/docs/norska.config.js',
-          '/norska/docs/src/assets/deep/file.png',
-          '/norska/docs/src/index.pug',
-          '/norska/docs/tailwind.config.js',
-          '/norska/lambda/index.js',
-          '/norska/lib/README.md',
-          '/norska/lib/main.js',
-          '/norska/netlify.toml',
-          '/norska/scripts/test',
-          '/norska/.nvmrc',
-          '/norska/.prettierrc.js',
+          {
+            name: 'README.md',
+            status: 'modified',
+          },
+          {
+            name: 'docs/norska.config.js',
+            status: 'added',
+          },
+          {
+            name: 'docs/src/assets/deep/file.png',
+            status: 'deleted',
+          },
+          {
+            name: 'docs/src/index.pug',
+            status: 'modified',
+          },
+          {
+            name: 'docs/tailwind.config.js',
+            status: 'modified',
+          },
+          {
+            name: 'lambda/index.js',
+            status: 'modified',
+          },
+          {
+            name: 'lib/README.md',
+            status: 'modified',
+          },
+          {
+            name: 'lib/main.js',
+            status: 'modified',
+          },
+          {
+            name: 'netlify.toml',
+            status: 'modified',
+          },
+          {
+            name: 'scripts/test',
+            status: 'modified',
+          },
+          {
+            name: '.nvmrc',
+            status: 'modified',
+          },
+          {
+            name: '.prettierrc.js',
+            status: 'modified',
+          },
         ];
         const expected = [
           '.nvmrc',
@@ -167,10 +221,7 @@ describe('norska-netlify > build', () => {
           'lambda/index.js',
           'netlify.toml',
         ];
-        jest
-          .spyOn(gitHelper, 'filesChangedSinceCommit')
-          .mockReturnValue(changedFiles);
-        const actual = await current.importantFilesChanged('abcdef');
+        const actual = await current.importantFilesChanged(changedFiles);
         expect(actual).toEqual(expected);
       });
     });
@@ -214,15 +265,14 @@ describe('norska-netlify > build', () => {
         { dependencies: { norska: '1.0' } },
         [],
       ],
-    ])('%s', async (_title, packageBefore, packageNow, expected) => {
+    ])('%s', async (_title, previousPackage, currentPackage, expected) => {
       await config.init({
         netlify: netlifyConfig,
       });
-      jest
-        .spyOn(gitHelper, 'jsonContentAtCommit')
-        .mockReturnValue(packageBefore);
-      jest.spyOn(current, 'getPackageJson').mockReturnValue(packageNow);
-      const actual = await current.importantKeysChanged('abcdef');
+      const actual = await current.importantKeysChanged(
+        previousPackage,
+        currentPackage
+      );
       expect(actual).toEqual(expected);
     });
   });

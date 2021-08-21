@@ -1,15 +1,17 @@
 const helper = require('./helper/');
 const norskaHelper = require('norska-helper');
-const gitHelper = require('./helper/git.js');
-const _ = require('golgoth/lodash');
+const { _, chalk } = require('golgoth');
 const config = require('norska-config');
 const path = require('path');
 const multimatch = require('multimatch');
-const readJson = require('firost/readJson');
-const exit = require('firost/exit');
-const consoleInfo = require('firost/consoleInfo');
-const consoleSuccess = require('firost/consoleSuccess');
-const consoleError = require('firost/consoleError');
+const {
+  readJson,
+  exit,
+  consoleInfo,
+  consoleSuccess,
+  consoleError,
+  gitRoot,
+} = require('firost');
 const Gilmore = require('gilmore');
 
 module.exports = {
@@ -30,20 +32,24 @@ module.exports = {
       'Starting building for production on Netlify. Should it continue?'
     );
 
-    // Build if never build before
+    // Build if never built before
     const lastDeployCommit = await this.getLastDeployCommit();
     if (!lastDeployCommit) {
       this.__consoleSuccess('Site has never been deployed before.');
       return true;
     }
 
+    // Get list of changed files since last deploy
+    const repo = new Gilmore(config.root());
+    const changedFiles = await repo.changedFiles(lastDeployCommit);
+
     // Display a diff of changed files
-    const diffOverview = await gitHelper.diffOverview(lastDeployCommit);
+    const diffOverview = this.getDiffOverview(changedFiles);
     this.__consoleInfo(`Files modified since last deploy:\n${diffOverview}`);
 
     // Build if important files were changed since last build
     const importantFilesChanged = await this.importantFilesChanged(
-      lastDeployCommit
+      changedFiles
     );
     if (!_.isEmpty(importantFilesChanged)) {
       this.__consoleSuccess(
@@ -54,8 +60,14 @@ module.exports = {
     }
 
     // Build if important package.json keys were changed since last build
-    const importantKeysChanged = await this.importantKeysChanged(
+    const previousPackage = await repo.readFileJson(
+      'package.json',
       lastDeployCommit
+    );
+    const currentPackage = await readJson(config.rootPath('package.json'));
+    const importantKeysChanged = await this.importantKeysChanged(
+      previousPackage,
+      currentPackage
     );
     if (!_.isEmpty(importantKeysChanged)) {
       this.__consoleSuccess(
@@ -77,12 +89,18 @@ module.exports = {
     );
     return false;
   },
+  /**
+   * Cancels the current running build
+   **/
   async cancel() {
     const client = helper.apiClient();
     const deployId = helper.getEnvVar('DEPLOY_ID');
+
     this.__consoleError(`Cancelling deploy ${deployId}`);
+
     // We call the API to cancel the build and stop it
     await client.cancelSiteDeploy({ deploy_id: deployId });
+
     exit(0);
   },
   /**
@@ -116,54 +134,66 @@ module.exports = {
     return commit;
   },
   /**
-   * Returns the list of important files changed
-   * @param {string} commit Commit of the last deploy
-   * @returns {Array} List of important filepath changed
+   * Returns a colored overview of the changed files
+   * @param {Array} changedFiles List of changed files
+   * @returns {string} Colored diff
+   **/
+  getDiffOverview(changedFiles) {
+    const colors = {
+      modified: this.colorModified,
+      deleted: this.colorDeleted,
+      added: this.colorAdded,
+    };
+    return _.chain(changedFiles)
+      .map(({ name, status }) => {
+        return colors[status](name);
+      })
+      .join('\n')
+      .value();
+  },
+  /**
+   * Returns the list of important files from a list of changed files
+   * @param {Array} changedFiles List of changed files
+   * @returns {Array} List of filepath of files considered important
    */
-  async importantFilesChanged(commit) {
-    // Get changed files
-    const changedFiles = await gitHelper.filesChangedSinceCommit(commit);
+  async importantFilesChanged(changedFiles = []) {
+    // Find relative paths in the repo
+    const root = await this.gitRoot();
+    const projectRoot = path.relative(root, config.root());
+    const from = path.relative(root, config.from());
 
-    // Convert glob patterns to absolute globs
-    const gitRoot = gitHelper.root();
-    const projectRoot = path.relative(gitRoot, config.root());
-    const from = path.relative(gitRoot, config.from());
-    const rawGlobs = config.get('netlify.deploy.files');
-    const globPatterns = _.chain(rawGlobs)
-      .map((rawGlob) => {
-        return _.chain(`${gitRoot}/${rawGlob}`)
+    // Convert custom prefixes, like <projectRoot> or <from>
+    const globPatterns = _.chain(config.get('netlify.deploy.files'))
+      .map((pattern) => {
+        return _.chain(pattern)
           .replace('<projectRoot>', projectRoot)
           .replace('<from>', from)
-          .thru(path.resolve)
+          .trimStart('/')
           .value();
       })
       .value();
 
-    return _.chain(multimatch(changedFiles, globPatterns))
-      .map((filepath) => {
-        return path.relative(gitRoot, filepath);
+    // Match against pattern
+    return _.chain(changedFiles)
+      .map('name')
+      .thru((filepaths) => {
+        return multimatch(filepaths, globPatterns);
       })
       .sort()
       .value();
   },
   /**
-   * Return all important keys changed
-   * @param {string} lastDeployCommit SHA of the last deploy
-   * @returns {boolean} True if at least one key has been updated, false
-   * otherwise
+   * Compare two versions of package.json and return the important keys changed
+   * @param {object} previousPackage Content of the previous package.json
+   * @param {object} currentPackage Content of the current package.json
+   * @returns {Array} List of important keys changed
    **/
-  async importantKeysChanged(lastDeployCommit) {
-    const packageBefore = await gitHelper.jsonContentAtCommit(
-      config.rootPath('package.json'),
-      lastDeployCommit
-    );
-    const packageNow = await this.getPackageJson();
-
+  async importantKeysChanged(previousPackage = {}, currentPackage = {}) {
     const keys = config.get('netlify.deploy.keys');
     const changedKeys = [];
     _.each(keys, (name) => {
-      const before = _.get(packageBefore, name, null);
-      const after = _.get(packageNow, name, null);
+      const before = _.get(previousPackage, name, null);
+      const after = _.get(currentPackage, name, null);
       if (!_.isEqual(before, after)) {
         changedKeys.push({ name, before, after });
       }
@@ -177,8 +207,26 @@ module.exports = {
   async getPackageJson() {
     return await readJson(config.rootPath('package.json'));
   },
+  /**
+   * Returns the path to the git root
+   * @returns {string} Absolute path to the git repository
+   **/
+  async gitRoot() {
+    return await gitRoot();
+  },
+  colorModified(input) {
+    return chalk.blue(input);
+  },
+  colorDeleted(input) {
+    return chalk.red(input);
+  },
+  colorAdded(input) {
+    return chalk.green(input);
+  },
+  colorRenamed(input) {
+    return chalk.yellow(input);
+  },
   __consoleInfo: consoleInfo,
   __consoleSuccess: consoleSuccess,
   __consoleError: consoleError,
-  __gilmore: gilmore,
 };
