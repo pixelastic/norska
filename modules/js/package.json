@@ -3,8 +3,8 @@
   "dependencies": {
     "firost": "2.16.2",
     "golgoth": "2.1.0",
-    "norska-config": "^2.7.0",
-    "norska-helper": "^2.5.0",
+    "norska-config": "^2.8.0",
+    "norska-helper": "^2.8.0",
     "pug-loader": "^2.4.0",
     "webpack": "4.46.0"
   },
@@ -27,5 +27,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.7.0"
+  "version": "2.8.0"
 }

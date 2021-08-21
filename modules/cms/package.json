@@ -8,9 +8,9 @@
     "livereload": "0.9.3",
     "multer": "1.4.3",
     "nodemon": "2.0.12",
-    "norska-config": "^2.7.0",
-    "norska-css": "^2.7.0",
-    "norska-helper": "^2.5.0",
+    "norska-config": "^2.8.0",
+    "norska-css": "^2.8.0",
+    "norska-helper": "^2.8.0",
     "open": "8.2.1"
   },
   "description": "Edit _data folder interactively",
@@ -33,5 +33,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.7.0"
+  "version": "2.8.0"
 }
