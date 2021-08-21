@@ -1,16 +1,18 @@
 const current = require('../index');
 const config = require('norska-config');
-const write = require('firost/write');
-const emptyDir = require('firost/emptyDir');
-const read = require('firost/read');
+const { emptyDir, read, write } = require('firost');
+const path = require('path');
 
 describe('norska-html > markdown > index', () => {
   const tmpDirectory = './tmp/norska-html/markdown/index';
+  const themeDirectory = path.resolve(tmpDirectory, 'theme');
   beforeEach(async () => {
     await config.init({
       root: tmpDirectory,
+      theme: themeDirectory,
     });
-    // Default layout in theme
+    await emptyDir(tmpDirectory);
+    // Default theme layout
     await write(
       dedent`
         .default
@@ -18,22 +20,19 @@ describe('norska-html > markdown > index', () => {
     `,
       config.themeFromPath('_includes/layouts/default.pug')
     );
-    config.set('runtime.productionUrl', 'http://here.com');
-  });
-  describe('compile', () => {
-    beforeEach(async () => {
-      await write(
-        dedent`
+    // Custom project layout
+    await write(
+      dedent`
       title=data.meta.title
       .project
         block content
       `,
-        config.fromPath('_includes/layouts/project.pug')
-      );
-    });
-    beforeEach(async () => {
-      await emptyDir(config.toPath());
-    });
+      config.fromPath('_includes/layouts/project.pug')
+    );
+
+    config.set('runtime.productionUrl', 'http://here.com');
+  });
+  describe('compile', () => {
     it.each([
       // sourceFile, markdownSource, destinationFile, expected
       [
