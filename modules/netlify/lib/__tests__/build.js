@@ -16,8 +16,8 @@ describe('norska-netlify > build', () => {
     jest.spyOn(current, 'gitRoot').mockReturnValue(testDirectory);
     await emptyDir(testDirectory);
     // Set a git user on the CI
-    process.env.GITHUB_USER_NAME = 'Norska';
-    process.env.GITHUB_USER_EMAIL = 'norska@test.com';
+    process.env.GIT_USER_NAME = 'Norska';
+    process.env.GIT_USER_EMAIL = 'norska@test.com';
   });
   afterEach(() => {
     process.env = envSnapshot;
