@@ -11,9 +11,16 @@ const testDirectory = tmpDirectory('norska/netlify/build');
 const repo = new Gilmore(testDirectory);
 
 describe('norska-netlify > build', () => {
+  const envSnapshot = { ...process.env };
   beforeEach(async () => {
     jest.spyOn(current, 'gitRoot').mockReturnValue(testDirectory);
     await emptyDir(testDirectory);
+    // Set a git user on the CI
+    process.env.GITHUB_USER_NAME = 'Norska';
+    process.env.GITHUB_USER_EMAIL = 'norska@test.com';
+  });
+  afterEach(() => {
+    process.env = envSnapshot;
   });
   describe('shouldBuild', () => {
     beforeEach(async () => {
