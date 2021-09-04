@@ -8517,13 +8517,14 @@ gh-release-fetch@^2.0.0:
     node-fetch "^2.3.0"
     semver "^7.0.0"
 
-gilmore@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/gilmore/-/gilmore-0.0.4.tgz#563a52be4f216589c3e0852a5f48089a5ee2015f"
-  integrity sha512-6t9bGQ6FPQGfPvhfz4tqI0hKSm72yoKBHE/ciJiY9DnsFIJgO+aVwBchGAYEj0zqs/chkdVTBHnIcBudF6AEFQ==
+gilmore@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/gilmore/-/gilmore-0.1.0.tgz#ced4729716df9ee0bcbebaf576cd81ca03d2b021"
+  integrity sha512-dMl5JRwfAPe5sHJkZCWGVoHmeA4yfvcCMMyBuVAHKyOh7bM4v8wt+hrgXdASKahs3hWtkP+oFISx+iotkDzpIw==
   dependencies:
     firost "2.16.4"
     golgoth "2.1.0"
+    parse-github-repo-url "1.4.1"
 
 git-raw-commits@^2.0.8:
   version "2.0.10"
@@ -9594,10 +9595,10 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.29.0:
-  version "4.29.0"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.29.0.tgz#bc83e401417f9c4d7fded89ee7d1df3351933e7b"
-  integrity sha512-YKkkso2BRINWcVjZiYnlB1HjQgc/2Zy4nARfsvgJQz3MmYjv+BiK+S0TzdwGc2MzkbCdZ2RRJ3fiaNJq8vwb8g==
+instantsearch.js@4.29.1:
+  version "4.29.1"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.29.1.tgz#7bacd0cf399aaf70de6d536e37a438c54b9e80e1"
+  integrity sha512-dSmF/vkP9mrvW1DgRuB3rrkEz6ewpYtobCX99EXa6JSvnXbdCEfuSiTORHGOC9He7q5i1rutM5WslJYPw4fNlw==
   dependencies:
     "@types/google.maps" "^3.45.3"
     "@types/hogan.js" "^3.0.0"
