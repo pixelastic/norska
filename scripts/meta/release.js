@@ -1,9 +1,4 @@
-const run = require('firost/run');
-const exit = require('firost/exit');
-const gitRoot = require('firost/gitRoot')();
-const _ = require('golgoth/lodash');
-const consoleInfo = require('firost/consoleInfo');
-const consoleError = require('firost/consoleError');
+const { run, exit, gitRoot, consoleInfo, consoleError } = require('firost');
 const minimist = require('minimist');
 
 const release = {
@@ -47,22 +42,6 @@ const release = {
   // Run a command at the root of the repo
   async runFromRoot(command, options = {}) {
     await run(`cd ${gitRoot} && ${command}`, { shell: true, ...options });
-  },
-
-  // Find last release tag
-  async lastReleaseTag() {
-    const { stdout } = await run('git tag -l --sort=creatordate', {
-      stdout: false,
-    });
-    return _.chain(stdout).split('\n').last().value();
-  },
-  // Find files changed since last release
-  async filesChangedSinceLastRelease() {
-    const tag = await this.lastReleaseTag();
-    const { stdout } = await run(`git diff --name-only ${tag} HEAD`, {
-      stdout: false,
-    });
-    return _.chain(stdout).split('\n').value();
   },
 };
 
