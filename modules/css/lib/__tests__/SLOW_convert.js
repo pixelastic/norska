@@ -4,7 +4,7 @@ const helper = require('norska-helper');
 const emptyDir = require('firost/emptyDir');
 const write = require('firost/write');
 // Tests should fail if build takes longer than this time
-const MAX_ALLOWED_BUILD_TIME = 8000;
+const MAX_ALLOWED_BUILD_TIME = 10000;
 
 describe.slow('norska-css > convert [slow]', () => {
   const tmpDirectory = './tmp/norska-css/convert';

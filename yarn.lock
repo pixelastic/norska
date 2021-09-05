@@ -8526,6 +8526,15 @@ gilmore@0.1.0:
     golgoth "2.1.0"
     parse-github-repo-url "1.4.1"
 
+gilmore@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/gilmore/-/gilmore-0.1.0.tgz#ced4729716df9ee0bcbebaf576cd81ca03d2b021"
+  integrity sha512-dMl5JRwfAPe5sHJkZCWGVoHmeA4yfvcCMMyBuVAHKyOh7bM4v8wt+hrgXdASKahs3hWtkP+oFISx+iotkDzpIw==
+  dependencies:
+    firost "2.16.4"
+    golgoth "2.1.0"
+    parse-github-repo-url "1.4.1"
+
 git-raw-commits@^2.0.8:
   version "2.0.10"
   resolved "https://registry.npmjs.org/git-raw-commits/-/git-raw-commits-2.0.10.tgz#e2255ed9563b1c9c3ea6bd05806410290297bbc1"

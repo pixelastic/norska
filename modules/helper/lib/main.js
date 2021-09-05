@@ -1,5 +1,5 @@
-const _ = require('golgoth/lodash');
-const run = require('firost/run');
+const { _ } = require('golgoth');
+const { env } = require('firost');
 
 module.exports = {
   /**
@@ -8,7 +8,7 @@ module.exports = {
    * @returns {string} The current NODE_ENV value
    **/
   currentEnvironment() {
-    return _.get(process, 'env.NODE_ENV', 'development');
+    return env('NODE_ENV', 'development');
   },
   /**
    * Returns true if currently running in production mode
@@ -17,19 +17,5 @@ module.exports = {
   isProduction() {
     const keywords = ['prod', 'production'];
     return _.includes(keywords, this.currentEnvironment());
-  },
-  /**
-   * Return the current git commit
-   * @returns {string} git SHA
-   **/
-  async latestGitCommit() {
-    if (!this.__latestGitCommit) {
-      const { stdout } = await run('git rev-parse --short HEAD', {
-        stdout: false,
-        stderr: false,
-      });
-      this.__latestGitCommit = stdout;
-    }
-    return this.__latestGitCommit;
   },
 };

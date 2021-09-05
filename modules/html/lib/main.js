@@ -1,22 +1,21 @@
-const EventEmitter = require('events');
-const chalk = require('golgoth/chalk');
 const config = require('norska-config');
-const consoleError = require('firost/consoleError');
-const consoleSuccess = require('firost/consoleSuccess');
-const consoleWarn = require('firost/consoleWarn');
-const glob = require('firost/glob');
-const write = require('firost/write');
-const helper = require('norska-helper');
-const markdown = require('./markdown/index.js');
 const norskaData = require('norska-data');
-const pMap = require('golgoth/pMap');
 const path = require('path');
+const EventEmitter = require('events');
+const { chalk, pMap, timeSpan, _ } = require('golgoth');
+const {
+  consoleError,
+  consoleSuccess,
+  consoleWarn,
+  glob,
+  spinner,
+  watch,
+  write,
+} = require('firost');
+const Gilmore = require('gilmore');
+const markdown = require('./markdown/index.js');
 const { pageUrl } = require('./path.js');
 const pug = require('./pug/index.js');
-const spinner = require('firost/spinner');
-const timeSpan = require('golgoth/timeSpan');
-const watch = require('firost/watch');
-const _ = require('golgoth/lodash');
 
 module.exports = {
   /**
@@ -139,7 +138,8 @@ module.exports = {
     // Save the pug mixins in cache
     await pug.init();
 
-    const gitCommit = await helper.latestGitCommit();
+    const repo = new Gilmore(config.root());
+    const gitCommit = await repo.currentCommit();
     config.set('runtime.gitCommit', gitCommit);
 
     const data = norskaData.getAll();
