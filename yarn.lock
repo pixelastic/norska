@@ -8131,6 +8131,32 @@ firost@2.16.4:
     untildify "4.0.0"
     which "2.0.2"
 
+firost@2.17.0:
+  version "2.17.0"
+  resolved "https://registry.npmjs.org/firost/-/firost-2.17.0.tgz#688574206c845c663fd4b9133a28a5668952095b"
+  integrity sha512-9ig35bkdO3urte8IUacBj2NNarfl/BzEMLn53eIlJGbUxuHAThIizFJooc+rLxsClmVMCVSc2+8wO5VinnPiGA==
+  dependencies:
+    callsites "3.1.0"
+    chokidar "3.5.2"
+    clear-module "4.1.1"
+    eventemitter2 "6.4.4"
+    execa "5.1.1"
+    find-up "5.0.0"
+    fs-extra "10.0.0"
+    globby "11.0.4"
+    golgoth "2.1.0"
+    inquirer "8.1.2"
+    is-glob "4.0.1"
+    json-stable-stringify "1.0.1"
+    nanoid "3.1.25"
+    normalize-url "6.1.0"
+    ora "5.4.1"
+    std-mocks "1.0.1"
+    strip-ansi "6.0.0"
+    temp-dir "2.0.0"
+    untildify "4.0.0"
+    which "2.0.2"
+
 flat-cache@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/flat-cache/-/flat-cache-3.0.4.tgz#61b0338302b2fe9f957dcc32fc2a87f1c3048b11"
@@ -8516,15 +8542,6 @@ gh-release-fetch@^2.0.0:
     make-dir "^3.1.0"
     node-fetch "^2.3.0"
     semver "^7.0.0"
-
-gilmore@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/gilmore/-/gilmore-0.1.0.tgz#ced4729716df9ee0bcbebaf576cd81ca03d2b021"
-  integrity sha512-dMl5JRwfAPe5sHJkZCWGVoHmeA4yfvcCMMyBuVAHKyOh7bM4v8wt+hrgXdASKahs3hWtkP+oFISx+iotkDzpIw==
-  dependencies:
-    firost "2.16.4"
-    golgoth "2.1.0"
-    parse-github-repo-url "1.4.1"
 
 gilmore@0.1.0:
   version "0.1.0"
