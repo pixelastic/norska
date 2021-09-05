@@ -158,7 +158,7 @@ module.exports = {
    */
   async importantFilesChanged(changedFiles = []) {
     // Find relative paths in the repo
-    const root = await this.gitRoot();
+    const root = this.gitRoot();
     const projectRoot = path.relative(root, config.root());
     const from = path.relative(root, config.from());
 
@@ -207,13 +207,6 @@ module.exports = {
   async getPackageJson() {
     return await readJson(config.rootPath('package.json'));
   },
-  /**
-   * Returns the path to the git root
-   * @returns {string} Absolute path to the git repository
-   **/
-  async gitRoot() {
-    return await gitRoot();
-  },
   colorModified(input) {
     return chalk.blue(input);
   },
@@ -229,4 +222,5 @@ module.exports = {
   __consoleInfo: consoleInfo,
   __consoleSuccess: consoleSuccess,
   __consoleError: consoleError,
+  gitRoot,
 };
