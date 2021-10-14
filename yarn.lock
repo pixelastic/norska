@@ -9621,10 +9621,10 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.30.2:
-  version "4.30.2"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.30.2.tgz#c6bbaa8ded004c92b6ca9efcc827c9a768605b21"
-  integrity sha512-i6sW3DZ74pJyxb7uRlN487kC+gFjXyGm6ZXms6C4bYrmeNT+483tMUt7i2BFssUf+pUcvu4Rb8uR1dMHsZ6trQ==
+instantsearch.js@4.30.3:
+  version "4.30.3"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.30.3.tgz#e46bbcb07749ae0b310e55b7ec37255391ffa51f"
+  integrity sha512-ciyFIxs1iTduWex4KASREpeMSbZnLUyskfGlZiaYg1bc1a8OdX8t5YjiDlyJoMwQHraAd+pBwxUrbpHk3QsaYA==
   dependencies:
     "@types/google.maps" "^3.45.3"
     "@types/hogan.js" "^3.0.0"
