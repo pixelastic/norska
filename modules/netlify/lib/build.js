@@ -116,12 +116,12 @@ module.exports = {
     // Get current commit
     const repo = new Gilmore(config.root());
     const currentCommit = await repo.currentCommit();
-    const currentBranch = await repo.currentBranch();
+    const currentBranchName = await repo.currentBranchName();
 
     // Pick the first successful deploy on this branch
     const commit = _.chain(response)
       .reject({ commit_ref: currentCommit })
-      .find({ state: 'ready', branch: currentBranch })
+      .find({ state: 'ready', branch: currentBranchName })
       .get('commit_ref')
       .value();
 
