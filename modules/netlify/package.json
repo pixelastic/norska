@@ -5,8 +5,8 @@
     "gilmore": "0.1.0",
     "golgoth": "2.1.0",
     "multimatch": "5.0.0",
-    "netlify": "8.0.0",
-    "netlify-cli": "6.2.3",
+    "netlify": "8.0.4",
+    "netlify-cli": "6.15.0",
     "norska-config": "^2.8.0",
     "norska-helper": "^2.8.0"
   },
