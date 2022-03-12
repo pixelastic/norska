@@ -2,8 +2,8 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "@tailwindcss/typography": "0.4.1",
-    "cssnano": "5.1.0",
-    "cssnano-preset-advanced": "5.2.1",
+    "cssnano": "5.1.3",
+    "cssnano-preset-advanced": "5.2.4",
     "firost": "2.17.0",
     "golgoth": "2.1.0",
     "hex-rgb": "4.3.0",
