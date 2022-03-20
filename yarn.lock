@@ -6488,10 +6488,10 @@ cssesc@^3.0.0:
   resolved "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-cssnano-preset-advanced@5.2.5:
-  version "5.2.5"
-  resolved "https://registry.npmjs.org/cssnano-preset-advanced/-/cssnano-preset-advanced-5.2.5.tgz#bf1564b0702bbad6f55dc2b6717346eeeab090ff"
-  integrity sha512-Zjq42GtsRN1gw1LcgY7PHsXlw/k65Ps3uc9cG8jKY1uNqux6eDqt6Fdc/vTWb/Z6ZhnDyecul8cdCHImbU6E5g==
+cssnano-preset-advanced@5.3.0:
+  version "5.3.0"
+  resolved "https://registry.npmjs.org/cssnano-preset-advanced/-/cssnano-preset-advanced-5.3.0.tgz#c3a0d9ad38a61fa6966feaa9281bf438530c8207"
+  integrity sha512-sPqGL/9BZo4cEI3r+ENfF9442uth8XaEX1oZ6wOGdMErFSwjEip5PM+lEP/snZIMCUVR3PfU1w8cL9WzB7bN4A==
   dependencies:
     autoprefixer "^10.3.7"
     cssnano-preset-default "^*"
