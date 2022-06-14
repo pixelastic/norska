@@ -10005,10 +10005,10 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.41.0:
-  version "4.41.0"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.41.0.tgz#c879d7b892e3d9159a17a803e793e695aeb5431f"
-  integrity sha512-g9l+Cty0xxMT06L36gc6x6Nz6HsEbrqbNQOXAZDORb2g9ADjMQwR1YtOVqN28pTuwXnhWJ4UfEKlLfHTgTVKmg==
+instantsearch.js@4.41.1:
+  version "4.41.1"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.41.1.tgz#5d8947ab37769255931649dbe23d5ed25fc84970"
+  integrity sha512-uwl8voHcsvy+FJQPgT7Q4SCiwHGhtFnAFU8doWZZC1+o2KRPGHF6vtd+8c/UqXmFx9iHwGuJwQ5fve0G/zBjfA==
   dependencies:
     "@algolia/events" "^4.0.1"
     "@types/google.maps" "^3.45.3"
