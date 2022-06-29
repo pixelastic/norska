@@ -4136,10 +4136,10 @@ ajv@^8.0.0, ajv@^8.0.1:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-algoliasearch-helper@^3.9.0:
-  version "3.9.0"
-  resolved "https://registry.npmjs.org/algoliasearch-helper/-/algoliasearch-helper-3.9.0.tgz#1e99d351ecdcff48449644157a8d250c7c592828"
-  integrity sha512-siWWl8QYJ3sh1yzJf9h/cHHpZC8wuPoPdVx5OtQ8X62ruUembTwvsLYoicrL7pF7fsYxdyvJfV9Yb2/nrVGrfg==
+algoliasearch-helper@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.npmjs.org/algoliasearch-helper/-/algoliasearch-helper-3.10.0.tgz#59a0f645dd3c7e55cf01faa568d1af50c49d36f6"
+  integrity sha512-4E4od8qWWDMVvQ3jaRX6Oks/k35ywD011wAA4LbYMMjOtaZV6VWaTjRr4iN2bdaXP2o1BP7SLFMBf3wvnHmd8Q==
   dependencies:
     "@algolia/events" "^4.0.1"
 
@@ -10005,16 +10005,16 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.42.0:
-  version "4.42.0"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.42.0.tgz#4955beb961c1d346d0a93c4844cb0c4cc1524a6d"
-  integrity sha512-TTrMaINSwx8pB5CDZO9R3sigC/HQOoYeVLmF4tLXWOI1POUAlnItPGV48k4/5C6Pqsg6w6/K9a6X0vwXSNlACA==
+instantsearch.js@4.43.0:
+  version "4.43.0"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.43.0.tgz#ac5f26bd317649ec3d7b4eebfd2abc13f9b3701e"
+  integrity sha512-KcPm3Swkw5nlQFRVY5v8JebBwJ303ZGmxSMxdAevrGJBmIXpGrcGJF5goBqNa+fUpwpCY6PsICcqQS0YMuXVag==
   dependencies:
     "@algolia/events" "^4.0.1"
     "@types/google.maps" "^3.45.3"
     "@types/hogan.js" "^3.0.0"
     "@types/qs" "^6.5.3"
-    algoliasearch-helper "^3.9.0"
+    algoliasearch-helper "^3.10.0"
     classnames "^2.2.5"
     hogan.js "^3.0.2"
     preact "^10.6.0"
