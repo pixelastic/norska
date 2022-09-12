@@ -10030,10 +10030,10 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.45.1:
-  version "4.45.1"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.45.1.tgz#f6172f15058b984d77c3f424d161448d390e5656"
-  integrity sha512-QS39KabJ2+7t//hUcyYGq7L4oe4D7HlCX9KltnLKJtYeAFlVvaF31RLPveyqY13KjbInTEgfjTBwififuiuKMQ==
+instantsearch.js@4.46.0:
+  version "4.46.0"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.46.0.tgz#810bd16c1653a6c383cd797b7456714c74f36eb4"
+  integrity sha512-UYwnV7HDyFd7Sn28AUOGHl84a+hR7Km2sWU3tKMgTCJf9AegcKKzSUXD2Jn5ctKoIuWlm2VNTRa/PB4i2IOOxA==
   dependencies:
     "@algolia/events" "^4.0.1"
     "@algolia/ui-components-highlight-vdom" "^1.1.2"
@@ -10045,7 +10045,7 @@ instantsearch.js@4.45.1:
     classnames "^2.2.5"
     hogan.js "^3.0.2"
     htm "^3.0.0"
-    preact "^10.6.0"
+    preact "^10.10.0"
     qs "^6.5.1 < 6.10"
     search-insights "^2.1.0"
 
@@ -14961,10 +14961,10 @@ postcss@^8.1.7:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
-preact@^10.6.0:
-  version "10.6.4"
-  resolved "https://registry.npmjs.org/preact/-/preact-10.6.4.tgz#ad12c409ff1b4316158486e0a7b8d43636f7ced8"
-  integrity sha512-WyosM7pxGcndU8hY0OQlLd54tOU+qmG45QXj2dAYrL11HoyU/EzOSTlpJsirbBr1QW7lICxSsVJJmcmUglovHQ==
+preact@^10.10.0:
+  version "10.11.0"
+  resolved "https://registry.npmjs.org/preact/-/preact-10.11.0.tgz#26af45a0613f4e17a197cc39d7a1ea23e09b2532"
+  integrity sha512-Fk6+vB2kb6mSJfDgODq0YDhMfl0HNtK5+Uc9QqECO4nlyPAQwCI+BKyWO//idA7ikV7o+0Fm6LQmNuQi1wXI1w==
 
 prebuild-install@^6.1.2:
   version "6.1.2"
