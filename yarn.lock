@@ -10030,10 +10030,10 @@ inquirer@^7.0.0, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-instantsearch.js@4.46.1:
-  version "4.46.1"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.46.1.tgz#93f2309e6fb8821b00a00eadcb14c368e713ddca"
-  integrity sha512-zcuCVtMPwpzmqprtUMh6qF21hJiaipRSA8vbFZlrRfNZMg0gkm5JE2sPPBDoMWMED+1yIIDgoyLzTKRXamJzlQ==
+instantsearch.js@4.46.2:
+  version "4.46.2"
+  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.46.2.tgz#10821298a4140d2b34c51630724555c7094cb5d7"
+  integrity sha512-gjr3mtMWbfuVyFbRy8s23ACcvpEPRtAFCZ20ecvi9gbjqoRdzZ3qWgwj7Vq7EIxm04Jx6kD9jZPa7qx7o8wn1g==
   dependencies:
     "@algolia/events" "^4.0.1"
     "@algolia/ui-components-highlight-vdom" "^1.1.2"
