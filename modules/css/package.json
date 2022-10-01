@@ -9,7 +9,7 @@
     "hex-rgb": "4.3.0",
     "norska-config": "^2.8.0",
     "norska-helper": "^2.8.0",
-    "postcss": "8.4.16",
+    "postcss": "8.4.17",
     "postcss-import": "14.1.0",
     "postcss-nested": "5.0.6",
     "tailwindcss": "1.9.6"
