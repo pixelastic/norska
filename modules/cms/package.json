@@ -14,6 +14,9 @@
     "open": "8.4.0"
   },
   "description": "Edit _data folder interactively",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "lib/helpers/*.js",

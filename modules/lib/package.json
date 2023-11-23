@@ -22,6 +22,9 @@
     "norska-serve": "^2.10.0"
   },
   "description": "Opinionated static website generator",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "bin/",

@@ -9,6 +9,9 @@
     "webpack": "5.89.0"
   },
   "description": "Compile .js files through Webpack",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "p-event": "4.2.0"
   },

@@ -7,6 +7,9 @@
     "norska-netlify": "^2.10.0"
   },
   "description": "Initialize a new Norska project",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "templates/"

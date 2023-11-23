@@ -15,6 +15,9 @@
     "open": "8.4.0"
   },
   "description": "Local build for development, with live-reload",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js"
   ],

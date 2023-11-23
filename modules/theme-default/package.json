@@ -1,6 +1,9 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Default norska theme",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "main.js",
     "tailwind.config.js",

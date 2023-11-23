@@ -8,6 +8,9 @@
     "norska-image-proxy": "^2.7.0"
   },
   "description": "Frontend helpers to be used in live website",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "lib/algolia/*.js",

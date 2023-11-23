@@ -5,6 +5,9 @@
     "golgoth": "2.1.0"
   },
   "description": "Set of common methods used by all helpers",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js"
   ],

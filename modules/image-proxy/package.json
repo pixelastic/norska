@@ -1,6 +1,9 @@
 {
   "author": "Pixelastic <tim@pixelastic.com>",
   "description": "Pass images through an image CDN for transforming before display",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "lib/services/*.js"

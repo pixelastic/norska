@@ -6,6 +6,9 @@
     "norska-config": "^2.10.0"
   },
   "description": "Read data stored in ./src/_data",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js"
   ],

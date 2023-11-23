@@ -15,6 +15,9 @@
     "tailwindcss": "1.9.6"
   },
   "description": "Compile .css files through postcss and Tailwind",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "lib/tailwind/*.js",

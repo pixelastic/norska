@@ -11,6 +11,9 @@
     "norska-helper": "^2.10.0"
   },
   "description": "Configure Netlify deployments",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "lib/*.js",
     "lib/helper/*.js"

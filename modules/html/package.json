@@ -21,6 +21,9 @@
     "slug": "5.3.0"
   },
   "description": "Convert sources to .html files",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "p-event": "4.2.0"
   },
