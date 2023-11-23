@@ -34,7 +34,7 @@ module.exports = {
     let outputFilename = config.get('js.output');
     if (helper.isProduction()) {
       baseConfig = webpackProdConfig;
-      outputFilename = _.replace(outputFilename, '.js', '.[hash].js');
+      outputFilename = _.replace(outputFilename, '.js', '.[fullhash].js');
     } else {
       baseConfig = webpackDevConfig;
     }
@@ -85,7 +85,7 @@ module.exports = {
    * @returns {string} Readable output stats
    **/
   getOutputStats(stats) {
-    const time = stats.endTime - stats.startTime;
+    const time = stats.toJson().time;
     return `JavaScript compiled in ${time}ms`;
   },
   /**
@@ -96,23 +96,32 @@ module.exports = {
   getEntrypointsFromStats(stats) {
     return _.chain(stats.toJson())
       .get('entrypoints.main.assets')
+      .map('name')
       .filter((item) => {
         return _.endsWith(item, '.js');
       })
       .value();
   },
   errorMessage(stats) {
+    // Unexpected character '@' (1:1)
+    // In .////
     return _.chain(stats.toJson())
       .get('errors')
       .nth(0)
-      .split('\n')
-      .reject((line) => {
-        return (
-          _.startsWith(line, 'Module build failed') ||
-          _.startsWith(line, '    at ')
-        );
+      .thru((error) => {
+        const rawMessage = _.chain(error)
+          .get('message')
+          .split('\n')
+          .reject((line) => {
+            return _.startsWith(line, 'You may need');
+          })
+          .join('\n')
+          .replace('Module parse failed: ', '')
+          .trim()
+          .value();
+        const rawFile = error.moduleIdentifier;
+        return `${rawMessage}\nIn ${rawFile}`;
       })
-      .join('\n')
       .value();
   },
   /**
