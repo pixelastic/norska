@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-aberlaas test --watch
+aberlaas test --watch "$@"

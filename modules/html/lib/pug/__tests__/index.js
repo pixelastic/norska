@@ -216,7 +216,7 @@ describe('norska-html > pug', () => {
           block content
             p=nope.nope
         `,
-        'Cannot read property',
+        'Cannot read properties of undefined',
       ],
       [
         'Missing layout',
@@ -254,7 +254,7 @@ describe('norska-html > pug', () => {
         //- ---
         //- title: My title
         //- ---
-        
+
         .container Content
         `,
         {
@@ -269,7 +269,7 @@ describe('norska-html > pug', () => {
         //- title: My title
         //- description: My description
         //- ---
-        
+
         .container Content
         `,
         {
@@ -282,7 +282,7 @@ describe('norska-html > pug', () => {
         'Unclosed frontmatter',
         dedent`
         //- ---
-        
+
         .container Content
         `,
         {},
