@@ -34,7 +34,7 @@ module.exports = {
     let outputFilename = config.get('js.output');
     if (helper.isProduction()) {
       baseConfig = webpackProdConfig;
-      outputFilename = _.replace(outputFilename, '.js', '.[fullhash].js');
+      outputFilename = _.replace(outputFilename, '.js', '.[chunkhash].js');
     } else {
       baseConfig = webpackDevConfig;
     }
