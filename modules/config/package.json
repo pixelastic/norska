@@ -4,7 +4,7 @@
     "firost": "2.17.0",
     "get-port": "5.1.1",
     "golgoth": "2.1.0",
-    "norska-helper": "^2.8.0",
+    "norska-helper": "^2.10.0",
     "norska-theme-default": "^2.8.0"
   },
   "description": "Configuration object shared across Norska modules",
@@ -23,5 +23,5 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.8.0"
+  "version": "2.10.0"
 }
