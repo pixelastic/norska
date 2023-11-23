@@ -6,4 +6,4 @@ shopt -s globstar
 slowTests=(./modules/*/lib/**/__tests__/SLOW_*.js)
 
 NORSKA_RUN_SLOW_TESTS=1 \
-  aberlaas test "${slowTests[@]}" "$@"
+	aberlaas test "${slowTests[@]}" "$@"
