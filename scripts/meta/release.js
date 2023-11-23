@@ -34,14 +34,15 @@ const release = {
       consoleInfo('Releasing');
       await this.runFromRoot(`lerna publish --yes ${this.args.version}`);
     } catch (err) {
-      consoleError('Tests failed, exiting');
+      consoleError('Release failed, exiting');
       exit(1);
     }
   },
 
   // Run a command at the root of the repo
   async runFromRoot(command, options = {}) {
-    await run(`cd ${gitRoot} && ${command}`, { shell: true, ...options });
+    const root = await gitRoot();
+    await run(`cd ${root} && ${command}`, { shell: true, ...options });
   },
 };
 
