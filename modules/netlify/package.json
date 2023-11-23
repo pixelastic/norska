@@ -7,8 +7,8 @@
     "multimatch": "5.0.0",
     "netlify": "8.0.4",
     "netlify-cli": "6.15.0",
-    "norska-config": "^2.10.0",
-    "norska-helper": "^2.10.0"
+    "norska-config": "^3.0.0",
+    "norska-helper": "^3.0.0"
   },
   "description": "Configure Netlify deployments",
   "engines": {
@@ -33,7 +33,7 @@
     "test": "../../scripts/local/test",
     "test:watch": "../../scripts/local/test-watch"
   },
-  "version": "2.10.0",
+  "version": "3.0.0",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
