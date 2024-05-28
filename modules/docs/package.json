@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "golgoth": "2.1.0",
+    "golgoth": "2.4.0",
     "norska": "^3.0.0",
     "norska-css": "^3.0.0",
     "norska-theme-docs": "5.0.3"
