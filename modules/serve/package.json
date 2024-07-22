@@ -5,7 +5,7 @@
     "express": "4.19.2",
     "firost": "2.17.0",
     "get-port": "5.1.1",
-    "golgoth": "2.1.0",
+    "golgoth": "2.4.0",
     "livereload": "0.9.3",
     "norska-assets": "^3.0.0",
     "norska-config": "^3.0.0",
