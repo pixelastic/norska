@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "connect-livereload": "0.6.1",
-    "express": "4.19.2",
+    "express": "4.20.0",
     "firost": "2.17.0",
     "get-port": "5.1.1",
     "golgoth": "2.1.0",
