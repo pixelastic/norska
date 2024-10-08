@@ -8465,32 +8465,6 @@ find-versions@^4.0.0:
   dependencies:
     semver-regex "^3.1.2"
 
-firost@2.15.0:
-  version "2.15.0"
-  resolved "https://registry.npmjs.org/firost/-/firost-2.15.0.tgz#f0439f7bb60a61762116f0857ee3cb8f0a45a203"
-  integrity sha512-+EqznGfNiB7S5ZgZKH0jvX8kuTAfMMsBdA9DQQCEJEeWJWmibXA2rXQBjRAKlDMjeQlC+GIK4gCSzbpBRhmsXg==
-  dependencies:
-    callsites "3.1.0"
-    chokidar "3.5.2"
-    clear-module "4.1.1"
-    eventemitter2 "6.4.4"
-    execa "5.1.1"
-    find-up "5.0.0"
-    fs-extra "10.0.0"
-    globby "11.0.4"
-    golgoth "2.0.0"
-    inquirer "8.1.1"
-    is-glob "4.0.1"
-    json-stable-stringify "1.0.1"
-    nanoid "3.1.23"
-    normalize-url "6.1.0"
-    ora "5.4.1"
-    std-mocks "1.0.1"
-    strip-ansi "6.0.0"
-    tempy "1.0.1"
-    untildify "4.0.0"
-    which "2.0.2"
-
 firost@2.16.2:
   version "2.16.2"
   resolved "https://registry.npmjs.org/firost/-/firost-2.16.2.tgz#d829062bb28b6d93be329cadf0d0608299ebb328"
@@ -13398,12 +13372,12 @@ normalize.css@^8.0.1:
   resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-norska-theme-docs@5.0.3:
-  version "5.0.3"
-  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-5.0.3.tgz#93ba8fcd28cb2231c7504fcc983865549f65529c"
-  integrity sha512-aJSkl7ugcHJDUCPxDXGUJk1QlZ2H9kB/zGqRi04Wq7tdJad/kTuNAjDtjo3TR65S3P43WF6s/lJlhbr8HwwtLw==
+norska-theme-docs@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/norska-theme-docs/-/norska-theme-docs-6.0.0.tgz#75816d33e6752aa8d98113b59cf5946e786f23d8"
+  integrity sha512-OpBV1XamG73iIqSBTaRQWQ3WUAdnlFFAsymQ/3Foowl24WRYMd/OxuhOnVmcWNXdrK4Tf7oKA8w/KQHEBCaHLg==
   dependencies:
-    firost "2.15.0"
+    firost "2.17.0"
     parse-github-repo-url "1.4.1"
 
 np@7.7.0:
@@ -17428,7 +17402,7 @@ temp-write@^4.0.0:
     temp-dir "^1.0.0"
     uuid "^3.3.2"
 
-tempy@1.0.1, tempy@^1.0.0:
+tempy@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/tempy/-/tempy-1.0.1.tgz#30fe901fd869cfb36ee2bd999805aa72fbb035de"
   integrity sha512-biM9brNqxSc04Ee71hzFbryD11nX7VPhQQY32AdDmjFvodsRFz/3ufeoTZ6uYkRFfGo188tENcASNs3vTdsM0w==
