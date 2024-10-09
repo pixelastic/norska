@@ -2,14 +2,14 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "@tailwindcss/typography": "0.4.1",
-    "cssnano": "5.1.13",
-    "cssnano-preset-advanced": "5.3.8",
+    "cssnano": "5.1.15",
+    "cssnano-preset-advanced": "5.3.10",
     "firost": "2.17.0",
     "golgoth": "2.1.0",
     "hex-rgb": "4.3.0",
     "norska-config": "^3.0.0",
     "norska-helper": "^3.0.0",
-    "postcss": "8.4.31",
+    "postcss": "8.4.47",
     "postcss-import": "14.1.0",
     "postcss-nested": "5.0.6",
     "tailwindcss": "1.9.6"
