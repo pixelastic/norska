@@ -4,7 +4,7 @@
     "@tailwindcss/typography": "0.4.1",
     "cssnano": "5.1.13",
     "cssnano-preset-advanced": "5.3.8",
-    "firost": "2.17.0",
+    "firost": "4.3.0",
     "golgoth": "2.1.0",
     "hex-rgb": "4.3.0",
     "norska-config": "^3.0.0",
