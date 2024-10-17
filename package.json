@@ -7,10 +7,10 @@
   "description": "Norska master workspace",
   "devDependencies": {
     "aberlaas": "1.26.0",
-    "callsites": "3.1.0",
+    "callsites": "4.2.0",
     "firost": "2.17.0",
     "golgoth": "2.1.0",
-    "lerna": "4.0.0",
+    "lerna": "8.1.8",
     "minimist": "1.2.7"
   },
   "files": [],
