@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "firost": "2.17.0",
-    "get-port": "5.1.1",
+    "get-port": "7.1.0",
     "golgoth": "2.1.0",
     "norska-helper": "^3.0.0",
     "norska-theme-default": "^3.0.0"
