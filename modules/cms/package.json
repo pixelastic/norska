@@ -2,16 +2,16 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "connect-livereload": "0.6.1",
-    "express": "4.20.0",
+    "express": "4.21.1",
     "firost": "2.17.0",
     "golgoth": "2.1.0",
     "livereload": "0.9.3",
     "multer": "1.4.4",
-    "nodemon": "2.0.20",
+    "nodemon": "2.0.22",
     "norska-config": "^3.0.0",
     "norska-css": "^3.0.0",
     "norska-helper": "^3.0.0",
-    "open": "8.4.0"
+    "open": "8.4.2"
   },
   "description": "Edit _data folder interactively",
   "engines": {
