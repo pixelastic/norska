@@ -2,7 +2,7 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "firost": "2.17.0",
-    "golgoth": "2.1.0"
+    "golgoth": "2.4.0"
   },
   "description": "Set of common methods used by all helpers",
   "engines": {
