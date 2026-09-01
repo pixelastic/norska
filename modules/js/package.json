@@ -13,7 +13,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "p-event": "4.2.0"
+    "p-event": "7.1.0"
   },
   "files": [
     "lib/*.js"
