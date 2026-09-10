@@ -2,17 +2,17 @@
   "author": "Pixelastic <tim@pixelastic.com>",
   "dependencies": {
     "connect-livereload": "0.6.1",
-    "express": "4.20.0",
+    "express": "4.22.2",
     "firost": "2.17.0",
     "get-port": "5.1.1",
     "golgoth": "2.1.0",
-    "livereload": "0.9.3",
+    "livereload": "0.10.3",
     "norska-assets": "^3.0.0",
     "norska-config": "^3.0.0",
     "norska-css": "^3.0.0",
     "norska-html": "^3.0.0",
     "norska-js": "^3.0.0",
-    "open": "8.4.0"
+    "open": "8.4.2"
   },
   "description": "Local build for development, with live-reload",
   "engines": {
