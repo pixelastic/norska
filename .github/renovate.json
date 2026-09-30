@@ -1,9 +1,14 @@
 {
-  "extends": ["config:js-lib", "aberlaas"],
+  "extends": [
+    "config:js-lib",
+    "github>pixelastic/renovate-config-aberlaas"
+  ],
   "packageRules": [
     {
       "groupName": "tailwind",
-      "packagePatterns": ["tailwindcss"],
+      "packagePatterns": [
+        "tailwindcss"
+      ],
       "minor": {
         "automerge": false
       }
