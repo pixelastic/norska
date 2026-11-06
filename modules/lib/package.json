@@ -6,7 +6,7 @@
   "dependencies": {
     "firost": "2.17.0",
     "golgoth": "2.1.0",
-    "minimist": "1.2.7",
+    "minimist": "1.2.8",
     "norska-assets": "^3.0.0",
     "norska-cms": "^3.0.0",
     "norska-config": "^3.0.0",
